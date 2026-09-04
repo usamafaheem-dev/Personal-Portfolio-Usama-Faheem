@@ -67,7 +67,7 @@ export default function Hero() {
   };
 
   return (
-    <section id="hero" className="relative min-h-[calc(100vh-0.5rem)] sm:min-h-[calc(100vh-1.5rem)] w-[calc(100%-0.75rem)] sm:w-[calc(100%-3rem)] mx-auto mt-1.5 sm:mt-6 overflow-hidden bg-[#e0e0e0] rounded-t-[20px] sm:rounded-t-[40px] transform-gpu">
+    <section id="hero" className="relative min-h-[calc(100vh-0.5rem)] sm:min-h-[calc(100vh-1.5rem)] w-[calc(100%-0.75rem)] sm:w-[calc(100%-3rem)] mx-auto mt-1.5 sm:mt-6 overflow-hidden bg-[#d0d4dc] rounded-t-[20px] sm:rounded-t-[40px] transform-gpu">
       {/* ── Background Video ── */}
       <div className="absolute inset-0 z-0 transform-gpu">
         <video
@@ -76,6 +76,7 @@ export default function Hero() {
           muted
           playsInline
           preload="auto"
+          poster="/hero_poster_mobile.jpg"
           onLoadedData={(e) => {
             if (window.innerWidth < 768) {
               e.currentTarget.currentTime = 3.0;

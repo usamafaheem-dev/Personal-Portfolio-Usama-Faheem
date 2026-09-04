@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { motion, useInView } from 'framer-motion';
+import { Sparkles } from 'lucide-react';
 import usePageReady from './usePageReady';
 
 const stats = [
@@ -65,7 +66,7 @@ function AnimatedCounter({ value, startDelay = 2.2 }: { value: string; startDela
         className="inline-flex items-center"
       >
         <span>{displayValue}</span>
-        <span className="text-yellow-950/80 ml-0.5">{suffix}</span>
+        <span className="text-slate-700 ml-0.5">{suffix}</span>
       </motion.span>
     </span>
   );
@@ -73,18 +74,26 @@ function AnimatedCounter({ value, startDelay = 2.2 }: { value: string; startDela
 
 export default function Stats() {
   return (
-    <section className="relative bg-[#ededf0] py-24 border-y border-gray-200/80 overflow-hidden font-sans">
+    <section className="relative bg-[#ededf0] py-12 sm:py-16 lg:py-20 border-y border-gray-200/80 overflow-hidden font-sans">
       {/* ── Precision Dotted Grid Background Pattern ── */}
       <div className="absolute inset-0 bg-[radial-gradient(#99a1af_1.2px,transparent_1.2px)] [background-size:24px_24px] opacity-40 pointer-events-none [mask-image:radial-gradient(ellipse_75%_75%_at_50%_50%,#000_60%,transparent_100%)]" />
 
       <div className="mx-auto max-w-7xl px-6 lg:px-8 relative z-10">
 
-        <div className="flex flex-col lg:flex-row items-center lg:items-center gap-16 lg:gap-8 w-full">
+        <div className="flex flex-col lg:flex-row items-center lg:items-center gap-8 sm:gap-12 lg:gap-8 w-full">
 
           {/* Left Text Box */}
-          <div className="lg:w-1/3 flex flex-col justify-center relative text-center lg:text-left z-10 font-sans">
-            <h2 className="text-4xl sm:text-5xl font-sans font-black text-gray-900 mb-6 tracking-tight">
-              Proven <br className="hidden lg:block" />Track Record
+          <div className="lg:w-1/3 flex flex-col justify-center relative text-center lg:text-left z-10 font-sans items-center lg:items-start">
+            {/* 🌟 Stylish Badge */}
+            <div className="inline-flex items-center gap-2 bg-gradient-to-r from-[#ffaa00]/15 via-[#ffea00]/15 to-[#ccff00]/15 border border-[#ffaa00]/30 px-3.5 py-1 rounded-full text-xs font-bold text-amber-800 uppercase tracking-widest font-poppins mb-4 shadow-2xs">
+              <Sparkles className="w-3.5 h-3.5 text-[#ffaa00]" />
+              <span>PROVEN METRICS</span>
+            </div>
+
+            <h2 className="text-4xl sm:text-5xl font-poppins font-black leading-[1.12] tracking-tight mb-6">
+              <span className="text-[#0f172a] block">Proven</span>
+              <span className="text-[#0f172a]">Track </span>
+              <span className="bg-gradient-to-r from-[#ffaa00] to-[#ffea00] bg-clip-text text-transparent">Record</span>
             </h2>
             <p className="text-gray-500 text-sm sm:text-base font-normal font-sans leading-relaxed max-w-md mx-auto lg:mx-0">
               Delivering high-quality digital experiences, from pixel-perfect frontend designs to robust full-stack architectures. Focused on real business value.
@@ -92,7 +101,7 @@ export default function Stats() {
           </div>
 
           {/* Right Stats Infographic */}
-          <div className="lg:w-2/3 flex flex-row items-center justify-between sm:justify-around relative w-full z-10 px-2 sm:px-0 font-sans">
+          <div className="lg:w-2/3 flex flex-row items-center justify-between sm:justify-around relative w-full z-10 px-0 sm:px-0 font-sans">
 
             {/* STEP 1: Yellow connecting line fills up across first */}
             <motion.div
@@ -100,7 +109,7 @@ export default function Stats() {
               whileInView={{ scaleX: 1 }}
               viewport={{ once: true, margin: "-40px" }}
               transition={{ duration: 0.7, ease: "easeInOut" }}
-              className="absolute top-1/2 -translate-y-1/2 left-0 right-0 h-[3px] bg-yellow-400 shadow-[0_0_12px_rgba(234,179,8,0.6)] -z-10 overflow-hidden rounded-full origin-left"
+              className="absolute top-1/2 -translate-y-1/2 left-2 right-2 sm:left-0 sm:right-0 h-[3px] bg-yellow-400 shadow-[0_0_12px_rgba(234,179,8,0.6)] -z-10 overflow-hidden rounded-full origin-left"
             />
 
             {stats.map((stat, i) => {
@@ -118,17 +127,21 @@ export default function Stats() {
                 ? { type: 'spring' as const, damping: 14, stiffness: 140, delay }
                 : { duration: 1.15, ease: [0.16, 1, 0.3, 1] as const, delay };
 
-              // Sizing to match screenshot: Center is big (w-52), outer circles are smaller (w-36)
+              // Sizing responsive: Center is big, outer circles are smaller, tailored for small mobile screens (<390px) up to desktop
               const sphereSizeClasses = isCenter
-                ? "w-36 h-36 sm:w-52 sm:h-52 z-20 shadow-[0_15px_40px_rgba(202,138,4,0.45)]"
-                : "w-28 h-28 sm:w-36 sm:h-36 z-10 shadow-[0_10px_28px_rgba(202,138,4,0.3)]";
+                ? "w-28 h-28 min-[390px]:w-32 min-[390px]:h-32 sm:w-44 sm:h-44 lg:w-52 lg:h-52 z-20 shadow-[0_10px_30px_rgba(202,138,4,0.45)]"
+                : "w-20 h-20 min-[390px]:w-24 min-[390px]:h-24 sm:w-32 sm:h-32 lg:w-36 lg:h-36 z-10 shadow-[0_8px_20px_rgba(202,138,4,0.3)]";
 
               const numberTextClasses = isCenter
-                ? "text-4xl sm:text-6xl font-black font-sans text-gray-950 tracking-tight"
-                : "text-3xl sm:text-4xl font-black font-sans text-gray-950 tracking-tight";
+                ? "text-2xl min-[390px]:text-3xl sm:text-5xl lg:text-6xl font-bold font-poppins text-gray-950 tracking-tight"
+                : "text-xl min-[390px]:text-2xl sm:text-3xl lg:text-4xl font-bold font-poppins text-gray-950 tracking-tight";
+
+              const labelTextClasses = isCenter
+                ? "mt-0.5 sm:mt-2 text-[8px] min-[390px]:text-[9.5px] sm:text-[11px] font-bold font-sans uppercase tracking-wider text-slate-800 leading-tight px-1"
+                : "mt-0.5 sm:mt-2 text-[7px] min-[390px]:text-[8.5px] sm:text-[10px] lg:text-[11px] font-bold font-sans uppercase tracking-wider text-slate-800 leading-tight px-1";
 
               return (
-                <div key={stat.label} className="flex-1 flex justify-center items-center relative z-10 font-sans">
+                <div key={stat.label} className="flex-1 flex justify-center items-center relative z-10 font-sans px-0.5">
                   {/* Floating container after appearing */}
                   <motion.div
                     animate={{ y: [0, -6, 0] }}
@@ -139,7 +152,7 @@ export default function Stats() {
                       delay: 2.8 + i * 0.3
                     }}
                   >
-                    {/* 3D Sphere with Content Inside */}
+                    {/* 3D Yellow Sphere with Content Inside */}
                     <motion.div
                       initial={{
                         scale: initialScale,
@@ -153,7 +166,7 @@ export default function Stats() {
                       }}
                       viewport={{ once: true, margin: "-40px" }}
                       transition={transitionConfig}
-                      className={`${sphereSizeClasses} rounded-full relative flex flex-col items-center justify-center text-center p-2 sm:p-4 hover:scale-105 transition-transform duration-300 select-none cursor-pointer font-sans`}
+                      className={`${sphereSizeClasses} rounded-full relative flex flex-col items-center justify-center text-center p-1 sm:p-4 hover:scale-105 transition-transform duration-300 select-none cursor-pointer font-sans`}
                       style={{
                         background: 'radial-gradient(circle at 50% 18%, #ffffff 0%, #facc15 38%, #eab308 65%, #713f12 100%)'
                       }}
@@ -162,7 +175,7 @@ export default function Stats() {
                       <div className={`${numberTextClasses} leading-none flex items-center justify-center drop-shadow-sm font-sans`}>
                         <AnimatedCounter value={stat.value} startDelay={2.2 + (isCenter ? 0 : 0.15)} />
                       </div>
-                      <div className="mt-1 sm:mt-2 text-[9px] sm:text-[11px] font-bold font-sans uppercase tracking-wider text-yellow-950/90 leading-tight">
+                      <div className={labelTextClasses}>
                         {stat.label}
                       </div>
                     </motion.div>

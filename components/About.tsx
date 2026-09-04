@@ -3,7 +3,7 @@
 import { useRef, useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { FaLinkedin } from 'react-icons/fa';
-import { SiGithub } from 'react-icons/si';
+import { SiGithub, SiMongodb, SiExpress, SiReact, SiNodedotjs } from 'react-icons/si';
 import { Sparkles } from 'lucide-react';
 
 export default function About() {
@@ -75,20 +75,22 @@ export default function About() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="font-sans flex flex-col items-center lg:items-start w-full"
+            className="font-sans flex flex-col items-center lg:items-start w-full relative"
           >
-            {/* 🌟 Stylish About Me Badge */}
-            <div className="inline-flex items-center gap-2 bg-gradient-to-r from-[#ffaa00]/15 via-[#ffea00]/15 to-[#ccff00]/15 border border-[#ffaa00]/30 px-3.5 py-1 rounded-full text-xs font-bold text-amber-800 uppercase tracking-widest font-poppins mb-4 shadow-2xs">
+            {/* Soft Light-Yellow Backdrop Glow Strictly Behind Text Block */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-[700px] h-40 bg-[#ffea00]/18 rounded-full blur-3xl pointer-events-none -z-10" />
+            {/* 🌟 Stylish About Me Badge (Mobile Only) */}
+            <div className="inline-flex lg:hidden items-center gap-2 bg-gradient-to-r from-[#ffaa00]/15 via-[#ffea00]/15 to-[#ccff00]/15 border border-[#ffaa00]/30 px-3.5 py-1 rounded-full text-xs font-bold text-amber-800 uppercase tracking-widest font-poppins mb-4 shadow-2xs self-center">
               <Sparkles className="w-3.5 h-3.5 text-[#ffaa00]" />
               <span>ABOUT ME</span>
             </div>
 
-            <h2 className="text-[22px] min-[380px]:text-[26px] sm:text-4xl lg:text-[54px] font-black text-[#1f1f1f] mb-4 sm:mb-5 tracking-tight font-poppins text-center lg:text-left whitespace-nowrap sm:whitespace-normal">
-              Hi, I'm <span className="bg-gradient-to-r from-[#ffaa00] to-[#ffea00] bg-clip-text text-transparent font-black">Usama Faheem</span>
+            <h2 className="text-[22px] min-[380px]:text-[26px] sm:text-4xl lg:text-[54px] font-black text-[#0f172a] mb-4 sm:mb-5 tracking-tight font-poppins text-center lg:text-left whitespace-nowrap sm:whitespace-normal">
+              Hi, I'm <span className="bg-gradient-to-r from-[#ffaa00] to-[#ffea00] bg-clip-text text-transparent">Usama Faheem</span>
             </h2>
 
             <p className="text-[#555555] text-sm sm:text-[16px] leading-[1.75] max-w-[850px] font-normal font-sans mb-6 lg:mb-10 text-center lg:text-left">
-              I am a <strong className="font-bold text-[#1f1f1f]">Frontend-focused MERN Stack Developer</strong> with <strong className="font-bold text-[#1f1f1f]">1 year of frontend and MERN stack experience</strong>. I design because I love solving problems and making things feel right. Web development is about people and the tiny details that make a product worth using. It is not just about looking good but feeling effortless. If it makes sense without overthinking then I have done my job.
+              I am a Frontend-focused MERN Stack Developer with <strong className="font-bold text-[#d97706] bg-[#ffaa00]/15 px-1.5 py-0.5 rounded border border-[#ffaa00]/30">1 year</strong> of experience. I <strong className="font-bold text-[#d97706] bg-[#ffaa00]/15 px-1.5 py-0.5 rounded border border-[#ffaa00]/30">design</strong> because I love solving problems and making things feel right. Web <strong className="font-bold text-[#d97706] bg-[#ffaa00]/15 px-1.5 py-0.5 rounded border border-[#ffaa00]/30">development</strong> is about people and the tiny details that make a product worth using. It is not just about looking good but feeling effortless. If it makes sense without overthinking then I have done my job.
             </p>
           </motion.div>
 
@@ -272,42 +274,65 @@ export default function About() {
                 </ul>
               </div>
 
-              {/* Softwares in a Single Clean Row */}
-              <div className="mt-8 w-full flex flex-col items-center lg:items-start">
-                <h3 className="text-[13px] font-bold tracking-[0.16em] bg-gradient-to-r from-cyan-500 via-yellow-400 to-lime-500 bg-[length:200%_auto] animate-[glow-slide_3s_linear_infinite] bg-clip-text text-transparent mb-4 uppercase font-poppins">
-                  SOFTWARES
-                </h3>
-                
-                <div className="flex items-center justify-center lg:justify-start gap-3 flex-nowrap">
-                  {/* Visual Studio Code */}
-                  <div className="w-8 h-8 rounded-lg bg-[#ededf0] border border-zinc-200 flex items-center justify-center p-1 shadow-2xs hover:scale-110 transition-transform cursor-pointer overflow-hidden" title="Visual Studio Code">
-                    <img src="/icons/vscode.png" alt="VS Code" className="w-full h-full object-contain mix-blend-multiply" />
-                  </div>
+              {/* MERN STACK & Softwares */}
+              <div className="mt-7 w-full flex flex-col items-center lg:items-start gap-5">
+                {/* MERN Stack Row */}
+                <div className="flex flex-col items-center lg:items-start">
+                  <h3 className="text-[13px] font-bold tracking-[0.16em] bg-gradient-to-r from-cyan-500 via-yellow-400 to-lime-500 bg-[length:200%_auto] animate-[glow-slide_3s_linear_infinite] bg-clip-text text-transparent mb-3 uppercase font-poppins">
+                    MERN STACK
+                  </h3>
+                  
+                  <div className="flex items-center justify-center lg:justify-start gap-3 flex-nowrap">
+                    {/* MongoDB */}
+                    <div className="w-8 h-8 rounded-lg bg-[#fffce8] border border-amber-300/70 flex items-center justify-center p-1.5 shadow-2xs hover:scale-110 transition-transform cursor-pointer" title="MongoDB">
+                      <SiMongodb className="w-5 h-5 text-[#47A248]" />
+                    </div>
 
-                  {/* Cursor */}
-                  <div className="w-8 h-8 rounded-lg bg-[#ededf0] border border-zinc-200 flex items-center justify-center p-1 shadow-2xs hover:scale-110 transition-transform cursor-pointer overflow-hidden" title="Cursor">
-                    <img src="/icons/cursor.png" alt="Cursor" className="w-full h-full object-contain mix-blend-multiply" />
-                  </div>
+                    {/* Express.js */}
+                    <div className="w-8 h-8 rounded-lg bg-[#fffce8] border border-amber-300/70 flex items-center justify-center p-1.5 shadow-2xs hover:scale-110 transition-transform cursor-pointer" title="Express.js">
+                      <SiExpress className="w-4.5 h-4.5 text-[#18181b]" />
+                    </div>
 
-                  {/* Google Antigravity */}
-                  <div className="w-8 h-8 rounded-lg bg-[#ededf0] border border-zinc-200 flex items-center justify-center p-1 shadow-2xs hover:scale-110 transition-transform cursor-pointer overflow-hidden" title="Google Antigravity">
-                    <img src="/icons/antigravity.png" alt="Antigravity" className="w-full h-full object-contain mix-blend-multiply" />
-                  </div>
+                    {/* React.js */}
+                    <div className="w-8 h-8 rounded-lg bg-[#fffce8] border border-amber-300/70 flex items-center justify-center p-1.5 shadow-2xs hover:scale-110 transition-transform cursor-pointer" title="React.js">
+                      <SiReact className="w-5 h-5 text-[#61DAFB]" />
+                    </div>
 
-                  {/* Claude AI */}
-                  <div className="w-8 h-8 rounded-lg bg-[#ededf0] border border-zinc-200 flex items-center justify-center p-1 shadow-2xs hover:scale-110 transition-transform cursor-pointer overflow-hidden" title="Claude AI">
-                    <img src="/icons/claude.png" alt="Claude AI" className="w-full h-full object-contain mix-blend-multiply" />
+                    {/* Node.js */}
+                    <div className="w-8 h-8 rounded-lg bg-[#fffce8] border border-amber-300/70 flex items-center justify-center p-1.5 shadow-2xs hover:scale-110 transition-transform cursor-pointer" title="Node.js">
+                      <SiNodedotjs className="w-5 h-5 text-[#339933]" />
+                    </div>
                   </div>
+                </div>
 
-                  {/* Figma Official Multi-Color Logo */}
-                  <div className="w-8 h-8 rounded-lg bg-[#ededf0] border border-zinc-200 flex items-center justify-center shadow-2xs hover:scale-110 transition-transform cursor-pointer" title="Figma">
-                    <svg className="w-[16px] h-[16px] flex-shrink-0" viewBox="0 0 38 57" fill="none">
-                      <path d="M19 28.5C19 23.2533 23.2533 19 28.5 19C33.7467 19 38 23.2533 38 28.5C38 33.7467 33.7467 38 28.5 38C23.2533 38 19 33.7467 19 28.5Z" fill="#1ABCFE"/>
-                      <path d="M0 47.5C0 42.2533 4.25329 38 9.5 38H19V47.5C19 52.7467 14.7467 57 9.5 57C4.25329 57 0 52.7467 0 47.5Z" fill="#0ACF83"/>
-                      <path d="M19 0V19H28.5C33.7467 19 38 14.7467 38 9.5C38 4.25329 33.7467 0 28.5 0H19Z" fill="#FF7262"/>
-                      <path d="M0 9.5C0 14.7467 4.25329 19 9.5 19H19V0H9.5C4.25329 0 0 4.25329 0 9.5Z" fill="#F24E1E"/>
-                      <path d="M0 28.5C0 33.7467 4.25329 38 9.5 38H19V19H9.5C4.25329 19 0 23.2533 0 28.5Z" fill="#A259FF"/>
-                    </svg>
+                {/* Softwares Row */}
+                <div className="flex flex-col items-center lg:items-start">
+                  <h3 className="text-[13px] font-bold tracking-[0.16em] bg-gradient-to-r from-cyan-500 via-yellow-400 to-lime-500 bg-[length:200%_auto] animate-[glow-slide_3s_linear_infinite] bg-clip-text text-transparent uppercase font-poppins mb-3">
+                    SOFTWARES & TOOLS
+                  </h3>
+                  
+                  <div className="flex items-center justify-center lg:justify-start gap-3 flex-nowrap">
+                    <div className="w-8 h-8 rounded-lg bg-[#fffce8] border border-amber-300/70 flex items-center justify-center p-1.5 shadow-2xs hover:scale-110 transition-transform cursor-pointer overflow-hidden" title="Visual Studio Code">
+                      <img src="/icons/vscode.png" alt="VS Code" className="w-full h-full object-contain mix-blend-multiply" />
+                    </div>
+                    <div className="w-8 h-8 rounded-lg bg-[#fffce8] border border-amber-300/70 flex items-center justify-center p-1.5 shadow-2xs hover:scale-110 transition-transform cursor-pointer overflow-hidden" title="Cursor">
+                      <img src="/icons/cursor.png" alt="Cursor" className="w-full h-full object-contain mix-blend-multiply" />
+                    </div>
+                    <div className="w-8 h-8 rounded-lg bg-[#fffce8] border border-amber-300/70 flex items-center justify-center p-1.5 shadow-2xs hover:scale-110 transition-transform cursor-pointer overflow-hidden" title="Google Antigravity">
+                      <img src="/icons/antigravity.png" alt="Antigravity" className="w-full h-full object-contain mix-blend-multiply" />
+                    </div>
+                    <div className="w-8 h-8 rounded-lg bg-[#fffce8] border border-amber-300/70 flex items-center justify-center p-1.5 shadow-2xs hover:scale-110 transition-transform cursor-pointer overflow-hidden" title="Claude AI">
+                      <img src="/icons/claude.png" alt="Claude AI" className="w-full h-full object-contain mix-blend-multiply" />
+                    </div>
+                    <div className="w-8 h-8 rounded-lg bg-[#fffce8] border border-amber-300/70 flex items-center justify-center p-1.5 shadow-2xs hover:scale-110 transition-transform cursor-pointer" title="Figma">
+                      <svg className="w-[16px] h-[16px] flex-shrink-0" viewBox="0 0 38 57" fill="none">
+                        <path d="M19 28.5C19 23.2533 23.2533 19 28.5 19C33.7467 19 38 23.2533 38 28.5C38 33.7467 33.7467 38 28.5 38C23.2533 38 19 33.7467 19 28.5Z" fill="#1ABCFE"/>
+                        <path d="M0 47.5C0 42.2533 4.25329 38 9.5 38H19V47.5C19 52.7467 14.7467 57 9.5 57C4.25329 57 0 52.7467 0 47.5Z" fill="#0ACF83"/>
+                        <path d="M19 0V19H28.5C33.7467 19 38 14.7467 38 9.5C38 4.25329 33.7467 0 28.5 0H19Z" fill="#FF7262"/>
+                        <path d="M0 9.5C0 14.7467 4.25329 19 9.5 19H19V0H9.5C4.25329 0 0 4.25329 0 9.5Z" fill="#F24E1E"/>
+                        <path d="M0 28.5C0 33.7467 4.25329 38 9.5 38H19V19H9.5C4.25329 19 0 23.2533 0 28.5Z" fill="#A259FF"/>
+                      </svg>
+                    </div>
                   </div>
                 </div>
               </div>

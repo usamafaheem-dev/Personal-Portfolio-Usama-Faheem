@@ -1,14 +1,14 @@
 'use client';
 
-import { 
-  SiNextdotjs, 
-  SiReact, 
-  SiJavascript, 
-  SiTypescript, 
-  SiHtml5, 
-  SiCss, 
-  SiTailwindcss, 
-  SiNodedotjs, 
+import {
+  SiNextdotjs,
+  SiReact,
+  SiJavascript,
+  SiTypescript,
+  SiHtml5,
+  SiCss,
+  SiTailwindcss,
+  SiNodedotjs,
   SiExpress,
   SiMongodb,
   SiSupabase,
@@ -43,7 +43,7 @@ const techs = [
 export default function TechMarquee() {
   return (
     <div className="relative w-full h-28 sm:h-44 md:h-56 mt-2 sm:mt-4 overflow-hidden bg-transparent flex items-center justify-center z-[20]">
-      
+
       {/* 
         Pure CSS animation using translate3d for GPU acceleration. 
         It is completely detached from JS thread.
@@ -66,10 +66,10 @@ export default function TechMarquee() {
 
       {/* Background Gradient Slanted Box */}
       <div className="absolute w-[115%] h-12 sm:h-16 md:h-20 bg-gradient-to-r from-cyan-300 via-lime-300 to-yellow-400 rotate-2 origin-center opacity-90 shadow-lg" style={{ transform: 'translateZ(0)' }} />
-      
+
       {/* Black Marquee Slanted Strip */}
       <div className="absolute w-[115%] h-12 sm:h-16 md:h-20 bg-[#18181b] -rotate-2 origin-center flex flex-col justify-center border-y border-white/10 shadow-xl" style={{ transform: 'translateZ(0)' }}>
-        
+
         <div className="flex w-max items-center animate-hardware-marquee">
           {/* Render exactly 2 identical blocks (no 4x duplication) to keep DOM tiny */}
           {[1, 2].map((blockId) => (
@@ -89,7 +89,7 @@ export default function TechMarquee() {
             </div>
           ))}
         </div>
-        
+
       </div>
     </div>
   );

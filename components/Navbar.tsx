@@ -37,7 +37,7 @@ export default function Navbar() {
 
     window.addEventListener('scroll', onScroll, { passive: true });
     onScroll();
-    
+
     let playTimeout: NodeJS.Timeout;
     const handleNavbarShow = () => {
       setShowNavbar(true);
@@ -47,7 +47,7 @@ export default function Navbar() {
       clearTimeout(playTimeout);
       playTimeout = setTimeout(() => setShowNavbar(true), 6000);
     };
-    
+
     window.addEventListener('heroNavbarTrigger', handleNavbarShow);
     window.addEventListener('heroVideoEnded', handleNavbarShow);
     window.addEventListener('heroVideoStarted', handleVideoStart);
@@ -75,82 +75,74 @@ export default function Navbar() {
     <>
       <motion.header
         initial={{ y: -120, opacity: 0 }}
-        animate={{ 
+        animate={{
           y: showNavbar ? 0 : -120,
           opacity: showNavbar ? 1 : 0
         }}
-        transition={{ 
-          duration: 0.65, 
-          ease: [0.16, 1, 0.3, 1] 
+        transition={{
+          duration: 0.65,
+          ease: [0.16, 1, 0.3, 1]
         }}
-        className={`fixed left-0 right-0 mx-auto z-50 flex items-center justify-between rounded-full transform-gpu ${
-          showNavbar ? 'pointer-events-auto' : 'pointer-events-none'
-        } ${
-          isDarkSection
+        className={`fixed left-0 right-0 mx-auto z-50 flex items-center justify-between rounded-full transform-gpu ${showNavbar ? 'pointer-events-auto' : 'pointer-events-none'
+          } ${isDarkSection
             ? 'bg-white/90 backdrop-blur-2xl border border-white/90 shadow-[0_15px_45px_rgba(0,0,0,0.35)] text-slate-900'
             : 'bg-black/25 backdrop-blur-xl border border-white/10 shadow-lg text-white'
-        } ${
-          scrolled 
-            ? 'top-2 sm:top-4 w-[calc(100%-1.25rem)] sm:w-[calc(100%-2rem)] max-w-5xl px-3 sm:px-4 py-1 sm:py-2' 
+          } ${scrolled
+            ? 'top-2 sm:top-4 w-[calc(100%-1.25rem)] sm:w-[calc(100%-2rem)] max-w-5xl px-3 sm:px-4 py-1 sm:py-2'
             : 'top-2.5 sm:top-9 w-[calc(100%-1.5rem)] sm:w-[calc(100%-6rem)] max-w-6xl px-3 sm:px-6 py-1 sm:py-2.5'
-        }`}
+          }`}
         style={{
           transition: 'background-color 0.3s ease, border-color 0.3s ease, width 0.4s ease, top 0.4s ease, padding 0.4s ease'
         }}
       >
         {/* Left Logo */}
-        <Link 
-          href="/" 
+        <Link
+          href="/"
           className="flex items-center group z-10 pointer-events-auto transition-transform duration-300 hover:scale-105"
         >
-          <span className={`text-base sm:text-2xl font-sans tracking-tighter flex items-center transition-colors duration-300 ${
-            isDarkSection ? 'text-gray-950 drop-shadow-none' : 'text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]'
-          }`}>
-            <span className={`font-sans font-bold text-base sm:text-2xl mr-1 transition-colors ${
-              isDarkSection ? 'text-yellow-600' : 'text-yellow-400 opacity-80'
-            }`}>&lt;</span>
+          <span className={`text-base sm:text-2xl font-sans tracking-tighter flex items-center transition-colors duration-300 ${isDarkSection ? 'text-gray-950 drop-shadow-none' : 'text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]'
+            }`}>
+            <span className={`font-sans font-bold text-base sm:text-2xl mr-1 transition-colors ${isDarkSection ? 'text-yellow-600' : 'text-yellow-400 opacity-80'
+              }`}>&lt;</span>
             <span className="font-bold">Usama</span>
-            <span className={`font-black transition-colors ${
-              isDarkSection ? 'text-yellow-600' : 'text-yellow-400'
-            }`}>Faheem</span>
-            <span className={`font-sans font-bold text-base sm:text-2xl ml-1 transition-colors ${
-              isDarkSection ? 'text-yellow-600' : 'text-yellow-400 opacity-80'
-            }`}>/&gt;</span>
+            <span className={`font-black transition-colors ${isDarkSection ? 'text-yellow-600' : 'text-yellow-400'
+              }`}>Faheem</span>
+            <span className={`font-sans font-bold text-base sm:text-2xl ml-1 transition-colors ${isDarkSection ? 'text-yellow-600' : 'text-yellow-400 opacity-80'
+              }`}>/&gt;</span>
           </span>
         </Link>
 
         {/* ── Desktop Center Nav Links ── */}
         <motion.nav
           initial={{ y: -60, opacity: 0, scale: 0.9 }}
-          animate={{ 
-            y: showNavbar ? 0 : -60, 
-            opacity: showNavbar ? 1 : 0, 
-            scale: showNavbar ? 1 : 0.9 
+          animate={{
+            y: showNavbar ? 0 : -60,
+            opacity: showNavbar ? 1 : 0,
+            scale: showNavbar ? 1 : 0.9
           }}
-          transition={{ 
-            delay: showNavbar ? 0.25 : 0, 
-            duration: 0.6, 
-            ease: [0.34, 1.3, 0.64, 1] 
+          transition={{
+            delay: showNavbar ? 0.25 : 0,
+            duration: 0.6,
+            ease: [0.34, 1.3, 0.64, 1]
           }}
           className="hidden md:flex absolute left-1/2 -translate-x-1/2 items-center gap-2 sm:gap-4 px-2 py-1.5 rounded-full bg-[#1e1e1e]/90 backdrop-blur-xl border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.5)] z-0 pointer-events-auto overflow-hidden font-sans"
         >
-          <div 
-            className="absolute inset-0 bg-yellow-400 -z-10 pointer-events-none" 
-            style={{ clipPath: 'polygon(0 0, 41% 0, 51% 100%, 0 100%)' }} 
+          <div
+            className="absolute inset-0 bg-yellow-400 -z-10 pointer-events-none"
+            style={{ clipPath: 'polygon(0 0, 41% 0, 51% 100%, 0 100%)' }}
           />
-          
+
           {navLinks.map((link, i) => {
             const isYellowSide = i < 2;
-            
+
             return (
               <Link
                 key={link.label}
                 href={link.href}
-                className={`px-4 sm:px-5 py-1.5 text-sm font-semibold font-sans tracking-tight rounded-full transition-all relative z-10 ${
-                  isYellowSide 
-                    ? 'text-black hover:bg-black hover:text-white hover:shadow-sm' 
+                className={`px-4 sm:px-5 py-1.5 text-sm font-semibold font-sans tracking-tight rounded-full transition-all relative z-10 ${isYellowSide
+                    ? 'text-black hover:bg-black hover:text-white hover:shadow-sm'
                     : 'text-zinc-300 hover:bg-white hover:text-black hover:shadow-sm'
-                }`}
+                  }`}
               >
                 {link.label}
               </Link>
@@ -173,11 +165,10 @@ export default function Navbar() {
           <button
             onClick={() => setMobileOpen(true)}
             aria-label="Open Menu"
-            className={`inline-flex md:hidden items-center justify-center w-8 h-8 sm:w-10 sm:h-10 rounded-full backdrop-blur-md shadow-sm transition-all cursor-pointer ${
-              isDarkSection
+            className={`inline-flex md:hidden items-center justify-center w-8 h-8 sm:w-10 sm:h-10 rounded-full backdrop-blur-md shadow-sm transition-all cursor-pointer ${isDarkSection
                 ? 'bg-black/10 border border-black/15 text-gray-950 hover:bg-black/20'
                 : 'bg-white/10 border border-white/20 text-white hover:bg-white/20'
-            }`}
+              }`}
           >
             <Menu className="w-4 h-4 sm:w-5 sm:h-5" />
           </button>
@@ -188,23 +179,23 @@ export default function Navbar() {
       <AnimatePresence>
         {mobileOpen && (
           <div className="fixed inset-0 z-[60] flex justify-end items-center pointer-events-auto">
-            {/* Clean Fast Backdrop (No backdrop-blur to prevent mobile GPU repaint lag) */}
+            {/* Clean Glass Overlay Backdrop */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}
               onClick={() => setMobileOpen(false)}
-              className="absolute inset-0 bg-black/60"
+              className="absolute inset-0 bg-black/45 backdrop-blur-xs"
             />
 
-            {/* Floating Drawer Container in #f8fafc (Slate-50 Light Grey with Safe Mobile Padding) */}
+            {/* Floating Glassmorphism Drawer Container with Safe Top Padding */}
             <motion.div
               initial={{ x: '100%' }}
               animate={{ x: '0%' }}
               exit={{ x: '100%' }}
               transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
-              className="relative h-full w-full sm:w-[380px] sm:h-[calc(100vh-1rem)] sm:my-2 sm:mr-2 sm:rounded-[24px] sm:border sm:border-slate-200/90 bg-[#f8fafc] shadow-2xl flex flex-col justify-between px-6 pt-12 pb-10 sm:p-7 overflow-hidden z-[65] transform-gpu"
+              className="relative h-full w-full sm:w-[380px] sm:h-[calc(100vh-1rem)] sm:my-2 sm:mr-2 sm:rounded-[24px] bg-white/85 backdrop-blur-2xl border-l sm:border border-white/70 shadow-[0_25px_60px_-15px_rgba(0,0,0,0.18)] flex flex-col justify-between px-6 pt-6 pb-8 sm:p-7 overflow-hidden z-[65] transform-gpu"
             >
               {/* Subtle Static Crossed Slanted Ribbons (Lightweight, Zero FPS Lag) */}
               <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-0 overflow-hidden opacity-75">
@@ -222,8 +213,8 @@ export default function Navbar() {
 
               {/* Drawer Header */}
               <div className="flex items-center justify-between relative z-20">
-                <Link 
-                  href="/" 
+                <Link
+                  href="/"
                   onClick={() => setMobileOpen(false)}
                   className="flex items-center group pl-0.5"
                 >
@@ -276,7 +267,7 @@ export default function Navbar() {
               </div>
 
               {/* Bottom Yellow RESUME Button */}
-              <motion.div 
+              <motion.div
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.38, duration: 0.3, ease: 'easeOut' }}

@@ -231,7 +231,7 @@ export default function Contact() {
               </span>
 
               {/* Giant Title: let's talk. with Massive Scale (Matching Image 2) */}
-              <h2 className="font-sans text-7xl sm:text-9xl md:text-[14vw] lg:text-[17vw] xl:text-[18.5vw] font-black tracking-[-0.04em] text-[#111111] lowercase leading-[0.85] mb-5 sm:mb-7 whitespace-nowrap">
+              <h2 className="font-poppins text-7xl sm:text-9xl md:text-[14vw] lg:text-[17vw] xl:text-[18.5vw] font-black tracking-[-0.04em] text-[#111111] lowercase leading-[0.85] mb-5 sm:mb-7 whitespace-nowrap">
                 let&apos;s talk<span className="text-[#111111]">.</span>
               </h2>
 
@@ -297,7 +297,7 @@ export default function Contact() {
             {/* Left Column: Wordmark & Bio & Socials */}
             <div className="lg:col-span-6 flex flex-col justify-between">
               <div>
-                <h3 className="text-2xl sm:text-3xl lg:text-4xl font-black text-zinc-900 tracking-tight uppercase mb-3 font-sans">
+                <h3 className="text-2xl sm:text-3xl lg:text-4xl font-black text-zinc-900 tracking-tight uppercase mb-3 font-poppins">
                   USAMA FAHEEM.
                 </h3>
                 <p className="text-xs sm:text-sm text-zinc-600 max-w-md leading-relaxed font-normal mb-6">

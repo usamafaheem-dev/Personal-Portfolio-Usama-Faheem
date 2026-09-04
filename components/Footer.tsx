@@ -49,7 +49,7 @@ export default function Footer() {
               <span className="text-[10px] sm:text-[11px] font-sans font-bold tracking-wider text-white/90 uppercase mb-2">
                 LET'S CONNECT
               </span>
-              <h2 className="text-2xl sm:text-3xl lg:text-[40px] font-sans font-black text-white tracking-tight leading-[1.12]">
+              <h2 className="text-2xl sm:text-3xl lg:text-[40px] font-poppins font-black text-white tracking-tight leading-[1.12]">
                 Have a project <br className="hidden sm:inline" />
                 in mind?
               </h2>

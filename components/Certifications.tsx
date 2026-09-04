@@ -168,7 +168,7 @@ export default function Certifications() {
               <ShieldCheck size={14} className="text-[#d97706]" />
               <span>ACCREDITED & VERIFIED QUALIFICATIONS</span>
             </div>
-            <h2 className="text-3xl sm:text-5xl lg:text-6xl font-black font-sans tracking-tight text-zinc-900 uppercase">
+            <h2 className="text-3xl sm:text-5xl lg:text-6xl font-black font-poppins tracking-tight text-zinc-900 uppercase">
               CERTIFICATIONS<span className="text-[#d97706]">.</span>
             </h2>
             <p className="text-sm sm:text-base text-zinc-600 max-w-xl mt-3 font-normal font-sans leading-relaxed">

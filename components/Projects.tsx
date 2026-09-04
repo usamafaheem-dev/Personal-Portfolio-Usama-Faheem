@@ -409,8 +409,8 @@ export default function Projects() {
             <span>Featured Portfolio & Projects</span>
           </div>
 
-          <h2 className="text-3xl sm:text-5xl font-sans font-black text-white tracking-tight leading-tight mb-1">
-            From concept to <span className="font-sans italic font-black text-yellow-400">production.</span>
+          <h2 className="text-3xl sm:text-5xl font-poppins font-black text-white tracking-tight leading-tight mb-1">
+            From concept to <span className="font-poppins italic font-black text-yellow-400">production.</span>
           </h2>
 
           <p className="text-gray-400 text-xs sm:text-sm max-w-lg mx-auto font-normal font-sans">

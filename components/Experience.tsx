@@ -36,7 +36,7 @@ const experiences: ExperienceItem[] = [
     cardShadow: 'shadow-[0_20px_45px_rgba(2,68,173,0.35)]',
     cardBorder: 'border-blue-400/50',
     roleTagBg: 'bg-white/20 text-white border-white/30',
-    numberColor: 'text-blue-200',
+    numberColor: 'text-slate-200/75',
     accentColor: '#38bdf8',
   },
   {
@@ -52,7 +52,7 @@ const experiences: ExperienceItem[] = [
     cardShadow: 'shadow-[0_20px_45px_rgba(139,92,246,0.35)]',
     cardBorder: 'border-purple-300/50',
     roleTagBg: 'bg-white/20 text-white border-white/30',
-    numberColor: 'text-purple-100',
+    numberColor: 'text-slate-200/75',
     accentColor: '#ec4899',
   },
   {
@@ -68,7 +68,7 @@ const experiences: ExperienceItem[] = [
     cardShadow: 'shadow-[0_20px_45px_rgba(124,58,237,0.35)]',
     cardBorder: 'border-purple-300/50',
     roleTagBg: 'bg-white/20 text-white border-white/30',
-    numberColor: 'text-purple-200',
+    numberColor: 'text-slate-200/75',
     accentColor: '#8b5cf6',
   },
 ];
@@ -121,7 +121,7 @@ export default function Experience() {
 
       {/* Right: Badge Number & Period */}
       <div className="flex flex-col items-end shrink-0 relative z-10 pl-2">
-        <span className={`font-black font-poppins text-2xl sm:text-3xl tracking-tight drop-shadow-xs ${item.numberColor}`}>
+        <span className={`font-bold font-poppins text-2xl sm:text-3xl tracking-tight ${item.numberColor}`}>
           {item.badgeNumber}
         </span>
         <span className="text-[11px] sm:text-xs text-white/70 font-semibold font-sans whitespace-nowrap mt-1">

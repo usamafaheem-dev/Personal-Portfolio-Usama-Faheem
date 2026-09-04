@@ -129,10 +129,10 @@ export default function TechStack() {
           >
             <div className="inline-flex items-center gap-2 bg-white/90 backdrop-blur-md border border-slate-200 px-4 py-1.5 rounded-full shadow-xs mb-3">
               <Sparkles size={14} className="text-blue-600" />
-              <span className="font-extrabold text-xs tracking-wider text-slate-800 uppercase">Architecture & Tech Stack</span>
+              <span className="font-extrabold text-xs tracking-wider text-slate-800 uppercase font-poppins">Architecture & Tech Stack</span>
             </div>
 
-            <h2 className="text-3xl sm:text-4xl lg:text-[44px] font-black text-[#1e293b] tracking-tight mb-3 font-sans">
+            <h2 className="text-3xl sm:text-4xl lg:text-[44px] font-black text-[#1e293b] tracking-tight mb-3 font-poppins">
               Technologies for Marketplace & SaaS Development
             </h2>
             <p className="text-slate-500 text-sm sm:text-base leading-relaxed font-normal font-sans">

@@ -198,13 +198,13 @@ export default function Navbar() {
               className="absolute inset-0 bg-black/60"
             />
 
-            {/* Floating Drawer Container in #f8fafc (Slate-50 Light Grey) */}
+            {/* Floating Drawer Container in #f8fafc (Slate-50 Light Grey with Safe Mobile Padding) */}
             <motion.div
               initial={{ x: '100%' }}
               animate={{ x: '0%' }}
               exit={{ x: '100%' }}
               transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
-              className="relative my-1.5 mr-1.5 h-[calc(100vh-0.75rem)] w-[calc(100%-0.75rem)] sm:w-[380px] bg-[#f8fafc] border border-slate-200/90 rounded-[22px] shadow-2xl flex flex-col justify-between p-5 sm:p-7 overflow-hidden z-[65] transform-gpu"
+              className="relative h-full w-full sm:w-[380px] sm:h-[calc(100vh-1rem)] sm:my-2 sm:mr-2 sm:rounded-[24px] sm:border sm:border-slate-200/90 bg-[#f8fafc] shadow-2xl flex flex-col justify-between px-6 pt-12 pb-10 sm:p-7 overflow-hidden z-[65] transform-gpu"
             >
               {/* Subtle Static Crossed Slanted Ribbons (Lightweight, Zero FPS Lag) */}
               <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-0 overflow-hidden opacity-75">

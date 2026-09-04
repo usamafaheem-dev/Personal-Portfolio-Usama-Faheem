@@ -42,7 +42,7 @@ const techs = [
 
 export default function TechMarquee() {
   return (
-    <div className="relative w-full h-40 sm:h-56 mt-4 overflow-hidden bg-transparent flex items-center justify-center z-[20]">
+    <div className="relative w-full h-28 sm:h-44 md:h-56 mt-2 sm:mt-4 overflow-hidden bg-transparent flex items-center justify-center z-[20]">
       
       {/* 
         Pure CSS animation using translate3d for GPU acceleration. 
@@ -65,23 +65,23 @@ export default function TechMarquee() {
       </style>
 
       {/* Background Gradient Slanted Box */}
-      <div className="absolute w-[110%] h-16 sm:h-20 bg-gradient-to-r from-cyan-300 via-lime-300 to-yellow-400 rotate-2 origin-center opacity-90 shadow-lg" style={{ transform: 'translateZ(0)' }} />
+      <div className="absolute w-[115%] h-12 sm:h-16 md:h-20 bg-gradient-to-r from-cyan-300 via-lime-300 to-yellow-400 rotate-2 origin-center opacity-90 shadow-lg" style={{ transform: 'translateZ(0)' }} />
       
       {/* Black Marquee Slanted Strip */}
-      <div className="absolute w-[110%] h-16 sm:h-20 bg-[#18181b] -rotate-2 origin-center flex flex-col justify-center border-y border-white/10 shadow-xl" style={{ transform: 'translateZ(0)' }}>
+      <div className="absolute w-[115%] h-12 sm:h-16 md:h-20 bg-[#18181b] -rotate-2 origin-center flex flex-col justify-center border-y border-white/10 shadow-xl" style={{ transform: 'translateZ(0)' }}>
         
         <div className="flex w-max items-center animate-hardware-marquee">
           {/* Render exactly 2 identical blocks (no 4x duplication) to keep DOM tiny */}
           {[1, 2].map((blockId) => (
-            <div key={blockId} className="flex items-center gap-8 sm:gap-12 pr-8 sm:pr-12">
+            <div key={blockId} className="flex items-center gap-4 sm:gap-8 md:gap-12 pr-4 sm:pr-8 md:pr-12">
               {techs.map((tech, index) => (
-                <div key={`${blockId}-${index}`} className="flex items-center gap-3 sm:gap-4 pointer-events-none">
-                  <tech.icon className="w-8 h-8 sm:w-10 sm:h-10" style={{ color: tech.color }} />
-                  <span className="text-white font-sans font-bold text-xl sm:text-2xl tracking-tight whitespace-nowrap">
+                <div key={`${blockId}-${index}`} className="flex items-center gap-2 sm:gap-3 md:gap-4 pointer-events-none">
+                  <tech.icon className="w-5 h-5 sm:w-8 sm:h-8 md:w-10 md:h-10" style={{ color: tech.color }} />
+                  <span className="text-white font-sans font-bold text-sm sm:text-xl md:text-2xl tracking-tight whitespace-nowrap">
                     {tech.name}
                   </span>
                   {/* Star Separator */}
-                  <span className="text-yellow-400/90 mx-4 sm:mx-6 text-lg sm:text-xl">
+                  <span className="text-yellow-400/90 mx-2 sm:mx-4 md:mx-6 text-xs sm:text-lg md:text-xl">
                     ✦
                   </span>
                 </div>

@@ -30,7 +30,7 @@ export default function VoiceRibbonOverlay() {
     },
     {
       raw: 'need full-stack?',
-      badge: 'Removed "Umm" & Cleaned Code',
+      badge: 'Cleaned Code',
     },
     {
       raw: 'is speed optimized?',
@@ -38,7 +38,7 @@ export default function VoiceRibbonOverlay() {
     },
     {
       raw: 'production ready?',
-      badge: 'Added Next.js 15 & MERN',
+      badge: 'Next.js 15 & MERN',
     },
   ];
 
@@ -89,16 +89,16 @@ export default function VoiceRibbonOverlay() {
           preserveAspectRatio="xMidYMid slice"
         >
           <defs>
-            {/* Mobile Left Speech Loop Path (Fits inside 400px screen) */}
+            {/* Mobile Left Speech Loop Path (Fits inside 400px screen, lowered Y) */}
             <path
               id="mobLeftLoop"
-              d="M -40, 680 C 10, 600 50, 520 70, 460 C 85, 420 30, 390 0, 450 C -30, 520 40, 640 200, 680"
+              d="M -40, 710 C 10, 650 50, 590 70, 550 C 85, 520 30, 500 0, 540 C -30, 600 40, 680 200, 700"
               fill="none"
             />
             {/* Mobile Right Lime Ribbon Path */}
             <path
               id="mobRightRibbon"
-              d="M 200, 680 C 280, 680 360, 610 430, 540"
+              d="M 200, 700 C 280, 700 360, 630 430, 560"
               fill="none"
             />
             <linearGradient id="mobRibbonGrad" x1="0%" y1="0%" x2="100%" y2="0%">
@@ -121,7 +121,7 @@ export default function VoiceRibbonOverlay() {
 
           {/* ── RIGHT SIDE: Gradient Lime Ribbon Bar ── */}
           <path
-            d="M 200, 680 C 280, 680 360, 610 430, 540"
+            d="M 200, 700 C 280, 700 360, 630 430, 560"
             fill="none"
             stroke="url(#mobRibbonGrad)"
             strokeWidth="24"
@@ -144,7 +144,7 @@ export default function VoiceRibbonOverlay() {
           {/* ── TOP FLOATING BADGE ── */}
           <foreignObject
             x={200 - 100}
-            y={680 - 24 - 36}
+            y={700 - 24 - 36}
             width="200"
             height="30"
             className="overflow-visible pointer-events-none"
@@ -170,7 +170,7 @@ export default function VoiceRibbonOverlay() {
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: -6, scale: 0.92 }}
                     transition={{ duration: 0.25, ease: 'easeOut' }}
-                    className="flex items-center gap-1 px-3 py-0.5 rounded-full bg-[#064e3b] text-emerald-100 text-[11px] font-sans font-semibold shadow-md border border-emerald-400/40 backdrop-blur-md"
+                    className="flex items-center gap-1 px-3 py-0.5 rounded-full bg-[#064e3b] text-emerald-100 text-[11px] font-sans font-semibold shadow-md border border-emerald-400/40 backdrop-blur-md whitespace-nowrap"
                   >
                     <svg
                       className="w-3 h-3 text-emerald-300 stroke-[2.5]"
@@ -192,7 +192,7 @@ export default function VoiceRibbonOverlay() {
           {/* ── CENTER MIC CAPSULE PILL ── */}
           <foreignObject
             x={200 - 75}
-            y={680 - 22}
+            y={700 - 22}
             width="150"
             height="44"
             className="overflow-visible pointer-events-none"

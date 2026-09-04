@@ -1,0 +1,169 @@
+@import "tailwindcss";
+
+.font-clash {
+  font-family: 'Clash Display', 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* ── Design Tokens ─────────────────────────────────────── */
+:root {
+  --porcelain: #fbfcfb; /* Seamless off-white background matching card */
+  --ink: #111827; /* Dark gray/black for text */
+  --coral: #ffaa00; /* Reeba's Orange */
+  --coral-light: #ffea00; /* Reeba's Yellow */
+  --coral-dark: #ff00a0; /* Reeba's Pink */
+  --lime: #ccff00; /* Reeba's Lime Green */
+  --purple-accent: #d900ff; /* Reeba's Purple */
+  --graphite: #6B7280; /* Gray 500 */
+  --graphite-light: #9CA3AF; /* Gray 400 */
+  --glass: rgba(251, 252, 251, 0.8);
+  --glass-border: rgba(229, 231, 235, 1);
+}
+
+@theme inline {
+  --color-porcelain: var(--porcelain);
+  --color-ink: var(--ink);
+  --color-coral: var(--coral);
+  --color-coral-light: var(--coral-light);
+  --color-coral-dark: var(--coral-dark);
+  --color-lime: var(--lime);
+  --color-purple-accent: var(--purple-accent);
+  --color-graphite: var(--graphite);
+  --color-graphite-light: var(--graphite-light);
+  --color-glass: var(--glass);
+  --color-glass-border: var(--glass-border);
+
+  --font-sans: var(--font-inter), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-poppins: var(--font-poppins), sans-serif;
+  --font-display: var(--font-space-grotesk);
+  --font-body: var(--font-inter);
+  --font-mono: var(--font-jetbrains-mono);
+  --font-serif: var(--font-serif), Georgia, serif;
+}
+
+.font-poppins {
+  font-family: var(--font-poppins), sans-serif;
+}
+
+/* ── Base ──────────────────────────────────────────────── */
+* {
+  -webkit-touch-callout: none !important;
+  -webkit-user-select: none !important;
+  -moz-user-select: none !important;
+  -ms-user-select: none !important;
+  user-select: none !important;
+}
+
+input, textarea {
+  -webkit-user-select: text !important;
+  -moz-user-select: text !important;
+  -ms-user-select: text !important;
+  user-select: text !important;
+}
+
+html {
+  background-color: var(--porcelain);
+}
+
+/* Lenis Smooth Scroll Engine */
+html.lenis, html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-smooth iframe {
+  pointer-events: none;
+}
+
+body {
+  background-color: var(--porcelain);
+  color: var(--ink);
+  font-family: var(--font-body), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background-color: transparent !important;
+  color: inherit !important;
+}
+
+/* ── Focus Visible ─────────────────────────────────────── */
+*:focus-visible {
+  outline: 2px solid var(--coral);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* ── Animations ────────────────────────────────────────── */
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+@keyframes glow-slide {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* ── Scrollbar Styling ─────────────────────────────────── */
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* ── Diagonal Section Divider ──────────────────────────── */
+.diagonal-top {
+  clip-path: polygon(0 4vw, 100% 0, 100% 100%, 0 100%);
+  margin-top: -4vw;
+  padding-top: 4vw;
+}
+
+.diagonal-bottom {
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 4vw), 0 100%);
+  padding-bottom: 4vw;
+}
+
+/* ── Horizontal Scroll Rail ────────────────────────────── */
+.project-rail {
+  display: flex;
+  gap: 1.5rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-padding: 2rem;
+  padding-bottom: 1rem;
+}
+
+.project-rail > * {
+  scroll-snap-align: start;
+  flex-shrink: 0;
+}
+
+/* ── Prefers Reduced Motion ────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

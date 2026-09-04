@@ -88,7 +88,7 @@ export default function About() {
             </h2>
 
             <p className="text-[#555555] text-sm sm:text-[16px] leading-[1.75] max-w-[850px] font-normal font-sans mb-6 lg:mb-10 text-center lg:text-left">
-              I am a Frontend-focused MERN Stack Developer with 1 year of frontend and MERN stack experience. I design because I love solving problems and making things feel right. Web development is about people and the tiny details that make a product worth using. It is not just about looking good but feeling effortless. If it makes sense without overthinking then I have done my job.
+              I am a <strong className="font-bold text-[#1f1f1f]">Frontend-focused MERN Stack Developer</strong> with <strong className="font-bold text-[#1f1f1f]">1 year of frontend and MERN stack experience</strong>. I design because I love solving problems and making things feel right. Web development is about people and the tiny details that make a product worth using. It is not just about looking good but feeling effortless. If it makes sense without overthinking then I have done my job.
             </p>
           </motion.div>
 
@@ -228,12 +228,12 @@ export default function About() {
                       <FaLinkedin className="w-5 h-5 text-[#0077b5]" />
                     </div>
                     <a 
-                      href="https://linkedin.com" 
+                      href="https://www.linkedin.com/in/usama-faheem/" 
                       target="_blank" 
                       rel="noopener noreferrer" 
                       className="text-[12.5px] xl:text-[13px] text-[#444444] hover:text-[#0077b5] transition-colors whitespace-nowrap font-normal font-sans"
                     >
-                      linkedin.com/in/usamafaheem
+                      linkedin.com/in/usama-faheem
                     </a>
                   </li>
 
@@ -242,12 +242,12 @@ export default function About() {
                       <SiGithub className="w-[19px] h-[19px] text-[#24292f]" />
                     </div>
                     <a 
-                      href="https://github.com" 
+                      href="https://github.com/usamafaheem-dev" 
                       target="_blank" 
                       rel="noopener noreferrer" 
                       className="text-[12.5px] xl:text-[13px] text-[#444444] hover:text-[#181717] transition-colors whitespace-nowrap font-normal font-sans"
                     >
-                      github.com/usamafaheem
+                      github.com/usamafaheem-dev
                     </a>
                   </li>
 

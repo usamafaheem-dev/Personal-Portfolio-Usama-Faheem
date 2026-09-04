@@ -76,7 +76,6 @@ export default function Hero() {
           muted
           playsInline
           preload="auto"
-          poster="/hero_poster_mobile.jpg"
           onLoadedData={(e) => {
             if (window.innerWidth < 768) {
               e.currentTarget.currentTime = 3.0;
@@ -122,7 +121,8 @@ export default function Hero() {
           }}
           className="w-full h-full object-cover object-[center_top]"
         >
-          <source src="/Man_sitting_and_opening_laptop_202608171611.mp4" type="video/mp4" />
+          <source src="/hero_video_optimized.webm" type="video/webm" />
+          <source src="/hero_video_optimized.mp4" type="video/mp4" />
         </video>
       </div>
 

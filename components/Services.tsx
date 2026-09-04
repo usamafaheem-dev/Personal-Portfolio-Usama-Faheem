@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence, useInView } from 'framer-motion';
-import { Monitor, Smartphone, Server, Code } from 'lucide-react';
+import { Monitor, Smartphone, Server, Code, Sparkles } from 'lucide-react';
 import usePageReady from './usePageReady';
 
 const services = [
@@ -11,19 +11,19 @@ const services = [
     title: 'FRONTEND DEV',
     description: 'Building modern &\nresponsive web UIs\nwith React & Next.js.',
     icon: Monitor,
-    color: 'bg-[#93c5fd]', // blue
+    color: 'bg-[#fde047]', // yellow
   },
   {
     id: 2,
     title: 'BACKEND API',
     description: 'Creating fast &\nscalable REST APIs\nusing Node & Express.',
     icon: Server,
-    color: 'bg-[#fde047]', // yellow
+    color: 'bg-[#b4f34c]', // green/lime
   },
   {
     id: 3,
     title: 'FULL STACK WEB',
-    description: 'Developing full-stack\nweb applications\nwith MERN stack.',
+    description: 'Developing\nfull-stack web\napplications with\nMERN stack.',
     icon: Code,
     color: 'bg-[#f87171]', // red
   },
@@ -32,7 +32,7 @@ const services = [
     title: 'UI TO CODE',
     description: 'Converting Figma\ndesigns into clean\npixel-perfect code.',
     icon: Smartphone,
-    color: 'bg-[#fde047]', // yellow
+    color: 'bg-[#56edf0]', // cyan
   },
 ];
 
@@ -46,7 +46,7 @@ const introSteps = [
 export default function Services() {
   const isPageReady = usePageReady();
   const sectionRef = useRef<HTMLElement>(null);
-  const inView = useInView(sectionRef, { once: true, amount: 0.5 });
+  const inView = useInView(sectionRef, { once: true, amount: 0.1 });
   const isInView = isPageReady && inView;
   const hasTriggeredRef = useRef(false);
 
@@ -59,7 +59,7 @@ export default function Services() {
       hasTriggeredRef.current = true;
       setAnimStage('fullscreen');
 
-      // Cycle words with directional entrances
+      // Silky smooth word cycle (520ms per step)
       let step = 0;
       const interval = setInterval(() => {
         step++;
@@ -67,15 +67,15 @@ export default function Services() {
           setCurrentWordIndex(step);
         } else {
           clearInterval(interval);
-          // Pause slightly on BUILD, then shrink cleanly into a round ball
+          // Pause smoothly on BUILD, then shrink to reveal section
           setTimeout(() => {
             setAnimStage('shrinking');
             setTimeout(() => {
               setAnimStage('done');
-            }, 600);
-          }, 400);
+            }, 450);
+          }, 300);
         }
-      }, 650);
+      }, 520);
     }
   }, [isInView]);
 
@@ -86,28 +86,28 @@ export default function Services() {
     <section
       id="services"
       ref={sectionRef}
-      className="relative bg-[#fbfcfb] py-24 lg:py-32 overflow-hidden select-none min-h-[550px] border-t border-b border-zinc-200/80"
+      className={`relative bg-[#fbfcfb] ${showContent ? 'py-12 sm:py-16 lg:py-24' : 'py-3.5 sm:py-5 h-[270px] sm:h-[330px] md:h-[480px] lg:h-[540px]'} overflow-hidden select-none border-t border-b border-zinc-200/80 transition-all duration-500 ease-out`}
     >
       {/* ── Precision Dotted Grid Background Pattern ── */}
       <div className="absolute inset-0 bg-[radial-gradient(#99a1af_1.2px,transparent_1.2px)] [background-size:24px_24px] opacity-45 pointer-events-none [mask-image:radial-gradient(ellipse_70%_70%_at_50%_50%,#000_60%,transparent_100%)]" />
 
-      {/* ── 1. Dynamic Colorful Section Intro Overlay (Matches exact website color ribbons) ── */}
+      {/* ── 1. Dynamic Colorful Section Intro Overlay (Compact on mobile, tall & bold on desktop) ── */}
       <AnimatePresence>
         {(animStage === 'idle' || animStage === 'fullscreen') && (
           <motion.div
             initial={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0, originX: 0.1, originY: 0.85 }}
-            transition={{ duration: 0.45, ease: [0.4, 0, 0.2, 1] }}
-            className={`absolute inset-0 z-50 ${currentStep.bg} flex items-center justify-center pointer-events-none overflow-hidden rounded-3xl shadow-2xl transition-colors duration-500`}
+            transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+            className={`absolute inset-x-3.5 sm:inset-x-6 top-3.5 sm:top-5 bottom-3.5 sm:bottom-5 md:inset-x-8 md:top-8 md:bottom-8 z-50 ${currentStep.bg} flex items-center justify-center pointer-events-none overflow-hidden rounded-2xl md:rounded-3xl shadow-xl transition-colors duration-400 ease-out`}
           >
             <AnimatePresence mode="wait">
               <motion.div
                 key={currentStep.text}
                 initial={currentStep.initial}
                 animate={{ opacity: 1, x: 0, y: 0, rotate: 0, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.5, transition: { duration: 0.15 } }}
-                transition={{ type: 'spring', stiffness: 220, damping: 15 }}
-                className={`text-6xl sm:text-8xl md:text-9xl font-black italic tracking-tight uppercase font-poppins ${currentStep.textColor} text-center px-4 drop-shadow-md`}
+                exit={{ opacity: 0, scale: 0.6, transition: { duration: 0.16, ease: 'easeIn' } }}
+                transition={{ type: 'spring', stiffness: 170, damping: 20 }}
+                className={`text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-black italic tracking-tight uppercase font-poppins ${currentStep.textColor} text-center px-4 drop-shadow-md`}
               >
                 {currentStep.text}
               </motion.div>
@@ -150,27 +150,25 @@ export default function Services() {
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             animate={showContent ? { opacity: 1, x: 0 } : { opacity: 0, x: -30 }}
-            transition={{ duration: 0.7, ease: 'easeOut' }}
+            transition={{ duration: 0.7, ease: 'easeOut', delay: 0.1 }}
           >
             {/* Eyebrow Tag */}
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-50/90 border border-blue-200/80 shadow-2xs mb-3">
-              <span className="w-2 h-2 rounded-full bg-blue-600 animate-pulse" />
-              <span className="text-xs font-bold text-blue-700 uppercase tracking-wider font-poppins">
-                SERVICES
-              </span>
+            <div className="inline-flex items-center gap-2 bg-gradient-to-r from-[#ffaa00]/15 via-[#ffea00]/15 to-[#ccff00]/15 border border-[#ffaa00]/30 px-3.5 py-1 rounded-full text-xs font-bold text-amber-800 uppercase tracking-widest font-poppins shadow-2xs mb-4">
+              <Sparkles className="w-3.5 h-3.5 text-[#ffaa00]" />
+              <span>SERVICES</span>
             </div>
 
-            {/* Dual-Tone Poppins Heading */}
-            <h2 className="text-6xl lg:text-[75px] font-black leading-[0.9] tracking-tight uppercase font-poppins">
+            {/* Dual-Tone Poppins Heading (Enlarged) */}
+            <h2 className="text-5xl sm:text-7xl lg:text-[85px] xl:text-[90px] font-black leading-[0.88] tracking-tight uppercase font-poppins">
               <span className="text-[#0f172a] block">What</span>
-              <span className="text-[#99a1af] block">I Do</span>
+              <span className="text-[#facc15] block">I Do</span>
             </h2>
-            {/* Blue underline doodle */}
+            {/* Cyan-Green ribbon gradient underline doodle */}
             <motion.div
               initial={{ scaleX: 0 }}
               animate={showContent ? { scaleX: 1 } : { scaleX: 0 }}
-              transition={{ duration: 0.6, delay: 0.3 }}
-              className="mt-6 lg:mt-8 w-28 h-2.5 bg-[#3b82f6] rounded-full -rotate-3 mx-auto lg:mx-0 origin-left"
+              transition={{ duration: 0.6, delay: 0.35 }}
+              className="mt-4 lg:mt-7 w-24 sm:w-32 h-2.5 bg-gradient-to-r from-[#56edf0] to-[#b4f34c] rounded-full -rotate-3 mx-auto lg:mx-0 origin-left"
             ></motion.div>
 
             {/* Bottom left red circle doodle - Perfect Spring Pop */}
@@ -179,7 +177,7 @@ export default function Services() {
                 <motion.div
                   initial={{ scale: 0, opacity: 0, rotate: -45 }}
                   animate={{ scale: 1, opacity: 1, rotate: -12 }}
-                  transition={{ type: 'spring', stiffness: 220, damping: 13, bounce: 0.65, delay: 0.1 }}
+                  transition={{ type: 'spring', stiffness: 220, damping: 13, bounce: 0.65, delay: 0.2 }}
                   className="w-40 h-40 rounded-full bg-[#ef4444] text-white flex items-center justify-center font-black font-poppins text-xl tracking-wider border-4 border-[#fbfcfb] shadow-lg z-20"
                 >
                   BUILD
@@ -189,9 +187,9 @@ export default function Services() {
           </motion.div>
         </div>
 
-        {/* Services Row with Multiple Bouncing Card Drop Effect */}
+        {/* Services Cards Grid with Interactive Hover & Spring Bounce Drop */}
         <motion.div
-          className="lg:w-[76%] w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-0 lg:divide-x-2 lg:divide-[#e5e5e5]"
+          className="lg:w-[76%] w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-6 lg:gap-5"
         >
           {services.map((service, index) => (
             <motion.div
@@ -201,27 +199,30 @@ export default function Services() {
               transition={showContent ? {
                 type: 'spring',
                 stiffness: 220,
-                damping: 10,
+                damping: 12,
                 bounce: 0.75,
-                delay: 0.2 + index * 0.15
+                delay: 0.25 + index * 0.12
               } : { duration: 0 }}
-              className="flex flex-col items-center lg:items-start text-center lg:text-left px-5 xl:px-7"
+              whileHover={{ y: -8, scale: 1.02 }}
+              className="group relative flex flex-col items-center lg:items-start text-center lg:text-left p-6 sm:p-7 rounded-2xl bg-white/90 border border-zinc-200/90 shadow-xs hover:shadow-xl hover:border-zinc-300 transition-all duration-300"
             >
-              <div className="relative mb-8 group">
+              {/* Top Card Subtle Glow Accent on Hover */}
+              <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-amber-50/30 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+
+              <div className="relative mb-6 group-hover:scale-110 transition-transform duration-300">
                 {/* Hand-drawn style circle background */}
-                <motion.div
-                  whileHover={{ scale: 1.15, rotate: 12 }}
-                  className={`w-[75px] h-[75px] ${service.color} absolute -top-1 -left-2 transition-transform duration-300 mix-blend-multiply`}
+                <div
+                  className={`w-[72px] h-[72px] ${service.color} absolute -top-1 -left-2 transition-transform duration-300 group-hover:rotate-12 group-hover:scale-110 mix-blend-multiply`}
                   style={{ borderRadius: '40% 60% 70% 30% / 40% 50% 60% 50%' }}
-                ></motion.div>
-                <service.icon className="w-9 h-9 text-[#1a1a1a] relative z-10 m-4 stroke-[1.5]" />
+                ></div>
+                <service.icon className="w-9 h-9 text-[#1a1a1a] relative z-10 m-4 stroke-[1.6]" />
               </div>
 
-              <h3 className="text-[16px] xl:text-[17px] font-black font-poppins text-[#1a1a1a] mb-3 tracking-tight uppercase leading-snug whitespace-nowrap">
+              <h3 className="text-[16px] xl:text-[17px] font-black font-poppins text-[#0f172a] mb-3 tracking-tight uppercase leading-snug z-10">
                 {service.title}
               </h3>
 
-              <p className="text-[14px] xl:text-[14.5px] text-[#444444] leading-relaxed font-normal font-sans whitespace-pre-line">
+              <p className="text-[14px] xl:text-[14.5px] text-[#475569] leading-relaxed font-normal font-sans whitespace-pre-line z-10">
                 {service.description}
               </p>
             </motion.div>

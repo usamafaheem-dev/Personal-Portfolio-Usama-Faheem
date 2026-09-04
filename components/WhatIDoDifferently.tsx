@@ -24,15 +24,27 @@ export default function WhatIDoDifferently() {
           </div>
 
           {/* 🌟 Stylish Top Badge */}
-          <div className="flex justify-center md:justify-start mb-3 sm:mb-4 relative z-10">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9, y: 15 }}
+            whileInView={{ opacity: 1, scale: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+            className="flex justify-center md:justify-start mb-3 sm:mb-4 relative z-10"
+          >
             <div className="inline-flex items-center gap-2 bg-gradient-to-r from-[#ffaa00]/15 via-[#ffea00]/15 to-[#ccff00]/15 border border-[#ffaa00]/30 px-3.5 py-1 rounded-full text-xs font-bold text-amber-800 uppercase tracking-widest font-poppins shadow-2xs">
               <Sparkles className="w-3.5 h-3.5 text-[#ffaa00]" />
               <span>WHY CHOOSE USAMA</span>
             </div>
-          </div>
+          </motion.div>
 
           {/* Big Typography Header (Stepped 2-Line Layout) */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-16 items-end z-10 relative mb-4 md:mb-0 px-2 sm:px-4">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+            className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-16 items-end z-10 relative mb-4 md:mb-0 px-2 sm:px-4"
+          >
 
             {/* Left Side: Why Work With (Line 1 Top) / USAMA? (Line 2 Bottom, Indented) */}
             <div className="text-left font-poppins">
@@ -58,7 +70,7 @@ export default function WhatIDoDifferently() {
               </h2>
             </div>
 
-          </div>
+          </motion.div>
 
           {/* Main Card Box (Vibrant Yellow to Lime Gradient Container) */}
           <div className="relative mt-4 sm:mt-6 md:mt-10 bg-gradient-to-br from-yellow-400 via-amber-400 to-lime-400 rounded-[28px] sm:rounded-[32px] md:rounded-[44px] p-5 sm:p-10 lg:p-14 text-gray-950 shadow-[0_25px_60px_rgba(250,204,21,0.35)] border border-yellow-300 min-h-[380px] md:min-h-[560px] flex flex-col justify-between">
@@ -76,7 +88,7 @@ export default function WhatIDoDifferently() {
               <motion.div
                 initial={{ opacity: 0, y: -25 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
+                viewport={{ once: true, amount: 0.35 }}
                 transition={{ duration: 0.8, delay: 0.8, ease: [0.16, 1, 0.3, 1] }}
                 className="md:col-span-5 space-y-3.5 sm:space-y-6 text-center md:text-left flex flex-col items-center md:items-start relative z-20"
               >
@@ -95,35 +107,47 @@ export default function WhatIDoDifferently() {
 
                 {/* Description (Clear Purpose) */}
                 <p className="text-gray-900/90 text-xs sm:text-base font-normal leading-relaxed max-w-md font-sans">
-                  I craft high-converting, ultra-fast web applications using Next.js 15, Framer Motion, and 1:1 Figma translations — built to load instantly and win clients.
+                  I craft high-converting, ultra-fast web applications using Next.js 15, Framer Motion, and 1:1 Figma translations, built to load instantly and win clients.
                 </p>
 
                 {/* CTA Button */}
                 <div>
                   <a
                     href="#contact"
-                    className="inline-flex items-center gap-3 bg-[#0f0728] hover:bg-black text-white px-6 sm:px-8 py-3 sm:py-4 rounded-full font-bold text-xs sm:text-sm tracking-wide shadow-[0_10px_30px_rgba(0,0,0,0.3)] hover:scale-105 transition-all group font-poppins"
+                    className="inline-flex items-center gap-2.5 bg-[#0f0728] hover:bg-black text-white px-5 sm:px-6 py-2.5 sm:py-3 rounded-full font-bold text-xs sm:text-sm tracking-wide shadow-[0_8px_20px_rgba(0,0,0,0.25)] hover:scale-105 transition-all group font-poppins"
                   >
                     <span>START A PROJECT</span>
-                    <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-white/20 flex items-center justify-center group-hover:translate-x-1 transition-transform">
-                      <ArrowRight size={14} className="text-white" />
+                    <div className="w-5.5 h-5.5 sm:w-6.5 sm:h-6.5 rounded-full bg-white/20 group-hover:bg-[#ffaa00] flex items-center justify-center transition-all duration-300">
+                      <ArrowRight size={13} className="text-white group-hover:text-gray-950 group-hover:-rotate-45 transition-transform duration-300" />
                     </div>
                   </a>
                 </div>
 
                 {/* Bottom Social Proof Badge (Desktop Only) */}
                 <div className="hidden md:block pt-2">
-                  <div className="inline-flex items-center gap-3 bg-black/10 backdrop-blur-xl border border-black/15 px-5 py-3 rounded-2xl shadow-md font-sans">
-                    <div className="flex -space-x-2">
-                      <div className="w-8 h-8 rounded-full bg-gray-950 border-2 border-yellow-400 flex items-center justify-center text-[10px] font-bold text-amber-300 font-sans">JS</div>
-                      <div className="w-8 h-8 rounded-full bg-gray-950 border-2 border-yellow-400 flex items-center justify-center text-[10px] font-bold text-lime-400 font-sans">TS</div>
-                      <div className="w-8 h-8 rounded-full bg-gray-950 border-2 border-yellow-400 flex items-center justify-center text-[10px] font-bold text-cyan-400 font-sans">NX</div>
+                  <div className="inline-flex items-center gap-3.5 bg-black/10 backdrop-blur-xl border border-black/15 px-4.5 py-2.5 rounded-2xl shadow-sm font-sans">
+                    <div className="flex -space-x-2.5">
+                      <img 
+                        src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=120&h=120&fit=crop&crop=face" 
+                        alt="Client 1" 
+                        className="w-7.5 h-7.5 sm:w-8.5 sm:h-8.5 rounded-full object-cover border-2 border-amber-400 shadow-sm" 
+                      />
+                      <img 
+                        src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=120&h=120&fit=crop&crop=face" 
+                        alt="Client 2" 
+                        className="w-7.5 h-7.5 sm:w-8.5 sm:h-8.5 rounded-full object-cover border-2 border-amber-400 shadow-sm" 
+                      />
+                      <img 
+                        src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=120&h=120&fit=crop&crop=face" 
+                        alt="Client 3" 
+                        className="w-7.5 h-7.5 sm:w-8.5 sm:h-8.5 rounded-full object-cover border-2 border-amber-400 shadow-sm" 
+                      />
                     </div>
                     <div className="text-left font-sans">
-                      <p className="text-xs font-bold flex items-center gap-1 text-gray-950 tracking-tight">
-                        100% Client Satisfaction <Heart size={12} className="fill-rose-600 text-rose-600 inline" />
+                      <p className="text-xs font-bold flex items-center gap-1.5 text-gray-950 tracking-tight">
+                        100% Client Satisfaction <Heart size={13} className="fill-rose-600 text-rose-600 inline animate-pulse" />
                       </p>
-                      <p className="text-[10px] text-gray-800 font-medium">Delivered 20+ Global Web Projects</p>
+                      <p className="text-[10.5px] text-gray-900/80 font-medium">Delivered 20+ Global Web Projects</p>
                     </div>
                   </div>
                 </div>
@@ -137,7 +161,7 @@ export default function WhatIDoDifferently() {
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
+                viewport={{ once: true, amount: 0.35 }}
                 transition={{ duration: 0.8, delay: 0.95, ease: [0.16, 1, 0.3, 1] }}
                 className="md:col-span-5 flex flex-col items-center md:items-end space-y-3 sm:space-y-6 font-sans relative z-20"
               >
@@ -146,16 +170,16 @@ export default function WhatIDoDifferently() {
                 <div className="flex flex-wrap gap-2 justify-center md:justify-end font-sans">
 
                   {/* Speed Score Badge */}
-                  <div className="flex items-center gap-2 bg-black/10 backdrop-blur-xl border border-black/15 px-3 py-1.5 sm:px-4 sm:py-2 rounded-2xl shadow-sm font-sans">
-                    <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-lg bg-black/10 flex items-center justify-center">
+                  <div className="flex items-center gap-2 bg-black/10 backdrop-blur-xl border border-black/15 px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-2xl shadow-sm font-sans">
+                    <div className="w-5 h-5 sm:w-5.5 sm:h-5.5 rounded-lg bg-black/10 flex items-center justify-center">
                       <Zap size={13} className="text-gray-950 fill-gray-950" />
                     </div>
                     <span className="text-[11px] sm:text-xs font-bold tracking-tight text-gray-950 font-sans">99+ Lighthouse Speed</span>
                   </div>
 
                   {/* Clean Code Badge */}
-                  <div className="flex items-center gap-2 bg-black/10 backdrop-blur-xl border border-black/15 px-3 py-1.5 sm:px-4 sm:py-2 rounded-2xl shadow-sm font-sans">
-                    <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-lg bg-black/10 flex items-center justify-center">
+                  <div className="flex items-center gap-2 bg-black/10 backdrop-blur-xl border border-black/15 px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-2xl shadow-sm font-sans">
+                    <div className="w-5 h-5 sm:w-5.5 sm:h-5.5 rounded-lg bg-black/10 flex items-center justify-center">
                       <Code2 size={13} className="text-gray-950" />
                     </div>
                     <span className="text-[11px] sm:text-xs font-bold tracking-tight text-gray-950 font-sans">Next.js 15 & TS Specs</span>
@@ -180,7 +204,7 @@ export default function WhatIDoDifferently() {
                 {/* Featured Showcase Card (Desktop Only) */}
                 <div className="hidden md:block bg-white text-gray-950 p-4 rounded-[28px] shadow-2xl w-full max-w-[310px] border border-black/10 group hover:scale-[1.02] transition-all duration-300 font-sans">
                   <div className="flex items-center justify-between mb-2.5 font-sans">
-                    <span className="text-[10px] font-bold uppercase tracking-wider text-amber-600 font-sans">FEATURED CLIENT WORK</span>
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-amber-600 font-sans">DELIVERED CLIENT PROJECT</span>
                     <span className="flex h-2 w-2 rounded-full bg-amber-500 animate-pulse"></span>
                   </div>
 
@@ -224,7 +248,7 @@ export default function WhatIDoDifferently() {
               <motion.div
                 initial={{ opacity: 0, scale: 0.9, y: 30 }}
                 whileInView={{ opacity: 1, scale: 1, y: 0 }}
-                viewport={{ once: true }}
+                viewport={{ once: true, amount: 0.3 }}
                 transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
                 className="relative w-[250px] sm:w-[380px] md:w-[440px] lg:w-[480px] h-[100%] sm:h-[115%] md:h-[120%]"
               >

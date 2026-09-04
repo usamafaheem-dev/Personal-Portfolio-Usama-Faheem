@@ -83,7 +83,13 @@ export default function Stats() {
         <div className="flex flex-col lg:flex-row items-center lg:items-center gap-8 sm:gap-12 lg:gap-8 w-full">
 
           {/* Left Text Box */}
-          <div className="lg:w-1/3 flex flex-col justify-center relative text-center lg:text-left z-10 font-sans items-center lg:items-start">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+            className="lg:w-1/3 flex flex-col justify-center relative text-center lg:text-left z-10 font-sans items-center lg:items-start"
+          >
             {/* 🌟 Stylish Badge */}
             <div className="inline-flex items-center gap-2 bg-gradient-to-r from-[#ffaa00]/15 via-[#ffea00]/15 to-[#ccff00]/15 border border-[#ffaa00]/30 px-3.5 py-1 rounded-full text-xs font-bold text-amber-800 uppercase tracking-widest font-poppins mb-4 shadow-2xs">
               <Sparkles className="w-3.5 h-3.5 text-[#ffaa00]" />
@@ -98,7 +104,7 @@ export default function Stats() {
             <p className="text-gray-500 text-sm sm:text-base font-normal font-sans leading-relaxed max-w-md mx-auto lg:mx-0">
               Delivering high-quality digital experiences, from pixel-perfect frontend designs to robust full-stack architectures. Focused on real business value.
             </p>
-          </div>
+          </motion.div>
 
           {/* Right Stats Infographic */}
           <div className="lg:w-2/3 flex flex-row items-center justify-between sm:justify-around relative w-full z-10 px-0 sm:px-0 font-sans">

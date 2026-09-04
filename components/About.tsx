@@ -4,18 +4,18 @@ import { useRef, useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { FaLinkedin } from 'react-icons/fa';
 import { SiGithub, SiMongodb, SiExpress, SiReact, SiNodedotjs } from 'react-icons/si';
-import { Sparkles } from 'lucide-react';
+import { Sparkles, Download } from 'lucide-react';
 
 export default function About() {
-  const gridRef = useRef<HTMLDivElement>(null);
+  const sectionRef = useRef<HTMLElement>(null);
   const [isCardVisible, setIsCardVisible] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
-      if (!gridRef.current) return;
-      const rect = gridRef.current.getBoundingClientRect();
-      // Triggers right as soon as Experience/Education/Contact appears on screen
-      const visible = rect.top <= window.innerHeight * 0.95 && rect.bottom >= 0;
+      if (!sectionRef.current) return;
+      const rect = sectionRef.current.getBoundingClientRect();
+      // Triggers when user scrolls to the middle of the About section (rect.top reaches 65% of viewport height)
+      const visible = rect.top <= window.innerHeight * 0.65 && rect.bottom >= 100;
       setIsCardVisible(visible);
     };
 
@@ -26,7 +26,7 @@ export default function About() {
   }, []);
 
   return (
-    <section id="about" className="w-full bg-[#fbfcfb] py-16 sm:py-28 text-[#1a1a1a] relative overflow-hidden border-b border-zinc-200/80">
+    <section id="about" ref={sectionRef} className="w-full bg-[#fbfcfb] py-16 sm:py-28 text-[#1a1a1a] relative overflow-hidden border-b border-zinc-200/80">
       {/* ── Precision Dotted Grid Background Pattern ── */}
       <div className="absolute inset-0 bg-[radial-gradient(#99a1af_1.2px,transparent_1.2px)] [background-size:24px_24px] opacity-40 pointer-events-none [mask-image:radial-gradient(ellipse_75%_75%_at_50%_50%,#000_60%,transparent_100%)]" />
 
@@ -71,16 +71,16 @@ export default function About() {
           
           {/* Header Title & Typewriter Summary */}
           <motion.div 
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 35 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
             className="font-sans flex flex-col items-center lg:items-start w-full relative"
           >
             {/* Soft Light-Yellow Backdrop Glow Strictly Behind Text Block */}
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-[700px] h-40 bg-[#ffea00]/18 rounded-full blur-3xl pointer-events-none -z-10" />
-            {/* 🌟 Stylish About Me Badge (Mobile Only) */}
-            <div className="inline-flex lg:hidden items-center gap-2 bg-gradient-to-r from-[#ffaa00]/15 via-[#ffea00]/15 to-[#ccff00]/15 border border-[#ffaa00]/30 px-3.5 py-1 rounded-full text-xs font-bold text-amber-800 uppercase tracking-widest font-poppins mb-4 shadow-2xs self-center">
+            {/* 🌟 Stylish About Me Badge */}
+            <div className="inline-flex items-center gap-2 bg-gradient-to-r from-[#ffaa00]/15 via-[#ffea00]/15 to-[#ccff00]/15 border border-[#ffaa00]/30 px-3.5 py-1 rounded-full text-xs font-bold text-amber-800 uppercase tracking-widest font-poppins mb-4 shadow-2xs self-center lg:self-start">
               <Sparkles className="w-3.5 h-3.5 text-[#ffaa00]" />
               <span>ABOUT ME</span>
             </div>
@@ -90,7 +90,7 @@ export default function About() {
             </h2>
 
             <p className="text-[#555555] text-sm sm:text-[16px] leading-[1.75] max-w-[850px] font-normal font-sans mb-6 lg:mb-10 text-center lg:text-left">
-              I am a Frontend-focused MERN Stack Developer with <strong className="font-bold text-[#d97706] bg-[#ffaa00]/15 px-1.5 py-0.5 rounded border border-[#ffaa00]/30">1 year</strong> of experience. I <strong className="font-bold text-[#d97706] bg-[#ffaa00]/15 px-1.5 py-0.5 rounded border border-[#ffaa00]/30">design</strong> because I love solving problems and making things feel right. Web <strong className="font-bold text-[#d97706] bg-[#ffaa00]/15 px-1.5 py-0.5 rounded border border-[#ffaa00]/30">development</strong> is about people and the tiny details that make a product worth using. It is not just about looking good but feeling effortless. If it makes sense without overthinking then I have done my job.
+              I am a Frontend-focused MERN Stack Developer with <strong className="font-bold text-[#d97706] bg-[#ffaa00]/15 px-1.5 py-0.5 rounded border border-[#ffaa00]/30">1 year</strong> of experience building high-converting <strong className="font-bold text-[#d97706] bg-[#ffaa00]/15 px-1.5 py-0.5 rounded border border-[#ffaa00]/30">web applications</strong> for <strong className="font-bold text-[#d97706] bg-[#ffaa00]/15 px-1.5 py-0.5 rounded border border-[#ffaa00]/30">clients</strong>, <strong className="font-bold text-[#d97706] bg-[#ffaa00]/15 px-1.5 py-0.5 rounded border border-[#ffaa00]/30">startups</strong>, and <strong className="font-bold text-[#d97706] bg-[#ffaa00]/15 px-1.5 py-0.5 rounded border border-[#ffaa00]/30">agencies</strong>. Turning complex <strong className="font-bold text-[#d97706] bg-[#ffaa00]/15 px-1.5 py-0.5 rounded border border-[#ffaa00]/30">ideas</strong> into clean <strong className="font-bold text-[#d97706] bg-[#ffaa00]/15 px-1.5 py-0.5 rounded border border-[#ffaa00]/30">development</strong> and effortless user experiences.
             </p>
           </motion.div>
 
@@ -99,7 +99,7 @@ export default function About() {
             <motion.div
               initial={{ opacity: 0, x: -60 }}
               whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
+              viewport={{ once: true, amount: 0.4 }}
               transition={{
                 type: "spring",
                 stiffness: 90,
@@ -117,17 +117,16 @@ export default function About() {
 
           {/* ── 3-Column Grid Spread Out Across Available Width ── */}
           <motion.div 
-            ref={gridRef}
-            initial={{ opacity: 0, y: 25 }}
+            initial={{ opacity: 0, y: 35 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.1 }}
+            viewport={{ once: true, amount: 0.25 }}
+            transition={{ duration: 0.8, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
             className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10 xl:gap-14 mt-4 lg:mt-0"
           >
             
             {/* Column 1: EXPERIENCE */}
             <div className="flex flex-col items-center lg:items-start text-center lg:text-left lg:pr-8 lg:border-r border-zinc-300/80">
-              <h3 className="text-[13px] font-bold tracking-[0.16em] bg-gradient-to-r from-cyan-500 via-yellow-400 to-lime-500 bg-[length:200%_auto] animate-[glow-slide_3s_linear_infinite] bg-clip-text text-transparent mb-6 uppercase font-poppins">
+              <h3 className="text-[13px] font-black tracking-[0.18em] text-[#d97706] mb-6 uppercase font-poppins">
                 EXPERIENCE
               </h3>
               
@@ -172,7 +171,7 @@ export default function About() {
 
             {/* Column 2: EDUCATION */}
             <div className="flex flex-col items-center lg:items-start text-center lg:text-left lg:pr-8 lg:border-r border-zinc-300/80">
-              <h3 className="text-[13px] font-bold tracking-[0.16em] bg-gradient-to-r from-cyan-500 via-yellow-400 to-lime-500 bg-[length:200%_auto] animate-[glow-slide_3s_linear_infinite] bg-clip-text text-transparent mb-6 uppercase font-poppins">
+              <h3 className="text-[13px] font-black tracking-[0.18em] text-[#d97706] mb-6 uppercase font-poppins">
                 EDUCATION
               </h3>
               
@@ -220,7 +219,7 @@ export default function About() {
               
               {/* Contact Links */}
               <div className="w-full flex flex-col items-center lg:items-start">
-                <h3 className="text-[13px] font-bold tracking-[0.16em] bg-gradient-to-r from-cyan-500 via-yellow-400 to-lime-500 bg-[length:200%_auto] animate-[glow-slide_3s_linear_infinite] bg-clip-text text-transparent mb-6 uppercase font-poppins">
+                <h3 className="text-[13px] font-black tracking-[0.18em] text-[#d97706] mb-6 uppercase font-poppins">
                   CONTACT
                 </h3>
                 
@@ -278,7 +277,7 @@ export default function About() {
               <div className="mt-7 w-full flex flex-col items-center lg:items-start gap-5">
                 {/* MERN Stack Row */}
                 <div className="flex flex-col items-center lg:items-start">
-                  <h3 className="text-[13px] font-bold tracking-[0.16em] bg-gradient-to-r from-cyan-500 via-yellow-400 to-lime-500 bg-[length:200%_auto] animate-[glow-slide_3s_linear_infinite] bg-clip-text text-transparent mb-3 uppercase font-poppins">
+                  <h3 className="text-[13px] font-black tracking-[0.18em] text-[#d97706] mb-3 uppercase font-poppins">
                     MERN STACK
                   </h3>
                   
@@ -307,7 +306,7 @@ export default function About() {
 
                 {/* Softwares Row */}
                 <div className="flex flex-col items-center lg:items-start">
-                  <h3 className="text-[13px] font-bold tracking-[0.16em] bg-gradient-to-r from-cyan-500 via-yellow-400 to-lime-500 bg-[length:200%_auto] animate-[glow-slide_3s_linear_infinite] bg-clip-text text-transparent uppercase font-poppins mb-3">
+                  <h3 className="text-[13px] font-black tracking-[0.18em] text-[#d97706] uppercase font-poppins mb-3">
                     SOFTWARES & TOOLS
                   </h3>
                   

@@ -167,19 +167,30 @@ function DiagonalConveyorCard({
   smoothProgress: MotionValue<number>;
   onCardClick: (index: number) => void;
 }) {
-  // Horizontal Spacing: 640px diagonal conveyor track
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 640);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  // Horizontal Spacing: 640px (desktop) / 360px (mobile) diagonal conveyor track
   const x = useTransform(smoothProgress, (p) => {
     const activeIndex = getContinuousIndex(p, total);
     const rel = index - activeIndex;
-    return -rel * 640;
+    const stepX = isMobile ? 360 : 640;
+    return -rel * stepX;
   });
 
-  // Vertical Spacing: 270px diagonal elevation with silky smooth continuous header offset
+  // Vertical Spacing: 270px (desktop) / 150px (mobile) diagonal elevation with header offset
   const y = useTransform(smoothProgress, (p) => {
     const activeIndex = getContinuousIndex(p, total);
     const rel = index - activeIndex;
     const headerOffset = Math.max(0, 1 - p / 0.05) * 55;
-    return rel * 270 + headerOffset;
+    const stepY = isMobile ? 150 : 270;
+    return rel * stepY + headerOffset;
   });
 
   // Scale: Smoothly scales up to 1.0 at dead center, gracefully scales down to 0.72 off-center
@@ -319,7 +330,7 @@ export default function Projects() {
     <section
       ref={containerRef}
       id="projects"
-      className="relative h-[750vh] bg-[#1A1A1A] text-white border-t border-white/10 overflow-visible"
+      className="relative h-[480vh] sm:h-[750vh] bg-[#1A1A1A] text-white border-t border-white/10 overflow-visible"
     >
       {/* Sticky Viewport Frame with Video Background */}
       <div className="sticky top-0 h-screen w-full flex flex-col justify-between overflow-hidden bg-black">
@@ -404,16 +415,16 @@ export default function Projects() {
           style={{ y: headerY, opacity: headerOpacity, display: headerDisplay }}
           className="absolute top-14 sm:top-18 left-0 right-0 z-30 max-w-4xl mx-auto px-6 text-center pointer-events-none"
         >
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-yellow-500/15 border border-yellow-500/30 text-[11px] font-black uppercase tracking-widest text-yellow-400 mb-2 backdrop-blur-md shadow-sm">
-            <Sparkles size={12} className="text-yellow-400" />
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#ffaa00]/15 border border-[#ffaa00]/30 text-[11px] font-black uppercase tracking-widest text-[#ffaa00] mb-2 backdrop-blur-md shadow-sm">
+            <Sparkles size={12} className="text-[#ffaa00]" />
             <span>Featured Portfolio & Projects</span>
           </div>
 
-          <h2 className="text-3xl sm:text-5xl font-poppins font-black text-white tracking-tight leading-tight mb-1">
-            From concept to <span className="font-poppins italic font-black text-yellow-400">production.</span>
+          <h2 className="text-2xl sm:text-5xl font-poppins font-black text-white tracking-tight leading-tight mb-1">
+            From concept to <span className="font-poppins italic font-black bg-gradient-to-r from-[#ffaa00] to-[#ffea00] bg-clip-text text-transparent">production.</span>
           </h2>
 
-          <p className="text-gray-400 text-xs sm:text-sm max-w-lg mx-auto font-normal font-sans">
+          <p className="text-gray-400 text-[11px] sm:text-sm max-w-lg mx-auto font-normal font-sans">
             A curated collection of production platforms, AI applications, and digital products.
           </p>
         </motion.div>

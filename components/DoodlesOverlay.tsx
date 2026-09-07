@@ -27,7 +27,7 @@ export default function DoodlesOverlay({ visible }: { visible: boolean }) {
           markerEnd="url(#arrow)"
           initial={{ pathLength: 0, opacity: 0 }}
           animate={{ pathLength: 1, opacity: 0.5 }}
-          transition={{ delay: 3.2, duration: 0.8 }}
+          transition={{ delay: 0.8, duration: 0.8 }}
         />
 
         {/* Arrow 2: To Specialty */}
@@ -40,7 +40,7 @@ export default function DoodlesOverlay({ visible }: { visible: boolean }) {
           markerEnd="url(#arrow)"
           initial={{ pathLength: 0, opacity: 0 }}
           animate={{ pathLength: 1, opacity: 0.5 }}
-          transition={{ delay: 3.8, duration: 0.8 }}
+          transition={{ delay: 1.4, duration: 0.8 }}
         />
 
         {/* Arrow 3: To 3D Web */}
@@ -53,7 +53,7 @@ export default function DoodlesOverlay({ visible }: { visible: boolean }) {
           markerEnd="url(#arrow)"
           initial={{ pathLength: 0, opacity: 0 }}
           animate={{ pathLength: 1, opacity: 0.5 }}
-          transition={{ delay: 3.5, duration: 0.8 }}
+          transition={{ delay: 1.1, duration: 0.8 }}
         />
       </svg>
 
@@ -61,7 +61,7 @@ export default function DoodlesOverlay({ visible }: { visible: boolean }) {
       <motion.div
         initial={{ opacity: 0, x: -30, rotate: -8 }}
         animate={{ opacity: 1, x: 0, rotate: -8 }}
-        transition={{ delay: 3.0, duration: 0.6 }}
+        transition={{ delay: 0.6, duration: 0.6 }}
         className="absolute top-[14%] left-[4%] sm:left-[8%] lg:left-[10%] text-black text-lg sm:text-2xl md:text-3xl lg:text-4xl max-w-[130px] sm:max-w-[180px] lg:max-w-[200px] leading-tight"
       >
         <span className="text-orange-700 text-[10px] sm:text-xs font-sans font-bold uppercase block tracking-wider">fave stack?</span>
@@ -72,7 +72,7 @@ export default function DoodlesOverlay({ visible }: { visible: boolean }) {
       <motion.div
         initial={{ opacity: 0, x: -30, rotate: 6 }}
         animate={{ opacity: 1, x: 0, rotate: 6 }}
-        transition={{ delay: 3.6, duration: 0.6 }}
+        transition={{ delay: 1.2, duration: 0.6 }}
         className="absolute top-[42%] left-[1%] sm:left-[2%] lg:left-[4%] text-black text-lg sm:text-2xl md:text-3xl lg:text-4xl max-w-[130px] sm:max-w-[180px] lg:max-w-[200px] leading-tight"
       >
         <span className="text-orange-700 text-[10px] sm:text-xs font-sans font-bold uppercase block tracking-wider">specialty:</span>
@@ -83,7 +83,7 @@ export default function DoodlesOverlay({ visible }: { visible: boolean }) {
       <motion.div
         initial={{ opacity: 0, x: -30, rotate: -4 }}
         animate={{ opacity: 1, x: 0, rotate: -4 }}
-        transition={{ delay: 4.2, duration: 0.6 }}
+        transition={{ delay: 1.8, duration: 0.6 }}
         className="absolute bottom-[12%] left-[4%] sm:left-[8%] lg:left-[12%] text-black text-lg sm:text-2xl md:text-3xl lg:text-4xl max-w-[130px] sm:max-w-[180px] lg:max-w-[200px] leading-tight"
       >
         <span className="text-orange-700 text-[10px] sm:text-xs font-sans font-bold uppercase block tracking-wider">location:</span>
@@ -94,7 +94,7 @@ export default function DoodlesOverlay({ visible }: { visible: boolean }) {
       <motion.div
         initial={{ opacity: 0, x: 30, rotate: 5 }}
         animate={{ opacity: 1, x: 0, rotate: 5 }}
-        transition={{ delay: 3.3, duration: 0.6 }}
+        transition={{ delay: 0.9, duration: 0.6 }}
         className="absolute top-[15%] right-[4%] sm:right-[8%] lg:right-[14%] text-black text-lg sm:text-2xl md:text-3xl lg:text-4xl max-w-[130px] sm:max-w-[180px] lg:max-w-[200px] leading-tight text-right"
       >
         <span className="text-orange-700 text-[10px] sm:text-xs font-sans font-bold uppercase block tracking-wider">3D web:</span>
@@ -105,7 +105,7 @@ export default function DoodlesOverlay({ visible }: { visible: boolean }) {
       <motion.div
         initial={{ opacity: 0, x: 30, rotate: -6 }}
         animate={{ opacity: 1, x: 0, rotate: -6 }}
-        transition={{ delay: 3.9, duration: 0.6 }}
+        transition={{ delay: 1.5, duration: 0.6 }}
         className="absolute top-[42%] right-[1%] sm:right-[2%] lg:right-[4%] text-black text-lg sm:text-2xl md:text-3xl lg:text-4xl max-w-[140px] sm:max-w-[190px] lg:max-w-[220px] leading-tight text-right"
       >
         <span className="text-orange-700 text-[10px] sm:text-xs font-sans font-bold uppercase block tracking-wider">can&apos;t live without:</span>
@@ -116,7 +116,7 @@ export default function DoodlesOverlay({ visible }: { visible: boolean }) {
       <motion.div
         initial={{ opacity: 0, x: 30, rotate: 4 }}
         animate={{ opacity: 1, x: 0, rotate: 4 }}
-        transition={{ delay: 4.5, duration: 0.6 }}
+        transition={{ delay: 2.1, duration: 0.6 }}
         className="absolute bottom-[12%] right-[1%] sm:right-[2%] lg:right-[4%] text-black text-lg sm:text-2xl md:text-3xl lg:text-4xl max-w-[150px] sm:max-w-[200px] lg:max-w-[250px] leading-tight text-right"
       >
         <span className="text-orange-700 text-[10px] sm:text-xs font-sans font-bold uppercase block tracking-wider">vibe coding:</span>

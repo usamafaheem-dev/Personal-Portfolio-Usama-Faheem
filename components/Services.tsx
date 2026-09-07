@@ -11,7 +11,7 @@ const services = [
     title: 'FRONTEND DEV',
     description: 'Building modern &\nresponsive web UIs\nwith React & Next.js.',
     icon: Monitor,
-    color: 'bg-[#fde047]', // yellow
+    color: 'bg-[#ffaa00]', // golden amber
   },
   {
     id: 2,
@@ -39,14 +39,15 @@ const services = [
 const introSteps = [
   { text: 'IDEA', bg: 'bg-[#56edf0]', textColor: 'text-[#1a1a1a]', initial: { opacity: 0, x: -180, rotate: -12, scale: 0.7 } },
   { text: 'DESIGN', bg: 'bg-[#b4f34c]', textColor: 'text-[#1a1a1a]', initial: { opacity: 0, x: 180, rotate: 12, scale: 0.7 } },
-  { text: 'CODE', bg: 'bg-[#facc15]', textColor: 'text-[#1a1a1a]', initial: { opacity: 0, y: 180, rotate: -8, scale: 0.6 } },
+  { text: 'CODE', bg: 'bg-[#ffaa00]', textColor: 'text-[#1a1a1a]', initial: { opacity: 0, y: 180, rotate: -8, scale: 0.6 } },
   { text: 'BUILD', bg: 'bg-[#ef4444]', textColor: 'text-white', initial: { opacity: 0, y: -180, rotate: 8, scale: 1.3 } },
 ];
 
 export default function Services() {
   const isPageReady = usePageReady();
   const sectionRef = useRef<HTMLElement>(null);
-  const inView = useInView(sectionRef, { once: true, amount: 0.1 });
+  // Trigger ONLY when the section reaches the center of the viewport
+  const inView = useInView(sectionRef, { once: true, margin: '-30% 0px -30% 0px' });
   const isInView = isPageReady && inView;
   const hasTriggeredRef = useRef(false);
 
@@ -59,7 +60,7 @@ export default function Services() {
       hasTriggeredRef.current = true;
       setAnimStage('fullscreen');
 
-      // Silky smooth word cycle (520ms per step)
+      // Relaxed & smooth word cycle (680ms per step)
       let step = 0;
       const interval = setInterval(() => {
         step++;
@@ -67,15 +68,15 @@ export default function Services() {
           setCurrentWordIndex(step);
         } else {
           clearInterval(interval);
-          // Pause smoothly on BUILD, then shrink to reveal section
+          // Pause smoothly on BUILD, then shrink gracefully to reveal section
           setTimeout(() => {
             setAnimStage('shrinking');
             setTimeout(() => {
               setAnimStage('done');
             }, 450);
-          }, 300);
+          }, 320);
         }
-      }, 520);
+      }, 680);
     }
   }, [isInView]);
 
@@ -86,27 +87,28 @@ export default function Services() {
     <section
       id="services"
       ref={sectionRef}
-      className={`relative bg-[#fbfcfb] ${showContent ? 'py-12 sm:py-16 lg:py-24' : 'py-3.5 sm:py-5 h-[270px] sm:h-[330px] md:h-[480px] lg:h-[540px]'} overflow-hidden select-none border-t border-b border-zinc-200/80 transition-all duration-500 ease-out`}
+      className={`relative bg-[#fbfcfb] ${showContent ? 'py-12 sm:py-16 lg:py-24' : 'py-3.5 sm:py-5 h-[270px] sm:h-[330px] md:h-[480px] lg:h-[540px]'} overflow-hidden select-none border-t border-b border-zinc-200/80 transition-all duration-450 ease-out`}
     >
       {/* ── Precision Dotted Grid Background Pattern ── */}
       <div className="absolute inset-0 bg-[radial-gradient(#99a1af_1.2px,transparent_1.2px)] [background-size:24px_24px] opacity-45 pointer-events-none [mask-image:radial-gradient(ellipse_70%_70%_at_50%_50%,#000_60%,transparent_100%)]" />
 
-      {/* ── 1. Dynamic Colorful Section Intro Overlay (Compact on mobile, tall & bold on desktop) ── */}
+      {/* ── 1. Dynamic Colorful Section Intro Overlay ── */}
       <AnimatePresence>
-        {(animStage === 'idle' || animStage === 'fullscreen') && (
+        {animStage === 'fullscreen' && (
           <motion.div
-            initial={{ opacity: 1, scale: 1 }}
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0, originX: 0.1, originY: 0.85 }}
             transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
-            className={`absolute inset-x-3.5 sm:inset-x-6 top-3.5 sm:top-5 bottom-3.5 sm:bottom-5 md:inset-x-8 md:top-8 md:bottom-8 z-50 ${currentStep.bg} flex items-center justify-center pointer-events-none overflow-hidden rounded-2xl md:rounded-3xl shadow-xl transition-colors duration-400 ease-out`}
+            className={`absolute inset-x-3.5 sm:inset-x-6 top-3.5 sm:top-5 bottom-3.5 sm:bottom-5 md:inset-x-8 md:top-8 md:bottom-8 z-50 ${currentStep.bg} flex items-center justify-center pointer-events-none overflow-hidden rounded-2xl md:rounded-3xl shadow-xl transition-colors duration-300 ease-out`}
           >
             <AnimatePresence mode="wait">
               <motion.div
                 key={currentStep.text}
                 initial={currentStep.initial}
                 animate={{ opacity: 1, x: 0, y: 0, rotate: 0, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.6, transition: { duration: 0.16, ease: 'easeIn' } }}
-                transition={{ type: 'spring', stiffness: 170, damping: 20 }}
+                exit={{ opacity: 0, scale: 0.7, transition: { duration: 0.22, ease: 'easeIn' } }}
+                transition={{ duration: 0.52, ease: [0.16, 1, 0.3, 1] }}
                 className={`text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-black italic tracking-tight uppercase font-poppins ${currentStep.textColor} text-center px-4 drop-shadow-md`}
               >
                 {currentStep.text}
@@ -161,7 +163,7 @@ export default function Services() {
             {/* Dual-Tone Poppins Heading (Enlarged) */}
             <h2 className="text-5xl sm:text-7xl lg:text-[85px] xl:text-[90px] font-black leading-[0.88] tracking-tight uppercase font-poppins">
               <span className="text-[#0f172a] block">What</span>
-              <span className="text-[#facc15] block">I Do</span>
+              <span className="bg-gradient-to-r from-[#ffaa00] to-[#ffea00] bg-clip-text text-transparent block">I Do</span>
             </h2>
             {/* Cyan-Green ribbon gradient underline doodle */}
             <motion.div
@@ -194,17 +196,15 @@ export default function Services() {
           {services.map((service, index) => (
             <motion.div
               key={service.id}
-              initial={{ opacity: 0, y: -160, scale: 0.7 }}
-              animate={showContent ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y: -160, scale: 0.7 }}
+              initial={{ opacity: 0, y: 35, scale: 0.96 }}
+              animate={showContent ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y: 35, scale: 0.96 }}
               transition={showContent ? {
-                type: 'spring',
-                stiffness: 220,
-                damping: 12,
-                bounce: 0.75,
-                delay: 0.25 + index * 0.12
+                duration: 0.55,
+                ease: [0.16, 1, 0.3, 1],
+                delay: index * 0.08,
               } : { duration: 0 }}
-              whileHover={{ y: -8, scale: 1.02 }}
-              className="group relative flex flex-col items-center lg:items-start text-center lg:text-left p-6 sm:p-7 rounded-2xl bg-white/90 border border-zinc-200/90 shadow-xs hover:shadow-xl hover:border-zinc-300 transition-all duration-300"
+              whileHover={{ y: -6, scale: 1.02 }}
+              className="group relative flex flex-col items-center lg:items-start text-center lg:text-left p-6 sm:p-7 rounded-2xl bg-white/90 border border-zinc-200/90 shadow-xs hover:shadow-xl hover:border-zinc-300"
             >
               {/* Top Card Subtle Glow Accent on Hover */}
               <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-amber-50/30 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />

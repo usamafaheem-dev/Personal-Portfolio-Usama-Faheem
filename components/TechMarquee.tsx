@@ -65,7 +65,7 @@ export default function TechMarquee() {
       </style>
 
       {/* Background Gradient Slanted Box */}
-      <div className="absolute w-[115%] h-12 sm:h-16 md:h-20 bg-gradient-to-r from-cyan-300 via-lime-300 to-yellow-400 rotate-2 origin-center opacity-90 shadow-lg" style={{ transform: 'translateZ(0)' }} />
+      <div className="absolute w-[115%] h-12 sm:h-16 md:h-20 bg-gradient-to-r from-cyan-300 via-lime-300 to-[#ffaa00] rotate-2 origin-center opacity-90 shadow-lg" style={{ transform: 'translateZ(0)' }} />
 
       {/* Black Marquee Slanted Strip */}
       <div className="absolute w-[115%] h-12 sm:h-16 md:h-20 bg-[#18181b] -rotate-2 origin-center flex flex-col justify-center border-y border-white/10 shadow-xl" style={{ transform: 'translateZ(0)' }}>

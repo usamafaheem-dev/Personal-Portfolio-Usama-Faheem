@@ -192,12 +192,12 @@ function TestimonialCard({ item }: { item: Testimonial }) {
 
             <div>
               <div className="flex items-center gap-1.5">
-                <h4 className="text-xs sm:text-[13px] font-bold text-slate-900 leading-tight group-hover:text-amber-600 transition-colors">
+                <h4 className="text-xs sm:text-[13px] font-poppins font-bold text-slate-900 leading-tight group-hover:text-amber-600 transition-colors">
                   {item.name}
                 </h4>
                 <CheckCircle2 size={12} className="text-sky-500 shrink-0 fill-sky-50" />
               </div>
-              <p className="text-[10px] text-slate-500 font-medium truncate max-w-[150px]">
+              <p className="text-[10px] text-slate-500 font-sans font-medium truncate max-w-[150px]">
                 {item.role} • <span className="text-slate-700">{item.company}</span>
               </p>
             </div>
@@ -212,18 +212,18 @@ function TestimonialCard({ item }: { item: Testimonial }) {
         </div>
 
         {/* Quote */}
-        <p className="text-[11px] sm:text-xs text-slate-600 leading-relaxed mb-3.5 line-clamp-3">
+        <p className="text-[11px] sm:text-xs text-slate-600 font-sans leading-relaxed mb-3.5 line-clamp-3">
           "{item.quote}"
         </p>
       </div>
 
       {/* Bottom Footer Themed Pill & Location */}
-      <div className="flex items-center justify-between pt-2.5 border-t border-slate-100 text-[10px]">
-        <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full ${item.tagTheme.bg} ${item.tagTheme.text} ${item.tagTheme.border} border font-bold shadow-2xs transition-transform group-hover:scale-105`}>
+      <div className="flex items-center justify-between pt-2.5 border-t border-slate-100 text-[10px] font-sans">
+        <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full ${item.tagTheme.bg} ${item.tagTheme.text} ${item.tagTheme.border} border font-poppins font-bold shadow-2xs transition-transform group-hover:scale-105`}>
           <Sparkles size={11} className={item.tagTheme.icon} />
           {item.tag}
         </span>
-        <span className="text-slate-400 font-mono text-[9px]">{item.location}</span>
+        <span className="text-slate-400 font-sans text-[9px] font-medium">{item.location}</span>
       </div>
     </div>
   );
@@ -292,10 +292,10 @@ export default function Testimonials() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.4 }}
-              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white border border-slate-200 shadow-xs mb-6 font-sans"
+              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white border border-slate-200 shadow-xs mb-6 font-poppins"
             >
               <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping" />
-              <span className="text-[11px] font-sans font-bold tracking-wider uppercase text-slate-700">
+              <span className="text-[11px] font-poppins font-bold tracking-wider uppercase text-slate-700">
                 Client Stories & Feedback
               </span>
             </motion.div>
@@ -306,10 +306,10 @@ export default function Testimonials() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.05 }}
-              className="text-4xl sm:text-5xl lg:text-[54px] font-black tracking-tight text-slate-900 leading-[1.12] mb-5 font-sans"
+              className="text-4xl sm:text-5xl lg:text-[54px] font-black tracking-tight text-slate-900 leading-[1.12] mb-5 font-poppins"
             >
               Loved by{' '}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-sky-600 to-indigo-600 font-black">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-sky-600 to-indigo-600 font-black font-poppins">
                 Founders
               </span>{' '}
               & Global Teams.
@@ -332,12 +332,12 @@ export default function Testimonials() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.15 }}
-              className="mt-2 font-sans"
+              className="mt-2 font-poppins"
             >
               {/* Vibrant Coral/Orange Action Button */}
               <a
                 href="#contact"
-                className="inline-flex items-center justify-center gap-3 px-8 py-4 rounded-2xl bg-gradient-to-r from-[#ff5733] via-[#ff6847] to-[#ff7e5f] text-white font-bold text-base shadow-[0_10px_28px_rgba(255,87,51,0.35)] hover:shadow-[0_14px_36px_rgba(255,87,51,0.5)] hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 group font-sans"
+                className="inline-flex items-center justify-center gap-3 px-8 py-4 rounded-2xl bg-gradient-to-r from-[#ff5733] via-[#ff6847] to-[#ff7e5f] text-white font-bold text-base shadow-[0_10px_28px_rgba(255,87,51,0.35)] hover:shadow-[0_14px_36px_rgba(255,87,51,0.5)] hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 group font-poppins"
               >
                 <span>Start Your Project</span>
                 <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
@@ -352,12 +352,12 @@ export default function Testimonials() {
               transition={{ duration: 0.5, delay: 0.2 }}
               className="mt-8 flex flex-col gap-1.5 text-left font-sans"
             >
-              <h4 className="text-2xl sm:text-3xl font-black tracking-tight bg-gradient-to-r from-amber-500 via-orange-500 to-rose-500 bg-clip-text text-transparent font-sans">
+              <h4 className="text-2xl sm:text-3xl font-black tracking-tight bg-gradient-to-r from-amber-500 via-orange-500 to-rose-500 bg-clip-text text-transparent font-poppins">
                 Usama Faheem
               </h4>
               <div className="flex items-center gap-2 font-sans">
                 <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping shrink-0" />
-                <p className="text-xs sm:text-[13px] font-bold text-slate-600 tracking-tight font-sans">
+                <p className="text-xs sm:text-[13px] font-medium text-slate-600 tracking-tight font-sans">
                   Available for high-impact freelance projects & full-stack web applications.
                 </p>
               </div>

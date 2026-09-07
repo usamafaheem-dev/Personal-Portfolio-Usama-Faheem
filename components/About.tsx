@@ -77,8 +77,6 @@ export default function About() {
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
             className="font-sans flex flex-col items-center lg:items-start w-full relative"
           >
-            {/* Soft Light-Yellow Backdrop Glow Strictly Behind Text Block */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-[700px] h-40 bg-[#ffea00]/18 rounded-full blur-3xl pointer-events-none -z-10" />
             {/* 🌟 Stylish About Me Badge */}
             <div className="inline-flex items-center gap-2 bg-gradient-to-r from-[#ffaa00]/15 via-[#ffea00]/15 to-[#ccff00]/15 border border-[#ffaa00]/30 px-3.5 py-1 rounded-full text-xs font-bold text-amber-800 uppercase tracking-widest font-poppins mb-4 shadow-2xs self-center lg:self-start">
               <Sparkles className="w-3.5 h-3.5 text-[#ffaa00]" />

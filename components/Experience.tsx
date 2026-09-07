@@ -337,16 +337,16 @@ export default function Experience() {
                 whileTap={{ scale: 0.96 }}
                 className="
                   inline-flex items-center gap-2.5 px-5 py-2.5 sm:px-6 sm:py-3 rounded-full
-                  bg-[#facc15] hover:bg-[#eab308] 
+                  bg-gradient-to-r from-[#ffaa00] to-[#ffea00] hover:brightness-105
                   text-[#0f172a] font-black text-xs sm:text-[13px] tracking-wider uppercase font-poppins
-                  shadow-[0_8px_20px_rgba(250,204,21,0.35)] 
-                  hover:shadow-[0_12px_26px_rgba(250,204,21,0.5)]
-                  transition-all duration-300 group cursor-pointer border border-[#eab308]/40
+                  shadow-[0_8px_20px_rgba(255,170,0,0.35)] 
+                  hover:shadow-[0_12px_26px_rgba(255,170,0,0.55)]
+                  transition-all duration-300 group cursor-pointer border border-[#ffaa00]/40
                 "
               >
                 <span>Download My CV</span>
                 <div className="w-6 h-6 rounded-full bg-[#0f172a]/10 group-hover:bg-[#0f172a] flex items-center justify-center transition-all duration-300 group-hover:scale-110">
-                  <Download size={13} className="text-[#0f172a] group-hover:text-[#facc15] group-hover:translate-y-0.5 transition-all duration-300" />
+                  <Download size={13} className="text-[#0f172a] group-hover:text-[#ffea00] group-hover:translate-y-0.5 transition-all duration-300" />
                 </div>
               </motion.button>
             </div>

@@ -126,7 +126,7 @@ const spokePulses = [
 ];
 
 export default function TechStack() {
-  const [activeTab, setActiveTab] = useState<string>('frontend');
+  const [activeTab, setActiveTab] = useState<string>('all');
   const [pulseKey, setPulseKey] = useState<number>(0);
   const [isCenterHovered, setIsCenterHovered] = useState<boolean>(false);
   const activeGroup = quadrantData.find(q => q.id === activeTab) || quadrantData[0];
@@ -441,9 +441,9 @@ export default function TechStack() {
               onMouseLeave={() => setIsCenterHovered(false)}
               className="absolute top-[350px] left-[500px] -translate-x-1/2 -translate-y-1/2 z-30 pointer-events-auto cursor-pointer flex items-center justify-center group"
             >
-              <div className="relative w-[130px] h-[130px] rounded-full bg-yellow-400 backdrop-blur-xl border border-white shadow-[0_12px_35px_rgba(250,204,21,0.5)] group-hover:shadow-[0_18px_50px_rgba(250,204,21,0.85)] transition-shadow duration-300 flex items-center justify-center">
-                <div className="absolute inset-0 rounded-full bg-yellow-400/40 animate-ping group-hover:bg-yellow-400/80" style={{ animationDuration: '2.5s' }} />
-                <div className="absolute -inset-2 rounded-full border-2 border-yellow-300/60 animate-pulse" />
+              <div className="relative w-[130px] h-[130px] rounded-full bg-gradient-to-r from-[#ffaa00] to-[#ffea00] backdrop-blur-xl border border-white shadow-[0_12px_35px_rgba(255,170,0,0.5)] group-hover:shadow-[0_18px_50px_rgba(255,170,0,0.85)] transition-shadow duration-300 flex items-center justify-center">
+                <div className="absolute inset-0 rounded-full bg-[#ffaa00]/40 animate-ping group-hover:bg-[#ffaa00]/80" style={{ animationDuration: '2.5s' }} />
+                <div className="absolute -inset-2 rounded-full border-2 border-[#ffea00]/60 animate-pulse" />
                 <div className="absolute inset-2 rounded-full border-2 border-dashed border-amber-800/25 animate-[spin_15s_linear_infinite]" />
                 <div className="w-[82px] h-[82px] rounded-full bg-white/95 shadow-inner flex items-center justify-center group-hover:scale-105 transition-transform duration-300">
                   <div className="w-12 h-12 rounded-full bg-yellow-400/20 flex items-center justify-center">
@@ -781,58 +781,76 @@ export default function TechStack() {
         </div>
 
         {/* ══════════════════════════════════════════════════════════
-            MOBILE & TABLET INTERACTIVE VIEW (Sleek Compact Grid)
+            MOBILE & TABLET INTERACTIVE VIEW (Pill Grid, Floating Cards & Hover Fill)
            ══════════════════════════════════════════════════════════ */}
         <div className="lg:hidden flex flex-col items-center w-full px-2">
 
-          {/* 2x2 Segmented Tab Controller */}
+          {/* Segmented Tab Controller */}
           <div className="w-full max-w-sm mx-auto mb-6">
-            <div className="grid grid-cols-2 gap-1.5 bg-slate-200/70 p-1.5 rounded-2xl border border-slate-300/80 font-poppins">
-              {quadrantData.map(q => {
-                const isActive = activeTab === q.id;
+            <div className="flex items-center justify-center flex-wrap gap-1 bg-slate-200/80 p-1.5 rounded-2xl border border-slate-300/80 font-poppins shadow-inner">
+              {[
+                { id: 'all', label: 'All Tech' },
+                ...quadrantData.map(q => ({ id: q.id, label: q.label }))
+              ].map(tab => {
+                const isActive = activeTab === tab.id;
                 return (
                   <button
-                    key={q.id}
-                    onClick={() => setActiveTab(q.id)}
-                    className={`py-2 px-3 rounded-xl text-[11px] sm:text-xs font-bold tracking-wide transition-all cursor-pointer font-poppins text-center ${
+                    key={tab.id}
+                    onClick={() => setActiveTab(tab.id)}
+                    className={`py-1.5 px-3 rounded-xl text-[11px] font-bold tracking-wide transition-all cursor-pointer font-poppins text-center ${
                       isActive
-                        ? 'bg-[#111827] text-white shadow-sm'
+                        ? 'bg-[#111827] text-white shadow-md'
                         : 'bg-transparent text-slate-700 hover:text-slate-900'
                     }`}
                   >
-                    {q.label}
+                    {tab.label}
                   </button>
                 );
               })}
             </div>
           </div>
 
-          {/* Active Category Items Grid (Compact & Sleek) */}
+          {/* Active Category Items Grid (2 Columns, Ultra-Compact Slim Pill Shape) */}
           <AnimatePresence mode="wait">
             <motion.div
               key={activeTab}
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -8 }}
-              transition={{ duration: 0.25, ease: "easeOut" }}
-              className="grid grid-cols-2 gap-3 w-full max-w-sm mx-auto"
+              transition={{ duration: 0.18, ease: "easeOut" }}
+              className="grid grid-cols-2 gap-2 sm:gap-2.5 w-full max-w-[290px] sm:max-w-xs mx-auto"
             >
-              {activeGroup.items.map(tech => {
+              {(activeTab === 'all' ? quadrantData.flatMap(q => q.items) : activeGroup.items).map((tech, index) => {
                 const IconComp = tech.icon;
                 return (
                   <motion.div
                     key={tech.name}
-                    whileHover={{ y: -2 }}
-                    whileTap={{ scale: 0.97 }}
-                    className="bg-white border border-slate-200/90 rounded-2xl p-3.5 flex flex-col items-center justify-center gap-1.5 text-center shadow-2xs hover:border-slate-300 transition-all duration-200 cursor-pointer"
+                    animate={{ y: [0, -3.5, 0] }}
+                    transition={{
+                      duration: 2.6 + (index % 4) * 0.35,
+                      repeat: Infinity,
+                      repeatType: 'mirror',
+                      ease: 'easeInOut',
+                      delay: (index % 4) * 0.12,
+                    }}
+                    whileTap={{ scale: 0.96 }}
+                    className="group relative overflow-hidden bg-white border border-slate-200/80 hover:border-amber-400/80 rounded-[18px] py-2 px-2 flex flex-col items-center justify-center gap-1 text-center shadow-[0_2px_8px_rgba(0,0,0,0.03)] hover:shadow-md transition-all duration-300 cursor-pointer h-[62px]"
                   >
-                    <div className={`w-9 h-9 rounded-xl ${tech.bgLight} flex items-center justify-center shrink-0`}>
-                      <IconComp size={20} style={{ color: tech.color }} />
+                    {/* Bottom-to-Top Slide Fill Hover Accent */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#ffaa00]/20 via-[#ffea00]/8 to-transparent translate-y-full group-hover:translate-y-0 group-active:translate-y-0 transition-transform duration-400 ease-[cubic-bezier(0.16,1,0.3,1)] pointer-events-none rounded-[18px]" />
+
+                    {/* Ultra-Delicate Icon (18px) */}
+                    <div className="relative z-10 group-hover:scale-105 transition-transform duration-300 flex items-center justify-center">
+                      <IconComp size={18} style={{ color: tech.color }} />
                     </div>
-                    <div>
-                      <div className="font-bold text-xs text-slate-800 leading-tight font-poppins">{tech.name}</div>
-                      <div className="text-[10px] text-slate-400 font-medium font-sans mt-0.5">{tech.category}</div>
+
+                    {/* Compact text (11px, font-medium) */}
+                    <div className="relative z-10 font-medium text-[11px] text-slate-700 leading-tight font-poppins group-hover:text-slate-900 tracking-tight">
+                      {tech.name}
                     </div>
+
+                    {/* Bottom accent glow line */}
+                    <div className="absolute bottom-0 left-2.5 right-2.5 h-[2px] bg-gradient-to-r from-[#ffaa00] to-[#ffea00] rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                   </motion.div>
                 );
               })}

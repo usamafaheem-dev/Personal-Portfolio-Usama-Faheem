@@ -1,129 +1,15 @@
 'use client';
 
-import { useState, useEffect, useId } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
+import { Hand } from 'lucide-react';
 
-// ── 1. PROMINENT GLOWING HEXAGON PATTERN ──
-interface HexagonPatternProps {
-  width?: number;
-  height?: number;
-  x?: number;
-  y?: number;
-  hexagons?: [number, number][];
-  className?: string;
-}
-
-function HexagonPattern({
-  width = 60,
-  height = 60,
-  x = 0,
-  y = 0,
-  hexagons = [
-    [0, 1], [1, 3], [2, 1], [3, 4], [4, 2], [5, 5], [6, 1], [7, 3], [8, 0], [9, 4],
-    [10, 2], [11, 5], [12, 1], [13, 3], [14, 2], [15, 5], [16, 1], [17, 4], [18, 2],
-    [19, 5], [20, 1], [21, 3], [22, 4], [23, 2], [24, 5], [25, 1], [26, 3], [27, 4],
-    [2, 6], [5, 7], [8, 6], [11, 7], [14, 8], [17, 6], [20, 7], [23, 8], [26, 6]
-  ],
-  className = '',
-}: HexagonPatternProps) {
-  const id = useId();
-
-  return (
-    <svg
-      aria-hidden="true"
-      className={`pointer-events-none absolute inset-0 h-full w-full fill-none ${className}`}
-    >
-      <defs>
-        <pattern
-          id={id}
-          width={width}
-          height={height}
-          patternUnits="userSpaceOnUse"
-          x={x}
-          y={y}
-        >
-          <path
-            d={`M ${width / 2} 0 L ${width} ${height / 4} L ${width} ${(height * 3) / 4} L ${width / 2} ${height} L 0 ${(height * 3) / 4} L 0 ${height / 4} Z`}
-            strokeWidth={1.2}
-            className="stroke-slate-300/85"
-            fill="none"
-          />
-        </pattern>
-      </defs>
-      <rect width="100%" height="100%" fill={`url(#${id})`} />
-
-      {hexagons && (
-        <svg x={x} y={y} className="overflow-visible">
-          {hexagons.map(([hx, hy], index) => {
-            const isCyan = index % 3 === 0;
-            const isPurple = index % 3 === 1;
-            const fillClass = isCyan
-              ? 'fill-blue-500/20 stroke-blue-500/60'
-              : isPurple
-              ? 'fill-purple-500/18 stroke-purple-500/60'
-              : 'fill-emerald-500/20 stroke-emerald-500/60';
-
-            return (
-              <motion.path
-                key={`${hx}-${hy}-${index}`}
-                initial={{ opacity: 0.3 }}
-                animate={{
-                  opacity: [0.3, 1, 0.4, 0.95, 0.3],
-                  scale: [1, 1.03, 1],
-                }}
-                transition={{
-                  duration: 2.4 + (index % 4) * 0.4,
-                  repeat: Infinity,
-                  repeatType: 'reverse',
-                  delay: (index % 8) * 0.25,
-                  ease: 'easeInOut',
-                }}
-                d={`M ${hx * width + width / 2} ${hy * height} L ${hx * width + width} ${hy * height + height / 4} L ${hx * width + width} ${hy * height + (height * 3) / 4} L ${hx * width + width / 2} ${hy * height + height} L ${hx * width} ${hy * height + (height * 3) / 4} L ${hx * width} ${hy * height + height / 4} Z`}
-                className={`${fillClass} filter drop-shadow-[0_0_8px_rgba(59,130,246,0.3)]`}
-                strokeWidth={1.8}
-              />
-            );
-          })}
-        </svg>
-      )}
-    </svg>
-  );
-}
-
-// ── 2. FLOWER & LEAF ASSETS FOR THE BRANCH ──
-interface FlowerNode {
-  x: number;
-  y: number;
-  rotation: number;
-  type: 'pink_blossom' | 'rose_flower' | 'white_bloom' | 'leaf_cluster' | 'bud_sprout';
-  threshold: number; // Progress percentage (0-100) when it blooms
-  scale?: number;
-}
-
-const flowerNodes: FlowerNode[] = [
-  { x: 120, y: 55, rotation: -25, type: 'leaf_cluster', threshold: 7, scale: 0.9 },
-  { x: 240, y: 100, rotation: 15, type: 'pink_blossom', threshold: 14, scale: 1.1 },
-  { x: 360, y: 155, rotation: 40, type: 'white_bloom', threshold: 22, scale: 1.0 },
-  { x: 480, y: 100, rotation: -18, type: 'rose_flower', threshold: 30, scale: 1.15 },
-  { x: 600, y: 45, rotation: -35, type: 'pink_blossom', threshold: 38, scale: 1.05 },
-  { x: 720, y: 100, rotation: 20, type: 'leaf_cluster', threshold: 46, scale: 0.95 },
-  { x: 840, y: 155, rotation: 35, type: 'white_bloom', threshold: 53, scale: 1.1 },
-  { x: 960, y: 100, rotation: 0, type: 'rose_flower', threshold: 60, scale: 1.25 }, // Centerpiece
-  { x: 1080, y: 45, rotation: -28, type: 'pink_blossom', threshold: 68, scale: 1.05 },
-  { x: 1200, y: 100, rotation: 15, type: 'leaf_cluster', threshold: 74, scale: 0.95 },
-  { x: 1320, y: 155, rotation: 42, type: 'rose_flower', threshold: 80, scale: 1.1 },
-  { x: 1440, y: 100, rotation: -12, type: 'white_bloom', threshold: 86, scale: 1.0 },
-  { x: 1580, y: 50, rotation: -30, type: 'pink_blossom', threshold: 92, scale: 1.1 },
-  { x: 1760, y: 140, rotation: 25, type: 'leaf_cluster', threshold: 96, scale: 0.9 },
-];
+const SLAT_ROWS = [0, 1, 2, 3, 4, 5, 6, 7];
 
 export default function Preloader() {
-  const [progress, setProgress] = useState(0);
-  const [isDone, setIsDone] = useState(false);
-  const [shouldRemove, setShouldRemove] = useState(false);
+  const [stage, setStage] = useState<'entering' | 'exiting' | 'removed'>('entering');
 
   useEffect(() => {
-    // Reset scroll to top on page load/refresh & lock body scroll
     if (typeof window !== 'undefined') {
       try {
         window.history.scrollRestoration = 'manual';
@@ -133,339 +19,159 @@ export default function Preloader() {
     }
     document.body.style.overflow = 'hidden';
 
-    const startTime = performance.now();
-    const duration = 5000; // 5.0 seconds smooth progress as requested
-
-    const updateProgress = (currentTime: number) => {
-      const elapsed = currentTime - startTime;
-      const rawProgress = Math.min(elapsed / duration, 1);
-      
-      // Gentle natural easeOut curve
-      const easeProgress = 1 - Math.pow(1 - rawProgress, 2.0);
-      const currentPercent = Math.min(100, Math.floor(easeProgress * 100));
-
-      setProgress(currentPercent);
-
-      if (rawProgress < 1) {
-        requestAnimationFrame(updateProgress);
-      } else {
-        setProgress(100);
-        // Short hold at 100% then slide out gracefully
-        setTimeout(() => {
-          setIsDone(true);
-          document.body.style.overflow = '';
-          if (typeof window !== 'undefined') {
-            (window as any).__preloaderDone = true;
-            window.dispatchEvent(new CustomEvent('preloaderComplete'));
-          }
-          setTimeout(() => {
-            setShouldRemove(true);
-          }, 950);
-        }, 400);
+    // 1. At 3.5s: Start tile exit animation
+    const exitTimer = setTimeout(() => {
+      setStage('exiting');
+      if (typeof window !== 'undefined') {
+        window.dispatchEvent(new CustomEvent('preloaderExiting'));
       }
-    };
+    }, 3500);
 
-    const animId = requestAnimationFrame(updateProgress);
+    // 2. At 4.0s: Dispatch preloaderComplete so website components mount fresh as doors slice open
+    const completeTimer = setTimeout(() => {
+      if (typeof window !== 'undefined') {
+        (window as any).__preloaderDone = true;
+        window.dispatchEvent(new CustomEvent('preloaderComplete'));
+      }
+    }, 4000);
+
+    // 3. Unmount preloader div at 5.4s (giving full 1.9s for mobile GPU exit animation)
+    const removeTimer = setTimeout(() => {
+      setStage('removed');
+      document.body.style.overflow = '';
+    }, 5400);
 
     return () => {
-      cancelAnimationFrame(animId);
+      clearTimeout(exitTimer);
+      clearTimeout(completeTimer);
+      clearTimeout(removeTimer);
       document.body.style.overflow = '';
     };
   }, []);
 
-  if (shouldRemove) return null;
+  if (stage === 'removed') return null;
 
-  // Full-width edge-to-edge undulating branch wave path (0 to 1920px)
-  const fullBranchPath = "M 0 100 C 60 25, 180 25, 240 100 C 300 175, 420 175, 480 100 C 540 25, 660 25, 720 100 C 780 175, 900 175, 960 100 C 1020 25, 1140 25, 1200 100 C 1260 175, 1380 175, 1440 100 C 1500 25, 1620 25, 1680 100 C 1740 175, 1860 175, 1920 100";
+  const isExiting = stage === 'exiting';
 
   return (
-    <AnimatePresence>
-      {!isDone && (
-        <motion.div
-          key="site-preloader"
-          initial={{ y: 0 }}
-          exit={{ 
-            y: '-100%',
-            transition: { 
-              duration: 0.9, 
-              ease: [0.76, 0, 0.24, 1] 
-            } 
-          }}
-          className="fixed inset-0 z-[99999] flex flex-col justify-between bg-[#f8faf9] text-[#1a1a1a] overflow-hidden select-none"
-        >
-          {/* ══════════════════════════════════════════════════════════
-              FULL-SCREEN PROMINENT GLOWING HEXAGON BACKGROUND
-             ══════════════════════════════════════════════════════════ */}
-          <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
-            <HexagonPattern
-              width={64}
-              height={64}
-              className="inset-0 skew-y-6 opacity-95 mask-[radial-gradient(1400px_circle_at_center,white,transparent)]"
+    <div className="fixed inset-0 z-[99999] pointer-events-auto select-none overflow-hidden font-poppins bg-transparent">
+      {/* ══════════════════════════════════════════════════════════
+          STAGGERED HORIZONTAL LIGHT GREY TILE SLAT DOORS (GPU Accelerated for Mobile)
+          8 Horizontal rows splitting cleanly at exact 50% X axis across all viewports
+         ══════════════════════════════════════════════════════════ */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden z-10">
+        {SLAT_ROWS.map((row) => (
+          <div
+            key={`slat-row-${row}`}
+            className="absolute left-0 w-full"
+            style={{
+              top: `${row * 12.5}vh`,
+              height: '12.55vh',
+            }}
+          >
+            {/* Left Tile Slat (0% to 50% Center, GPU Hardware Accelerated) */}
+            <motion.div
+              initial={{ x: '0%' }}
+              animate={{ x: isExiting ? '-105%' : '0%' }}
+              transition={{
+                duration: 1.25,
+                delay: isExiting ? row * 0.06 : 0,
+                ease: [0.76, 0, 0.24, 1],
+              }}
+              className="absolute top-0 left-0 w-[50.15vw] h-full bg-[#eae9e5] border-b border-black/5 will-change-transform transform-gpu shadow-sm"
             />
-            {/* Ambient Multi-hue Radiant Glows */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1100px] h-[600px] bg-gradient-to-r from-blue-400/15 via-emerald-400/12 to-pink-400/15 rounded-full blur-[150px] pointer-events-none" />
-          </div>
 
-          {/* ── Top Header Row ── */}
-          <div className="relative z-10 w-full px-6 sm:px-12 pt-6 sm:pt-8 flex items-center justify-between">
+            {/* Right Tile Slat (50% Center to 100%, GPU Hardware Accelerated) */}
             <motion.div
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-white/95 border border-slate-200 shadow-xs backdrop-blur-md"
-            >
-              <div className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping" />
-              <span className="text-[11px] font-mono font-bold uppercase tracking-widest text-slate-800">
-                Usama Faheem • Portfolio
-              </span>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-              className="text-[11px] font-mono text-slate-600 font-bold tracking-wider hidden sm:block bg-white/70 px-3 py-1 rounded-md border border-slate-200/60"
-            >
-              FULL-STACK DEVELOPER
-            </motion.div>
+              initial={{ x: '0%' }}
+              animate={{ x: isExiting ? '105%' : '0%' }}
+              transition={{
+                duration: 1.25,
+                delay: isExiting ? row * 0.06 : 0,
+                ease: [0.76, 0, 0.24, 1],
+              }}
+              className="absolute top-0 right-0 w-[50.15vw] h-full bg-[#eae9e5] border-b border-black/5 will-change-transform transform-gpu shadow-sm"
+            />
           </div>
+        ))}
+      </div>
 
-          {/* ══════════════════════════════════════════════════════════
-              CENTER STAGE: BLOOMING TREE BRANCH & PROGRESS COUNTER
-             ══════════════════════════════════════════════════════════ */}
-          <div className="relative z-10 w-full flex flex-col items-center justify-center my-auto">
+      {/* ══════════════════════════════════════════════════════════
+          MAIN HIGH-FASHION EDITORIAL INTRO CONTENT (Mobile Responsive)
+         ══════════════════════════════════════════════════════════ */}
+      <motion.div
+        initial={{ opacity: 1, scale: 1 }}
+        animate={{ opacity: isExiting ? 0 : 1, scale: isExiting ? 0.94 : 1 }}
+        transition={{ duration: 0.45, ease: 'easeInOut' }}
+        className="relative z-20 w-full h-full flex flex-col justify-center items-center p-3 sm:p-12 md:p-16"
+      >
+        {/* ── Center Composition: SOFTWARE (Left) ➔ ENGINEER (Right) ➔ PORTRAIT CARD (Top Drop) ── */}
+        <div className="w-full max-w-[1020px] mx-auto flex flex-col md:flex-row items-center justify-center relative gap-2 sm:gap-4 lg:gap-6 px-2 sm:px-4">
+          
+          {/* STEP 1: SOFTWARE TEXT */}
+          <motion.div
+            initial={{ opacity: 0, x: -100 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 1.2, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+            className="z-10 flex flex-col items-center md:items-start md:mt-8 lg:mt-10"
+          >
+            {/* Name placed directly above SOFTWARE text */}
+            <span className="text-[10px] xs:text-xs sm:text-sm font-extrabold uppercase tracking-[0.2em] sm:tracking-[0.25em] text-[#1c1c1c] mb-0.5 sm:mb-1 font-poppins text-center md:text-left">
+              USAMA FAHEEM
+            </span>
+
+            <h1 className="text-3xl xs:text-4xl sm:text-5xl md:text-[68px] lg:text-[88px] xl:text-[98px] font-extrabold uppercase text-[#222222] tracking-tight leading-none select-none font-poppins whitespace-nowrap">
+              SOFTWARE
+            </h1>
+          </motion.div>
+
+          {/* STEP 3: CENTER PORTRAIT CARD */}
+          <motion.div
+            initial={{ opacity: 0, y: -200, scale: 0.9 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ duration: 1.3, delay: 1.4, ease: [0.34, 1.25, 0.64, 1] }}
+            className="relative z-20 my-2 sm:my-4 md:my-0 flex-shrink-0 mx-1 sm:mx-4"
+          >
+            <div className="relative w-[170px] xs:w-[210px] sm:w-[270px] md:w-[320px] lg:w-[370px] h-[210px] xs:h-[260px] sm:h-[340px] md:h-[400px] lg:h-[470px] rounded-[14px] xs:rounded-[16px] sm:rounded-[20px] md:rounded-[22px] bg-[#d5d4cf] border-2 border-black/10 shadow-[0_20px_50px_rgba(0,0,0,0.22)] overflow-hidden group">
+              {/* Usama Portrait Photo */}
+              <img
+                src="/Man_looking_back_over_shoulder_202608131928 copy.jpeg"
+                alt="Usama Faheem Portrait"
+                className="w-full h-full object-cover object-[center_top] filter contrast-105 group-hover:scale-105 transition-all duration-500"
+              />
+            </div>
+
+            {/* STEP 4: Floating Blue Hand Wave Badge */}
+            <motion.div
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              transition={{ duration: 0.6, delay: 2.2, type: 'spring' }}
+              className="absolute -bottom-3 -left-3 xs:-bottom-4 xs:-left-4 sm:-bottom-6 sm:-left-6 z-30 w-12 h-12 xs:w-15 xs:h-15 sm:w-20 sm:h-20 rounded-full bg-[#3b52f6] text-white flex items-center justify-center shadow-2xl shadow-blue-600/45 border-2 xs:border-4 border-white cursor-pointer hover:scale-110 transition-transform"
+            >
+              <Hand className="w-5 h-5 xs:w-7 xs:h-7 sm:w-10 sm:h-10 animate-[bounce_2s_infinite]" />
+            </motion.div>
+          </motion.div>
+
+          {/* STEP 2: ENGINEER TEXT */}
+          <motion.div
+            initial={{ opacity: 0, x: 100 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 1.2, delay: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            className="z-10 flex flex-col items-center md:items-start md:-mt-8 lg:-mt-10"
+          >
+            <h1 className="text-3xl xs:text-4xl sm:text-5xl md:text-[68px] lg:text-[88px] xl:text-[98px] font-extrabold uppercase text-[#222222] tracking-tight leading-none select-none font-poppins whitespace-nowrap">
+              ENGINEER
+            </h1>
             
-            {/* ── Center Digital Progress Counter ── */}
-            <div className="mb-3 sm:mb-6 flex flex-col items-center">
-              <div className="flex items-baseline gap-1">
-                <span className="text-6xl sm:text-7xl lg:text-8xl font-black font-mono tracking-tighter text-[#0f172a] drop-shadow-xs">
-                  {progress}
-                </span>
-                <span className="text-3xl sm:text-4xl font-bold font-mono text-emerald-600">
-                  %
-                </span>
-              </div>
+            {/* Sub-caption under ENGINEER */}
+            <p className="mt-2 sm:mt-4 max-w-[220px] xs:max-w-[250px] sm:max-w-[290px] text-[11px] xs:text-xs sm:text-sm text-slate-600 font-medium leading-relaxed font-sans text-center md:text-left">
+              I accelerate business growth through digital demand generation.
+            </p>
+          </motion.div>
 
-              {/* Status Micro-text */}
-              <div className="mt-2 flex items-center gap-2 text-xs font-mono text-slate-600 uppercase tracking-widest font-semibold bg-white/85 px-4 py-1.5 rounded-full border border-slate-200/80 shadow-2xs">
-                <span className="inline-block w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                <span>
-                  {progress < 25
-                    ? 'Sprouting Creative Modules...'
-                    : progress < 60
-                    ? 'Blooming Full-Stack Architecture...'
-                    : progress < 90
-                    ? 'Finalizing Interactive Ecosystem...'
-                    : 'System Ready • Welcome!'}
-                </span>
-              </div>
-            </div>
+        </div>
 
-            {/* ══════════════════════════════════════════════════════════
-                EDGE-TO-EDGE FLOWERING TREE BRANCH / VINE WAVE (100% WIDTH)
-               ══════════════════════════════════════════════════════════ */}
-            <div className="w-full relative h-[100px] sm:h-[130px] flex items-center justify-center overflow-visible">
-              
-              {/* Background faint branch guide track */}
-              <svg
-                viewBox="0 0 1920 200"
-                preserveAspectRatio="none"
-                fill="none"
-                className="w-full h-full absolute inset-0 opacity-20"
-              >
-                <path
-                  d={fullBranchPath}
-                  stroke="#94a3b8"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                />
-              </svg>
-
-              {/* Active Animated Flowering Tree Branch & Flowers */}
-              <svg
-                viewBox="0 0 1920 200"
-                preserveAspectRatio="none"
-                fill="none"
-                className="w-full h-full relative z-10 overflow-visible"
-              >
-                <defs>
-                  {/* Organic Botanical Stem Gradient */}
-                  <linearGradient id="branchGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                    <stop offset="0%" stopColor="#059669" />
-                    <stop offset="35%" stopColor="#10b981" />
-                    <stop offset="65%" stopColor="#2563eb" />
-                    <stop offset="90%" stopColor="#3b82f6" />
-                    <stop offset="100%" stopColor="#f43f5e" />
-                  </linearGradient>
-
-                  {/* Soft Radiant Glow Filter */}
-                  <filter id="branchGlow" x="-10%" y="-30%" width="120%" height="160%">
-                    <feGaussianBlur stdDeviation="4" result="blur" />
-                    <feColorMatrix type="matrix" values="0 0 0 0 0.1   0 0 0 0 0.7   0 0 0 0 0.4  0 0 0 0.3 0" />
-                    <feMerge>
-                      <feMergeNode />
-                      <feMergeNode in="SourceGraphic" />
-                    </feMerge>
-                  </filter>
-                </defs>
-
-                {/* 1. Outer Soft Glowing Branch Stroke */}
-                <motion.path
-                  d={fullBranchPath}
-                  stroke="url(#branchGradient)"
-                  strokeWidth="5"
-                  strokeLinecap="round"
-                  filter="url(#branchGlow)"
-                  initial={{ pathLength: 0 }}
-                  animate={{ pathLength: progress / 100 }}
-                  transition={{ duration: 0.1, ease: 'linear' }}
-                />
-
-                {/* 2. Main Wooden/Vine Branch Stem */}
-                <motion.path
-                  d={fullBranchPath}
-                  stroke="#047857"
-                  strokeWidth="3"
-                  strokeLinecap="round"
-                  initial={{ pathLength: 0 }}
-                  animate={{ pathLength: progress / 100 }}
-                  transition={{ duration: 0.1, ease: 'linear' }}
-                />
-
-                {/* 3. Inner Vivid Green Highlight Line */}
-                <motion.path
-                  d={fullBranchPath}
-                  stroke="#34d399"
-                  strokeWidth="1.2"
-                  strokeLinecap="round"
-                  initial={{ pathLength: 0 }}
-                  animate={{ pathLength: progress / 100 }}
-                  transition={{ duration: 0.1, ease: 'linear' }}
-                />
-
-                {/* ── 4. BLOOMING FLOWERS & LEAVES ALONG THE BRANCH ── */}
-                {flowerNodes.map((node, i) => {
-                  const hasBloomed = progress >= node.threshold;
-
-                  return (
-                    <g
-                      key={`flower-node-${i}`}
-                      transform={`translate(${node.x}, ${node.y}) rotate(${node.rotation}) scale(${node.scale || 1})`}
-                      className="transition-all duration-500 ease-out"
-                      style={{
-                        opacity: hasBloomed ? 1 : 0,
-                        transformOrigin: '0 0',
-                      }}
-                    >
-                      {/* Leaf Petiole / Small Stems */}
-                      <path
-                        d="M 0 0 Q -10 -15 -18 -22"
-                        stroke="#059669"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        fill="none"
-                      />
-                      <path
-                        d="M 0 0 Q 12 14 20 20"
-                        stroke="#059669"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        fill="none"
-                      />
-
-                      {/* Leaf 1 (Top Left) */}
-                      <path
-                        d="M -18 -22 C -28 -30 -35 -24 -30 -14 C -25 -6 -18 -18 -18 -22 Z"
-                        fill="#10b981"
-                        stroke="#047857"
-                        strokeWidth="1"
-                      />
-
-                      {/* Leaf 2 (Bottom Right) */}
-                      <path
-                        d="M 20 20 C 30 28 36 22 30 12 C 24 4 18 16 20 20 Z"
-                        fill="#34d399"
-                        stroke="#059669"
-                        strokeWidth="1"
-                      />
-
-                      {/* Flower Type 1: Pink Cherry Blossom */}
-                      {node.type === 'pink_blossom' && (
-                        <g transform="translate(0, 0)">
-                          {/* 5 Petals */}
-                          <circle cx="0" cy="-11" r="7" fill="#f472b6" opacity="0.95" />
-                          <circle cx="10" cy="-3" r="7" fill="#fb7185" opacity="0.95" />
-                          <circle cx="6" cy="9" r="7" fill="#f472b6" opacity="0.95" />
-                          <circle cx="-6" cy="9" r="7" fill="#fda4af" opacity="0.95" />
-                          <circle cx="-10" cy="-3" r="7" fill="#fb7185" opacity="0.95" />
-                          {/* Flower Center Golden Stamen */}
-                          <circle cx="0" cy="0" r="4.5" fill="#fbbf24" stroke="#f59e0b" strokeWidth="1" />
-                          <circle cx="0" cy="0" r="2" fill="#d97706" />
-                        </g>
-                      )}
-
-                      {/* Flower Type 2: Rose / Vibrant Coral Blossom */}
-                      {node.type === 'rose_flower' && (
-                        <g transform="translate(0, 0)">
-                          {/* Outer Petals */}
-                          <circle cx="0" cy="-13" r="8" fill="#f43f5e" />
-                          <circle cx="12" cy="-4" r="8" fill="#e11d48" />
-                          <circle cx="7" cy="11" r="8" fill="#f43f5e" />
-                          <circle cx="-7" cy="11" r="8" fill="#fb7185" />
-                          <circle cx="-12" cy="-4" r="8" fill="#e11d48" />
-                          {/* Inner Layer */}
-                          <circle cx="0" cy="0" r="7" fill="#fff1f2" stroke="#e11d48" strokeWidth="1.5" />
-                          <circle cx="0" cy="0" r="3.5" fill="#fbbf24" />
-                        </g>
-                      )}
-
-                      {/* Flower Type 3: White Jasmine / Spring Bloom */}
-                      {node.type === 'white_bloom' && (
-                        <g transform="translate(0, 0)">
-                          {/* White Star Petals */}
-                          <ellipse cx="0" cy="-11" rx="5" ry="8" fill="#ffffff" stroke="#e2e8f0" strokeWidth="1" />
-                          <ellipse cx="11" cy="0" rx="8" ry="5" fill="#ffffff" stroke="#e2e8f0" strokeWidth="1" />
-                          <ellipse cx="0" cy="11" rx="5" ry="8" fill="#ffffff" stroke="#e2e8f0" strokeWidth="1" />
-                          <ellipse cx="-11" cy="0" rx="8" ry="5" fill="#ffffff" stroke="#e2e8f0" strokeWidth="1" />
-                          {/* Golden Center */}
-                          <circle cx="0" cy="0" r="4.5" fill="#f59e0b" />
-                          <circle cx="0" cy="0" r="2" fill="#ffffff" />
-                        </g>
-                      )}
-
-                      {/* Flower Type 4 & 5: Extra Leaf Sprouts & Golden Buds */}
-                      {(node.type === 'leaf_cluster' || node.type === 'bud_sprout') && (
-                        <g transform="translate(0, 0)">
-                          <circle cx="-6" cy="-6" r="4" fill="#fbbf24" stroke="#d97706" strokeWidth="1" />
-                          <circle cx="6" cy="6" r="3.5" fill="#f472b6" />
-                          <circle cx="0" cy="0" r="3" fill="#10b981" />
-                        </g>
-                      )}
-                    </g>
-                  );
-                })}
-              </svg>
-
-            </div>
-
-          </div>
-
-          {/* ── Bottom Footer Row ── */}
-          <div className="relative z-10 w-full px-6 sm:px-12 pb-6 sm:pb-8 flex items-center justify-between text-[11px] font-mono text-slate-500 font-semibold uppercase tracking-widest">
-            <div className="flex items-center gap-4 sm:gap-6 bg-white/70 px-4 py-1.5 rounded-full border border-slate-200/60 shadow-2xs">
-              <span>Next.js 15</span>
-              <span className="w-1 h-1 rounded-full bg-slate-400" />
-              <span>React 19</span>
-              <span className="w-1 h-1 rounded-full bg-slate-400" />
-              <span>Tailwind CSS</span>
-            </div>
-            <div className="hidden sm:block text-emerald-700 bg-emerald-50 px-3.5 py-1.5 rounded-full border border-emerald-200/80 font-bold">
-              PORTFOLIO INITIALIZATION • 2026
-            </div>
-          </div>
-
-        </motion.div>
-      )}
-    </AnimatePresence>
+      </motion.div>
+    </div>
   );
 }

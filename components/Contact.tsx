@@ -201,7 +201,7 @@ export default function Contact() {
               }}
               className="whitespace-nowrap flex items-center will-change-transform pl-6 py-12"
             >
-              <h2 className="font-sans text-[13vw] sm:text-[11vw] lg:text-[9.2vw] font-bold tracking-tight text-[#111111] lowercase leading-none flex items-center">
+              <h2 className="font-poppins text-[13vw] sm:text-[11vw] lg:text-[9.2vw] font-black tracking-tight text-[#111111] lowercase leading-none flex items-center">
                 {customCharConfigs.map((cfg, idx) => (
                   <MergingChar
                     key={idx}
@@ -226,7 +226,7 @@ export default function Contact() {
               className="flex flex-col items-center justify-center text-center px-4 w-full max-w-7xl mx-auto pointer-events-auto font-sans"
             >
               {/* Eyebrow */}
-              <span className="text-xs sm:text-sm font-sans uppercase tracking-[0.25em] text-zinc-500 font-bold mb-3 sm:mb-4 block">
+              <span className="text-xs sm:text-sm font-poppins uppercase tracking-[0.25em] text-zinc-500 font-bold mb-3 sm:mb-4 block">
                 HAVE A PROJECT IN MIND?
               </span>
 
@@ -238,13 +238,13 @@ export default function Contact() {
               {/* Clickable Email Box with Copy */}
               <button
                 onClick={handleCopyEmail}
-                className="group inline-flex items-center gap-2.5 px-6 py-2.5 rounded-full bg-white/95 hover:bg-white border border-zinc-300 shadow-xs hover:shadow-md transition-all text-xs sm:text-sm font-sans text-zinc-800 font-semibold mb-7 sm:mb-8 active:scale-95 cursor-pointer"
+                className="group inline-flex items-center gap-2.5 px-6 py-2.5 rounded-full bg-white/95 hover:bg-white border border-zinc-300 shadow-xs hover:shadow-md transition-all text-xs sm:text-sm font-poppins text-zinc-800 font-semibold mb-7 sm:mb-8 active:scale-95 cursor-pointer"
                 title="Click to copy email address"
               >
                 <Mail size={15} className="text-zinc-500 group-hover:text-black transition-colors" />
                 <span>developer@usamafaheem.com</span>
                 {copiedEmail ? (
-                  <span className="inline-flex items-center gap-1 text-emerald-600 text-[11px] font-bold font-sans">
+                  <span className="inline-flex items-center gap-1 text-emerald-600 text-[11px] font-bold font-poppins">
                     <Check size={13} /> Copied!
                   </span>
                 ) : (
@@ -253,10 +253,10 @@ export default function Contact() {
               </button>
 
               {/* Action Buttons */}
-              <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4 font-sans">
+              <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4 font-poppins">
                 <a
                   href="#projects"
-                  className="px-8 py-3.5 rounded-full bg-[#111111] hover:bg-black text-white text-xs sm:text-sm font-bold tracking-wider uppercase transition-all hover:scale-105 shadow-md flex items-center gap-2 group cursor-pointer font-sans"
+                  className="px-8 py-3.5 rounded-full bg-[#111111] hover:bg-black text-white text-xs sm:text-sm font-bold tracking-wider uppercase transition-all hover:scale-105 shadow-md flex items-center gap-2 group cursor-pointer font-poppins"
                 >
                   <span>VIEW PORTFOLIO</span>
                   <ArrowUpRight size={15} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
@@ -264,7 +264,7 @@ export default function Contact() {
 
                 <a
                   href="mailto:developer@usamafaheem.com"
-                  className="px-8 py-3.5 rounded-full bg-transparent hover:bg-white text-zinc-900 border border-zinc-400 hover:border-zinc-900 text-xs sm:text-sm font-bold tracking-wider uppercase transition-all hover:scale-105 shadow-xs flex items-center gap-2 cursor-pointer font-sans"
+                  className="px-8 py-3.5 rounded-full bg-transparent hover:bg-white text-zinc-900 border border-zinc-400 hover:border-zinc-900 text-xs sm:text-sm font-bold tracking-wider uppercase transition-all hover:scale-105 shadow-xs flex items-center gap-2 cursor-pointer font-poppins"
                 >
                   <span>GET IN TOUCH</span>
                   <ArrowUpRight size={15} />
@@ -286,7 +286,7 @@ export default function Contact() {
       <footer id="footer-section" className="relative w-full bg-[#eaeaea] text-[#111111] pt-16 pb-12 px-6 sm:px-10 lg:px-16 overflow-hidden select-none border-t border-zinc-300 z-30">
         
         {/* Giant Watermark Text: USAMA in Brand Yellow/Amber */}
-        <div className="absolute -left-6 top-1/2 -translate-y-1/2 text-[24vw] lg:text-[20vw] font-black text-[#eab308]/[0.12] tracking-tighter uppercase font-sans pointer-events-none select-none leading-none">
+        <div className="absolute -left-6 top-1/2 -translate-y-1/2 text-[24vw] lg:text-[20vw] font-black text-[#eab308]/[0.12] tracking-tighter uppercase font-poppins pointer-events-none select-none leading-none">
           USAMA
         </div>
 
@@ -300,7 +300,7 @@ export default function Contact() {
                 <h3 className="text-2xl sm:text-3xl lg:text-4xl font-black text-zinc-900 tracking-tight uppercase mb-3 font-poppins">
                   USAMA FAHEEM.
                 </h3>
-                <p className="text-xs sm:text-sm text-zinc-600 max-w-md leading-relaxed font-normal mb-6">
+                <p className="text-xs sm:text-sm text-zinc-600 max-w-md leading-relaxed font-normal mb-6 font-sans">
                   Full-Stack Developer & UI/UX Specialist crafting high-performance digital systems and production-ready applications.
                 </p>
 
@@ -358,7 +358,7 @@ export default function Contact() {
             <div className="lg:col-span-6 grid grid-cols-2 gap-8 font-sans">
               
               <div className="flex flex-col gap-2.5 text-xs font-sans text-zinc-600">
-                <span className="text-[11px] font-bold text-zinc-900 uppercase tracking-wider mb-1">EXPLORE PROJECTS</span>
+                <span className="text-[11px] font-bold text-zinc-900 uppercase tracking-wider mb-1 font-poppins">EXPLORE PROJECTS</span>
                 <a href="#projects" className="hover:text-zinc-900 transition-colors font-medium">SoftCr8ors AI Agency</a>
                 <a href="#projects" className="hover:text-zinc-900 transition-colors font-medium">Reeba Yaseen Portfolio</a>
                 <a href="#projects" className="hover:text-zinc-900 transition-colors font-medium">Shadab Rice E-Commerce</a>
@@ -366,7 +366,7 @@ export default function Contact() {
               </div>
 
               <div className="flex flex-col gap-2.5 text-xs font-sans text-zinc-600">
-                <span className="text-[11px] font-bold text-zinc-900 uppercase tracking-wider mb-1">QUICK LINKS</span>
+                <span className="text-[11px] font-bold text-zinc-900 uppercase tracking-wider mb-1 font-poppins">QUICK LINKS</span>
                 <a href="#about" className="hover:text-zinc-900 transition-colors font-medium">About Me</a>
                 <a href="#services" className="hover:text-zinc-900 transition-colors font-medium">Services</a>
                 <a href="#experience" className="hover:text-zinc-900 transition-colors font-medium">Experience</a>
@@ -383,7 +383,7 @@ export default function Contact() {
             
             <button
               onClick={scrollToTop}
-              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white hover:bg-zinc-200 border border-zinc-300 text-zinc-700 transition-all text-[11px] cursor-pointer font-medium font-sans"
+              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white hover:bg-zinc-200 border border-zinc-300 text-zinc-700 transition-all text-[11px] cursor-pointer font-bold font-poppins"
             >
               <span>Back to Top</span>
               <ArrowUp size={13} />

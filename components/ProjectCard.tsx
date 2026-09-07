@@ -144,10 +144,10 @@ export default function ProjectCard({
           {/* Top Bar: Title & Category + Stats / View CTA */}
           <div className="flex items-start justify-between gap-4">
             <div>
-              <div className="font-display font-black text-2xl sm:text-3xl tracking-tight uppercase text-[#1a1a1a] leading-none mb-1">
+              <div className="font-poppins font-black text-lg sm:text-3xl tracking-tight uppercase text-[#1a1a1a] leading-none mb-1">
                 {project.title}
               </div>
-              <div className="text-[10px] sm:text-xs font-sans font-bold uppercase tracking-[0.15em] text-[#1a1a1a]/60">
+              <div className="text-[9px] sm:text-xs font-sans font-bold uppercase tracking-[0.15em] text-[#1a1a1a]/60">
                 {project.category}
               </div>
             </div>
@@ -177,7 +177,7 @@ export default function ProjectCard({
 
           {/* Quote & Badges */}
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pt-0.5">
-            <p className="font-serif text-sm sm:text-base md:text-[17px] font-normal leading-snug tracking-tight text-[#1a1a1a] line-clamp-2 max-w-xl">
+            <p className="font-serif text-[12.5px] sm:text-base md:text-[17px] font-normal leading-snug tracking-tight text-[#1a1a1a] line-clamp-2 max-w-xl">
               &ldquo;{project.quote}&rdquo;
             </p>
 
@@ -186,7 +186,9 @@ export default function ProjectCard({
                 {project.tech.slice(0, 4).map((t) => (
                   <span
                     key={t}
-                    className="px-3 py-1 rounded-full text-[11px] sm:text-xs font-mono font-bold bg-white/90 backdrop-blur-md text-gray-900 border border-yellow-400/80 shadow-[0_2px_6px_rgba(250,204,21,0.2)] transition-all hover:bg-yellow-400 hover:text-black"
+                    className={`px-3 py-1 rounded-full text-[11px] sm:text-xs font-mono font-bold bg-white/90 backdrop-blur-md text-gray-900 border border-yellow-400/80 shadow-[0_2px_6px_rgba(250,204,21,0.2)] transition-all hover:bg-yellow-400 hover:text-black ${
+                      t.toLowerCase().includes('tailwind') ? 'hidden sm:inline-block' : ''
+                    }`}
                   >
                     {t}
                   </span>
@@ -241,7 +243,9 @@ export default function ProjectCard({
               {project.tech.slice(0, 3).map((t) => (
                 <span
                   key={t}
-                  className="px-2.5 py-0.5 rounded-full text-[10px] sm:text-[11px] font-mono font-bold bg-white/90 backdrop-blur-md text-gray-900 border border-yellow-400/80 shadow-sm"
+                  className={`px-2.5 py-0.5 rounded-full text-[10px] sm:text-[11px] font-mono font-bold bg-white/90 backdrop-blur-md text-gray-900 border border-yellow-400/80 shadow-sm ${
+                    t.toLowerCase().includes('tailwind') ? 'hidden sm:inline-block' : ''
+                  }`}
                 >
                   {t}
                 </span>
@@ -260,7 +264,7 @@ export default function ProjectCard({
         {/* Bottom: Author / Brand Row */}
         <div className="relative z-10 flex items-center justify-between pt-2.5 border-t border-black/10">
           <div>
-            <div className="font-display font-black text-sm sm:text-base uppercase text-[#1a1a1a] leading-tight">
+            <div className="font-poppins font-black text-sm sm:text-base uppercase text-[#1a1a1a] leading-tight">
               {project.title}
             </div>
             <div className="font-sans text-[11px] sm:text-xs text-[#57534E] font-medium tracking-wide">
@@ -310,7 +314,9 @@ export default function ProjectCard({
                 {project.tech.slice(0, 3).map((t) => (
                   <span
                     key={t}
-                    className="px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-white/90 backdrop-blur-md text-gray-900 border border-yellow-400/80 shadow-sm"
+                    className={`px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-white/90 backdrop-blur-md text-gray-900 border border-yellow-400/80 shadow-sm ${
+                      t.toLowerCase().includes('tailwind') ? 'hidden sm:inline-block' : ''
+                    }`}
                   >
                     {t}
                   </span>
@@ -321,7 +327,7 @@ export default function ProjectCard({
 
           <div className="flex items-center justify-between pt-2 border-t border-black/10">
             <div>
-              <div className="font-display font-black text-xs sm:text-sm uppercase tracking-wider text-[#1a1a1a]">
+              <div className="font-poppins font-black text-xs sm:text-sm uppercase tracking-wider text-[#1a1a1a]">
                 {project.title}
               </div>
               <div className="font-sans text-[10px] sm:text-[11px] font-medium text-[#1a1a1a]/70 truncate max-w-[160px]">
@@ -349,16 +355,56 @@ export default function ProjectCard({
         href={project.link}
         target="_blank"
         rel="noopener noreferrer"
-        className={`group relative flex flex-row items-stretch justify-between w-full max-w-[690px] sm:max-w-[730px] h-[390px] sm:h-[435px] mx-auto rounded-[34px] sm:rounded-[42px] p-6 sm:p-8 shadow-2xl transition-all duration-500 hover:shadow-[0_30px_70px_-15px_rgba(0,0,0,0.6)] border border-black/5 overflow-hidden ${bgClass}`}
+        className={`group relative flex flex-col sm:flex-row items-stretch justify-between w-full max-w-[690px] sm:max-w-[730px] h-[390px] sm:h-[435px] mx-auto rounded-[28px] sm:rounded-[42px] p-4 sm:p-8 shadow-2xl transition-all duration-500 hover:shadow-[0_30px_70px_-15px_rgba(0,0,0,0.6)] border border-black/5 overflow-hidden ${bgClass}`}
       >
         <div className="absolute inset-0 bg-gradient-to-tr from-white/20 via-transparent to-black/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
 
-        {/* LEFT COLUMN: Large Photo Showcase with Sleek Overlayed Glass Stats (Photo First!) */}
-        <div className="w-[220px] sm:w-[280px] md:w-[320px] shrink-0 relative rounded-[24px] sm:rounded-[30px] overflow-hidden flex flex-col justify-end p-3 sm:p-4 shadow-xl border border-black/10 z-10 bg-[#064E3B]">
+        {/* TOP/RIGHT COLUMN: Title, Serif Quote, Tech Stack and Action Link */}
+        <div className="flex-1 flex flex-col justify-between mb-3 sm:mb-0 pl-0 sm:pl-8 z-10 min-w-0 order-1 sm:order-2">
+          <div>
+            <div className="font-poppins font-black text-xl sm:text-3xl md:text-[33px] tracking-tight uppercase text-[#1a1a1a] mb-1 leading-tight">
+              {project.title}
+            </div>
+
+            <div className="text-[10px] sm:text-xs font-sans font-bold uppercase tracking-[0.12em] text-[#1a1a1a]/60 mb-1.5 sm:mb-3">
+              {project.category}
+            </div>
+
+            <p className="font-serif text-sm sm:text-2xl md:text-[25px] font-normal leading-snug sm:leading-[1.22] tracking-tight text-[#1a1a1a] mb-2 sm:mb-4 line-clamp-2 sm:line-clamp-3">
+              &ldquo;{project.quote}&rdquo;
+            </p>
+
+            {/* Tech Badges */}
+            {project.tech && (
+              <div className="flex flex-wrap gap-1 sm:gap-1.5 mb-2">
+                {project.tech.slice(0, 4).map((t) => (
+                  <span
+                    key={t}
+                    className={`px-2.5 sm:px-3 py-0.5 sm:py-1 rounded-full text-[10px] sm:text-xs font-mono font-bold bg-white/90 backdrop-blur-md text-gray-900 border border-yellow-400/80 shadow-xs ${
+                      t.toLowerCase().includes('tailwind') ? 'hidden sm:inline-block' : ''
+                    }`}
+                  >
+                    {t}
+                  </span>
+                ))}
+              </div>
+            )}
+          </div>
+
+          <div className="inline-flex items-center gap-1.5 sm:gap-2 pl-3.5 sm:pl-4 pr-1.5 sm:pr-1.5 py-1.5 sm:py-1.5 rounded-full bg-[#1a1a1a] text-white text-xs sm:text-sm font-sans font-bold uppercase tracking-wider shadow-md transition-all duration-300 group-hover:bg-yellow-400 group-hover:text-black group-hover:scale-105 w-fit">
+            <span>View Project</span>
+            <span className="w-4.5 h-4.5 sm:w-5 sm:h-5 rounded-full bg-yellow-400 text-black flex items-center justify-center transition-all duration-300 group-hover:bg-black group-hover:text-yellow-400">
+              <ArrowUpRight size={12} className="sm:w-[13px] sm:h-[13px]" strokeWidth={2.5} />
+            </span>
+          </div>
+        </div>
+
+        {/* BOTTOM/LEFT COLUMN: Photo Showcase */}
+        <div className="w-full sm:w-[280px] md:w-[320px] h-[155px] sm:h-auto shrink-0 relative rounded-[18px] sm:rounded-[30px] overflow-hidden flex flex-col justify-end p-2 sm:p-4 shadow-xl border border-black/10 z-10 bg-[#064E3B] order-2 sm:order-1">
           {renderMediaViewport(`absolute inset-0 w-full h-full object-cover object-center`)}
 
           {project.stats && project.stats.length > 0 && (
-            <div className="relative z-20 grid grid-cols-2 gap-2 w-full p-2.5 sm:p-3 rounded-[18px] sm:rounded-[20px] bg-black/65 backdrop-blur-md border border-white/20 shadow-xl">
+            <div className="relative z-20 hidden sm:grid grid-cols-2 gap-2 w-full p-2.5 sm:p-3 rounded-[18px] sm:rounded-[20px] bg-black/65 backdrop-blur-md border border-white/20 shadow-xl">
               {project.stats.map((s, i) => (
                 <div key={i} className="flex flex-col">
                   <div className="font-serif text-xl sm:text-2xl md:text-[26px] font-bold text-[#ffffeb] tracking-tight leading-none mb-0.5">
@@ -372,44 +418,6 @@ export default function ProjectCard({
             </div>
           )}
         </div>
-
-        {/* RIGHT COLUMN: Title, Serif Quote, Tech Stack and Action Link */}
-        <div className="flex-1 flex flex-col justify-between pl-5 sm:pl-8 z-10">
-          <div>
-            <div className="font-display font-black text-2xl sm:text-3xl md:text-[33px] tracking-tight uppercase text-[#1a1a1a] mb-1 leading-none">
-              {project.title}
-            </div>
-
-            <div className="text-[10px] sm:text-xs font-sans font-bold uppercase tracking-[0.15em] text-[#1a1a1a]/60 mb-3">
-              {project.category}
-            </div>
-
-            <p className="font-serif text-lg sm:text-2xl md:text-[25px] font-normal leading-[1.22] tracking-tight text-[#1a1a1a] mb-4 line-clamp-3">
-              &ldquo;{project.quote}&rdquo;
-            </p>
-
-            {/* Tech Badges */}
-            {project.tech && (
-              <div className="flex flex-wrap gap-1.5 mb-2">
-                {project.tech.map((t) => (
-                  <span
-                    key={t}
-                    className="px-3 py-1 rounded-full text-[11px] sm:text-xs font-mono font-bold bg-white/90 backdrop-blur-md text-gray-900 border border-yellow-400/80 shadow-[0_2px_6px_rgba(250,204,21,0.2)] transition-all hover:bg-yellow-400 hover:text-black"
-                  >
-                    {t}
-                  </span>
-                ))}
-              </div>
-            )}
-          </div>
-
-          <div className="inline-flex items-center gap-2 pl-4 pr-1.5 py-1.5 rounded-full bg-[#1a1a1a] text-white text-xs sm:text-sm font-sans font-bold uppercase tracking-wider shadow-md transition-all duration-300 group-hover:bg-yellow-400 group-hover:text-black group-hover:shadow-[0_6px_20px_rgba(250,204,21,0.45)] group-hover:scale-105 w-fit">
-            <span>View Project</span>
-            <span className="w-5 h-5 rounded-full bg-yellow-400 text-black flex items-center justify-center transition-all duration-300 group-hover:bg-black group-hover:text-yellow-400 group-hover:scale-110 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
-              <ArrowUpRight size={13} strokeWidth={2.5} />
-            </span>
-          </div>
-        </div>
       </a>
     );
   }
@@ -422,32 +430,34 @@ export default function ProjectCard({
       href={project.link}
       target="_blank"
       rel="noopener noreferrer"
-      className={`group relative flex flex-row items-stretch justify-between w-full max-w-[690px] sm:max-w-[730px] h-[390px] sm:h-[435px] mx-auto rounded-[34px] sm:rounded-[42px] p-6 sm:p-8 shadow-2xl transition-all duration-500 hover:shadow-[0_30px_70px_-15px_rgba(0,0,0,0.6)] border border-black/5 overflow-hidden ${bgClass}`}
+      className={`group relative flex flex-col sm:flex-row items-stretch justify-between w-full max-w-[690px] sm:max-w-[730px] h-[390px] sm:h-[435px] mx-auto rounded-[28px] sm:rounded-[42px] p-4 sm:p-8 shadow-2xl transition-all duration-500 hover:shadow-[0_30px_70px_-15px_rgba(0,0,0,0.6)] border border-black/5 overflow-hidden ${bgClass}`}
     >
       <div className="absolute inset-0 bg-gradient-to-tr from-white/20 via-transparent to-black/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
 
-      {/* LEFT COLUMN: Title, Serif Quote, Tech Stack and Action Link */}
-      <div className="flex-1 flex flex-col justify-between pr-5 sm:pr-8 z-10">
+      {/* TOP/LEFT COLUMN: Title, Serif Quote, Tech Stack and Action Link */}
+      <div className="flex-1 flex flex-col justify-between mb-3 sm:mb-0 pr-0 sm:pr-8 z-10 min-w-0">
         <div>
-          <div className="font-display font-black text-2xl sm:text-3xl md:text-[33px] tracking-tight uppercase text-[#1a1a1a] mb-1 leading-none">
+          <div className="font-poppins font-black text-xl sm:text-3xl md:text-[33px] tracking-tight uppercase text-[#1a1a1a] mb-1 leading-tight">
             {project.title}
           </div>
 
-          <div className="text-[10px] sm:text-xs font-sans font-bold uppercase tracking-[0.15em] text-[#1a1a1a]/60 mb-3">
+          <div className="text-[10px] sm:text-xs font-sans font-bold uppercase tracking-[0.12em] text-[#1a1a1a]/60 mb-1.5 sm:mb-3">
             {project.category}
           </div>
 
-          <p className="font-serif text-lg sm:text-2xl md:text-[25px] font-normal leading-[1.22] tracking-tight text-[#1a1a1a] mb-4 line-clamp-3">
+          <p className="font-serif text-sm sm:text-2xl md:text-[25px] font-normal leading-snug sm:leading-[1.22] tracking-tight text-[#1a1a1a] mb-2 sm:mb-4 line-clamp-2 sm:line-clamp-3">
             &ldquo;{project.quote}&rdquo;
           </p>
 
           {/* Tech Badges */}
           {project.tech && (
-            <div className="flex flex-wrap gap-1.5 mb-2">
-              {project.tech.map((t) => (
+            <div className="flex flex-wrap gap-1 sm:gap-1.5 mb-2">
+              {project.tech.slice(0, 4).map((t) => (
                 <span
                   key={t}
-                  className="px-3 py-1 rounded-full text-[11px] sm:text-xs font-mono font-bold bg-white/90 backdrop-blur-md text-gray-900 border border-yellow-400/80 shadow-[0_2px_6px_rgba(250,204,21,0.2)] transition-all hover:bg-yellow-400 hover:text-black"
+                  className={`px-2.5 sm:px-3 py-0.5 sm:py-1 rounded-full text-[10px] sm:text-xs font-mono font-bold bg-white/90 backdrop-blur-md text-gray-900 border border-yellow-400/80 shadow-xs ${
+                    t.toLowerCase().includes('tailwind') ? 'hidden sm:inline-block' : ''
+                  }`}
                 >
                   {t}
                 </span>
@@ -456,20 +466,20 @@ export default function ProjectCard({
           )}
         </div>
 
-        <div className="inline-flex items-center gap-2 pl-4 pr-1.5 py-1.5 rounded-full bg-[#1a1a1a] text-white text-xs sm:text-sm font-sans font-bold uppercase tracking-wider shadow-md transition-all duration-300 group-hover:bg-yellow-400 group-hover:text-black group-hover:shadow-[0_6px_20px_rgba(250,204,21,0.45)] group-hover:scale-105 w-fit">
+        <div className="inline-flex items-center gap-1.5 sm:gap-2 pl-3.5 sm:pl-4 pr-1.5 sm:pr-1.5 py-1.5 sm:py-1.5 rounded-full bg-[#1a1a1a] text-white text-xs sm:text-sm font-sans font-bold uppercase tracking-wider shadow-md transition-all duration-300 group-hover:bg-yellow-400 group-hover:text-black group-hover:scale-105 w-fit">
           <span>View Project</span>
-          <span className="w-5 h-5 rounded-full bg-yellow-400 text-black flex items-center justify-center transition-all duration-300 group-hover:bg-black group-hover:text-yellow-400 group-hover:scale-110 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
-            <ArrowUpRight size={13} strokeWidth={2.5} />
+          <span className="w-4.5 h-4.5 sm:w-5 sm:h-5 rounded-full bg-yellow-400 text-black flex items-center justify-center transition-all duration-300 group-hover:bg-black group-hover:text-yellow-400">
+            <ArrowUpRight size={12} className="sm:w-[13px] sm:h-[13px]" strokeWidth={2.5} />
           </span>
         </div>
       </div>
 
-      {/* RIGHT COLUMN: Large Photo / Video Showcase with Overlayed Glass Stats */}
-      <div className="w-[220px] sm:w-[280px] md:w-[320px] shrink-0 relative rounded-[24px] sm:rounded-[30px] overflow-hidden flex flex-col justify-end p-3 sm:p-4 shadow-xl border border-black/10 z-10 bg-[#064E3B]">
+      {/* BOTTOM/RIGHT COLUMN: Large Photo Showcase */}
+      <div className="w-full sm:w-[280px] md:w-[320px] h-[155px] sm:h-auto shrink-0 relative rounded-[18px] sm:rounded-[30px] overflow-hidden flex flex-col justify-end p-2 sm:p-4 shadow-xl border border-black/10 z-10 bg-[#064E3B]">
         {renderMediaViewport(`absolute inset-0 w-full h-full object-cover object-center`)}
 
         {project.stats && project.stats.length > 0 && (
-          <div className="relative z-20 grid grid-cols-2 gap-2 w-full p-2.5 sm:p-3 rounded-[18px] sm:rounded-[20px] bg-black/65 backdrop-blur-md border border-white/20 shadow-xl">
+          <div className="relative z-20 hidden sm:grid grid-cols-2 gap-2 w-full p-2.5 sm:p-3 rounded-[18px] sm:rounded-[20px] bg-black/65 backdrop-blur-md border border-white/20 shadow-xl">
             {project.stats.map((s, i) => (
               <div key={i} className="flex flex-col">
                 <div className="font-serif text-xl sm:text-2xl md:text-[26px] font-bold text-[#ffffeb] tracking-tight leading-none mb-0.5">

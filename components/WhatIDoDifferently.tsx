@@ -52,7 +52,7 @@ export default function WhatIDoDifferently() {
                 <span className="text-xl sm:text-3xl lg:text-4xl font-extrabold italic text-[#0f172a] block mb-1 tracking-tight">
                   Why Work With
                 </span>
-                <span className="text-4xl sm:text-6xl lg:text-[72px] font-black uppercase text-amber-500 block leading-none pl-9 sm:pl-10 tracking-tight">
+                <span className="text-4xl sm:text-6xl lg:text-[72px] font-black uppercase bg-gradient-to-r from-[#ffaa00] to-[#ffea00] bg-clip-text text-transparent block leading-none pl-9 sm:pl-10 tracking-tight">
                   USAMA?
                 </span>
               </h2>

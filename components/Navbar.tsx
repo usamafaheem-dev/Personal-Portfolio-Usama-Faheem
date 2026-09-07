@@ -102,12 +102,12 @@ export default function Navbar() {
         >
           <span className={`text-base sm:text-2xl font-sans tracking-tighter flex items-center transition-colors duration-300 ${isDarkSection ? 'text-gray-950 drop-shadow-none' : 'text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]'
             }`}>
-            <span className={`font-sans font-bold text-base sm:text-2xl mr-1 transition-colors ${isDarkSection ? 'text-yellow-600' : 'text-yellow-400 opacity-80'
+            <span className={`font-sans font-bold text-base sm:text-2xl mr-1 transition-colors ${isDarkSection ? 'text-[#d97706]' : 'text-[#ffaa00] opacity-90'
               }`}>&lt;</span>
             <span className="font-bold">Usama</span>
-            <span className={`font-black transition-colors ${isDarkSection ? 'text-yellow-600' : 'text-yellow-400'
+            <span className={`font-black transition-colors ${isDarkSection ? 'text-[#d97706]' : 'text-[#ffaa00]'
               }`}>Faheem</span>
-            <span className={`font-sans font-bold text-base sm:text-2xl ml-1 transition-colors ${isDarkSection ? 'text-yellow-600' : 'text-yellow-400 opacity-80'
+            <span className={`font-sans font-bold text-base sm:text-2xl ml-1 transition-colors ${isDarkSection ? 'text-[#d97706]' : 'text-[#ffaa00] opacity-90'
               }`}>/&gt;</span>
           </span>
         </Link>
@@ -128,7 +128,7 @@ export default function Navbar() {
           className="hidden md:flex absolute left-1/2 -translate-x-1/2 items-center gap-2 sm:gap-4 px-2 py-1.5 rounded-full bg-[#1e1e1e]/90 backdrop-blur-xl border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.5)] z-0 pointer-events-auto overflow-hidden font-sans"
         >
           <div
-            className="absolute inset-0 bg-yellow-400 -z-10 pointer-events-none"
+            className="absolute inset-0 bg-gradient-to-r from-[#ffaa00] to-[#ffea00] -z-10 pointer-events-none"
             style={{ clipPath: 'polygon(0 0, 41% 0, 51% 100%, 0 100%)' }}
           />
 
@@ -156,7 +156,7 @@ export default function Navbar() {
             href="/Usama_Faheem_Resume.pdf"
             target="_blank"
             rel="noopener noreferrer"
-            className="hidden md:inline-flex rounded-full bg-yellow-400 px-6 py-2 font-sans text-sm font-bold uppercase tracking-wider text-black shadow-[0_4px_14px_rgba(250,204,21,0.3)] transition-all hover:bg-yellow-500 hover:shadow-[0_6px_20px_rgba(250,204,21,0.5)] hover:scale-105"
+            className="hidden md:inline-flex rounded-full bg-gradient-to-r from-[#ffaa00] to-[#ffea00] px-6 py-2 font-sans text-sm font-bold uppercase tracking-wider text-black shadow-[0_4px_14px_rgba(255,170,0,0.35)] transition-all hover:brightness-105 hover:shadow-[0_6px_20px_rgba(255,170,0,0.55)] hover:scale-105"
           >
             RESUME
           </a>
@@ -199,8 +199,8 @@ export default function Navbar() {
             >
               {/* Subtle Static Crossed Slanted Ribbons (Lightweight, Zero FPS Lag) */}
               <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-0 overflow-hidden opacity-75">
-                <div className="absolute w-[200%] h-9 bg-yellow-300/25 -rotate-[42deg] border-y border-yellow-400/20 flex items-center justify-center">
-                  <span className="font-poppins font-black text-[11px] tracking-[0.25em] text-amber-900/40 uppercase whitespace-nowrap">
+                <div className="absolute w-[200%] h-9 bg-[#ffaa00]/20 -rotate-[42deg] border-y border-[#ffaa00]/30 flex items-center justify-center">
+                  <span className="font-poppins font-black text-[11px] tracking-[0.25em] text-amber-950/50 uppercase whitespace-nowrap">
                     USAMA FAHEEM ✦ FRONTEND ENGINEER ✦ MERN STACK ✦ THREE.JS ✦ NEXT.JS
                   </span>
                 </div>
@@ -219,10 +219,10 @@ export default function Navbar() {
                   className="flex items-center group pl-0.5"
                 >
                   <span className="text-lg sm:text-2xl font-sans tracking-tighter text-slate-900 flex items-center">
-                    <span className="font-sans font-bold text-yellow-500 text-lg sm:text-2xl mr-1 opacity-90">&lt;</span>
+                    <span className="font-sans font-bold text-[#ffaa00] text-lg sm:text-2xl mr-1 opacity-90">&lt;</span>
                     <span className="font-bold">Usama</span>
-                    <span className="font-black text-yellow-500">Faheem</span>
-                    <span className="font-sans font-bold text-yellow-500 text-lg sm:text-2xl ml-1 opacity-90">/&gt;</span>
+                    <span className="font-black text-[#ffaa00]">Faheem</span>
+                    <span className="font-sans font-bold text-[#ffaa00] text-lg sm:text-2xl ml-1 opacity-90">/&gt;</span>
                   </span>
                 </Link>
 
@@ -230,7 +230,7 @@ export default function Navbar() {
                 <button
                   onClick={() => setMobileOpen(false)}
                   aria-label="Close Menu"
-                  className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-yellow-400 text-black hover:bg-yellow-500 shadow-sm flex items-center justify-center transition-transform hover:scale-105 active:scale-95 cursor-pointer"
+                  className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-gradient-to-r from-[#ffaa00] to-[#ffea00] text-black hover:brightness-105 shadow-sm flex items-center justify-center transition-transform hover:scale-105 active:scale-95 cursor-pointer"
                 >
                   <X className="w-4 h-4 sm:w-4.5 sm:h-4.5 stroke-[2.5]" />
                 </button>
@@ -257,7 +257,7 @@ export default function Navbar() {
                       <Link
                         href={link.href}
                         onClick={() => setMobileOpen(false)}
-                        className="text-3xl sm:text-[36px] font-poppins font-black text-[#0f172a] hover:text-amber-500 active:scale-95 transition-colors duration-150 tracking-tight block py-0.5"
+                        className="text-3xl sm:text-[36px] font-poppins font-black text-[#0f172a] hover:text-[#ffaa00] active:scale-95 transition-colors duration-150 tracking-tight block py-0.5"
                       >
                         {link.label}
                       </Link>
@@ -278,7 +278,7 @@ export default function Navbar() {
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={() => setMobileOpen(false)}
-                  className="w-full py-3.5 rounded-full bg-yellow-400 text-black font-poppins font-black text-sm tracking-widest uppercase flex items-center justify-center gap-2 shadow-[0_8px_20px_rgba(250,204,21,0.35)] hover:bg-yellow-500 hover:shadow-[0_12px_28px_rgba(250,204,21,0.55)] transition-all text-center"
+                  className="w-full py-3.5 rounded-full bg-gradient-to-r from-[#ffaa00] to-[#ffea00] text-black font-poppins font-black text-sm tracking-widest uppercase flex items-center justify-center gap-2 shadow-[0_8px_20px_rgba(255,170,0,0.35)] hover:brightness-105 hover:shadow-[0_12px_28px_rgba(255,170,0,0.55)] transition-all text-center"
                 >
                   <span>RESUME</span>
                 </a>

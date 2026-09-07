@@ -1,4 +1,5 @@
-// import Preloader from "@/components/Preloader";
+import Preloader from "@/components/Preloader";
+import MainWrapper from "@/components/MainWrapper";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import TechMarquee from "@/components/TechMarquee";
@@ -20,22 +21,24 @@ export default function Home() {
       <div className="fixed inset-0 bg-[radial-gradient(#99a1af_1.2px,transparent_1.2px)] [background-size:24px_24px] opacity-40 pointer-events-none z-0" />
 
       <div className="relative z-10">
-        {/* <Preloader /> */}
-        <Navbar />
-        <main>
-          <Hero />
-          <TechMarquee />
-          <About />
-          <Stats />
-          <WhatIDoDifferently />
-          <Services />
-          <Experience />
-          <TechStack />
-          <Projects />
-          <Certifications />
-          <Testimonials />
-          <Contact />
-        </main>
+        <Preloader />
+        <MainWrapper>
+          <Navbar />
+          <main>
+            <Hero />
+            <TechMarquee />
+            <About />
+            <Stats />
+            <WhatIDoDifferently />
+            <Services />
+            <Experience />
+            <TechStack />
+            <Projects />
+            <Certifications />
+            <Testimonials />
+            <Contact />
+          </main>
+        </MainWrapper>
       </div>
     </div>
   );

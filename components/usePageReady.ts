@@ -9,17 +9,15 @@ import { useState, useEffect } from 'react';
 export function usePageReady(): boolean {
   const [isReady, setIsReady] = useState<boolean>(() => {
     if (typeof window !== 'undefined') {
-      // If preloader is done OR if preloader component is not mounted
-      return (window as any).__preloaderDone !== false;
+      return (window as any).__preloaderDone === true;
     }
-    return true;
+    return false;
   });
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
 
-    // If preloader is done or not present
-    if ((window as any).__preloaderDone !== false) {
+    if ((window as any).__preloaderDone === true) {
       setIsReady(true);
       return;
     }

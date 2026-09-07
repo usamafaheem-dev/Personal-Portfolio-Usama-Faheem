@@ -102,7 +102,7 @@ export default function VoiceRibbonOverlay() {
               fill="none"
             />
             <linearGradient id="mobRibbonGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="#ccff00" />
+              <stop offset="0%" stopColor="#ffea00" />
               <stop offset="100%" stopColor="#ffaa00" />
             </linearGradient>
           </defs>
@@ -250,7 +250,7 @@ export default function VoiceRibbonOverlay() {
             <feDropShadow dx="0" dy="6" stdDeviation="6" floodOpacity="0.3" />
           </filter>
           <linearGradient id="ribbonGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="#ccff00" />
+            <stop offset="0%" stopColor="#ffea00" />
             <stop offset="100%" stopColor="#ffaa00" />
           </linearGradient>
         </defs>

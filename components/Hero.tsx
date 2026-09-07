@@ -8,11 +8,11 @@ import VoiceRibbonOverlay from './VoiceRibbonOverlay';
 import usePageReady from './usePageReady';
 
 const NAME_LETTERS = [
-  { char: 'U', delay: 0.6 },
-  { char: 'S', delay: 1.1 },
-  { char: 'A', delay: 1.6 },
-  { char: 'M', delay: 2.1 },
-  { char: 'A', delay: 2.6 },
+  { char: 'U', delay: 0.1 },
+  { char: 'S', delay: 0.3 },
+  { char: 'A', delay: 0.5 },
+  { char: 'M', delay: 0.7 },
+  { char: 'A', delay: 0.9 },
 ];
 
 export default function Hero() {
@@ -21,7 +21,7 @@ export default function Hero() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [replayKey, setReplayKey] = useState(0);
 
-  // Play video smoothly once page is ready
+  // Play video smoothly ONLY ONCE preloader split doors start opening (isPageReady === true)
   useEffect(() => {
     if (isPageReady && videoRef.current) {
       delete videoRef.current.dataset.endedDispatched;
@@ -72,7 +72,6 @@ export default function Hero() {
       <div className="absolute inset-0 z-0 transform-gpu">
         <video
           ref={videoRef}
-          autoPlay
           muted
           playsInline
           preload="auto"
@@ -133,8 +132,8 @@ export default function Hero() {
           className="group relative flex h-14 w-14 items-center justify-center rounded-full bg-white/90 backdrop-blur-md border border-black/5 text-black shadow-[0_8px_32px_rgba(0,0,0,0.12)] transition-all duration-300 hover:bg-white hover:scale-110 cursor-pointer"
         >
           {/* Animated Circles */}
-          <div className="absolute inset-[-6px] rounded-full border-2 border-[#ccff00] animate-[ping_3s_ease-in-out_infinite]" />
-          <div className="absolute inset-[-14px] rounded-full border-[3px] border-blue-500 border-dashed shadow-[0_0_12px_rgba(204,255,0,0.5)] animate-[spin_8s_linear_infinite]" />
+          <div className="absolute inset-[-6px] rounded-full border-2 border-[#ffaa00] animate-[ping_3s_ease-in-out_infinite]" />
+          <div className="absolute inset-[-14px] rounded-full border-[3px] border-blue-500 border-dashed shadow-[0_0_12px_rgba(255,170,0,0.55)] animate-[spin_8s_linear_infinite]" />
 
           <div className="absolute inset-0 rounded-full border border-white/60 animate-[ping_2.5s_ease-in-out_infinite]" />
           <div className="absolute inset-0 rounded-full border border-white/40 animate-[ping_3s_ease-in-out_infinite_0.5s]" />
@@ -149,9 +148,9 @@ export default function Hero() {
         </button>
       </div>
 
-      {/* Overlays */}
-      <div className="absolute inset-0 z-[1] bg-blue-400/5 pointer-events-none mix-blend-overlay" />
-      <div className="absolute inset-0 z-[1] bg-blue-50/5 pointer-events-none" />
+      {/* ── Ultra Soft Light Black Tint Overlay ── */}
+      <div className="absolute inset-0 z-[1] bg-black/8 pointer-events-none" />
+      <div className="absolute inset-0 z-[1] bg-gradient-to-b from-black/15 via-transparent to-black/10 pointer-events-none" />
 
       {/* ══════════════════════════════════════════════════════════════
           HERO SIDE ELEMENTS:
@@ -162,32 +161,43 @@ export default function Hero() {
         key={`decor-${replayKey}`}
         className="absolute inset-0 z-[20] pointer-events-none overflow-hidden select-none block"
       >
-        {/* Left Wall: Stacked Vertical U - S - A - M - A starting at 0.6s 1-by-1 with smooth spring animation */}
-        <div className="absolute top-32 sm:top-12 xl:top-14 left-1 sm:left-1.5 flex flex-col items-center gap-0.5 sm:gap-1 xl:gap-2 select-none pointer-events-none">
+        {/* Left Wall: Stacked Vertical U - S - A - M - A starting after page is ready */}
+        <div className="absolute top-14 sm:top-12 xl:top-14 left-2 sm:left-1.5 flex flex-col items-center gap-0.5 sm:gap-1 xl:gap-2 select-none pointer-events-none z-20">
+          <style jsx>{`
+            .hero-name-letter {
+              color: #1e293b;
+              -webkit-text-stroke: 1.5px #0f172a;
+            }
+            @media (min-width: 768px) {
+              .hero-name-letter {
+                color: transparent;
+                -webkit-text-stroke: 1.8px #99a1af;
+              }
+            }
+          `}</style>
           {NAME_LETTERS.map((item, index) => (
             <motion.span
               key={`letter-${index}`}
               initial={{ opacity: 0, y: -60, scale: 0.6, rotate: -4 }}
-              animate={{ opacity: 0.95, y: 0, scale: 1, rotate: 0 }}
+              animate={isPageReady ? { opacity: 0.95, y: 0, scale: 1, rotate: 0 } : { opacity: 0, y: -60, scale: 0.6, rotate: -4 }}
               transition={{
-                delay: item.delay,
+                delay: isPageReady ? item.delay : 0,
                 duration: 0.75,
                 ease: [0.34, 1.56, 0.64, 1],
               }}
-              className="text-3xl sm:text-6xl xl:text-[86px] font-black font-poppins uppercase text-transparent leading-none select-none transition-all duration-300"
-              style={{ WebkitTextStroke: '1.8px #99a1af' }}
+              className="hero-name-letter text-3xl sm:text-6xl xl:text-[86px] font-black font-poppins uppercase leading-none select-none transition-all duration-300 drop-shadow-md"
             >
               {item.char}
             </motion.span>
           ))}
         </div>
 
-        {/* Top-Right: High-Contrast Bold Rotating Stamp Badge starting at 2.0s */}
+        {/* Top-Right: High-Contrast Bold Rotating Stamp Badge starting after page is ready */}
         <div className="absolute top-32 right-2.5 sm:top-8 sm:right-8 xl:top-10 xl:right-10 pointer-events-auto group cursor-pointer z-20">
           <motion.div
             initial={{ opacity: 0, scale: 0.5, y: -20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            transition={{ delay: 2.0, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+            animate={isPageReady ? { opacity: 1, scale: 1, y: 0 } : { opacity: 0, scale: 0.5, y: -20 }}
+            transition={{ delay: isPageReady ? 0.8 : 0, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
           >
             <motion.div
               animate={{ rotate: 360 }}
@@ -212,19 +222,19 @@ export default function Hero() {
 
       <div className="relative mx-auto flex min-h-[calc(100vh-80px)] w-full max-w-7xl flex-col items-center justify-center px-4 z-[3]">
         {/* ── Foreground: Doodles ── */}
-        <div className="relative z-10 flex w-full max-w-[900px] flex-col items-center h-[50vh] sm:h-[60vh] lg:h-[75vh] min-h-[400px] pointer-events-none">
-          <DoodlesOverlay visible={true} />
+        <div key={`doodles-${replayKey}`} className="relative z-10 flex w-full max-w-[900px] flex-col items-center h-[50vh] sm:h-[60vh] lg:h-[75vh] min-h-[400px] pointer-events-none">
+          <DoodlesOverlay visible={isPageReady} />
         </div>
       </div>
 
       {/* ── Voice Ribbon Overlay (Full Section Width, Continuous Flow at z-10) ── */}
-      <VoiceRibbonOverlay />
+      <VoiceRibbonOverlay key={`ribbon-${replayKey}`} />
 
       {/* Scroll indicator */}
       <motion.div
         initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.1 }}
+        animate={isPageReady ? { opacity: 1 } : { opacity: 0 }}
+        transition={{ delay: isPageReady ? 1.0 : 0 }}
         className="absolute bottom-2 left-1/2 -translate-x-1/2 z-[4]"
       >
         <a

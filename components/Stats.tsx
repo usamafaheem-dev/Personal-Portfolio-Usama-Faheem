@@ -115,7 +115,7 @@ export default function Stats() {
               whileInView={{ scaleX: 1 }}
               viewport={{ once: true, margin: "-40px" }}
               transition={{ duration: 0.7, ease: "easeInOut" }}
-              className="absolute top-1/2 -translate-y-1/2 left-2 right-2 sm:left-0 sm:right-0 h-[3px] bg-yellow-400 shadow-[0_0_12px_rgba(234,179,8,0.6)] -z-10 overflow-hidden rounded-full origin-left"
+              className="absolute top-1/2 -translate-y-1/2 left-2 right-2 sm:left-0 sm:right-0 h-[3px] bg-gradient-to-r from-[#ffaa00] via-[#ffea00] to-[#ffaa00] shadow-[0_0_12px_rgba(255,170,0,0.6)] -z-10 overflow-hidden rounded-full origin-left"
             />
 
             {stats.map((stat, i) => {
@@ -135,8 +135,8 @@ export default function Stats() {
 
               // Sizing responsive: Center is big, outer circles are smaller, tailored for small mobile screens (<390px) up to desktop
               const sphereSizeClasses = isCenter
-                ? "w-28 h-28 min-[390px]:w-32 min-[390px]:h-32 sm:w-44 sm:h-44 lg:w-52 lg:h-52 z-20 shadow-[0_10px_30px_rgba(202,138,4,0.45)]"
-                : "w-20 h-20 min-[390px]:w-24 min-[390px]:h-24 sm:w-32 sm:h-32 lg:w-36 lg:h-36 z-10 shadow-[0_8px_20px_rgba(202,138,4,0.3)]";
+                ? "w-28 h-28 min-[390px]:w-32 min-[390px]:h-32 sm:w-44 sm:h-44 lg:w-52 lg:h-52 z-20 shadow-[0_10px_30px_rgba(255,170,0,0.45)]"
+                : "w-20 h-20 min-[390px]:w-24 min-[390px]:h-24 sm:w-32 sm:h-32 lg:w-36 lg:h-36 z-10 shadow-[0_8px_20px_rgba(255,170,0,0.3)]";
 
               const numberTextClasses = isCenter
                 ? "text-2xl min-[390px]:text-3xl sm:text-5xl lg:text-6xl font-bold font-poppins text-gray-950 tracking-tight"
@@ -158,7 +158,7 @@ export default function Stats() {
                       delay: 2.8 + i * 0.3
                     }}
                   >
-                    {/* 3D Yellow Sphere with Content Inside */}
+                    {/* 3D Golden Sphere with Content Inside */}
                     <motion.div
                       initial={{
                         scale: initialScale,
@@ -174,7 +174,7 @@ export default function Stats() {
                       transition={transitionConfig}
                       className={`${sphereSizeClasses} rounded-full relative flex flex-col items-center justify-center text-center p-1 sm:p-4 hover:scale-105 transition-transform duration-300 select-none cursor-pointer font-sans`}
                       style={{
-                        background: 'radial-gradient(circle at 50% 18%, #ffffff 0%, #facc15 38%, #eab308 65%, #713f12 100%)'
+                        background: 'radial-gradient(circle at 50% 18%, #ffffff 0%, #ffea00 35%, #ffaa00 65%, #92400e 100%)'
                       }}
                     >
                       {/* STEP 4: Number drops down and counts up once circles finish sliding out (at 2.2s) */}

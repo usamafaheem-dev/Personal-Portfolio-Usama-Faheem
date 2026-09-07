@@ -173,9 +173,9 @@ export default function Hero() {
                 duration: 0.75,
                 ease: [0.34, 1.56, 0.64, 1],
               }}
-              className="text-3xl sm:text-6xl xl:text-[86px] font-black font-poppins uppercase leading-none select-none transition-all duration-300"
+              className="text-4xl sm:text-6xl xl:text-[86px] font-black font-poppins uppercase leading-none select-none transition-all duration-300"
               style={{
-                WebkitTextStroke: '1.8px #99a1af',
+                WebkitTextStroke: '2px #1e293b',
                 WebkitTextFillColor: 'transparent',
                 color: 'transparent',
               }}

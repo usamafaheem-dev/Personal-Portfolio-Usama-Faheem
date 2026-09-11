@@ -208,25 +208,39 @@ export default function FAQAndContact() {
   const cardX = useTransform(progressRatio, (r) => r * delta.x);
   const cardY = useTransform(progressRatio, (r) => r * delta.y);
 
-  // Dynamic 360° Cinematic Rotation: Starts at -4deg in FAQ, completes a full 360° spin mid-flight, and docks smoothly at -2deg (358deg) in Contact
-  const cardRotate = useTransform(
+  // Dynamic SKEW Effect (Matching gsap.mp4 physics):
+  // Card skews organically with scroll momentum in mid-air, then snaps straight when arriving at Contact!
+  const cardSkewY = useTransform(
     progressRatio,
-    [0, 0.12, 0.32, 0.50, 0.68, 0.88, 1.0],
-    [-4, -4, 86, 176, 266, 356, 358]
+    [0, 0.20, 0.50, 0.80, 1.0],
+    [0, -7, -10, -4, 0]
   );
 
-  // Subtle 3D aerodynamic tilt during mid-flight spin
+  const cardSkewX = useTransform(
+    progressRatio,
+    [0, 0.20, 0.50, 0.80, 1.0],
+    [0, 5, 8, 3, 0]
+  );
+
+  // Dynamic Natural Tilt: Leans with motion velocity (-4deg in FAQ -> +8deg mid-air -> settles at -2deg in Contact)
+  const cardRotate = useTransform(
+    progressRatio,
+    [0, 0.20, 0.50, 0.80, 1.0],
+    [-4, 2, 8, 2, -2]
+  );
+
+  // Subtle 3D Perspective Depth during travel
   const cardRotateY = useTransform(
     progressRatio,
     [0, 0.25, 0.5, 0.75, 1.0],
-    [0, 14, 0, -14, 0]
+    [0, 12, 16, 8, 0]
   );
 
-  // Dynamic Scale: Lifts closer to camera mid-flight (1.0 -> 1.08 -> 1.0)
+  // Dynamic Scale: Gentle momentum swell (1.0 -> 1.06 -> 1.0)
   const cardScale = useTransform(
     progressRatio,
-    [0, 0.2, 0.5, 0.8, 1.0],
-    [1.0, 1.04, 1.08, 1.04, 1.0]
+    [0, 0.25, 0.5, 0.75, 1.0],
+    [1.0, 1.03, 1.06, 1.03, 1.0]
   );
 
   const toggleQuestion = (index: number) => {
@@ -291,6 +305,8 @@ export default function FAQAndContact() {
                     y: cardY,
                     rotate: cardRotate,
                     rotateY: cardRotateY,
+                    skewX: cardSkewX,
+                    skewY: cardSkewY,
                     scale: cardScale,
                   }}
                   className="absolute top-0 left-0 z-30 pointer-events-auto origin-center transform-gpu will-change-transform"

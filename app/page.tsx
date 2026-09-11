@@ -5,14 +5,16 @@ import Hero from "@/components/Hero";
 import TechMarquee from "@/components/TechMarquee";
 import About from "@/components/About";
 import Stats from "@/components/Stats";
-import Services from "@/components/Services";
 import WhatIDoDifferently from "@/components/WhatIDoDifferently";
+import Services from "@/components/Services";
+import Process from "@/components/Process";
 import Experience from "@/components/Experience";
 import TechStack from "@/components/TechStack";
 import Projects from "@/components/Projects";
 import Certifications from "@/components/Certifications";
-import Testimonials from "@/components/Testimonials";
-import Contact from "@/components/Contact";
+import FindMeOnline from "@/components/FindMeOnline";
+import FAQAndContact from "@/components/FAQAndContact";
+import Footer from "@/components/Footer";
 
 export default function Home() {
   return (
@@ -31,12 +33,14 @@ export default function Home() {
             <Stats />
             <WhatIDoDifferently />
             <Services />
+            <Process />
             <Experience />
             <TechStack />
             <Projects />
             <Certifications />
-            <Testimonials />
-            <Contact />
+            <FindMeOnline />
+            <FAQAndContact />
+            <Footer />
           </main>
         </MainWrapper>
       </div>

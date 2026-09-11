@@ -172,7 +172,7 @@ const testimonialsCol2: Testimonial[] = [
 
 function TestimonialCard({ item }: { item: Testimonial }) {
   return (
-    <div className="relative bg-white rounded-2xl p-5 border border-slate-200 shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_12px_32px_rgba(255,170,0,0.15)] hover:border-amber-400/80 transition-all duration-300 group flex flex-col justify-between [transform:translateZ(0)] [backface-visibility:hidden]">
+    <div className="relative bg-white rounded-2xl p-5 border border-slate-200 shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_12px_32px_rgba(255,170,0,0.18)] hover:border-[#ffaa00] transition-all duration-300 group flex flex-col justify-between [transform:translateZ(0)] [backface-visibility:hidden]">
       {/* Top Row: User Avatar, Name, Role & Stars */}
       <div>
         <div className="flex items-start justify-between gap-3 mb-3">
@@ -198,7 +198,7 @@ function TestimonialCard({ item }: { item: Testimonial }) {
                 <CheckCircle2 size={12} className="text-sky-500 shrink-0 fill-sky-50" />
               </div>
               <p className="text-[10px] text-slate-500 font-sans font-medium truncate max-w-[150px]">
-                {item.role} • <span className="text-slate-700">{item.company}</span>
+                {item.role} • <span className="text-slate-700 font-semibold">{item.company}</span>
               </p>
             </div>
           </div>
@@ -237,7 +237,7 @@ export default function Testimonials() {
   return (
     <section
       id="testimonials"
-      className="relative bg-[#fbfcfb] py-20 lg:py-28 overflow-hidden font-sans text-slate-900 select-none [contain:paint]"
+      className="relative z-20 bg-[#fbfcfb] py-20 lg:py-28 overflow-hidden font-sans text-slate-900 select-none [contain:paint] rounded-t-[36px] sm:rounded-t-[54px] shadow-[0_-25px_60px_rgba(0,0,0,0.12)] border-t border-slate-300/70"
     >
       {/* ── GPU-Accelerated Anti-Jitter CSS Marquee ── */}
       <style>{`
@@ -288,28 +288,28 @@ export default function Testimonials() {
 
             {/* Top Pill Badge */}
             <motion.div
-              initial={{ opacity: 0, y: 15 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.4 }}
-              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white border border-slate-200 shadow-xs mb-6 font-poppins"
+              initial={{ opacity: 0, scale: 0.9, y: 15 }}
+              whileInView={{ opacity: 1, scale: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+              className="mb-5 sm:mb-6"
             >
-              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping" />
-              <span className="text-[11px] font-poppins font-bold tracking-wider uppercase text-slate-700">
-                Client Stories & Feedback
-              </span>
+              <div className="inline-flex items-center gap-2 bg-gradient-to-r from-[#ffaa00]/15 via-[#ffea00]/15 to-[#ccff00]/15 border border-[#ffaa00]/30 px-3.5 py-1.5 rounded-full text-xs font-bold text-amber-900 uppercase tracking-widest font-poppins shadow-2xs">
+                <Sparkles className="w-3.5 h-3.5 text-[#ffaa00]" />
+                <span>CLIENT STORIES & FEEDBACK</span>
+              </div>
             </motion.div>
 
             {/* Main Headline */}
             <motion.h2
-              initial={{ opacity: 0, y: 15 }}
+              initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.05 }}
               className="text-4xl sm:text-5xl lg:text-[54px] font-black tracking-tight text-slate-900 leading-[1.12] mb-5 font-poppins"
             >
               Loved by{' '}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-sky-600 to-indigo-600 font-black font-poppins">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#ffaa00] via-amber-500 to-[#ffea00] font-black font-poppins">
                 Founders
               </span>{' '}
               & Global Teams.
@@ -317,7 +317,7 @@ export default function Testimonials() {
 
             {/* Description Sub-text */}
             <motion.p
-              initial={{ opacity: 0, y: 15 }}
+              initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.1 }}
@@ -328,39 +328,44 @@ export default function Testimonials() {
 
             {/* CTA Button */}
             <motion.div
-              initial={{ opacity: 0, y: 15 }}
+              initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.15 }}
-              className="mt-2 font-poppins"
+              className="mt-1 font-poppins"
             >
-              {/* Vibrant Coral/Orange Action Button */}
+              {/* Vibrant Main Theme Golden Amber Action Button */}
               <a
                 href="#contact"
-                className="inline-flex items-center justify-center gap-3 px-8 py-4 rounded-2xl bg-gradient-to-r from-[#ff5733] via-[#ff6847] to-[#ff7e5f] text-white font-bold text-base shadow-[0_10px_28px_rgba(255,87,51,0.35)] hover:shadow-[0_14px_36px_rgba(255,87,51,0.5)] hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 group font-poppins"
+                className="relative group inline-flex items-center justify-center gap-3 px-8 py-4 rounded-2xl bg-gradient-to-r from-[#ffaa00] via-[#ffb703] to-[#ffea00] text-slate-950 font-bold text-base shadow-[0_10px_28px_rgba(255,170,0,0.35)] hover:shadow-[0_14px_36px_rgba(255,170,0,0.5)] hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 font-poppins cursor-pointer overflow-hidden"
               >
-                <span>Start Your Project</span>
-                <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+                {/* Subtle Hover Shimmer Effect */}
+                <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/35 to-transparent pointer-events-none" />
+                <span className="relative z-10 font-poppins font-bold">Start Your Project</span>
+                <ArrowRight size={18} className="relative z-10 group-hover:translate-x-1 transition-transform" />
               </a>
             </motion.div>
 
             {/* ── Bold Colorful Name & Animated Tagline ── */}
             <motion.div
-              initial={{ opacity: 0, y: 15 }}
+              initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.2 }}
-              className="mt-8 flex flex-col gap-1.5 text-left font-sans"
+              className="mt-8 flex flex-col gap-2 text-left font-sans"
             >
-              <h4 className="text-2xl sm:text-3xl font-black tracking-tight bg-gradient-to-r from-amber-500 via-orange-500 to-rose-500 bg-clip-text text-transparent font-poppins">
-                Usama Faheem
-              </h4>
-              <div className="flex items-center gap-2 font-sans">
-                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping shrink-0" />
-                <p className="text-xs sm:text-[13px] font-medium text-slate-600 tracking-tight font-sans">
-                  Available for high-impact freelance projects & full-stack web applications.
-                </p>
+              <div className="flex items-center gap-3 flex-wrap">
+                <h4 className="text-2xl sm:text-3xl font-black tracking-tight bg-gradient-to-r from-[#ffaa00] via-amber-500 to-orange-500 bg-clip-text text-transparent font-poppins">
+                  Usama Faheem
+                </h4>
+                <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-50 border border-emerald-200/80 text-[11px] font-poppins font-bold text-emerald-700 shadow-2xs">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                  Available for hire
+                </span>
               </div>
+              <p className="text-xs sm:text-[13px] font-medium text-slate-600 tracking-tight font-sans max-w-[420px]">
+                Available for high-impact freelance projects & full-stack web applications.
+              </p>
             </motion.div>
 
           </div>

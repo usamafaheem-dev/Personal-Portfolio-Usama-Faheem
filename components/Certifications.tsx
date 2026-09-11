@@ -1,21 +1,11 @@
 'use client';
 
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, { useRef, useState, useEffect } from 'react';
+import { motion, useScroll, useTransform, useSpring, AnimatePresence } from 'framer-motion';
 import { 
-  Award, 
-  CheckCircle2, 
-  ExternalLink, 
-  ShieldCheck, 
-  Sparkles, 
-  Code2, 
-  Cloud, 
-  BrainCircuit, 
-  Layers, 
-  Calendar, 
   X,
-  ChevronRight,
-  BadgeCheck
+  ArrowDown,
+  ArrowRight
 } from 'lucide-react';
 
 interface Certification {
@@ -23,388 +13,661 @@ interface Certification {
   title: string;
   issuer: string;
   issuerBadge: string;
-  category: 'frontend' | 'cloud' | 'ai-fullstack';
   date: string;
   credentialId: string;
-  verificationUrl: string;
+  image: string;
   description: string;
   skills: string[];
-  gradient: string;
-  borderColor: string;
-  accentColor: string;
-  badgeBg: string;
+  cardBg?: string;
+  tagBg?: string;
   highlights: string[];
 }
 
 const certifications: Certification[] = [
   {
-    id: 'meta-frontend',
-    title: 'Meta Certified Frontend Developer Professional',
-    issuer: 'Meta / Coursera',
-    issuerBadge: 'META',
-    category: 'frontend',
-    date: 'Issued Jan 2024 • No Expiration',
-    credentialId: 'META-FD-894291',
-    verificationUrl: 'https://coursera.org/verify/professional-cert',
-    description: 'Comprehensive 9-course professional certification covering advanced React architecture, state management with Redux, semantic HTML5/CSS3, responsive UI systems, accessibility (a11y), and production deployment.',
-    skills: ['React 19', 'Next.js', 'Redux Toolkit', 'JavaScript ES6+', 'UI/UX Principles', 'Unit Testing (Jest)'],
-    gradient: 'from-blue-50/80 via-indigo-50/40 to-white',
-    borderColor: 'border-blue-200/80 hover:border-blue-500',
-    accentColor: '#2563eb',
-    badgeBg: 'bg-blue-50 text-blue-700 border-blue-200',
-    highlights: ['Advanced React Patterns & Hooks', 'Modern Asynchronous JavaScript', 'End-to-End Application Architecture'],
+    id: 'nextskill-mern',
+    title: 'MERN Stack Development Bootcamp',
+    issuer: 'Nextskill Arfa Tower Lahore',
+    issuerBadge: 'NEXTSKILL — MERN STACK',
+    date: 'Issued 2023 • Verified',
+    credentialId: 'NS-MERN-8941',
+    image: '/certificatoin/image copy.png',
+    description: 'Intensive professional MERN Stack engineering bootcamp at Arfa Software Technology Park, Lahore. Full-stack mastery in MongoDB, Express.js, React, Node.js, and RESTful architectures.',
+    skills: ['MongoDB', 'Express.js', 'React.js', 'Node.js', 'REST APIs', 'Full Stack'],
+    highlights: ['Production MERN Application Architecture', 'Scalable Backend REST APIs', 'Complex State Management & UI Design'],
   },
   {
-    id: 'aws-cloud',
-    title: 'AWS Certified Solutions Architect & Cloud Practitioner',
-    issuer: 'Amazon Web Services',
-    issuerBadge: 'AWS',
-    category: 'cloud',
-    date: 'Issued Apr 2024 • Valid 3 Years',
-    credentialId: 'AWS-CSA-774109',
-    verificationUrl: 'https://aws.amazon.com/verification',
-    description: 'Mastery in architecting secure, resilient, high-performing, and cost-optimized cloud solutions using AWS Lambda, S3, CloudFront, DynamoDB, API Gateway, and automated CI/CD pipelines.',
-    skills: ['AWS Lambda', 'Amazon S3', 'CloudFront CDN', 'IAM Security', 'Serverless', 'Microservices'],
-    gradient: 'from-amber-50/80 via-orange-50/40 to-white',
-    borderColor: 'border-amber-200/80 hover:border-amber-500',
-    accentColor: '#d97706',
-    badgeBg: 'bg-amber-50 text-amber-800 border-amber-200',
-    highlights: ['Serverless Edge Architecture', 'Global Content Delivery with CloudFront', 'High-Availability Database Design'],
+    id: 'google-devfest',
+    title: 'Google DevFest Tech Conference',
+    issuer: 'Google Developer Groups',
+    issuerBadge: 'GOOGLE — DEVFEST',
+    date: 'Issued 2023 • Verified',
+    credentialId: 'GDG-DEVFEST-2023',
+    image: '/certificatoin/ChatGPT Image Sep 7, 2026, 07_31_24 AM.png',
+    description: 'Accreditation for Google DevFest developer conference, exploring modern web frameworks, progressive web apps, edge computing, and Google Cloud developer ecosystem.',
+    skills: ['Modern Web', 'Google Cloud', 'PWA', 'Performance', 'Developer Ecosystem'],
+    highlights: ['Modern Web Architectures', 'Cloud-Native Solutions', 'Interactive Tech Workshops'],
   },
   {
-    id: 'mongodb-mern',
-    title: 'MERN Stack & MongoDB Certified Developer',
-    issuer: 'MongoDB University',
-    issuerBadge: 'MONGODB',
-    category: 'ai-fullstack',
-    date: 'Issued Aug 2023 • No Expiration',
-    credentialId: 'MDB-DEV-651208',
-    verificationUrl: 'https://university.mongodb.com/verify',
-    description: 'In-depth validation of full-stack NoSQL database design, aggregation pipelines, schema modeling, indexing strategies, Express.js middleware security, and scalable Node.js backend infrastructure.',
-    skills: ['Node.js', 'Express.js', 'MongoDB Atlas', 'Aggregation Pipelines', 'REST APIs', 'JWT Auth'],
-    gradient: 'from-emerald-50/80 via-teal-50/40 to-white',
-    borderColor: 'border-emerald-200/80 hover:border-emerald-500',
-    accentColor: '#059669',
-    badgeBg: 'bg-emerald-50 text-emerald-800 border-emerald-200',
-    highlights: ['Complex Aggregation Framework', 'Secure RESTful API Pipelines', 'High-Performance Schema Indexing'],
+    id: 'digiskills-mern',
+    title: 'Full Stack Development with MERN Specialization',
+    issuer: 'DigiSkills.pk / Virtual University & Ignite',
+    issuerBadge: 'DIGISKILL — MERN STACK',
+    date: 'Issued Dec 2025 - Mar 2026 • Verified',
+    credentialId: 'DSTP2.0-BATCH-02-MERN',
+    image: '/certificatoin/ChatGPT Image Sep 7, 2026, 07_54_30 AM.png',
+    description: 'Government-accredited MERN stack specialization by Ministry of IT & Ignite. Full-stack development with React, Node.js, Express, and MongoDB architectures.',
+    skills: ['MERN Stack', 'React', 'Node.js', 'MongoDB', 'REST APIs'],
+    highlights: ['Full-Stack MERN Architecture', 'Database Schema Modeling', 'RESTful API Integration'],
   },
   {
-    id: 'deeplearning-ai',
-    title: 'Generative AI & LLM Application Engineering',
-    issuer: 'DeepLearning.AI & OpenAI',
-    issuerBadge: 'OPENAI',
-    category: 'ai-fullstack',
-    date: 'Issued Nov 2024 • No Expiration',
-    credentialId: 'DLAI-LLM-330192',
-    verificationUrl: 'https://deeplearning.ai/verify',
-    description: 'Specialized accreditation for integrating Large Language Models (LLMs), LangChain, semantic search with Vector Embeddings (Pinecone / ChromaDB), autonomous agent workflows, and prompt engineering.',
-    skills: ['OpenAI APIs', 'LangChain', 'Vector Search', 'RAG Pipelines', 'AI Agents', 'Function Calling'],
-    gradient: 'from-purple-50/80 via-fuchsia-50/40 to-white',
-    borderColor: 'border-purple-200/80 hover:border-purple-500',
-    accentColor: '#9333ea',
-    badgeBg: 'bg-purple-50 text-purple-800 border-purple-200',
-    highlights: ['Retrieval Augmented Generation (RAG)', 'Autonomous Tool Calling Agents', 'Semantic Vector Embedding Retrieval'],
+    id: 'digiskills-freelancing',
+    title: 'DigiSkills Freelancing Training Program',
+    issuer: 'DigiSkills.pk / Virtual University & Ignite',
+    issuerBadge: 'DIGISKILL — FREELANCING',
+    date: 'Issued Dec 2025 - Mar 2026 • Verified',
+    credentialId: 'DSTP2.0-BATCH-02-FREE',
+    image: '/certificatoin/ChatGPT Image Sep 7, 2026, 07_48_55 AM.png',
+    description: 'Government-accredited professional program by Ministry of IT, Ignite & Virtual University. Certified mastery in international client delivery, project management, and freelance tech consulting.',
+    skills: ['Freelancing', 'Client Relations', 'Proposal Writing', 'Project Scoping', 'Delivery'],
+    highlights: ['International Client Management', 'Technical Requirement Scoping', 'Professional Project Execution'],
   },
   {
-    id: 'google-performance',
-    title: 'Google Web Performance & Core Web Vitals Specialist',
-    issuer: 'Google Digital Academy',
-    issuerBadge: 'GOOGLE',
-    category: 'frontend',
-    date: 'Issued May 2024 • No Expiration',
-    credentialId: 'GOOG-OPT-441982',
-    verificationUrl: 'https://developers.google.com/verify',
-    description: 'Engineered for building sub-second loading applications, achieving 99+ Google Lighthouse scores, eliminating Cumulative Layout Shift (CLS), optimizing Largest Contentful Paint (LCP), and advanced SEO audits.',
-    skills: ['Core Web Vitals', 'Lighthouse 99+', 'Image Optimization', 'Edge Caching', 'Bundle Splitting', 'SEO Strategy'],
-    gradient: 'from-rose-50/80 via-orange-50/40 to-white',
-    borderColor: 'border-rose-200/80 hover:border-rose-500',
-    accentColor: '#e11d48',
-    badgeBg: 'bg-rose-50 text-rose-800 border-rose-200',
-    highlights: ['Sub-Second Load Time Optimization', 'Elimination of Layout Shifts (CLS)', 'Modern Edge Caching Strategies'],
+    id: 'cisco-networking',
+    title: 'Cisco Networking Basics',
+    issuer: 'Cisco Networking Academy',
+    issuerBadge: 'CISCO — NETWORKING',
+    date: 'Issued 2023 • Verified',
+    credentialId: 'CISCO-NET-882',
+    image: '/certificatoin/ChatGPT Image Sep 7, 2026, 07_29_35 AM.png',
+    description: 'Fundamental networking concepts and enterprise protocols. Certified expertise in network architecture, routing, switching, IP subnetting, and network security.',
+    skills: ['Networking', 'Routing & Switching', 'Subnetting', 'Network Security', 'Protocols'],
+    highlights: ['Enterprise Network Topologies', 'IPv4/IPv6 Addressing & Subnetting', 'Network Device Configuration'],
   },
   {
-    id: 'vercel-nextjs',
-    title: 'Next.js Production Architecture & Edge Systems',
-    issuer: 'Vercel Certified Partner Track',
-    issuerBadge: 'VERCEL',
-    category: 'cloud',
-    date: 'Issued Sep 2024 • No Expiration',
-    credentialId: 'VRC-NEXT-110943',
-    verificationUrl: 'https://vercel.com/verify',
-    description: 'Advanced mastery in Next.js 15 App Router architecture, React Server Components (RSC), Server Actions, Edge Middleware, Dynamic Route Handlers, and Incremental Static Regeneration (ISR).',
-    skills: ['Next.js 15', 'Server Components (RSC)', 'Edge Middleware', 'Server Actions', 'ISR / SSG / SSR', 'Turbopack'],
-    gradient: 'from-zinc-100/90 via-slate-50 to-white',
-    borderColor: 'border-zinc-300 hover:border-zinc-800',
-    accentColor: '#18181b',
-    badgeBg: 'bg-zinc-100 text-zinc-900 border-zinc-300',
-    highlights: ['Next.js 15 App Router Mastery', 'Hybrid Static/Server Dynamic Rendering', 'Zero-Bundle Overhead Server Actions'],
+    id: 'cisco-ai',
+    title: 'Cisco Introduction to Modern AI & Networks',
+    issuer: 'Cisco Networking Academy',
+    issuerBadge: 'CISCO — AI & NETWORKS',
+    date: 'Issued 2024 • Verified',
+    credentialId: 'CISCO-AI-NET-104',
+    image: '/certificatoin/image.png',
+    description: 'Accreditation by Cisco Networking Academy validating core principles of Artificial Intelligence, neural networks, automation, and modern networked computational systems.',
+    skills: ['Artificial Intelligence', 'Network Automation', 'Machine Learning Basics', 'Systems Architecture'],
+    highlights: ['AI Foundational Models', 'Automated Network Protocols', 'Intelligent System Infrastructure'],
   },
 ];
 
-type CategoryFilter = 'all' | 'frontend' | 'cloud' | 'ai-fullstack';
-
 export default function Certifications() {
-  const [activeCategory, setActiveCategory] = useState<CategoryFilter>('all');
-  const [selectedCert, setSelectedCert] = useState<Certification | null>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const enterBoxRef = useRef<HTMLDivElement>(null);
+  const letterCRef = useRef<HTMLSpanElement>(null);
+  const trackContentRef = useRef<HTMLDivElement>(null);
+  const ctaRef = useRef<HTMLDivElement>(null);
 
-  const filteredCertifications = activeCategory === 'all'
-    ? certifications
-    : certifications.filter((c) => c.category === activeCategory);
+  const [selectedCert, setSelectedCert] = useState<Certification | null>(null);
+  const [isMobile, setIsMobile] = useState(false);
+  const [portalOrigin, setPortalOrigin] = useState('50% 80%');
+  const [portalShift, setPortalShift] = useState({ x: 0, y: 0 });
+  const [targetTranslateX, setTargetTranslateX] = useState(-2200);
+
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ['start start', 'end end'],
+  });
+
+  const smoothProgress = useSpring(scrollYProgress, {
+    damping: 30,
+    stiffness: 90,
+    mass: 0.2,
+    restDelta: 0.0001,
+  });
+
+  // Calculate exact letter 'C' center for 100% accurate portal zoom & CTA screen center
+  useEffect(() => {
+    const updateGeometry = () => {
+      const isMob = window.innerWidth < 768;
+      setIsMobile(isMob);
+
+      // 1. Calculate Portal Zoom origin centered at middle letter 'C'
+      // Centers letter 'C' within enterBoxRef viewport
+      if (letterCRef.current && enterBoxRef.current) {
+        const cRect = letterCRef.current.getBoundingClientRect();
+        const boxRect = enterBoxRef.current.getBoundingClientRect();
+        if (boxRect.width > 0 && boxRect.height > 0) {
+          const cCenterX = cRect.left + cRect.width * 0.50;
+          const cCenterY = cRect.top + cRect.height * 0.82;
+
+          const originX = ((cCenterX - boxRect.left) / boxRect.width) * 100;
+          const originY = ((cCenterY - boxRect.top) / boxRect.height) * 100;
+          setPortalOrigin(`${originX.toFixed(2)}% ${originY.toFixed(2)}%`);
+
+          // Safe relative shift: centers 'C' relative to enterBoxRef center
+          // Both use the same coordinate space, so scroll offset cancels out perfectly!
+          const boxCenterX = boxRect.left + boxRect.width * 0.50;
+          const boxCenterY = boxRect.top + boxRect.height * 0.50;
+          const shiftX = isMob ? 0 : (boxCenterX - cCenterX);
+          const shiftY = isMob ? 0 : (boxCenterY - cCenterY);
+          setPortalShift({ x: shiftX, y: shiftY });
+        }
+      }
+
+      // 2. Calculate exact translation required to center "GOT A PROJECT?" in viewport
+      if (trackContentRef.current && ctaRef.current) {
+        const ctaCenterInTrack = ctaRef.current.offsetLeft + ctaRef.current.offsetWidth / 2;
+        const neededTranslate = (window.innerWidth / 2) - ctaCenterInTrack;
+        setTargetTranslateX(neededTranslate);
+      }
+    };
+
+    updateGeometry();
+    window.addEventListener('resize', updateGeometry);
+    const t1 = setTimeout(updateGeometry, 300);
+    const t2 = setTimeout(updateGeometry, 800);
+    return () => {
+      window.removeEventListener('resize', updateGeometry);
+      clearTimeout(t1);
+      clearTimeout(t2);
+    };
+  }, []);
+
+  // ═════════════════════════════════════════════════════════════════
+  // MOTION TIMELINE ANIMATIONS (Seamless, NO gaps or blank screen)
+  // ═════════════════════════════════════════════════════════════════
+
+  // Step 1: Top-Right "LET MY CERTIFICATES DO THE TALKING" slides across to the LEFT
+  const topHeadingX = useTransform(smoothProgress, [0.00, 0.16], ['0%', '-160%']);
+  const topHeadingOpacity = useTransform(smoothProgress, [0.00, 0.10, 0.16], [1, 1, 0]);
+
+  // Step 1.5: Stage 1 Graphic Pastel Circles fade out as Stage 1 text slides away
+  const shapesOpacity = useTransform(smoothProgress, [0.00, 0.12, 0.18], [1, 1, 0]);
+  const shapesScale = useTransform(smoothProgress, [0.00, 0.12, 0.18], [1, 1, 0.95]);
+
+  // Step 2: Bottom-Left Bold "SCROLL TO SEE" slides across to the RIGHT
+  const bottomScrollX = useTransform(smoothProgress, [0.00, 0.16], ['0%', '160%']);
+  const bottomScrollOpacity = useTransform(smoothProgress, [0.00, 0.10, 0.16], [1, 1, 0]);
+
+  // Step 3: "ENTER THE CERTIFICATIONS" — Prominently appears and Deep zooms inside 'C' letter portal
+  const enterScale = useTransform(smoothProgress, [0.10, 0.18, 0.36], [0.92, 1.0, 65.0]);
+  const enterOpacity = useTransform(smoothProgress, [0.06, 0.12, 0.28, 0.36], [0, 1, 1, 0]);
+  const enterShiftX = useTransform(smoothProgress, [0.14, 0.36], [0, portalShift.x]);
+  const enterShiftY = useTransform(smoothProgress, [0.14, 0.36], [0, portalShift.y]);
+
+  // Step 4: Cards Track SCROLLS UP smoothly as the C portal opens
+  const cardScale = useTransform(smoothProgress, [0.30, 0.40], [0.88, 1.0]);
+  const trackOpacity = useTransform(smoothProgress, [0.30, 0.36], [0, 1]);
+  const trackY = useTransform(smoothProgress, [0.30, 0.40], ['55vh', '0vh']);
+  
+  // Track X: Dynamically scrolls until "GOT A PROJECT?" is in the EXACT DEAD CENTER of the screen
+  const trackX = useTransform(smoothProgress, [0.40, 0.88], [0, targetTranslateX]);
+
+  // Step 5: Parallax exit scale & dimming as next section rolls up like a curtain
+  const exitScale = useTransform(smoothProgress, [0.93, 1.0], [1.0, 0.96]);
+  const exitOpacity = useTransform(smoothProgress, [0.94, 1.0], [1.0, 0.6]);
 
   return (
-    <section 
+    <section
+      ref={containerRef}
       id="certifications"
-      className="relative w-full py-24 sm:py-28 px-6 sm:px-10 lg:px-16 bg-[#f4f4f7] text-[#111111] overflow-hidden select-none"
+      className="relative h-[450vh] sm:h-[550vh] lg:h-[620vh] bg-[#eae9e5] text-slate-900 select-none"
     >
-      {/* ── Precision Dotted Grid Background Pattern ── */}
-      <div className="absolute inset-0 bg-[radial-gradient(#99a1af_1.2px,transparent_1.2px)] [background-size:24px_24px] opacity-40 pointer-events-none [mask-image:radial-gradient(ellipse_75%_75%_at_50%_50%,#000_60%,transparent_100%)]" />
+      {/* Sticky Viewport Container with Parallax Exit */}
+      <motion.div 
+        style={{ scale: exitScale, opacity: exitOpacity }}
+        className="sticky top-0 h-screen w-full flex flex-col justify-between overflow-hidden bg-[#eae9e5] z-10 origin-center"
+      >
 
-      <div className="max-w-7xl mx-auto relative z-10">
-        {/* ── SECTION HEADER ── */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-14 font-sans">
-          <div>
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white border border-zinc-200 text-xs font-poppins uppercase tracking-widest text-[#d97706] font-bold shadow-2xs mb-4">
-              <ShieldCheck size={14} className="text-[#d97706]" />
-              <span>ACCREDITED & VERIFIED QUALIFICATIONS</span>
-            </div>
-            <h2 className="text-3xl sm:text-5xl lg:text-6xl font-black font-poppins tracking-tight text-zinc-900 uppercase">
-              CERTIFICATIONS<span className="text-[#d97706]">.</span>
-            </h2>
-            <p className="text-sm sm:text-base text-zinc-600 max-w-xl mt-3 font-normal font-sans leading-relaxed">
-              Continuous rigorous specialization in modern frontend systems, distributed cloud architecture, and full-stack AI engineering.
-            </p>
-          </div>
-
-          {/* ── FILTER TABS ── */}
-          <div className="flex flex-wrap items-center gap-1.5 p-1.5 rounded-full bg-zinc-200/80 border border-zinc-300 backdrop-blur-md self-start md:self-auto shadow-2xs font-poppins">
-            {[
-              { id: 'all', label: 'All', count: certifications.length },
-              { id: 'frontend', label: 'Frontend & React', count: 2 },
-              { id: 'cloud', label: 'Cloud & DevOps', count: 2 },
-              { id: 'ai-fullstack', label: 'AI & MERN', count: 2 },
-            ].map((tab) => (
-              <button
-                key={tab.id}
-                onClick={() => setActiveCategory(tab.id as CategoryFilter)}
-                className={`px-4 py-2 rounded-full text-xs font-poppins transition-all cursor-pointer flex items-center gap-1.5 ${
-                  activeCategory === tab.id
-                    ? 'bg-white text-zinc-950 font-bold shadow-xs'
-                    : 'text-zinc-600 hover:text-zinc-900 hover:bg-white/40 font-medium'
-                }`}
-              >
-                <span>{tab.label}</span>
-                <span className={`text-[10px] px-1.5 py-0.2 rounded-full font-poppins ${
-                  activeCategory === tab.id ? 'bg-zinc-100 text-zinc-900 font-bold' : 'bg-black/5 text-zinc-500 font-semibold'
-                }`}>
-                  {tab.count}
-                </span>
-              </button>
-            ))}
-          </div>
+        {/* ── AMBIENT PASTEL BACKGROUND GLOW (Provides soft organic colors for entire section & certificates) ── */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
+          <div className="absolute top-[-5%] left-[-5%] w-[45vw] h-[45vw] rounded-full bg-[#ffd8ec]/60 blur-[90px]" />
+          <div className="absolute bottom-[-5%] left-[5%] w-[42vw] h-[42vw] rounded-full bg-[#e8dbfc]/60 blur-[90px]" />
+          <div className="absolute top-[8%] right-[-5%] w-[48vw] h-[48vw] rounded-full bg-[#fef3c7]/60 blur-[90px]" />
+          <div className="absolute bottom-[-5%] right-[8%] w-[40vw] h-[40vw] rounded-full bg-[#d1fae5]/60 blur-[90px]" />
+          
+          {/* Fine Dotted Grid Overlay */}
+          <div className="absolute inset-0 bg-[radial-gradient(#94a3b8_1.2px,transparent_1.2px)] [background-size:24px_24px] opacity-25" />
         </div>
 
-        {/* ── CERTIFICATIONS GRID ── */}
+        {/* ── STAGE 1: GRAPHIC ORGANIC PASTEL BLOBS & DOODLES (Animated, Fades out ONLY at 'C' portal zoom) ── */}
         <motion.div 
-          layout
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 font-sans"
+          style={{ opacity: shapesOpacity, scale: shapesScale }}
+          className="absolute inset-0 overflow-hidden pointer-events-none z-1"
         >
-          <AnimatePresence mode="popLayout">
-            {filteredCertifications.map((cert, index) => (
+          {/* 1. Top-Left Dusty Rose / Pink Organic Blob (Behind Top-Left Heading) */}
+          <motion.div
+            animate={{ y: [0, -8, 0], rotate: [0, 2, 0] }}
+            transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut' }}
+            style={{ borderRadius: '54% 46% 62% 38% / 44% 56% 44% 56%' }}
+            className="absolute top-[12%] sm:top-[2%] left-[-8%] sm:left-[0%] w-[170px] h-[160px] sm:w-[320px] sm:h-[300px] lg:w-[440px] lg:h-[410px] bg-[#f8b4c4]/50 shadow-xs"
+          />
+          
+          {/* 2. Bottom-Left Soft Lilac / Lavender Organic Blob (Behind SCROLL TO SEE) */}
+          <motion.div
+            animate={{ y: [0, 8, 0], rotate: [0, -2, 0] }}
+            transition={{ duration: 6.5, repeat: Infinity, ease: 'easeInOut', delay: 0.4 }}
+            style={{ borderRadius: '46% 54% 38% 62% / 56% 44% 62% 38%' }}
+            className="absolute bottom-[10%] sm:bottom-[2%] left-[0%] sm:left-[8%] lg:left-[13%] w-[180px] h-[170px] sm:w-[330px] sm:h-[310px] lg:w-[460px] lg:h-[430px] bg-[#dfd4f8]/50 shadow-xs"
+          />
+
+          {/* Tiny Purple Accent Dot (Left of Lilac Blob) */}
+          <motion.div 
+            animate={{ scale: [1, 1.25, 1] }}
+            transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
+            className="absolute bottom-[36%] sm:bottom-[35%] left-[3%] sm:left-[5%] w-2.5 h-2.5 sm:w-3.5 sm:h-3.5 rounded-full bg-[#7c3aed]/70" 
+          />
+
+          {/* Coral Wavy Squiggly Line Doodle (Beside SCROLL TO SEE) */}
+          <motion.div
+            animate={{ x: [-3, 3, -3], rotate: [-2, 2, -2] }}
+            transition={{ duration: 3.5, repeat: Infinity, ease: 'easeInOut' }}
+            className="absolute bottom-[16%] sm:bottom-[12%] left-[10%] sm:left-[18%] lg:left-[22%] text-[#f43f5e]/80"
+          >
+            <svg className="w-8 sm:w-16 h-3 sm:h-5 stroke-current fill-none stroke-[3] stroke-linecap-round" viewBox="0 0 80 20">
+              <path d="M 4 10 Q 14 0, 24 10 T 44 10 T 64 10 T 76 10" />
+            </svg>
+          </motion.div>
+
+          {/* 3. Top-Right Sunny Yellow Organic Blob (Attached to right screen edge) */}
+          <motion.div
+            animate={{ y: [0, -8, 0], rotate: [0, -2.5, 0] }}
+            transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut', delay: 0.8 }}
+            style={{ borderRadius: '58% 42% 52% 48% / 42% 58% 48% 52%' }}
+            className="absolute top-[12%] sm:top-[3%] right-[-8%] sm:right-[0%] w-[170px] h-[160px] sm:w-[310px] sm:h-[290px] lg:w-[430px] lg:h-[410px] bg-[#fef08a]/55 shadow-xs"
+          />
+
+          {/* 4-Pointed Sparkle Star (Inside Yellow Blob) */}
+          <motion.div
+            animate={{ scale: [1, 1.25, 1], rotate: [0, 15, 0] }}
+            transition={{ duration: 3.2, repeat: Infinity, ease: 'easeInOut' }}
+            className="absolute top-[16%] sm:top-[20%] right-[6%] sm:right-[12%] text-[#f59e0b]/75"
+          >
+            <svg className="w-5 h-5 sm:w-8 sm:h-8 fill-current" viewBox="0 0 24 24">
+              <path d="M12 0C12 6.627 6.627 12 0 12C6.627 12 12 17.373 12 24C12 17.373 17.373 12 24 12C17.373 12 12 6.627 12 0Z" />
+            </svg>
+          </motion.div>
+
+          {/* 4. Bottom-Right Soft Mint / Seafoam Organic Blob (Shifted left away from yellow) */}
+          <motion.div
+            animate={{ y: [0, 8, 0], rotate: [0, 2, 0] }}
+            transition={{ duration: 7.5, repeat: Infinity, ease: 'easeInOut', delay: 1.2 }}
+            style={{ borderRadius: '48% 52% 44% 56% / 54% 46% 56% 44%' }}
+            className="absolute bottom-[10%] sm:bottom-[2%] right-[6%] sm:right-[20%] lg:right-[26%] w-[150px] h-[140px] sm:w-[260px] sm:h-[250px] lg:w-[360px] lg:h-[350px] bg-[#bbf3e0]/50 shadow-xs"
+          />
+        </motion.div>
+
+        {/* ── STAGE 1: INITIAL UN-SCROLLED TYPOGRAPHY LAYOUT ── */}
+        <div className="absolute inset-0 z-20 pointer-events-none p-4 sm:p-10 lg:p-16 flex flex-col justify-between">
+          
+          {/* Top-Right Main Staggered Heading (Slides to LEFT on scroll, with safe navbar top clearance) */}
+          <motion.div
+            style={{ x: topHeadingX, opacity: topHeadingOpacity }}
+            className="pt-24 sm:pt-24 lg:pt-14 pr-2 sm:pr-6 lg:pr-10 max-w-full ml-auto flex flex-col items-end text-right"
+          >
+            <div className="flex flex-col items-end">
+              <h2 className="text-[26px] min-[380px]:text-[30px] sm:text-6xl md:text-7xl lg:text-[96px] font-black font-sans tracking-tight text-slate-950 uppercase leading-none whitespace-nowrap mr-1 sm:mr-16 lg:mr-28 transform scale-y-[1.2] origin-bottom">
+                LET MY CERTIFICATES
+              </h2>
+              <h2 className="text-[26px] min-[380px]:text-[30px] sm:text-6xl md:text-7xl lg:text-[96px] font-black font-sans tracking-tight text-[#e11d48] uppercase leading-none whitespace-nowrap mt-1.5 sm:mt-3 mr-0 transform scale-y-[1.2] origin-bottom">
+                DO THE TALKING
+              </h2>
+            </div>
+          </motion.div>
+
+          {/* Bottom-Left Bold "SCROLL TO SEE ↓" (Elevated above bottom floating button) */}
+          <motion.div
+            style={{ x: bottomScrollX, opacity: bottomScrollOpacity }}
+            className="pb-24 sm:pb-10 lg:pb-12 pl-4 sm:pl-6 lg:pl-10"
+          >
+            <div className="flex items-center gap-2.5 sm:gap-4 text-slate-950 whitespace-nowrap">
+              <h3 className="text-[26px] min-[380px]:text-[30px] sm:text-6xl md:text-7xl lg:text-[100px] font-black font-sans uppercase tracking-tight leading-none transform scale-y-[1.2] origin-bottom">
+                SCROLL TO SEE
+              </h3>
               <motion.div
-                key={cert.id}
-                layout
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.95 }}
-                transition={{ duration: 0.35, delay: index * 0.05 }}
-                onClick={() => setSelectedCert(cert)}
-                className={`group relative rounded-2xl bg-white border ${cert.borderColor} p-6 sm:p-7 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1.5 hover:shadow-xl hover:shadow-zinc-300/50 cursor-pointer overflow-hidden shadow-xs font-sans`}
+                animate={{ y: [0, 6, 0] }}
+                transition={{ repeat: Infinity, duration: 1.5, ease: 'easeInOut' }}
+                className="text-[#e11d48] shrink-0"
               >
-                {/* Background card subtle gradient */}
-                <div className={`absolute inset-0 bg-gradient-to-br ${cert.gradient} opacity-60 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none`} />
+                <ArrowDown className="w-7 h-7 min-[380px]:w-8 min-[380px]:h-8 sm:w-14 sm:h-14 lg:w-22 lg:h-22 stroke-[3] transform scale-y-[1.2]" />
+              </motion.div>
+            </div>
+          </motion.div>
+        </div>
 
-                {/* Top Badge & Verified Status */}
-                <div className="relative z-10 flex items-center justify-between mb-5 font-sans">
-                  <div className="flex items-center gap-2 font-sans">
-                    <span className={`px-2.5 py-1 rounded-md text-[11px] font-poppins font-black tracking-wider uppercase border ${cert.badgeBg}`}>
-                      {cert.issuerBadge}
-                    </span>
-                    <span className="text-[11px] font-poppins text-zinc-500 font-semibold">
-                      {cert.issuer}
-                    </span>
-                  </div>
+        {/* ── STAGE 2: "ENTER THE CERTIFICATIONS" — ZOOM PORTAL THROUGH LETTER 'C' ── */}
+        <div className="absolute inset-0 z-20 flex flex-col items-center justify-center pointer-events-none text-center px-4">
+          <motion.div
+            ref={enterBoxRef}
+            style={{ 
+              opacity: enterOpacity, 
+              scale: enterScale,
+              x: enterShiftX,
+              y: enterShiftY,
+              transformOrigin: portalOrigin
+            }}
+            className="flex flex-col items-center justify-center will-change-transform"
+          >
+            <h2 className="text-3xl min-[360px]:text-4xl sm:text-6xl md:text-8xl lg:text-[110px] font-black font-sans text-slate-950 uppercase tracking-tight leading-none mb-1.5 sm:mb-4 transform scale-y-[1.2] whitespace-nowrap">
+              ENTER THE
+            </h2>
+            <h2 className="text-3xl min-[360px]:text-4xl sm:text-6xl md:text-8xl lg:text-[110px] font-black font-sans uppercase tracking-tight leading-none text-[#e11d48] transform scale-y-[1.2] whitespace-nowrap">
+              CERTIFI<span ref={letterCRef} className="inline-block relative">C</span>ATIONS
+            </h2>
+          </motion.div>
+        </div>
 
-                  <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-[10px] font-poppins text-emerald-700 font-bold">
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                    <span>VERIFIED</span>
-                  </div>
+
+
+        {/* ── STAGE 3: HORIZONTAL CARDS TRACK (SCROLLS UP FROM BOTTOM INTO VIEW) ── */}
+        <motion.div
+          style={{ 
+            opacity: trackOpacity, 
+            y: trackY,
+            scale: cardScale
+          }}
+          className="relative w-full h-full flex items-center z-30 overflow-hidden pl-4 sm:pl-16 lg:pl-24"
+        >
+          <motion.div
+            ref={trackContentRef}
+            style={{ x: trackX }}
+            className="flex items-center gap-6 sm:gap-10 lg:gap-12 pr-16 sm:pr-24 transform-gpu"
+          >
+            {/* 1. Nextskill Arfa Tower MERN Stack (Upper card - White) */}
+            <div className="shrink-0 w-[260px] xs:w-[285px] sm:w-[340px] lg:w-[380px] -translate-y-8 sm:-translate-y-16 lg:-translate-y-24 py-2 sm:py-3">
+              <motion.div
+                whileHover={{ y: -6, scale: 1.015 }}
+                transition={{ type: 'spring', stiffness: 400, damping: 28 }}
+                onClick={() => setSelectedCert(certifications[0])}
+                className="relative w-full rounded-[24px] sm:rounded-[30px] p-[2px] overflow-hidden group cursor-pointer shadow-[0_4px_20px_rgba(0,0,0,0.04)]"
+              >
+                {/* Default Static Border */}
+                <div className="absolute inset-0 rounded-[24px] sm:rounded-[30px] border border-slate-200/90 pointer-events-none group-hover:opacity-0 transition-opacity duration-300" />
+                
+                {/* Animated Glowing Border Beam on Hover (Confined to border, NO spread) */}
+                <div className="absolute inset-0 rounded-[24px] sm:rounded-[30px] opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none overflow-hidden">
+                  <div className="absolute inset-[-150%] animate-[spin_2.5s_linear_infinite] bg-[conic-gradient(from_0deg,transparent_0_240deg,#ffaa00_290deg,#ffea00_340deg,transparent_360deg)]" />
                 </div>
 
-                {/* Title & Description */}
-                <div className="relative z-10 flex-1 font-sans">
-                  <h3 className="text-lg sm:text-xl font-bold font-poppins text-zinc-900 tracking-tight leading-snug mb-3 group-hover:text-black transition-colors">
-                    {cert.title}
-                  </h3>
-                  <p className="text-xs sm:text-sm text-zinc-600 font-normal font-sans leading-relaxed line-clamp-3 mb-5">
-                    {cert.description}
-                  </p>
-
-                  {/* Skills Pills */}
-                  <div className="flex flex-wrap gap-1.5 mb-6 font-sans">
-                    {cert.skills.slice(0, 4).map((skill, idx) => (
-                      <span
-                        key={idx}
-                        className="px-2.5 py-1 rounded-md bg-zinc-100/90 border border-zinc-200 text-[11px] font-poppins text-zinc-700 font-semibold"
-                      >
-                        {skill}
-                      </span>
-                    ))}
-                    {cert.skills.length > 4 && (
-                      <span className="px-2 py-1 rounded-md bg-zinc-50 border border-zinc-200 text-[10px] font-poppins text-zinc-500 font-medium">
-                        +{cert.skills.length - 4} more
-                      </span>
-                    )}
+                {/* Inner Card Body */}
+                <div className="relative w-full h-full rounded-[22px] sm:rounded-[28px] bg-white p-3.5 sm:p-5 z-10">
+                  <div className="flex items-center justify-between px-1 mb-2.5 sm:mb-3">
+                    <span className="text-[10px] sm:text-xs font-poppins font-bold tracking-wider text-slate-500 uppercase truncate max-w-[85%]">
+                      {certifications[0].issuerBadge}
+                    </span>
+                    <span className="w-2.5 h-2.5 rounded-full bg-slate-300 group-hover:bg-[#ffaa00] transition-colors shadow-xs shrink-0" />
                   </div>
-                </div>
-
-                {/* Bottom Footer Details */}
-                <div className="relative z-10 pt-4 border-t border-zinc-200/80 flex items-center justify-between text-xs font-sans text-zinc-500">
-                  <div className="flex items-center gap-1.5 font-sans">
-                    <Calendar size={13} className="text-zinc-400" />
-                    <span className="text-[11px] font-medium font-sans">{cert.date.split('•')[0]}</span>
-                  </div>
-
-                  <div className="inline-flex items-center gap-1 text-[#d97706] group-hover:translate-x-0.5 transition-transform text-xs font-bold font-poppins">
-                    <span>Inspect</span>
-                    <ChevronRight size={14} />
+                  <div className="relative w-full h-[175px] xs:h-[195px] sm:h-[225px] lg:h-[235px] rounded-xl sm:rounded-2xl bg-[#f8fafc] border border-slate-100/90 overflow-hidden flex items-center justify-center p-2 group-hover:border-slate-200 transition-colors">
+                    <img
+                      src={certifications[0].image}
+                      alt={certifications[0].title}
+                      className="w-full h-full object-contain rounded-lg sm:rounded-xl transition-transform duration-500 group-hover:scale-105"
+                    />
                   </div>
                 </div>
               </motion.div>
-            ))}
-          </AnimatePresence>
+            </div>
+
+            {/* 2. Google DevFest (Lower card - Light Yellow Navbar Theme) */}
+            <div className="shrink-0 w-[260px] xs:w-[285px] sm:w-[340px] lg:w-[380px] translate-y-8 sm:translate-y-16 lg:translate-y-24 py-2 sm:py-3">
+              <motion.div
+                whileHover={{ y: -6, scale: 1.015 }}
+                transition={{ type: 'spring', stiffness: 400, damping: 28 }}
+                onClick={() => setSelectedCert(certifications[1])}
+                className="relative w-full rounded-[24px] sm:rounded-[30px] p-[2px] overflow-hidden group cursor-pointer shadow-[0_4px_20px_rgba(0,0,0,0.04)]"
+              >
+                {/* Default Static Border */}
+                <div className="absolute inset-0 rounded-[24px] sm:rounded-[30px] border border-[#fde047]/70 pointer-events-none group-hover:opacity-0 transition-opacity duration-300" />
+                
+                {/* Animated Glowing Border Beam on Hover (Confined to border, NO spread) */}
+                <div className="absolute inset-0 rounded-[24px] sm:rounded-[30px] opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none overflow-hidden">
+                  <div className="absolute inset-[-150%] animate-[spin_2.5s_linear_infinite] bg-[conic-gradient(from_0deg,transparent_0_240deg,#ffaa00_290deg,#ffea00_340deg,transparent_360deg)]" />
+                </div>
+
+                {/* Inner Card Body */}
+                <div className="relative w-full h-full rounded-[22px] sm:rounded-[28px] bg-gradient-to-b from-[#fffef5] to-[#fef9c3]/70 p-3.5 sm:p-5 z-10">
+                  <div className="flex items-center justify-between px-1 mb-2.5 sm:mb-3">
+                    <span className="text-[10px] sm:text-xs font-poppins font-bold tracking-wider text-amber-900/80 uppercase truncate max-w-[85%]">
+                      {certifications[1].issuerBadge}
+                    </span>
+                    <span className="w-2.5 h-2.5 rounded-full bg-gradient-to-r from-[#ffaa00] to-[#ffea00] shadow-[0_0_8px_rgba(255,170,0,0.6)] shrink-0" />
+                  </div>
+                  <div className="relative w-full h-[175px] xs:h-[195px] sm:h-[225px] lg:h-[235px] rounded-xl sm:rounded-2xl bg-white/95 border border-[#fef08a]/80 overflow-hidden flex items-center justify-center p-2 group-hover:border-[#fde047] transition-colors">
+                    <img
+                      src={certifications[1].image}
+                      alt={certifications[1].title}
+                      className="w-full h-full object-contain rounded-lg sm:rounded-xl transition-transform duration-500 group-hover:scale-105"
+                    />
+                  </div>
+                </div>
+              </motion.div>
+            </div>
+
+            {/* Quote Section (Usama Faheem Signature - Upper Position) */}
+            <div className="shrink-0 w-[260px] xs:w-[285px] sm:w-[350px] lg:w-[410px] px-3 sm:px-6 flex flex-col justify-center -translate-y-8 sm:-translate-y-16 lg:-translate-y-24">
+              <p className="text-lg xs:text-xl sm:text-2xl lg:text-[32px] font-semibold font-sans text-slate-900 leading-[1.25] tracking-tight">
+                "It doesn't matter <span className="font-bold">what</span> you build, it matters <span className="font-bold">how much fun</span> it is to use."
+              </p>
+              <p style={{ fontFamily: 'var(--font-caveat), cursive' }} className="text-[#e11d48] text-3xl sm:text-4xl lg:text-5xl mt-2 sm:mt-3 -rotate-2 font-bold tracking-wider">
+                Usama Faheem
+              </p>
+            </div>
+
+            {/* 3. DigiSkills Full Stack MERN (Lower card - White) */}
+            <div className="shrink-0 w-[260px] xs:w-[285px] sm:w-[340px] lg:w-[380px] translate-y-8 sm:translate-y-16 lg:translate-y-24 py-2 sm:py-3">
+              <motion.div
+                whileHover={{ y: -6, scale: 1.015 }}
+                transition={{ type: 'spring', stiffness: 400, damping: 28 }}
+                onClick={() => setSelectedCert(certifications[2])}
+                className="relative w-full rounded-[24px] sm:rounded-[30px] p-[2px] overflow-hidden group cursor-pointer shadow-[0_4px_20px_rgba(0,0,0,0.04)]"
+              >
+                {/* Default Static Border */}
+                <div className="absolute inset-0 rounded-[24px] sm:rounded-[30px] border border-slate-200/90 pointer-events-none group-hover:opacity-0 transition-opacity duration-300" />
+                
+                {/* Animated Glowing Border Beam on Hover (Confined to border, NO spread) */}
+                <div className="absolute inset-0 rounded-[24px] sm:rounded-[30px] opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none overflow-hidden">
+                  <div className="absolute inset-[-150%] animate-[spin_2.5s_linear_infinite] bg-[conic-gradient(from_0deg,transparent_0_240deg,#ffaa00_290deg,#ffea00_340deg,transparent_360deg)]" />
+                </div>
+
+                {/* Inner Card Body */}
+                <div className="relative w-full h-full rounded-[22px] sm:rounded-[28px] bg-white p-3.5 sm:p-5 z-10">
+                  <div className="flex items-center justify-between px-1 mb-2.5 sm:mb-3">
+                    <span className="text-[10px] sm:text-xs font-poppins font-bold tracking-wider text-slate-500 uppercase truncate max-w-[85%]">
+                      {certifications[2].issuerBadge}
+                    </span>
+                    <span className="w-2.5 h-2.5 rounded-full bg-slate-300 group-hover:bg-[#ffaa00] transition-colors shadow-xs shrink-0" />
+                  </div>
+                  <div className="relative w-full h-[175px] xs:h-[195px] sm:h-[225px] lg:h-[235px] rounded-xl sm:rounded-2xl bg-[#f8fafc] border border-slate-100/90 overflow-hidden flex items-center justify-center p-2 group-hover:border-slate-200 transition-colors">
+                    <img
+                      src={certifications[2].image}
+                      alt={certifications[2].title}
+                      className="w-full h-full object-contain rounded-lg sm:rounded-xl transition-transform duration-500 group-hover:scale-105"
+                    />
+                  </div>
+                </div>
+              </motion.div>
+            </div>
+
+            {/* 4. DigiSkills Freelancing (Upper card - Light Yellow Navbar Theme) */}
+            <div className="shrink-0 w-[260px] xs:w-[285px] sm:w-[340px] lg:w-[380px] -translate-y-8 sm:-translate-y-16 lg:-translate-y-24 py-2 sm:py-3">
+              <motion.div
+                whileHover={{ y: -6, scale: 1.015 }}
+                transition={{ type: 'spring', stiffness: 400, damping: 28 }}
+                onClick={() => setSelectedCert(certifications[3])}
+                className="relative w-full rounded-[24px] sm:rounded-[30px] p-[2px] overflow-hidden group cursor-pointer shadow-[0_4px_20px_rgba(0,0,0,0.04)]"
+              >
+                {/* Default Static Border */}
+                <div className="absolute inset-0 rounded-[24px] sm:rounded-[30px] border border-[#fde047]/70 pointer-events-none group-hover:opacity-0 transition-opacity duration-300" />
+                
+                {/* Animated Glowing Border Beam on Hover (Confined to border, NO spread) */}
+                <div className="absolute inset-0 rounded-[24px] sm:rounded-[30px] opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none overflow-hidden">
+                  <div className="absolute inset-[-150%] animate-[spin_2.5s_linear_infinite] bg-[conic-gradient(from_0deg,transparent_0_240deg,#ffaa00_290deg,#ffea00_340deg,transparent_360deg)]" />
+                </div>
+
+                {/* Inner Card Body */}
+                <div className="relative w-full h-full rounded-[22px] sm:rounded-[28px] bg-gradient-to-b from-[#fffef5] to-[#fef9c3]/70 p-3.5 sm:p-5 z-10">
+                  <div className="flex items-center justify-between px-1 mb-2.5 sm:mb-3">
+                    <span className="text-[10px] sm:text-xs font-poppins font-bold tracking-wider text-amber-900/80 uppercase truncate max-w-[85%]">
+                      {certifications[3].issuerBadge}
+                    </span>
+                    <span className="w-2.5 h-2.5 rounded-full bg-gradient-to-r from-[#ffaa00] to-[#ffea00] shadow-[0_0_8px_rgba(255,170,0,0.6)] shrink-0" />
+                  </div>
+                  <div className="relative w-full h-[175px] xs:h-[195px] sm:h-[225px] lg:h-[235px] rounded-xl sm:rounded-2xl bg-white/95 border border-[#fef08a]/80 overflow-hidden flex items-center justify-center p-2 group-hover:border-[#fde047] transition-colors">
+                    <img
+                      src={certifications[3].image}
+                      alt={certifications[3].title}
+                      className="w-full h-full object-contain rounded-lg sm:rounded-xl transition-transform duration-500 group-hover:scale-105"
+                    />
+                  </div>
+                </div>
+              </motion.div>
+            </div>
+
+            {/* 5. Cisco Networking Basics (Lower card - White) */}
+            <div className="shrink-0 w-[260px] xs:w-[285px] sm:w-[340px] lg:w-[380px] translate-y-8 sm:translate-y-16 lg:translate-y-24 py-2 sm:py-3">
+              <motion.div
+                whileHover={{ y: -6, scale: 1.015 }}
+                transition={{ type: 'spring', stiffness: 400, damping: 28 }}
+                onClick={() => setSelectedCert(certifications[4])}
+                className="relative w-full rounded-[24px] sm:rounded-[30px] p-[2px] overflow-hidden group cursor-pointer shadow-[0_4px_20px_rgba(0,0,0,0.04)]"
+              >
+                {/* Default Static Border */}
+                <div className="absolute inset-0 rounded-[24px] sm:rounded-[30px] border border-slate-200/90 pointer-events-none group-hover:opacity-0 transition-opacity duration-300" />
+                
+                {/* Animated Glowing Border Beam on Hover (Confined to border, NO spread) */}
+                <div className="absolute inset-0 rounded-[24px] sm:rounded-[30px] opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none overflow-hidden">
+                  <div className="absolute inset-[-150%] animate-[spin_2.5s_linear_infinite] bg-[conic-gradient(from_0deg,transparent_0_240deg,#ffaa00_290deg,#ffea00_340deg,transparent_360deg)]" />
+                </div>
+
+                {/* Inner Card Body */}
+                <div className="relative w-full h-full rounded-[22px] sm:rounded-[28px] bg-white p-3.5 sm:p-5 z-10">
+                  <div className="flex items-center justify-between px-1 mb-2.5 sm:mb-3">
+                    <span className="text-[10px] sm:text-xs font-poppins font-bold tracking-wider text-slate-500 uppercase truncate max-w-[85%]">
+                      {certifications[4].issuerBadge}
+                    </span>
+                    <span className="w-2.5 h-2.5 rounded-full bg-slate-300 group-hover:bg-[#ffaa00] transition-colors shadow-xs shrink-0" />
+                  </div>
+                  <div className="relative w-full h-[175px] xs:h-[195px] sm:h-[225px] lg:h-[235px] rounded-xl sm:rounded-2xl bg-[#f8fafc] border border-slate-100/90 overflow-hidden flex items-center justify-center p-2 group-hover:border-slate-200 transition-colors">
+                    <img
+                      src={certifications[4].image}
+                      alt={certifications[4].title}
+                      className="w-full h-full object-contain rounded-lg sm:rounded-xl transition-transform duration-500 group-hover:scale-105"
+                    />
+                  </div>
+                </div>
+              </motion.div>
+            </div>
+
+            {/* 6. Cisco AI & Networks (Upper card - Light Yellow Navbar Theme) */}
+            <div className="shrink-0 w-[260px] xs:w-[285px] sm:w-[340px] lg:w-[380px] -translate-y-8 sm:-translate-y-16 lg:-translate-y-24 py-2 sm:py-3">
+              <motion.div
+                whileHover={{ y: -6, scale: 1.015 }}
+                transition={{ type: 'spring', stiffness: 400, damping: 28 }}
+                onClick={() => setSelectedCert(certifications[5])}
+                className="relative w-full rounded-[24px] sm:rounded-[30px] p-[2px] overflow-hidden group cursor-pointer shadow-[0_4px_20px_rgba(0,0,0,0.04)]"
+              >
+                {/* Default Static Border */}
+                <div className="absolute inset-0 rounded-[24px] sm:rounded-[30px] border border-[#fde047]/70 pointer-events-none group-hover:opacity-0 transition-opacity duration-300" />
+                
+                {/* Animated Glowing Border Beam on Hover (Confined to border, NO spread) */}
+                <div className="absolute inset-0 rounded-[24px] sm:rounded-[30px] opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none overflow-hidden">
+                  <div className="absolute inset-[-150%] animate-[spin_2.5s_linear_infinite] bg-[conic-gradient(from_0deg,transparent_0_240deg,#ffaa00_290deg,#ffea00_340deg,transparent_360deg)]" />
+                </div>
+
+                {/* Inner Card Body */}
+                <div className="relative w-full h-full rounded-[22px] sm:rounded-[28px] bg-gradient-to-b from-[#fffef5] to-[#fef9c3]/70 p-3.5 sm:p-5 z-10">
+                  <div className="flex items-center justify-between px-1 mb-2.5 sm:mb-3">
+                    <span className="text-[10px] sm:text-xs font-poppins font-bold tracking-wider text-amber-900/80 uppercase truncate max-w-[85%]">
+                      {certifications[5].issuerBadge}
+                    </span>
+                    <span className="w-2.5 h-2.5 rounded-full bg-gradient-to-r from-[#ffaa00] to-[#ffea00] shadow-[0_0_8px_rgba(255,170,0,0.6)] shrink-0" />
+                  </div>
+                  <div className="relative w-full h-[175px] xs:h-[195px] sm:h-[225px] lg:h-[235px] rounded-xl sm:rounded-2xl bg-white/95 border border-[#fef08a]/80 overflow-hidden flex items-center justify-center p-2 group-hover:border-[#fde047] transition-colors">
+                    <img
+                      src={certifications[5].image}
+                      alt={certifications[5].title}
+                      className="w-full h-full object-contain rounded-lg sm:rounded-xl transition-transform duration-500 group-hover:scale-105"
+                    />
+                  </div>
+                </div>
+              </motion.div>
+            </div>
+
+            {/* CTA Section - Big bold typography matching section headers, red PROJECT? and arrow */}
+            <div 
+              ref={ctaRef}
+              className="shrink-0 ml-4 sm:ml-8 lg:ml-14 pr-8 sm:pr-16 lg:pr-24 flex flex-col items-start justify-center"
+            >
+              <h3 className="text-3xl xs:text-4xl sm:text-6xl md:text-7xl lg:text-[96px] font-black font-sans tracking-tight leading-[0.9] uppercase select-none whitespace-nowrap">
+                <span className="text-slate-950 block">GOT A</span>
+                <span className="text-[#e11d48] block">PROJECT?</span>
+              </h3>
+              <div className="text-[#e11d48] mt-3 sm:mt-7">
+                <motion.div
+                  animate={{ x: [0, 10, 0] }} 
+                  transition={{ repeat: Infinity, duration: 1.2, ease: 'easeInOut' }}
+                >
+                  <ArrowRight className="w-10 h-10 xs:w-12 xs:h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20 stroke-[3]" />
+                </motion.div>
+              </div>
+            </div>
+          </motion.div>
         </motion.div>
 
+      </motion.div>
 
-
-      </div>
-
-      {/* ── MODAL: CERTIFICATE INSPECTION DIALOG ── */}
+      {/* ── CLEAN CERTIFICATE PREVIEW MODAL ── */}
       <AnimatePresence>
         {selectedCert && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6">
-            {/* Backdrop */}
+          <div className="fixed inset-0 z-[100] flex items-center justify-center p-3.5 sm:p-6 pointer-events-auto">
+            {/* Light Blur Backdrop */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setSelectedCert(null)}
-              className="absolute inset-0 bg-black/60 backdrop-blur-xs cursor-pointer"
+              className="absolute inset-0 bg-slate-950/40 backdrop-blur-md cursor-pointer"
             />
 
-            {/* Modal Card */}
+            {/* Modal Card with Animated Border Beam */}
             <motion.div
-              initial={{ opacity: 0, scale: 0.94, y: 20 }}
+              initial={{ opacity: 0, scale: 0.94, y: 16 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.94, y: 20 }}
-              transition={{ duration: 0.25, ease: 'easeOut' }}
-              className="relative w-full max-w-2xl bg-white border border-zinc-200 rounded-3xl p-6 sm:p-8 shadow-2xl text-zinc-900 overflow-hidden z-10"
+              exit={{ opacity: 0, scale: 0.94, y: 16 }}
+              transition={{ duration: 0.22, ease: 'easeOut' }}
+              className="relative w-full max-w-lg sm:max-w-xl rounded-3xl p-[2px] overflow-hidden shadow-2xl z-10"
             >
-              {/* Close Button */}
-              <button
-                onClick={() => setSelectedCert(null)}
-                className="absolute top-5 right-5 w-9 h-9 rounded-full bg-zinc-100 hover:bg-zinc-200 flex items-center justify-center text-zinc-600 hover:text-zinc-950 transition-all cursor-pointer"
-                aria-label="Close dialog"
-              >
-                <X size={18} />
-              </button>
-
-              {/* Issuer Badge & Verified Status */}
-              <div className="flex items-center gap-3 mb-4">
-                <span className={`px-3 py-1 rounded-md text-xs font-poppins font-black uppercase tracking-wider border ${selectedCert.badgeBg}`}>
-                  {selectedCert.issuerBadge}
-                </span>
-                <span className="text-xs font-poppins text-zinc-500 font-semibold">
-                  {selectedCert.issuer}
-                </span>
-                <span className="inline-flex items-center gap-1 text-[11px] font-poppins text-emerald-700 font-bold bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200">
-                  <BadgeCheck size={14} /> Verified Credential
-                </span>
+              {/* Animated Glowing Border Beam on Modal Border */}
+              <div className="absolute inset-0 rounded-3xl pointer-events-none overflow-hidden">
+                <div className="absolute inset-[-150%] animate-[spin_3s_linear_infinite] bg-[conic-gradient(from_0deg,transparent_0_240deg,#ffaa00_290deg,#ffea00_340deg,transparent_360deg)]" />
               </div>
 
-              {/* Title */}
-              <h3 className="text-xl sm:text-2xl font-bold font-poppins text-zinc-900 tracking-tight mb-3">
-                {selectedCert.title}
-              </h3>
-
-              {/* Credential ID & Date */}
-              <div className="flex flex-wrap items-center gap-4 text-xs font-sans text-zinc-600 mb-6 pb-5 border-b border-zinc-200">
-                <div>
-                  <span className="text-zinc-400 font-sans">ID: </span>
-                  <span className="text-zinc-900 font-poppins font-bold">{selectedCert.credentialId}</span>
+              {/* Inner Modal Content */}
+              <div className="relative w-full h-full rounded-[22px] bg-white p-3.5 sm:p-5 text-slate-900">
+                {/* Header: Title & Yellow Close Button */}
+                <div className="flex items-center justify-between gap-2.5 mb-3 px-1">
+                  <div className="flex items-center gap-2 min-w-0">
+                    <span className="w-2.5 h-2.5 rounded-full bg-gradient-to-r from-[#ffaa00] to-[#ffea00] shrink-0 shadow-[0_0_8px_rgba(255,170,0,0.6)]" />
+                    <h3 className="text-sm sm:text-base font-bold font-sans text-slate-900 leading-snug line-clamp-2">
+                      {selectedCert.title}
+                    </h3>
+                  </div>
+                  <button
+                    onClick={() => setSelectedCert(null)}
+                    className="shrink-0 w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-gradient-to-r from-[#ffaa00] to-[#ffea00] text-black shadow-sm flex items-center justify-center transition-transform hover:scale-105 active:scale-95 hover:brightness-105 cursor-pointer"
+                    aria-label="Close modal"
+                  >
+                    <X className="w-4 h-4 sm:w-4.5 sm:h-4.5 stroke-[2.5]" />
+                  </button>
                 </div>
-                <div>
-                  <span className="text-zinc-400 font-sans">Date: </span>
-                  <span className="text-zinc-800 font-sans">{selectedCert.date}</span>
+
+                {/* Certificate Image */}
+                <div className="relative w-full rounded-2xl overflow-hidden bg-slate-50 border border-slate-100 flex items-center justify-center p-1 sm:p-2">
+                  <img
+                    src={selectedCert.image}
+                    alt={selectedCert.title}
+                    className="w-full h-auto max-h-[58vh] sm:max-h-[65vh] object-contain rounded-xl"
+                  />
                 </div>
               </div>
-
-              {/* Full Description */}
-              <p className="text-xs sm:text-sm text-zinc-600 leading-relaxed font-normal font-sans mb-6">
-                {selectedCert.description}
-              </p>
-
-              {/* Key Architectural Highlights */}
-              <div className="mb-6">
-                <h4 className="text-xs font-poppins uppercase tracking-wider text-zinc-500 font-bold mb-3">
-                  Core Validated Competencies
-                </h4>
-                <div className="space-y-2">
-                  {selectedCert.highlights.map((h, i) => (
-                    <div key={i} className="flex items-center gap-2 text-xs sm:text-sm text-zinc-800 font-sans">
-                      <CheckCircle2 size={15} className="text-[#d97706] shrink-0" />
-                      <span>{h}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Skills Tags */}
-              <div className="mb-8">
-                <h4 className="text-xs font-poppins uppercase tracking-wider text-zinc-500 font-bold mb-2.5">
-                  Demonstrated Tech Stack
-                </h4>
-                <div className="flex flex-wrap gap-1.5">
-                  {selectedCert.skills.map((s, i) => (
-                    <span
-                      key={i}
-                      className="px-3 py-1 rounded-md bg-zinc-100 border border-zinc-200 text-xs font-poppins text-zinc-800 font-semibold"
-                    >
-                      {s}
-                    </span>
-                  ))}
-                </div>
-              </div>
-
-              {/* Verification & Action Links */}
-              <div className="flex flex-wrap items-center gap-3">
-                <a
-                  href={selectedCert.verificationUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex-1 min-w-[200px] px-6 py-3 rounded-xl bg-zinc-900 hover:bg-black text-white font-bold text-xs font-poppins uppercase tracking-wider text-center transition-all flex items-center justify-center gap-2 cursor-pointer shadow-md"
-                >
-                  <span>Verify on Official Registry</span>
-                  <ExternalLink size={14} />
-                </a>
-
-                <button
-                  onClick={() => setSelectedCert(null)}
-                  className="px-6 py-3 rounded-xl bg-zinc-100 hover:bg-zinc-200 text-zinc-700 border border-zinc-300 text-xs font-poppins uppercase tracking-wider transition-all cursor-pointer font-bold"
-                >
-                  Close
-                </button>
-              </div>
-
             </motion.div>
           </div>
         )}

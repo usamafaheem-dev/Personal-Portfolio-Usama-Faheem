@@ -330,28 +330,33 @@ export default function Projects() {
     <section
       ref={containerRef}
       id="projects"
-      className="relative h-[480vh] sm:h-[750vh] bg-[#1A1A1A] text-white border-t border-white/10 overflow-visible"
+      className="relative h-[480vh] sm:h-[750vh] bg-teal-950 text-teal-50 border-t border-teal-500/20 overflow-visible"
     >
       {/* Sticky Viewport Frame with Video Background */}
-      <div className="sticky top-0 h-screen w-full flex flex-col justify-between overflow-hidden bg-black">
+      <div className="sticky top-0 h-screen w-full flex flex-col justify-between overflow-hidden bg-teal-950">
 
         {/* ── 0. SLEEK WAVE PARTICLE VIDEO BACKGROUND ── */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none z-0 select-none">
+        <div className="absolute inset-0 overflow-hidden pointer-events-none z-0 select-none flex items-center justify-center">
           <video
+            ref={(el) => {
+              if (el && el.currentTime < 3) {
+                el.currentTime = 3;
+              }
+            }}
             autoPlay
             muted
             loop
             playsInline
             preload="auto"
-            className="w-full h-full object-cover object-center opacity-75 scale-105"
+            className="w-full h-full object-cover object-center scale-[1.15] opacity-60"
           >
             <source src="/vesper-bg.mp4" type="video/mp4" />
             <source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260818_072341_50851634-bbc3-4c33-9acc-7647d4db44aa.mp4" type="video/mp4" />
           </video>
-          {/* Subtle dark gradient overlay & ambient glow */}
-          <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/30 to-black/90 pointer-events-none" />
-          <div className="absolute inset-0 bg-[radial-gradient(rgba(255,255,255,0.12)_1.2px,transparent_1.2px)] [background-size:28px_28px] pointer-events-none" />
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-blue-950/20 via-transparent to-transparent pointer-events-none" />
+          {/* Dynamic dark gradient overlay & ambient glow */}
+          <div className="absolute inset-0 bg-gradient-to-b from-teal-950/95 via-teal-950/60 to-teal-950/95 pointer-events-none" />
+          <div className="absolute inset-0 bg-[radial-gradient(rgba(255,255,255,0.1)_1.2px,transparent_1.2px)] pointer-events-none" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-teal-600/20 via-transparent to-transparent pointer-events-none" />
         </div>
 
         {/* ── TOP-LEFT: Hand-Drawn Curvy Arrow Doodle (Crisp White on #1A1A1A) ── */}
@@ -424,7 +429,7 @@ export default function Projects() {
             From concept to <span className="font-poppins italic font-black bg-gradient-to-r from-[#ffaa00] to-[#ffea00] bg-clip-text text-transparent">production.</span>
           </h2>
 
-          <p className="text-gray-400 text-[11px] sm:text-sm max-w-lg mx-auto font-normal font-sans">
+          <p className="text-teal-200 text-[11px] sm:text-sm max-w-lg mx-auto font-normal font-sans">
             A curated collection of production platforms, AI applications, and digital products.
           </p>
         </motion.div>

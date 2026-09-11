@@ -208,23 +208,26 @@ export default function FAQAndContact() {
   const cardX = useTransform(progressRatio, (r) => r * delta.x);
   const cardY = useTransform(progressRatio, (r) => r * delta.y);
 
-  // Dynamic Rotation: Starts at -4deg in FAQ, swings up to +10deg in flight, settles at -2deg in Contact
-  const cardRotate = useTransform(progressRatio, (r) => {
-    if (r <= 0.5) {
-      return -4 + (r / 0.5) * 14;
-    } else {
-      return 10 + ((r - 0.5) / 0.5) * -12;
-    }
-  });
+  // Dynamic 360° Cinematic Rotation: Starts at -4deg in FAQ, completes a full 360° spin mid-flight, and docks smoothly at -2deg (358deg) in Contact
+  const cardRotate = useTransform(
+    progressRatio,
+    [0, 0.12, 0.32, 0.50, 0.68, 0.88, 1.0],
+    [-4, -4, 86, 176, 266, 356, 358]
+  );
 
-  // Dynamic Scale: Gentle swell mid-air (1.0 -> 1.05 -> 1.0)
-  const cardScale = useTransform(progressRatio, (r) => {
-    if (r <= 0.5) {
-      return 1.0 + (r / 0.5) * 0.05;
-    } else {
-      return 1.05 - ((r - 0.5) / 0.5) * 0.05;
-    }
-  });
+  // Subtle 3D aerodynamic tilt during mid-flight spin
+  const cardRotateY = useTransform(
+    progressRatio,
+    [0, 0.25, 0.5, 0.75, 1.0],
+    [0, 14, 0, -14, 0]
+  );
+
+  // Dynamic Scale: Lifts closer to camera mid-flight (1.0 -> 1.08 -> 1.0)
+  const cardScale = useTransform(
+    progressRatio,
+    [0, 0.2, 0.5, 0.8, 1.0],
+    [1.0, 1.04, 1.08, 1.04, 1.0]
+  );
 
   const toggleQuestion = (index: number) => {
     setOpenIndex(openIndex === index ? null : index);
@@ -287,6 +290,7 @@ export default function FAQAndContact() {
                     x: cardX,
                     y: cardY,
                     rotate: cardRotate,
+                    rotateY: cardRotateY,
                     scale: cardScale,
                   }}
                   className="absolute top-0 left-0 z-30 pointer-events-auto origin-center transform-gpu will-change-transform"

@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, ArrowUpRight, Mail, Copy, Check } from 'lucide-react';
+import { Menu, X, ArrowUpRight, ArrowDown, Mail, Copy, Check } from 'lucide-react';
 import Link from 'next/link';
 
 const navLinks = [
@@ -11,6 +11,15 @@ const navLinks = [
   { label: 'Stack', href: '#stack', number: '03' },
   { label: 'Projects', href: '#projects', number: '04' },
   { label: 'Contact', href: '#contact', number: '05' },
+];
+
+const mobileNavLinks = [
+  { label: 'About', href: '#about', number: '01' },
+  { label: 'Services', href: '#services', number: '02' },
+  { label: 'Work', href: '#projects', number: '03' },
+  { label: 'Skills', href: '#stack', number: '04' },
+  { label: 'Journey', href: '#experience', number: '05' },
+  { label: 'Contact', href: '#contact', number: '06' },
 ];
 
 export default function Navbar() {
@@ -426,113 +435,114 @@ export default function Navbar() {
              - Restored exact mobile sidebar with crossed ribbons and staggered layout
              - Zero lag optimized, pure mobile friendly (#f8fafc)
          ════════════════════════════════════════════════════════════════ */}
+      {/* ════════════════════════════════════════════════════════════════
+          4. SLEEK NUMBERED MOBILE DRAWER (MATCHING REFERENCE DESIGN)
+             - Right-side slide-over sheet with high z-index (z-[100]+)
+             - "MENU" header + rounded close box
+             - Numbered list: 01 About, 02 Services, 03 Work, 04 Skills, 05 Journey, 06 Contact
+             - Subtle horizontal dividers
+             - "AVAILABLE FOR WORK" status indicator
+             - Neon Lime "Download CV ↓" & Outlined "Email me" CTA buttons
+         ════════════════════════════════════════════════════════════════ */}
       <AnimatePresence>
         {mobileOpen && (
-          <div className="fixed inset-0 z-[60] flex md:hidden justify-end items-center pointer-events-auto">
-            {/* Clean Fast Backdrop */}
+          <div className="fixed inset-0 z-[100] flex justify-end md:hidden pointer-events-auto">
+            {/* Backdrop Glass Dimmer */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.2 }}
+              transition={{ duration: 0.22 }}
               onClick={() => setMobileOpen(false)}
-              className="absolute inset-0 bg-black/60"
+              className="fixed inset-0 bg-black/60 backdrop-blur-[3px] cursor-pointer"
             />
 
-            {/* Floating Drawer Container in #f8fafc with Safe Mobile Padding */}
+            {/* Right Slide-in White Card / Sheet */}
             <motion.div
               initial={{ x: '100%' }}
               animate={{ x: '0%' }}
               exit={{ x: '100%' }}
-              transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
-              className="relative h-full w-full sm:w-[380px] sm:h-[calc(100vh-1rem)] sm:my-2 sm:mr-2 sm:rounded-[24px] sm:border sm:border-slate-200/90 bg-[#f8fafc] shadow-2xl flex flex-col justify-between px-6 pt-12 pb-10 sm:p-7 overflow-hidden z-[65] transform-gpu"
+              transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+              className="relative w-[84vw] max-w-[340px] sm:max-w-[375px] h-[100dvh] bg-white shadow-[-16px_0_45px_rgba(0,0,0,0.25)] flex flex-col justify-between px-6 py-6 sm:px-7 sm:py-7 overflow-y-auto z-[105] transform-gpu"
             >
-              {/* Subtle Static Crossed Slanted Ribbons */}
-              <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-0 overflow-hidden opacity-75">
-                <div className="absolute w-[200%] h-9 bg-lime-300/25 -rotate-[42deg] border-y border-lime-400/20 flex items-center justify-center">
-                  <span className="font-poppins font-extrabold text-[11px] tracking-[0.25em] text-lime-900/40 uppercase whitespace-nowrap">
-                    USAMA FAHEEM ✦ FRONTEND ENGINEER ✦ MERN STACK ✦ THREE.JS ✦ NEXT.JS
-                  </span>
-                </div>
-                <div className="absolute w-[200%] h-9 bg-slate-200/30 rotate-[42deg] border-y border-slate-300/30 flex items-center justify-center">
-                  <span className="font-poppins font-extrabold text-[11px] tracking-[0.25em] text-slate-700/35 uppercase whitespace-nowrap">
-                    CREATIVE UI ✦ WEBGL CANVAS ✦ TAILWIND CSS ✦ FIGMA 1:1 ✦ REACT 19
-                  </span>
-                </div>
-              </div>
+              {/* Drawer Top Header: "MENU" text & Rounded Square Close Button */}
+              <div className="flex items-center justify-between pb-3 pt-1">
+                <span className="text-[11px] sm:text-xs font-bold font-sans tracking-[0.22em] text-neutral-400 uppercase">
+                  MENU
+                </span>
 
-              {/* Drawer Header */}
-              <div className="flex items-center justify-between relative z-20">
-                <Link 
-                  href="/" 
-                  onClick={() => setMobileOpen(false)}
-                  className="flex items-center group pl-0.5"
-                >
-                  <span className="text-lg sm:text-2xl font-sans tracking-tighter text-slate-900 flex items-center">
-                    <span className="font-sans font-bold text-[#d8ff00] drop-shadow-[0_1px_1.5px_rgba(0,0,0,0.3)] text-lg sm:text-2xl mr-1">&lt;</span>
-                    <span className="font-bold">Usama</span>
-                    <span className="font-extrabold text-[#d8ff00] drop-shadow-[0_1px_1.5px_rgba(0,0,0,0.3)]">Faheem</span>
-                    <span className="font-sans font-bold text-[#d8ff00] drop-shadow-[0_1px_1.5px_rgba(0,0,0,0.3)] text-lg sm:text-2xl ml-1">/&gt;</span>
-                  </span>
-                </Link>
-
-                {/* Compact Lime Theme Close (X) Button */}
                 <button
                   onClick={() => setMobileOpen(false)}
                   aria-label="Close Menu"
-                  className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-lime-400 text-black hover:bg-lime-500 shadow-sm flex items-center justify-center transition-transform hover:scale-105 active:scale-95 cursor-pointer"
+                  className="w-10 h-10 sm:w-11 sm:h-11 rounded-2xl border-2 border-slate-900 flex items-center justify-center text-slate-900 hover:bg-slate-100 active:scale-95 transition-all cursor-pointer"
                 >
-                  <X className="w-4 h-4 sm:w-4.5 sm:h-4.5 stroke-[2.5]" />
+                  <X className="w-5 h-5 stroke-[2.4]" />
                 </button>
               </div>
 
-              {/* Alternating Left-Right Smooth Staggered Links */}
-              <div className="flex flex-col items-center justify-center gap-4 sm:gap-5 my-auto text-center relative z-20">
-                {navLinks.map((link, i) => {
-                  const isEven = i % 2 === 0;
-                  const initialX = isEven ? -40 : 40;
-
-                  return (
-                    <motion.div
-                      key={link.label}
-                      initial={{ opacity: 0, x: initialX }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{
-                        delay: 0.08 + i * 0.06,
-                        duration: 0.3,
-                        ease: 'easeOut'
-                      }}
-                      className="transform-gpu"
+              {/* Numbered Navigation Links List with Dividers */}
+              <div className="flex flex-col my-auto py-2">
+                {mobileNavLinks.map((link, i) => (
+                  <motion.div
+                    key={link.label}
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{
+                      delay: 0.05 + i * 0.035,
+                      duration: 0.22,
+                      ease: 'easeOut',
+                    }}
+                  >
+                    <Link
+                      href={link.href}
+                      onClick={() => setMobileOpen(false)}
+                      className="flex items-center gap-4 py-3 sm:py-3.5 border-b border-slate-100 group transition-all"
                     >
-                      <Link
-                        href={link.href}
-                        onClick={() => setMobileOpen(false)}
-                        className="text-3xl sm:text-[36px] font-poppins font-extrabold text-[#0f172a] hover:text-lime-600 active:scale-95 transition-colors duration-150 tracking-tight block py-0.5"
-                      >
+                      <span className="font-extrabold text-xs sm:text-sm font-sans tracking-wide text-[#7ba000] w-6">
+                        {link.number}
+                      </span>
+                      <span className="font-extrabold text-[1.35rem] sm:text-[1.5rem] font-sans tracking-tight text-slate-950 group-hover:text-[#6a8400] transition-colors">
                         {link.label}
-                      </Link>
-                    </motion.div>
-                  );
-                })}
+                      </span>
+                    </Link>
+                  </motion.div>
+                ))}
               </div>
 
-              {/* Bottom Lime RESUME Button */}
-              <motion.div 
-                initial={{ opacity: 0, y: 15 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.38, duration: 0.3, ease: 'easeOut' }}
-                className="w-full relative z-20 transform-gpu"
-              >
+              {/* Bottom Area: Status & Dual CTA Buttons */}
+              <div className="pt-4">
+                {/* Available For Work Live Indicator */}
+                <div className="flex items-center gap-2 mb-4">
+                  <span className="relative flex h-2 w-2">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
+                  </span>
+                  <span className="text-[11px] font-bold font-sans tracking-[0.14em] text-neutral-400 uppercase">
+                    AVAILABLE FOR WORK
+                  </span>
+                </div>
+
+                {/* Bright Neon Lime Download CV Button */}
                 <a
                   href="/Usama_Faheem_Resume.pdf"
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={() => setMobileOpen(false)}
-                  className="w-full py-3.5 rounded-full bg-[#0052ff] text-white font-poppins font-extrabold text-sm tracking-widest uppercase flex items-center justify-center gap-2 shadow-[0_8px_20px_rgba(0,82,255,0.35)] hover:bg-[#003fcc] hover:shadow-[0_12px_28px_rgba(0,82,255,0.55)] transition-all text-center"
+                  className="w-full py-3.5 rounded-full bg-[#d8ff00] hover:bg-[#cbf200] text-black font-sans font-extrabold text-sm sm:text-base flex items-center justify-center gap-2 shadow-[0_4px_16px_rgba(216,255,0,0.35)] transition-all hover:scale-[1.02] active:scale-95 text-center mb-3 cursor-pointer"
                 >
-                  <span>RESUME</span>
+                  <span>Download CV</span>
+                  <ArrowDown className="w-4 h-4 stroke-[2.6]" />
                 </a>
-              </motion.div>
+
+                {/* Email Me Pill Button */}
+                <a
+                  href="mailto:developer@usamafaheem.com"
+                  onClick={() => setMobileOpen(false)}
+                  className="w-full py-3.5 rounded-full bg-white hover:bg-slate-50 text-black border-2 border-slate-900 font-sans font-extrabold text-sm sm:text-base flex items-center justify-center shadow-xs transition-all hover:scale-[1.02] active:scale-95 text-center cursor-pointer"
+                >
+                  Email me
+                </a>
+              </div>
             </motion.div>
           </div>
         )}

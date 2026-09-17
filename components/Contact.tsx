@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { Send, Check, Copy, ArrowUpRight, MessageCircle, Mail, MapPin, Sparkles } from 'lucide-react';
+import RetroPhone from './RetroPhone';
 
 export default function Contact() {
   const [formState, setFormState] = useState({
@@ -16,7 +17,7 @@ export default function Contact() {
   const [copiedEmail, setCopiedEmail] = useState(false);
 
   const handleCopyEmail = () => {
-    navigator.clipboard.writeText('usamafaheem989@gmail.com');
+    navigator.clipboard.writeText('developer@usamafaheem.com');
     setCopiedEmail(true);
     setTimeout(() => setCopiedEmail(false), 2000);
   };
@@ -39,19 +40,35 @@ export default function Contact() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-14 items-center">
           
           {/* ── LEFT COLUMN: TAPED PAPER SHEET FORM WITH 3D AVATAR SITTING ON TOP ── */}
-          <div className="lg:col-span-6 relative pt-32 sm:pt-40 flex justify-center lg:justify-start">
+          <div className="lg:col-span-6 relative pt-36 sm:pt-44 lg:pt-48 flex justify-center lg:justify-start">
             
             {/* 3D Usama Avatar Sitting on Top Edge with Legs Dangling Over Note */}
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 lg:left-1/2 lg:-translate-x-1/2 z-30 w-[240px] sm:w-[290px] pointer-events-none drop-shadow-[0_15px_25px_rgba(0,0,0,0.22)]">
+            <div className="absolute -top-[122px] sm:-top-[144px] left-1/2 -translate-x-1/2 z-30 w-[150px] sm:w-[175px] pointer-events-none drop-shadow-[0_14px_24px_rgba(0,0,0,0.20)]">
+              {/* Floating Speech Bubble */}
               <motion.div
-                initial={{ y: -10 }}
-                animate={{ y: [0, -6, 0] }}
-                transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
-                className="relative w-full h-[280px] sm:h-[340px]"
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1, y: [0, -3, 0] }}
+                transition={{
+                  opacity: { duration: 0.4 },
+                  y: { repeat: Infinity, duration: 3.5, ease: 'easeInOut' },
+                }}
+                className="absolute -top-6.5 left-1/2 -translate-x-1/2 bg-white/95 border border-slate-200/90 text-slate-800 text-[10.5px] font-bold px-3 py-0.5 rounded-full shadow-md whitespace-nowrap z-40 flex items-center gap-1 backdrop-blur-xs"
+              >
+                <span>Ready to build? 🚀</span>
+                <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1.5 h-1.5 bg-white border-b border-r border-slate-200/90 rotate-45" />
+              </motion.div>
+
+              <motion.div
+                animate={{
+                  y: [0, -4, 0],
+                  rotate: [-1.2, 1.2, -1.2],
+                }}
+                transition={{ duration: 4.2, repeat: Infinity, ease: 'easeInOut' }}
+                className="relative w-full h-[190px] sm:h-[220px] origin-bottom"
               >
                 <Image
-                  src="/usama_sitting_avatar.png"
-                  alt="Usama 3D Avatar sitting on paper note"
+                  src="/usaam_emoji.png"
+                  alt="Usama 3D Avatar giving thumbs up"
                   fill
                   className="object-contain object-bottom select-none"
                   priority
@@ -59,33 +76,39 @@ export default function Contact() {
               </motion.div>
             </div>
 
-            {/* The Stylized Paper Note Sheet */}
-            <div className="relative w-full max-w-[500px] bg-[#faf8f3] rounded-[24px] sm:rounded-[28px] p-6 xs:p-8 sm:p-10 pt-16 sm:pt-20 border border-[#e2ded4] shadow-[0_20px_60px_rgba(0,0,0,0.08),0_4px_16px_rgba(0,0,0,0.04)]">
+            {/* The Stylized Paper Note Sheet with Retro Phone */}
+            <div className="relative w-full max-w-[450px] md:ml-48 lg:ml-56 mt-4 sm:mt-8 bg-[#faf8f3]/95 rounded-[22px] sm:rounded-[26px] p-6 sm:p-7 pt-16 sm:pt-20 border border-[#e2ded4] shadow-[0_18px_48px_rgba(0,0,0,0.09)] backdrop-blur-lg">
+              
+              {/* ── RETRO RED TELEPHONE HANDSET (LEFT OF FORM, CONTINUING WIRE SAFELY BELOW FORM) ── */}
+              <div className="hidden sm:block absolute -left-44 lg:-left-52 top-12 sm:top-16 z-20 pointer-events-none">
+                <RetroPhone cordWidth={920} wireBottomY={620} />
+              </div>
               
               {/* Top-Left Masking Tape Strip */}
-              <div className="absolute -top-3.5 left-8 w-24 h-8 bg-amber-200/70 backdrop-blur-[1px] border border-amber-300/60 -rotate-[10deg] shadow-[0_2px_6px_rgba(0,0,0,0.08)] z-20 pointer-events-none rounded-xs" />
+              <div className="absolute -top-3 left-6 w-20 h-7 bg-lime-200/70 backdrop-blur-[1px] border border-lime-300/60 -rotate-[8deg] shadow-[0_2px_6px_rgba(0,0,0,0.06)] z-20 pointer-events-none rounded-xs" />
               
               {/* Top-Right Masking Tape Strip */}
-              <div className="absolute -top-3.5 right-8 w-24 h-8 bg-amber-200/70 backdrop-blur-[1px] border border-amber-300/60 rotate-[8deg] shadow-[0_2px_6px_rgba(0,0,0,0.08)] z-20 pointer-events-none rounded-xs" />
+              <div className="absolute -top-3 right-6 w-20 h-7 bg-lime-200/70 backdrop-blur-[1px] border border-lime-300/60 rotate-[7deg] shadow-[0_2px_6px_rgba(0,0,0,0.06)] z-20 pointer-events-none rounded-xs" />
 
               {/* Form Heading Inside Paper */}
-              <div className="text-left font-sans mb-6 sm:mb-8">
-                <span className="text-[#e11d48] text-xs font-black uppercase tracking-widest block mb-1">
+              <div className="text-left font-sans mb-5 sm:mb-6">
+                <span className="text-[#0052ff] text-[11px] font-extrabold uppercase tracking-widest block mb-1">
                   GET IN TOUCH
                 </span>
-                <h3 className="text-2xl sm:text-3xl font-black font-sans text-slate-950 uppercase tracking-tight leading-tight">
+                <h3 className="text-xl sm:text-2xl font-extrabold font-sans uppercase tracking-tight leading-tight text-slate-950">
                   LET&apos;S MAKE IT FUN
                 </h3>
-                <p className="text-xs sm:text-[13px] text-slate-500 font-medium mt-1">
+                <p className="text-xs sm:text-[12.5px] font-medium mt-1 text-slate-500">
                   Fill in the details below and I&apos;ll get back to you within 24 hours.
                 </p>
               </div>
 
               {/* Interactive Form Fields */}
-              <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-4.5 text-left font-sans">
+              <form onSubmit={handleSubmit} className="space-y-3.5 sm:space-y-4 text-left font-sans">
                 <div>
-                  <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1.5">
-                    Your Name
+                  <label className="flex items-center justify-between text-[10.5px] font-bold uppercase tracking-wider mb-1.5 text-slate-600">
+                    <span>Your Name</span>
+                    <span className="text-[9.5px] font-semibold text-[#0052ff] lowercase">*required</span>
                   </label>
                   <input
                     type="text"
@@ -93,13 +116,14 @@ export default function Contact() {
                     placeholder="e.g. Alex Morgan"
                     value={formState.name}
                     onChange={(e) => setFormState({ ...formState, name: e.target.value })}
-                    className="w-full px-4 py-3 sm:py-3.5 rounded-[14px] bg-[#f0ebe1] border border-[#ded7c8] text-slate-900 text-sm placeholder-slate-400 font-medium focus:outline-none focus:border-slate-800 focus:bg-[#ede6da] transition-colors"
+                    className="w-full px-3.5 py-2.5 sm:py-2.5 rounded-xl border border-[#ded7c8] bg-white/80 hover:bg-white text-slate-900 text-[13px] sm:text-sm placeholder:text-slate-400 font-medium shadow-[0_1px_2px_rgba(0,0,0,0.03)] hover:border-slate-400 focus:outline-none focus:border-slate-900 focus:ring-2 focus:ring-slate-900/10 focus:bg-white transition-all duration-200"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1.5">
-                    Email Address
+                  <label className="flex items-center justify-between text-[10.5px] font-bold uppercase tracking-wider mb-1.5 text-slate-600">
+                    <span>Email Address</span>
+                    <span className="text-[9.5px] font-semibold text-[#0052ff] lowercase">*required</span>
                   </label>
                   <input
                     type="email"
@@ -107,12 +131,12 @@ export default function Contact() {
                     placeholder="alex@company.com"
                     value={formState.email}
                     onChange={(e) => setFormState({ ...formState, email: e.target.value })}
-                    className="w-full px-4 py-3 sm:py-3.5 rounded-[14px] bg-[#f0ebe1] border border-[#ded7c8] text-slate-900 text-sm placeholder-slate-400 font-medium focus:outline-none focus:border-slate-800 focus:bg-[#ede6da] transition-colors"
+                    className="w-full px-3.5 py-2.5 sm:py-2.5 rounded-xl border border-[#ded7c8] bg-white/80 hover:bg-white text-slate-900 text-[13px] sm:text-sm placeholder:text-slate-400 font-medium shadow-[0_1px_2px_rgba(0,0,0,0.03)] hover:border-slate-400 focus:outline-none focus:border-slate-900 focus:ring-2 focus:ring-slate-900/10 focus:bg-white transition-all duration-200"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1.5">
+                  <label className="block text-[10.5px] font-bold uppercase tracking-wider mb-1.5 text-slate-600">
                     Project Type
                   </label>
                   <input
@@ -120,13 +144,14 @@ export default function Contact() {
                     placeholder="e.g. Next.js SaaS Web App / Portfolio Redesign"
                     value={formState.projectType}
                     onChange={(e) => setFormState({ ...formState, projectType: e.target.value })}
-                    className="w-full px-4 py-3 sm:py-3.5 rounded-[14px] bg-[#f0ebe1] border border-[#ded7c8] text-slate-900 text-sm placeholder-slate-400 font-medium focus:outline-none focus:border-slate-800 focus:bg-[#ede6da] transition-colors"
+                    className="w-full px-3.5 py-2.5 sm:py-2.5 rounded-xl border border-[#ded7c8] bg-white/80 hover:bg-white text-slate-900 text-[13px] sm:text-sm placeholder:text-slate-400 font-medium shadow-[0_1px_2px_rgba(0,0,0,0.03)] hover:border-slate-400 focus:outline-none focus:border-slate-900 focus:ring-2 focus:ring-slate-900/10 focus:bg-white transition-all duration-200"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1.5">
-                    Tell Me More About It
+                  <label className="flex items-center justify-between text-[10.5px] font-bold uppercase tracking-wider mb-1.5 text-slate-600">
+                    <span>Tell Me More About It</span>
+                    <span className="text-[9.5px] font-semibold text-[#0052ff] lowercase">*required</span>
                   </label>
                   <textarea
                     rows={3}
@@ -134,27 +159,29 @@ export default function Contact() {
                     placeholder="Timeline, goals, budget, or wild ideas..."
                     value={formState.message}
                     onChange={(e) => setFormState({ ...formState, message: e.target.value })}
-                    className="w-full px-4 py-3 rounded-[14px] bg-[#f0ebe1] border border-[#ded7c8] text-slate-900 text-sm placeholder-slate-400 font-medium focus:outline-none focus:border-slate-800 focus:bg-[#ede6da] transition-colors resize-none"
+                    className="w-full px-3.5 py-2.5 sm:py-2.5 rounded-xl border border-[#ded7c8] bg-white/80 hover:bg-white text-slate-900 text-[13px] sm:text-sm placeholder:text-slate-400 font-medium shadow-[0_1px_2px_rgba(0,0,0,0.03)] hover:border-slate-400 focus:outline-none focus:border-slate-900 focus:ring-2 focus:ring-slate-900/10 focus:bg-white transition-all duration-200 resize-none"
                   />
                 </div>
 
-                {/* Submit Pill Button */}
-                <button
-                  type="submit"
-                  className="w-full mt-2 py-4 px-6 rounded-full bg-gradient-to-r from-[#ff381e] to-[#e0240d] hover:from-[#e0240d] hover:to-[#b81804] text-white font-black text-sm uppercase tracking-wider shadow-[0_10px_25px_rgba(239,68,68,0.35)] transition-all transform active:scale-95 flex items-center justify-center gap-2 cursor-pointer"
-                >
-                  {submitted ? (
-                    <>
-                      <Check className="w-4 h-4" />
-                      <span>Message Dispatched!</span>
-                    </>
-                  ) : (
-                    <>
-                      <span>Send Message</span>
-                      <Send className="w-4 h-4" />
-                    </>
-                  )}
-                </button>
+                {/* Submit Button Centered Inline-Block */}
+                <div className="flex justify-center pt-2 sm:pt-2.5">
+                  <button
+                    type="submit"
+                    className="inline-flex items-center justify-center gap-2.5 px-8 py-3.5 rounded-full bg-[#0052ff] hover:bg-[#003fcc] text-white font-extrabold text-xs sm:text-[13px] uppercase tracking-wider shadow-[0_10px_22px_rgba(0,82,255,0.35)] hover:shadow-[0_14px_28px_rgba(0,82,255,0.48)] transition-all duration-300 transform hover:-translate-y-0.5 active:scale-95 cursor-pointer"
+                  >
+                    {submitted ? (
+                      <>
+                        <Check className="w-4 h-4 text-white" />
+                        <span>Message Dispatched!</span>
+                      </>
+                    ) : (
+                      <>
+                        <span>Send Message</span>
+                        <Send className="w-3.5 h-3.5 text-white" />
+                      </>
+                    )}
+                  </button>
+                </div>
               </form>
             </div>
 
@@ -165,10 +192,10 @@ export default function Contact() {
             
             {/* Massive Hero Heading */}
             <div className="space-y-1">
-              <h2 className="text-5xl xs:text-6xl sm:text-7xl lg:text-[86px] font-black font-sans tracking-tight text-slate-950 uppercase leading-[0.92]">
+              <h2 className="text-5xl xs:text-6xl sm:text-7xl lg:text-[86px] font-extrabold font-sans tracking-tight text-slate-950 uppercase leading-[0.92]">
                 LET&apos;S TALK
               </h2>
-              <div className="text-5xl xs:text-6xl sm:text-7xl lg:text-[86px] font-black font-sans tracking-tight uppercase leading-[0.92] bg-gradient-to-r from-[#8b5cf6] via-[#ec4899] to-[#f97316] bg-clip-text text-transparent drop-shadow-sm">
+              <div className="text-5xl xs:text-6xl sm:text-7xl lg:text-[86px] font-extrabold font-sans tracking-tight uppercase leading-[0.92] text-[#0052ff] drop-shadow-sm">
                 SAY HI
               </div>
             </div>
@@ -193,7 +220,7 @@ export default function Contact() {
                   className="inline-flex items-center gap-2 px-4 py-2.5 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-900 text-xs sm:text-[13px] font-bold transition-colors cursor-pointer"
                 >
                   <Mail className="w-3.5 h-3.5 text-slate-600" />
-                  <span>usamafaheem989@gmail.com</span>
+                  <span>developer@usamafaheem.com</span>
                   {copiedEmail ? (
                     <Check className="w-3.5 h-3.5 text-emerald-600" />
                   ) : (

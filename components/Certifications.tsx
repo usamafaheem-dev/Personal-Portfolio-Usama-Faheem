@@ -187,16 +187,16 @@ export default function Certifications() {
   const bottomScrollX = useTransform(smoothProgress, [0.00, 0.16], ['0%', '160%']);
   const bottomScrollOpacity = useTransform(smoothProgress, [0.00, 0.10, 0.16], [1, 1, 0]);
 
-  // Step 3: "ENTER THE CERTIFICATIONS" — Prominently appears and Deep zooms inside 'C' letter portal
-  const enterScale = useTransform(smoothProgress, [0.10, 0.18, 0.36], [0.92, 1.0, 65.0]);
-  const enterOpacity = useTransform(smoothProgress, [0.06, 0.12, 0.28, 0.36], [0, 1, 1, 0]);
-  const enterShiftX = useTransform(smoothProgress, [0.14, 0.36], [0, portalShift.x]);
-  const enterShiftY = useTransform(smoothProgress, [0.14, 0.36], [0, portalShift.y]);
+  // Step 3: "ENTER THE CERTIFICATIONS" — Appears briefly, then zooms through 'C' with quick fade
+  const enterScale = useTransform(smoothProgress, [0.10, 0.16, 0.30], [0.92, 1.0, 50.0]);
+  const enterOpacity = useTransform(smoothProgress, [0.06, 0.12, 0.16, 0.22], [0, 1, 1, 0]);
+  const enterShiftX = useTransform(smoothProgress, [0.14, 0.30], [0, portalShift.x]);
+  const enterShiftY = useTransform(smoothProgress, [0.14, 0.30], [0, portalShift.y]);
 
-  // Step 4: Cards Track SCROLLS UP smoothly as the C portal opens
-  const cardScale = useTransform(smoothProgress, [0.30, 0.40], [0.88, 1.0]);
-  const trackOpacity = useTransform(smoothProgress, [0.30, 0.36], [0, 1]);
-  const trackY = useTransform(smoothProgress, [0.30, 0.40], ['55vh', '0vh']);
+  // Step 4: Cards Track slides up as portal fades — crossfade overlap for seamless transition
+  const cardScale = useTransform(smoothProgress, [0.20, 0.30], [0.88, 1.0]);
+  const trackOpacity = useTransform(smoothProgress, [0.20, 0.26], [0, 1]);
+  const trackY = useTransform(smoothProgress, [0.20, 0.30], ['55vh', '0vh']);
   
   // Track X: Dynamically scrolls until "GOT A PROJECT?" is in the EXACT DEAD CENTER of the screen
   const trackX = useTransform(smoothProgress, [0.40, 0.88], [0, targetTranslateX]);
@@ -209,89 +209,89 @@ export default function Certifications() {
     <section
       ref={containerRef}
       id="certifications"
-      className="relative h-[450vh] sm:h-[550vh] lg:h-[620vh] bg-[#eae9e5] text-slate-900 select-none"
+      className="relative h-[450vh] sm:h-[550vh] lg:h-[620vh] bg-[#f8fafc] text-slate-900 select-none"
     >
       {/* Sticky Viewport Container with Parallax Exit */}
       <motion.div 
         style={{ scale: exitScale, opacity: exitOpacity }}
-        className="sticky top-0 h-screen w-full flex flex-col justify-between overflow-hidden bg-[#eae9e5] z-10 origin-center"
+        className="sticky top-0 h-screen w-full flex flex-col justify-between overflow-hidden bg-[#f8fafc] z-10 origin-center"
       >
 
-        {/* ── AMBIENT PASTEL BACKGROUND GLOW (Provides soft organic colors for entire section & certificates) ── */}
+        {/* ── AMBIENT BRAND BACKGROUND GLOW (Exact 4 Services Colors: Blue, Dark, Lime, Mint) ── */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
-          <div className="absolute top-[-5%] left-[-5%] w-[45vw] h-[45vw] rounded-full bg-[#ffd8ec]/60 blur-[90px]" />
-          <div className="absolute bottom-[-5%] left-[5%] w-[42vw] h-[42vw] rounded-full bg-[#e8dbfc]/60 blur-[90px]" />
-          <div className="absolute top-[8%] right-[-5%] w-[48vw] h-[48vw] rounded-full bg-[#fef3c7]/60 blur-[90px]" />
-          <div className="absolute bottom-[-5%] right-[8%] w-[40vw] h-[40vw] rounded-full bg-[#d1fae5]/60 blur-[90px]" />
+          <div className="absolute top-[-5%] left-[-5%] w-[45vw] h-[45vw] rounded-full bg-[#0052ff]/09 blur-[110px]" />
+          <div className="absolute bottom-[-5%] left-[5%] w-[42vw] h-[42vw] rounded-full bg-[#10121a]/05 blur-[110px]" />
+          <div className="absolute top-[8%] right-[-5%] w-[48vw] h-[48vw] rounded-full bg-[#d8ff00]/14 blur-[110px]" />
+          <div className="absolute bottom-[-5%] right-[8%] w-[40vw] h-[40vw] rounded-full bg-[#00d5b5]/10 blur-[110px]" />
           
           {/* Fine Dotted Grid Overlay */}
-          <div className="absolute inset-0 bg-[radial-gradient(#94a3b8_1.2px,transparent_1.2px)] [background-size:24px_24px] opacity-25" />
+          <div className="absolute inset-0 bg-[radial-gradient(#94a3b8_1.2px,transparent_1.2px)] [background-size:24px_24px] opacity-30" />
         </div>
 
-        {/* ── STAGE 1: GRAPHIC ORGANIC PASTEL BLOBS & DOODLES (Animated, Fades out ONLY at 'C' portal zoom) ── */}
+        {/* ── STAGE 1: GRAPHIC BRAND ORGANIC BLOBS & DOODLES (Exact 4 Services Colors: Blue, Dark, Lime, Mint) ── */}
         <motion.div 
           style={{ opacity: shapesOpacity, scale: shapesScale }}
           className="absolute inset-0 overflow-hidden pointer-events-none z-1"
         >
-          {/* 1. Top-Left Dusty Rose / Pink Organic Blob (Behind Top-Left Heading) */}
+          {/* 1. Top-Left Electric Blue Organic Blob (#0052ff) */}
           <motion.div
             animate={{ y: [0, -8, 0], rotate: [0, 2, 0] }}
             transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut' }}
             style={{ borderRadius: '54% 46% 62% 38% / 44% 56% 44% 56%' }}
-            className="absolute top-[12%] sm:top-[2%] left-[-8%] sm:left-[0%] w-[170px] h-[160px] sm:w-[320px] sm:h-[300px] lg:w-[440px] lg:h-[410px] bg-[#f8b4c4]/50 shadow-xs"
+            className="absolute top-[12%] sm:top-[2%] left-[-8%] sm:left-[0%] w-[170px] h-[160px] sm:w-[320px] sm:h-[300px] lg:w-[440px] lg:h-[410px] bg-[#0052ff]/12 border border-[#0052ff]/20 shadow-xs"
           />
           
-          {/* 2. Bottom-Left Soft Lilac / Lavender Organic Blob (Behind SCROLL TO SEE) */}
+          {/* 2. Bottom-Left Sleek Dark Charcoal Organic Blob (#10121a) */}
           <motion.div
             animate={{ y: [0, 8, 0], rotate: [0, -2, 0] }}
             transition={{ duration: 6.5, repeat: Infinity, ease: 'easeInOut', delay: 0.4 }}
             style={{ borderRadius: '46% 54% 38% 62% / 56% 44% 62% 38%' }}
-            className="absolute bottom-[10%] sm:bottom-[2%] left-[0%] sm:left-[8%] lg:left-[13%] w-[180px] h-[170px] sm:w-[330px] sm:h-[310px] lg:w-[460px] lg:h-[430px] bg-[#dfd4f8]/50 shadow-xs"
+            className="absolute bottom-[10%] sm:bottom-[2%] left-[0%] sm:left-[8%] lg:left-[13%] w-[180px] h-[170px] sm:w-[330px] sm:h-[310px] lg:w-[460px] lg:h-[430px] bg-[#10121a]/08 border border-[#10121a]/15 shadow-xs"
           />
 
-          {/* Tiny Purple Accent Dot (Left of Lilac Blob) */}
+          {/* Tiny Electric Mint Accent Dot (#00d5b5 - Left of Charcoal Blob) */}
           <motion.div 
             animate={{ scale: [1, 1.25, 1] }}
             transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
-            className="absolute bottom-[36%] sm:bottom-[35%] left-[3%] sm:left-[5%] w-2.5 h-2.5 sm:w-3.5 sm:h-3.5 rounded-full bg-[#7c3aed]/70" 
+            className="absolute bottom-[36%] sm:bottom-[35%] left-[3%] sm:left-[5%] w-2.5 h-2.5 sm:w-3.5 sm:h-3.5 rounded-full bg-[#00d5b5]" 
           />
 
-          {/* Coral Wavy Squiggly Line Doodle (Beside SCROLL TO SEE) */}
+          {/* Brand Blue Wavy Squiggly Line Doodle (#0052ff - Beside SCROLL TO SEE) */}
           <motion.div
             animate={{ x: [-3, 3, -3], rotate: [-2, 2, -2] }}
             transition={{ duration: 3.5, repeat: Infinity, ease: 'easeInOut' }}
-            className="absolute bottom-[16%] sm:bottom-[12%] left-[10%] sm:left-[18%] lg:left-[22%] text-[#f43f5e]/80"
+            className="absolute bottom-[16%] sm:bottom-[12%] left-[10%] sm:left-[18%] lg:left-[22%] text-[#0052ff]"
           >
             <svg className="w-8 sm:w-16 h-3 sm:h-5 stroke-current fill-none stroke-[3] stroke-linecap-round" viewBox="0 0 80 20">
               <path d="M 4 10 Q 14 0, 24 10 T 44 10 T 64 10 T 76 10" />
             </svg>
           </motion.div>
 
-          {/* 3. Top-Right Sunny Yellow Organic Blob (Attached to right screen edge) */}
+          {/* 3. Top-Right Signature Neon Lime Organic Blob (#d8ff00) */}
           <motion.div
             animate={{ y: [0, -8, 0], rotate: [0, -2.5, 0] }}
             transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut', delay: 0.8 }}
             style={{ borderRadius: '58% 42% 52% 48% / 42% 58% 48% 52%' }}
-            className="absolute top-[12%] sm:top-[3%] right-[-8%] sm:right-[0%] w-[170px] h-[160px] sm:w-[310px] sm:h-[290px] lg:w-[430px] lg:h-[410px] bg-[#fef08a]/55 shadow-xs"
+            className="absolute top-[12%] sm:top-[3%] right-[-8%] sm:right-[0%] w-[170px] h-[160px] sm:w-[310px] sm:h-[290px] lg:w-[430px] lg:h-[410px] bg-[#d8ff00]/22 border border-[#d8ff00]/30 shadow-xs"
           />
 
-          {/* 4-Pointed Sparkle Star (Inside Yellow Blob) */}
+          {/* 4-Pointed Sparkle Star (Dark Charcoal inside Lime Blob) */}
           <motion.div
             animate={{ scale: [1, 1.25, 1], rotate: [0, 15, 0] }}
             transition={{ duration: 3.2, repeat: Infinity, ease: 'easeInOut' }}
-            className="absolute top-[16%] sm:top-[20%] right-[6%] sm:right-[12%] text-[#f59e0b]/75"
+            className="absolute top-[16%] sm:top-[20%] right-[6%] sm:right-[12%] text-[#10121a]/80"
           >
             <svg className="w-5 h-5 sm:w-8 sm:h-8 fill-current" viewBox="0 0 24 24">
               <path d="M12 0C12 6.627 6.627 12 0 12C6.627 12 12 17.373 12 24C12 17.373 17.373 12 24 12C17.373 12 12 6.627 12 0Z" />
             </svg>
           </motion.div>
 
-          {/* 4. Bottom-Right Soft Mint / Seafoam Organic Blob (Shifted left away from yellow) */}
+          {/* 4. Bottom-Right Electric Mint / Teal Organic Blob (#00d5b5) */}
           <motion.div
             animate={{ y: [0, 8, 0], rotate: [0, 2, 0] }}
             transition={{ duration: 7.5, repeat: Infinity, ease: 'easeInOut', delay: 1.2 }}
             style={{ borderRadius: '48% 52% 44% 56% / 54% 46% 56% 44%' }}
-            className="absolute bottom-[10%] sm:bottom-[2%] right-[6%] sm:right-[20%] lg:right-[26%] w-[150px] h-[140px] sm:w-[260px] sm:h-[250px] lg:w-[360px] lg:h-[350px] bg-[#bbf3e0]/50 shadow-xs"
+            className="absolute bottom-[10%] sm:bottom-[2%] right-[6%] sm:right-[20%] lg:right-[26%] w-[150px] h-[140px] sm:w-[260px] sm:h-[250px] lg:w-[360px] lg:h-[350px] bg-[#00d5b5]/15 border border-[#00d5b5]/25 shadow-xs"
           />
         </motion.div>
 
@@ -304,10 +304,10 @@ export default function Certifications() {
             className="pt-24 sm:pt-24 lg:pt-14 pr-2 sm:pr-6 lg:pr-10 max-w-full ml-auto flex flex-col items-end text-right"
           >
             <div className="flex flex-col items-end">
-              <h2 className="text-[26px] min-[380px]:text-[30px] sm:text-6xl md:text-7xl lg:text-[96px] font-black font-sans tracking-tight text-slate-950 uppercase leading-none whitespace-nowrap mr-1 sm:mr-16 lg:mr-28 transform scale-y-[1.2] origin-bottom">
+              <h2 className="text-[26px] min-[380px]:text-[30px] sm:text-6xl md:text-7xl lg:text-[96px] font-extrabold font-sans tracking-tight text-slate-950 uppercase leading-none whitespace-nowrap mr-1 sm:mr-16 lg:mr-28 transform scale-y-[1.2] origin-bottom">
                 LET MY CERTIFICATES
               </h2>
-              <h2 className="text-[26px] min-[380px]:text-[30px] sm:text-6xl md:text-7xl lg:text-[96px] font-black font-sans tracking-tight text-[#e11d48] uppercase leading-none whitespace-nowrap mt-1.5 sm:mt-3 mr-0 transform scale-y-[1.2] origin-bottom">
+              <h2 className="text-[26px] min-[380px]:text-[30px] sm:text-6xl md:text-7xl lg:text-[96px] font-extrabold font-sans tracking-tight text-[#0052ff] uppercase leading-none whitespace-nowrap mt-1.5 sm:mt-3 mr-0 transform scale-y-[1.2] origin-bottom">
                 DO THE TALKING
               </h2>
             </div>
@@ -319,13 +319,13 @@ export default function Certifications() {
             className="pb-24 sm:pb-10 lg:pb-12 pl-4 sm:pl-6 lg:pl-10"
           >
             <div className="flex items-center gap-2.5 sm:gap-4 text-slate-950 whitespace-nowrap">
-              <h3 className="text-[26px] min-[380px]:text-[30px] sm:text-6xl md:text-7xl lg:text-[100px] font-black font-sans uppercase tracking-tight leading-none transform scale-y-[1.2] origin-bottom">
+              <h3 className="text-[26px] min-[380px]:text-[30px] sm:text-6xl md:text-7xl lg:text-[100px] font-extrabold font-sans uppercase tracking-tight leading-none transform scale-y-[1.2] origin-bottom">
                 SCROLL TO SEE
               </h3>
               <motion.div
                 animate={{ y: [0, 6, 0] }}
                 transition={{ repeat: Infinity, duration: 1.5, ease: 'easeInOut' }}
-                className="text-[#e11d48] shrink-0"
+                className="text-[#0052ff] shrink-0"
               >
                 <ArrowDown className="w-7 h-7 min-[380px]:w-8 min-[380px]:h-8 sm:w-14 sm:h-14 lg:w-22 lg:h-22 stroke-[3] transform scale-y-[1.2]" />
               </motion.div>
@@ -346,10 +346,10 @@ export default function Certifications() {
             }}
             className="flex flex-col items-center justify-center will-change-transform"
           >
-            <h2 className="text-3xl min-[360px]:text-4xl sm:text-6xl md:text-8xl lg:text-[110px] font-black font-sans text-slate-950 uppercase tracking-tight leading-none mb-1.5 sm:mb-4 transform scale-y-[1.2] whitespace-nowrap">
+            <h2 className="text-3xl min-[360px]:text-4xl sm:text-6xl md:text-8xl lg:text-[110px] font-extrabold font-sans text-slate-950 uppercase tracking-tight leading-none mb-1.5 sm:mb-4 transform scale-y-[1.2] whitespace-nowrap">
               ENTER THE
             </h2>
-            <h2 className="text-3xl min-[360px]:text-4xl sm:text-6xl md:text-8xl lg:text-[110px] font-black font-sans uppercase tracking-tight leading-none text-[#e11d48] transform scale-y-[1.2] whitespace-nowrap">
+            <h2 className="text-3xl min-[360px]:text-4xl sm:text-6xl md:text-8xl lg:text-[110px] font-extrabold font-sans uppercase tracking-tight leading-none text-[#0052ff] transform scale-y-[1.2] whitespace-nowrap">
               CERTIFI<span ref={letterCRef} className="inline-block relative">C</span>ATIONS
             </h2>
           </motion.div>
@@ -384,7 +384,7 @@ export default function Certifications() {
                 
                 {/* Animated Glowing Border Beam on Hover (Confined to border, NO spread) */}
                 <div className="absolute inset-0 rounded-[24px] sm:rounded-[30px] opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none overflow-hidden">
-                  <div className="absolute inset-[-150%] animate-[spin_2.5s_linear_infinite] bg-[conic-gradient(from_0deg,transparent_0_240deg,#ffaa00_290deg,#ffea00_340deg,transparent_360deg)]" />
+                  <div className="absolute inset-[-150%] animate-[spin_2.5s_linear_infinite] bg-[conic-gradient(from_0deg,transparent_0_240deg,#d8ff00_290deg,#ccf23a_340deg,transparent_360deg)]" />
                 </div>
 
                 {/* Inner Card Body */}
@@ -393,7 +393,7 @@ export default function Certifications() {
                     <span className="text-[10px] sm:text-xs font-poppins font-bold tracking-wider text-slate-500 uppercase truncate max-w-[85%]">
                       {certifications[0].issuerBadge}
                     </span>
-                    <span className="w-2.5 h-2.5 rounded-full bg-slate-300 group-hover:bg-[#ffaa00] transition-colors shadow-xs shrink-0" />
+                    <span className="w-2.5 h-2.5 rounded-full bg-slate-300 group-hover:bg-[#d8ff00] transition-colors shadow-xs shrink-0" />
                   </div>
                   <div className="relative w-full h-[175px] xs:h-[195px] sm:h-[225px] lg:h-[235px] rounded-xl sm:rounded-2xl bg-[#f8fafc] border border-slate-100/90 overflow-hidden flex items-center justify-center p-2 group-hover:border-slate-200 transition-colors">
                     <img
@@ -415,22 +415,22 @@ export default function Certifications() {
                 className="relative w-full rounded-[24px] sm:rounded-[30px] p-[2px] overflow-hidden group cursor-pointer shadow-[0_4px_20px_rgba(0,0,0,0.04)]"
               >
                 {/* Default Static Border */}
-                <div className="absolute inset-0 rounded-[24px] sm:rounded-[30px] border border-[#fde047]/70 pointer-events-none group-hover:opacity-0 transition-opacity duration-300" />
+                <div className="absolute inset-0 rounded-[24px] sm:rounded-[30px] border border-[#ccf23a]/70 pointer-events-none group-hover:opacity-0 transition-opacity duration-300" />
                 
                 {/* Animated Glowing Border Beam on Hover (Confined to border, NO spread) */}
                 <div className="absolute inset-0 rounded-[24px] sm:rounded-[30px] opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none overflow-hidden">
-                  <div className="absolute inset-[-150%] animate-[spin_2.5s_linear_infinite] bg-[conic-gradient(from_0deg,transparent_0_240deg,#ffaa00_290deg,#ffea00_340deg,transparent_360deg)]" />
+                  <div className="absolute inset-[-150%] animate-[spin_2.5s_linear_infinite] bg-[conic-gradient(from_0deg,transparent_0_240deg,#d8ff00_290deg,#ccf23a_340deg,transparent_360deg)]" />
                 </div>
 
                 {/* Inner Card Body */}
-                <div className="relative w-full h-full rounded-[22px] sm:rounded-[28px] bg-gradient-to-b from-[#fffef5] to-[#fef9c3]/70 p-3.5 sm:p-5 z-10">
+                <div className="relative w-full h-full rounded-[22px] sm:rounded-[28px] bg-gradient-to-b from-[#fbfff0] to-[#f2ffc2]/70 p-3.5 sm:p-5 z-10">
                   <div className="flex items-center justify-between px-1 mb-2.5 sm:mb-3">
-                    <span className="text-[10px] sm:text-xs font-poppins font-bold tracking-wider text-amber-900/80 uppercase truncate max-w-[85%]">
+                    <span className="text-[10px] sm:text-xs font-poppins font-bold tracking-wider text-lime-900/80 uppercase truncate max-w-[85%]">
                       {certifications[1].issuerBadge}
                     </span>
-                    <span className="w-2.5 h-2.5 rounded-full bg-gradient-to-r from-[#ffaa00] to-[#ffea00] shadow-[0_0_8px_rgba(255,170,0,0.6)] shrink-0" />
+                    <span className="w-2.5 h-2.5 rounded-full bg-gradient-to-r from-[#d8ff00] to-[#ccf23a] shadow-[0_0_8px_rgba(216,255,0,0.6)] shrink-0" />
                   </div>
-                  <div className="relative w-full h-[175px] xs:h-[195px] sm:h-[225px] lg:h-[235px] rounded-xl sm:rounded-2xl bg-white/95 border border-[#fef08a]/80 overflow-hidden flex items-center justify-center p-2 group-hover:border-[#fde047] transition-colors">
+                  <div className="relative w-full h-[175px] xs:h-[195px] sm:h-[225px] lg:h-[235px] rounded-xl sm:rounded-2xl bg-white/95 border border-[#f2ffc2]/80 overflow-hidden flex items-center justify-center p-2 group-hover:border-[#ccf23a] transition-colors">
                     <img
                       src={certifications[1].image}
                       alt={certifications[1].title}
@@ -446,7 +446,7 @@ export default function Certifications() {
               <p className="text-lg xs:text-xl sm:text-2xl lg:text-[32px] font-semibold font-sans text-slate-900 leading-[1.25] tracking-tight">
                 "It doesn't matter <span className="font-bold">what</span> you build, it matters <span className="font-bold">how much fun</span> it is to use."
               </p>
-              <p style={{ fontFamily: 'var(--font-caveat), cursive' }} className="text-[#e11d48] text-3xl sm:text-4xl lg:text-5xl mt-2 sm:mt-3 -rotate-2 font-bold tracking-wider">
+              <p style={{ fontFamily: 'var(--font-caveat), cursive' }} className="text-[#0052ff] text-3xl sm:text-4xl lg:text-5xl mt-2 sm:mt-3 -rotate-2 font-bold tracking-wider">
                 Usama Faheem
               </p>
             </div>
@@ -464,7 +464,7 @@ export default function Certifications() {
                 
                 {/* Animated Glowing Border Beam on Hover (Confined to border, NO spread) */}
                 <div className="absolute inset-0 rounded-[24px] sm:rounded-[30px] opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none overflow-hidden">
-                  <div className="absolute inset-[-150%] animate-[spin_2.5s_linear_infinite] bg-[conic-gradient(from_0deg,transparent_0_240deg,#ffaa00_290deg,#ffea00_340deg,transparent_360deg)]" />
+                  <div className="absolute inset-[-150%] animate-[spin_2.5s_linear_infinite] bg-[conic-gradient(from_0deg,transparent_0_240deg,#d8ff00_290deg,#ccf23a_340deg,transparent_360deg)]" />
                 </div>
 
                 {/* Inner Card Body */}
@@ -473,7 +473,7 @@ export default function Certifications() {
                     <span className="text-[10px] sm:text-xs font-poppins font-bold tracking-wider text-slate-500 uppercase truncate max-w-[85%]">
                       {certifications[2].issuerBadge}
                     </span>
-                    <span className="w-2.5 h-2.5 rounded-full bg-slate-300 group-hover:bg-[#ffaa00] transition-colors shadow-xs shrink-0" />
+                    <span className="w-2.5 h-2.5 rounded-full bg-slate-300 group-hover:bg-[#d8ff00] transition-colors shadow-xs shrink-0" />
                   </div>
                   <div className="relative w-full h-[175px] xs:h-[195px] sm:h-[225px] lg:h-[235px] rounded-xl sm:rounded-2xl bg-[#f8fafc] border border-slate-100/90 overflow-hidden flex items-center justify-center p-2 group-hover:border-slate-200 transition-colors">
                     <img
@@ -495,22 +495,22 @@ export default function Certifications() {
                 className="relative w-full rounded-[24px] sm:rounded-[30px] p-[2px] overflow-hidden group cursor-pointer shadow-[0_4px_20px_rgba(0,0,0,0.04)]"
               >
                 {/* Default Static Border */}
-                <div className="absolute inset-0 rounded-[24px] sm:rounded-[30px] border border-[#fde047]/70 pointer-events-none group-hover:opacity-0 transition-opacity duration-300" />
+                <div className="absolute inset-0 rounded-[24px] sm:rounded-[30px] border border-[#ccf23a]/70 pointer-events-none group-hover:opacity-0 transition-opacity duration-300" />
                 
                 {/* Animated Glowing Border Beam on Hover (Confined to border, NO spread) */}
                 <div className="absolute inset-0 rounded-[24px] sm:rounded-[30px] opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none overflow-hidden">
-                  <div className="absolute inset-[-150%] animate-[spin_2.5s_linear_infinite] bg-[conic-gradient(from_0deg,transparent_0_240deg,#ffaa00_290deg,#ffea00_340deg,transparent_360deg)]" />
+                  <div className="absolute inset-[-150%] animate-[spin_2.5s_linear_infinite] bg-[conic-gradient(from_0deg,transparent_0_240deg,#d8ff00_290deg,#ccf23a_340deg,transparent_360deg)]" />
                 </div>
 
                 {/* Inner Card Body */}
-                <div className="relative w-full h-full rounded-[22px] sm:rounded-[28px] bg-gradient-to-b from-[#fffef5] to-[#fef9c3]/70 p-3.5 sm:p-5 z-10">
+                <div className="relative w-full h-full rounded-[22px] sm:rounded-[28px] bg-gradient-to-b from-[#fbfff0] to-[#f2ffc2]/70 p-3.5 sm:p-5 z-10">
                   <div className="flex items-center justify-between px-1 mb-2.5 sm:mb-3">
-                    <span className="text-[10px] sm:text-xs font-poppins font-bold tracking-wider text-amber-900/80 uppercase truncate max-w-[85%]">
+                    <span className="text-[10px] sm:text-xs font-poppins font-bold tracking-wider text-lime-900/80 uppercase truncate max-w-[85%]">
                       {certifications[3].issuerBadge}
                     </span>
-                    <span className="w-2.5 h-2.5 rounded-full bg-gradient-to-r from-[#ffaa00] to-[#ffea00] shadow-[0_0_8px_rgba(255,170,0,0.6)] shrink-0" />
+                    <span className="w-2.5 h-2.5 rounded-full bg-gradient-to-r from-[#d8ff00] to-[#ccf23a] shadow-[0_0_8px_rgba(216,255,0,0.6)] shrink-0" />
                   </div>
-                  <div className="relative w-full h-[175px] xs:h-[195px] sm:h-[225px] lg:h-[235px] rounded-xl sm:rounded-2xl bg-white/95 border border-[#fef08a]/80 overflow-hidden flex items-center justify-center p-2 group-hover:border-[#fde047] transition-colors">
+                  <div className="relative w-full h-[175px] xs:h-[195px] sm:h-[225px] lg:h-[235px] rounded-xl sm:rounded-2xl bg-white/95 border border-[#f2ffc2]/80 overflow-hidden flex items-center justify-center p-2 group-hover:border-[#ccf23a] transition-colors">
                     <img
                       src={certifications[3].image}
                       alt={certifications[3].title}
@@ -534,7 +534,7 @@ export default function Certifications() {
                 
                 {/* Animated Glowing Border Beam on Hover (Confined to border, NO spread) */}
                 <div className="absolute inset-0 rounded-[24px] sm:rounded-[30px] opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none overflow-hidden">
-                  <div className="absolute inset-[-150%] animate-[spin_2.5s_linear_infinite] bg-[conic-gradient(from_0deg,transparent_0_240deg,#ffaa00_290deg,#ffea00_340deg,transparent_360deg)]" />
+                  <div className="absolute inset-[-150%] animate-[spin_2.5s_linear_infinite] bg-[conic-gradient(from_0deg,transparent_0_240deg,#d8ff00_290deg,#ccf23a_340deg,transparent_360deg)]" />
                 </div>
 
                 {/* Inner Card Body */}
@@ -543,7 +543,7 @@ export default function Certifications() {
                     <span className="text-[10px] sm:text-xs font-poppins font-bold tracking-wider text-slate-500 uppercase truncate max-w-[85%]">
                       {certifications[4].issuerBadge}
                     </span>
-                    <span className="w-2.5 h-2.5 rounded-full bg-slate-300 group-hover:bg-[#ffaa00] transition-colors shadow-xs shrink-0" />
+                    <span className="w-2.5 h-2.5 rounded-full bg-slate-300 group-hover:bg-[#d8ff00] transition-colors shadow-xs shrink-0" />
                   </div>
                   <div className="relative w-full h-[175px] xs:h-[195px] sm:h-[225px] lg:h-[235px] rounded-xl sm:rounded-2xl bg-[#f8fafc] border border-slate-100/90 overflow-hidden flex items-center justify-center p-2 group-hover:border-slate-200 transition-colors">
                     <img
@@ -565,22 +565,22 @@ export default function Certifications() {
                 className="relative w-full rounded-[24px] sm:rounded-[30px] p-[2px] overflow-hidden group cursor-pointer shadow-[0_4px_20px_rgba(0,0,0,0.04)]"
               >
                 {/* Default Static Border */}
-                <div className="absolute inset-0 rounded-[24px] sm:rounded-[30px] border border-[#fde047]/70 pointer-events-none group-hover:opacity-0 transition-opacity duration-300" />
+                <div className="absolute inset-0 rounded-[24px] sm:rounded-[30px] border border-[#ccf23a]/70 pointer-events-none group-hover:opacity-0 transition-opacity duration-300" />
                 
                 {/* Animated Glowing Border Beam on Hover (Confined to border, NO spread) */}
                 <div className="absolute inset-0 rounded-[24px] sm:rounded-[30px] opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none overflow-hidden">
-                  <div className="absolute inset-[-150%] animate-[spin_2.5s_linear_infinite] bg-[conic-gradient(from_0deg,transparent_0_240deg,#ffaa00_290deg,#ffea00_340deg,transparent_360deg)]" />
+                  <div className="absolute inset-[-150%] animate-[spin_2.5s_linear_infinite] bg-[conic-gradient(from_0deg,transparent_0_240deg,#d8ff00_290deg,#ccf23a_340deg,transparent_360deg)]" />
                 </div>
 
                 {/* Inner Card Body */}
-                <div className="relative w-full h-full rounded-[22px] sm:rounded-[28px] bg-gradient-to-b from-[#fffef5] to-[#fef9c3]/70 p-3.5 sm:p-5 z-10">
+                <div className="relative w-full h-full rounded-[22px] sm:rounded-[28px] bg-gradient-to-b from-[#fbfff0] to-[#f2ffc2]/70 p-3.5 sm:p-5 z-10">
                   <div className="flex items-center justify-between px-1 mb-2.5 sm:mb-3">
-                    <span className="text-[10px] sm:text-xs font-poppins font-bold tracking-wider text-amber-900/80 uppercase truncate max-w-[85%]">
+                    <span className="text-[10px] sm:text-xs font-poppins font-bold tracking-wider text-lime-900/80 uppercase truncate max-w-[85%]">
                       {certifications[5].issuerBadge}
                     </span>
-                    <span className="w-2.5 h-2.5 rounded-full bg-gradient-to-r from-[#ffaa00] to-[#ffea00] shadow-[0_0_8px_rgba(255,170,0,0.6)] shrink-0" />
+                    <span className="w-2.5 h-2.5 rounded-full bg-gradient-to-r from-[#d8ff00] to-[#ccf23a] shadow-[0_0_8px_rgba(216,255,0,0.6)] shrink-0" />
                   </div>
-                  <div className="relative w-full h-[175px] xs:h-[195px] sm:h-[225px] lg:h-[235px] rounded-xl sm:rounded-2xl bg-white/95 border border-[#fef08a]/80 overflow-hidden flex items-center justify-center p-2 group-hover:border-[#fde047] transition-colors">
+                  <div className="relative w-full h-[175px] xs:h-[195px] sm:h-[225px] lg:h-[235px] rounded-xl sm:rounded-2xl bg-white/95 border border-[#f2ffc2]/80 overflow-hidden flex items-center justify-center p-2 group-hover:border-[#ccf23a] transition-colors">
                     <img
                       src={certifications[5].image}
                       alt={certifications[5].title}
@@ -596,11 +596,11 @@ export default function Certifications() {
               ref={ctaRef}
               className="shrink-0 ml-4 sm:ml-8 lg:ml-14 pr-8 sm:pr-16 lg:pr-24 flex flex-col items-start justify-center"
             >
-              <h3 className="text-3xl xs:text-4xl sm:text-6xl md:text-7xl lg:text-[96px] font-black font-sans tracking-tight leading-[0.9] uppercase select-none whitespace-nowrap">
+              <h3 className="text-3xl xs:text-4xl sm:text-6xl md:text-7xl lg:text-[96px] font-extrabold font-sans tracking-tight leading-[0.9] uppercase select-none whitespace-nowrap">
                 <span className="text-slate-950 block">GOT A</span>
-                <span className="text-[#e11d48] block">PROJECT?</span>
+                <span className="text-[#0052ff] block">PROJECT?</span>
               </h3>
-              <div className="text-[#e11d48] mt-3 sm:mt-7">
+              <div className="text-[#0052ff] mt-3 sm:mt-7">
                 <motion.div
                   animate={{ x: [0, 10, 0] }} 
                   transition={{ repeat: Infinity, duration: 1.2, ease: 'easeInOut' }}
@@ -637,7 +637,7 @@ export default function Certifications() {
             >
               {/* Animated Glowing Border Beam on Modal Border */}
               <div className="absolute inset-0 rounded-3xl pointer-events-none overflow-hidden">
-                <div className="absolute inset-[-150%] animate-[spin_3s_linear_infinite] bg-[conic-gradient(from_0deg,transparent_0_240deg,#ffaa00_290deg,#ffea00_340deg,transparent_360deg)]" />
+                <div className="absolute inset-[-150%] animate-[spin_3s_linear_infinite] bg-[conic-gradient(from_0deg,transparent_0_240deg,#d8ff00_290deg,#ccf23a_340deg,transparent_360deg)]" />
               </div>
 
               {/* Inner Modal Content */}
@@ -645,14 +645,14 @@ export default function Certifications() {
                 {/* Header: Title & Yellow Close Button */}
                 <div className="flex items-center justify-between gap-2.5 mb-3 px-1">
                   <div className="flex items-center gap-2 min-w-0">
-                    <span className="w-2.5 h-2.5 rounded-full bg-gradient-to-r from-[#ffaa00] to-[#ffea00] shrink-0 shadow-[0_0_8px_rgba(255,170,0,0.6)]" />
+                    <span className="w-2.5 h-2.5 rounded-full bg-gradient-to-r from-[#d8ff00] to-[#ccf23a] shrink-0 shadow-[0_0_8px_rgba(216,255,0,0.6)]" />
                     <h3 className="text-sm sm:text-base font-bold font-sans text-slate-900 leading-snug line-clamp-2">
                       {selectedCert.title}
                     </h3>
                   </div>
                   <button
                     onClick={() => setSelectedCert(null)}
-                    className="shrink-0 w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-gradient-to-r from-[#ffaa00] to-[#ffea00] text-black shadow-sm flex items-center justify-center transition-transform hover:scale-105 active:scale-95 hover:brightness-105 cursor-pointer"
+                    className="shrink-0 w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-gradient-to-r from-[#d8ff00] to-[#ccf23a] text-black shadow-sm flex items-center justify-center transition-transform hover:scale-105 active:scale-95 hover:brightness-105 cursor-pointer"
                     aria-label="Close modal"
                   >
                     <X className="w-4 h-4 sm:w-4.5 sm:h-4.5 stroke-[2.5]" />

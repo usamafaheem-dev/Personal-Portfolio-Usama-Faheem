@@ -15,6 +15,7 @@ import {
   MapPin,
   Sparkles,
 } from 'lucide-react';
+import RetroPhone from '@/components/RetroPhone';
 
 /* ── FAQ Data ── */
 interface FAQItem {
@@ -69,69 +70,79 @@ const faqList: FAQItem[] = [
   },
 ];
 
-/* ── Editorial "Credibility" Card (Matching gsap.mp4) ── */
-function EditorialCard() {
+/* ── Full Background Video Scrubber for Smooth Scroll Effect (60% Opacity) ── */
+function BackgroundVideoPlayer({ progress }: { progress?: any }) {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const videoSrc = '/man_walking_crossing_arms.mp4';
+  const posterSrc = '/man_walking_crossing_arms_poster.jpg';
+  const defaultDuration = 9.8;
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    let rafId: number | null = null;
+
+    const updateTimeFromProgress = (ratio: number) => {
+      if (rafId) cancelAnimationFrame(rafId);
+      rafId = requestAnimationFrame(() => {
+        const clampedRatio = Math.min(Math.max(ratio, 0), 1);
+        const duration = video.duration || defaultDuration;
+        const targetTime = clampedRatio * Math.max(duration - 0.05, 0.1);
+
+        if (Math.abs(video.currentTime - targetTime) > 0.015) {
+          if ('fastSeek' in video && typeof (video as any).fastSeek === 'function') {
+            (video as any).fastSeek(targetTime);
+          } else {
+            video.currentTime = targetTime;
+          }
+        }
+      });
+    };
+
+    if (progress) {
+      if (video.readyState >= 1) {
+        updateTimeFromProgress(progress.get());
+      } else {
+        const onLoaded = () => updateTimeFromProgress(progress.get());
+        video.addEventListener('loadedmetadata', onLoaded, { once: true });
+      }
+
+      const unsubscribe = progress.on('change', (latest: number) => {
+        updateTimeFromProgress(latest);
+      });
+
+      return () => {
+        if (rafId) cancelAnimationFrame(rafId);
+        unsubscribe();
+      };
+    }
+  }, [progress]);
+
   return (
-    <div className="relative w-[320px] sm:w-[340px] xl:w-[360px] rounded-[28px] bg-gradient-to-b from-[#181d29] via-[#10141e] to-[#0a0d14] p-3.5 sm:p-4 border border-slate-700/70 shadow-[0_30px_70px_rgba(15,23,42,0.35)] text-white overflow-hidden group select-none">
-      {/* Top Banner (Matching "CREDIBILITY" in gsap.mp4) */}
-      <div className="flex items-center justify-between px-3.5 py-2 rounded-[16px] bg-gradient-to-r from-amber-400 via-amber-300 to-yellow-400 text-slate-950 mb-3 shadow-md">
-        <div className="flex items-center gap-1.5">
-          <span className="w-2 h-2 rounded-full bg-slate-950 animate-pulse" />
-          <span className="text-[11px] font-black uppercase tracking-wider font-sans">
-            CREDIBILITY
-          </span>
-        </div>
-        <span className="text-[10px] font-black uppercase tracking-widest font-mono text-slate-800">
-          VOL. 26
-        </span>
-      </div>
-
-      {/* Portrait Photo Container */}
-      <div className="relative w-full h-[320px] sm:h-[350px] rounded-[20px] overflow-hidden bg-slate-900 border border-white/10 shadow-inner">
-        <Image
-          src="/Man_looking_back_over_shoulder_202608131928.jpeg"
-          alt="Usama Faheem - Full Stack Architect"
-          fill
-          className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
-          priority
-        />
-        {/* Soft Glass / Vignette Gradient */}
-        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-transparent to-black/20 pointer-events-none" />
-
-        {/* Floating Verified Badge */}
-        <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between text-white/90 z-10">
-          <div>
-            <div className="text-[10px] font-mono uppercase tracking-wider text-amber-400 flex items-center gap-1">
-              <Sparkles className="w-3 h-3" />
-              <span>Verified Creator</span>
-            </div>
-            <div className="text-sm font-black font-sans uppercase tracking-tight text-white">
-              Usama Faheem
-            </div>
-          </div>
-          <span className="px-2.5 py-1 rounded-full bg-white/20 backdrop-blur-md text-[10px] font-bold text-white uppercase tracking-wider border border-white/20">
-            FULL STACK
-          </span>
-        </div>
-      </div>
-
-      {/* Bottom Detail Bar */}
-      <div className="mt-3 px-2 pt-1 flex items-center justify-between text-xs text-slate-400">
-        <span className="font-mono text-[10.5px] uppercase tracking-wider text-slate-400">
-          Next.js 15 &bull; MERN &bull; GSAP
-        </span>
-        <span className="font-mono text-[10.5px] text-amber-400/90 font-bold">
-          ★ 5.0 RATED
-        </span>
-      </div>
+    <div className="relative w-full h-full flex items-center justify-center pointer-events-none">
+      <video
+        ref={videoRef}
+        src={videoSrc}
+        poster={posterSrc}
+        playsInline
+        muted
+        preload="auto"
+        style={{ opacity: 0.60 }}
+        className="w-full h-full object-cover object-[center_top] pointer-events-none"
+      />
+      {/* Soft cinematic vignette blending cleanly with #eae9e5 background */}
+      <div className="absolute inset-0 pointer-events-none bg-gradient-to-b from-[#eae9e5]/20 via-transparent to-[#eae9e5]/30" />
     </div>
   );
 }
 
+
+
 export default function FAQAndContact() {
   const containerRef = useRef<HTMLDivElement>(null);
-  const faqSlotRef = useRef<HTMLDivElement>(null);
-  const contactSlotRef = useRef<HTMLDivElement>(null);
+  const faqSectionRef = useRef<HTMLElement>(null);
+  const contactSectionRef = useRef<HTMLElement>(null);
 
   const [openIndex, setOpenIndex] = useState<number | null>(0);
   const [formState, setFormState] = useState({
@@ -143,112 +154,76 @@ export default function FAQAndContact() {
   const [submitted, setSubmitted] = useState(false);
   const [copiedEmail, setCopiedEmail] = useState(false);
 
-  // Dynamic relative offset between FAQ slot and Contact slot
-  const [delta, setDelta] = useState({ x: 714, y: 1354 });
+  // Dynamic clearance tracker ensuring the coiled phone wire NEVER touches the form card
+  const formCardRef = useRef<HTMLDivElement>(null);
+  const [wireBottomY, setWireBottomY] = useState(570);
 
   useEffect(() => {
-    const updateLayout = () => {
-      if (faqSlotRef.current && contactSlotRef.current) {
-        const faqRect = faqSlotRef.current.getBoundingClientRect();
-        const contactRect = contactSlotRef.current.getBoundingClientRect();
-
-        const newDeltaX = contactRect.left - faqRect.left;
-        const newDeltaY = contactRect.top - faqRect.top;
-
-        if (Math.abs(newDeltaY) > 200) {
-          setDelta({ x: newDeltaX, y: newDeltaY });
-        }
+    if (!formCardRef.current) return;
+    const calculateWireY = () => {
+      if (formCardRef.current) {
+        const formHeight = formCardRef.current.offsetHeight;
+        const phoneTopOffset = window.innerWidth >= 640 ? 64 : 48;
+        const formBottomRelToPhone = formHeight - phoneTopOffset;
+        // Guaranteed 80px clearance below form bottom & comfortably below 520px handset boot (502px)
+        const safeY = Math.max(620, formBottomRelToPhone + 80);
+        setWireBottomY(safeY);
       }
     };
-
-    updateLayout();
-    window.addEventListener('resize', updateLayout);
-
-    let observer: ResizeObserver | null = null;
-    if (typeof ResizeObserver !== 'undefined' && containerRef.current) {
-      observer = new ResizeObserver(() => {
-        updateLayout();
-      });
-      observer.observe(containerRef.current);
-    }
-
-    const t1 = setTimeout(updateLayout, 100);
-    const t2 = setTimeout(updateLayout, 500);
-    const t3 = setTimeout(updateLayout, 1200);
-
+    calculateWireY();
+    const ro = new ResizeObserver(calculateWireY);
+    ro.observe(formCardRef.current);
+    window.addEventListener('resize', calculateWireY);
     return () => {
-      window.removeEventListener('resize', updateLayout);
-      if (observer) observer.disconnect();
-      clearTimeout(t1);
-      clearTimeout(t2);
-      clearTimeout(t3);
+      ro.disconnect();
+      window.removeEventListener('resize', calculateWireY);
     };
   }, []);
 
-  // Continuous Scroll progress through container (FAQ + Contact)
+  // Continuous Scroll progress through entire container (FAQ + Contact)
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ['start start', 'end end'],
   });
 
-  // Snappy yet smooth spring physics for authentic GSAP-like scrubbed momentum
+
+  // Luxurious buttery-smooth spring physics (absorbs fast scroll wheel jerks with graceful inertia)
   const smoothProgress = useSpring(scrollYProgress, {
-    damping: 30,
-    stiffness: 120,
-    mass: 0.1,
+    damping: 42,
+    stiffness: 65,
+    mass: 0.5,
     restDelta: 0.0001,
   });
 
-  // Normalized transition ratio: 0 in FAQ, smoothly reaches 1 as Contact section enters view
-  const progressRatio = useTransform(smoothProgress, [0.18, 0.68], [0, 1], {
+  // Continuous journey from start of FAQ (0.0) to end of Contact (1.0)
+  const bgScrollRatio = useTransform(smoothProgress, [0.0, 1.0], [0, 1], {
     clamp: true,
   });
 
-  // Dynamic transforms directly proportional to actual measured delta between slots
-  const cardX = useTransform(progressRatio, (r) => r * delta.x);
-  const cardY = useTransform(progressRatio, (r) => r * delta.y);
+  // Shift to Left ONLY when Contact Us arrives:
+  // During entire FAQ, cards stay at their normal right position (x: 0).
+  // When Contact Us section rises up towards the pinned note, the cards smoothly glide left (-115px) to align with Contact!
+  const { scrollYProgress: contactEnterProgress } = useScroll({
+    target: contactSectionRef,
+    offset: ['start 70%', 'start 30%'],
+  });
 
-  // Dynamic SKEW Effect (Matching gsap.mp4 physics):
-  // Card skews organically with scroll momentum in mid-air, then snaps straight when arriving at Contact!
-  const cardSkewY = useTransform(
-    progressRatio,
-    [0, 0.20, 0.50, 0.80, 1.0],
-    [0, -7, -10, -4, 0]
-  );
+  const smoothRightRail = useSpring(contactEnterProgress, {
+    damping: 24,
+    stiffness: 140,
+    mass: 0.15,
+    restDelta: 0.001,
+  });
 
-  const cardSkewX = useTransform(
-    progressRatio,
-    [0, 0.20, 0.50, 0.80, 1.0],
-    [0, 5, 8, 3, 0]
-  );
-
-  // Dynamic Natural Tilt: Leans with motion velocity (-4deg in FAQ -> +8deg mid-air -> settles at -2deg in Contact)
-  const cardRotate = useTransform(
-    progressRatio,
-    [0, 0.20, 0.50, 0.80, 1.0],
-    [-4, 2, 8, 2, -2]
-  );
-
-  // Subtle 3D Perspective Depth during travel
-  const cardRotateY = useTransform(
-    progressRatio,
-    [0, 0.25, 0.5, 0.75, 1.0],
-    [0, 12, 16, 8, 0]
-  );
-
-  // Dynamic Scale: Gentle momentum swell (1.0 -> 1.06 -> 1.0)
-  const cardScale = useTransform(
-    progressRatio,
-    [0, 0.25, 0.5, 0.75, 1.0],
-    [1.0, 1.03, 1.06, 1.03, 1.0]
-  );
+  // Glides smoothly from 0 to -115px exactly when Contact Us meets the pinned card
+  const rightRailX = useTransform(smoothRightRail, [0, 1], [0, -115]);
 
   const toggleQuestion = (index: number) => {
     setOpenIndex(openIndex === index ? null : index);
   };
 
   const handleCopyEmail = () => {
-    navigator.clipboard.writeText('usamafaheem989@gmail.com');
+    navigator.clipboard.writeText('developer@usamafaheem.com');
     setCopiedEmail(true);
     setTimeout(() => setCopiedEmail(false), 2000);
   };
@@ -262,189 +237,190 @@ export default function FAQAndContact() {
   return (
     <div
       ref={containerRef}
-      className="relative bg-[#eae9e5] text-slate-900 select-none"
+      className="relative text-slate-900 select-none"
     >
-      {/* ── Precision Dotted Grid Background Pattern ── */}
-      <div className="absolute inset-0 bg-[radial-gradient(#99a1af_1.2px,transparent_1.2px)] [background-size:24px_24px] opacity-35 pointer-events-none" />
 
-      {/* ════════════════════════════════════════════════════════════════════════
-          PART 1: FAQ SECTION
-          ════════════════════════════════════════════════════════════════════════ */}
-      <section id="faq" className="relative py-24 sm:py-28 lg:py-36 z-10">
-        <div className="mx-auto max-w-[1420px] w-full px-4 xs:px-6 sm:px-8 lg:px-12">
-          
-          {/* Section Header */}
-          <div className="text-left font-sans mb-12 sm:mb-16 lg:mb-20">
-            <span
-              style={{ fontFamily: 'var(--font-caveat), cursive' }}
-              className="text-[#e11d48] text-xl xs:text-2xl sm:text-3xl lg:text-4xl font-bold tracking-wide -rotate-2 inline-block mb-1"
-            >
-              got a doubt? →
-            </span>
-            <h2 className="text-2xl xs:text-3xl sm:text-5xl lg:text-[56px] font-black font-sans tracking-tight text-slate-950 uppercase leading-none">
-              FREQUENTLY ASKED QUESTIONS
-            </h2>
-            <p className="text-xs sm:text-sm lg:text-base font-sans text-slate-600 font-medium mt-2 max-w-2xl leading-relaxed">
-              Everything you need to know about partnering together, development timelines, architecture, and post-launch support.
-            </p>
-          </div>
+      {/* ── Sticky Full-Viewport Background Video Layer ── */}
+      <div className="sticky top-0 h-screen w-full pointer-events-none z-0 overflow-hidden -mb-[100vh]">
+        <BackgroundVideoPlayer progress={bgScrollRatio} />
+      </div>
 
-          {/* Grid Layout: Left Slot (holds travelling card) & Right Accordion */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start">
-            
-            {/* Left Slot: Travelling Card anchored in its natural FAQ position */}
-            <div className="lg:col-span-5 self-start">
-              {/* Desktop Slot with Travelling Card */}
-              <div
-                ref={faqSlotRef}
-                className="hidden lg:block relative w-[320px] sm:w-[340px] xl:w-[360px] h-[460px]"
-              >
-                <motion.div
-                  style={{
-                    x: cardX,
-                    y: cardY,
-                    rotate: cardRotate,
-                    rotateY: cardRotateY,
-                    skewX: cardSkewX,
-                    skewY: cardSkewY,
-                    scale: cardScale,
-                  }}
-                  className="absolute top-0 left-0 z-30 pointer-events-auto origin-center transform-gpu will-change-transform"
-                >
-                  <EditorialCard />
-                </motion.div>
+      {/* ── Unified Content Wrapper for FAQ + Contact ── */}
+      <div className="relative z-10 mx-auto max-w-[1420px] w-full px-4 xs:px-6 sm:px-8 lg:px-12 pt-8 sm:pt-12 lg:pt-14 pb-28 sm:pb-36 lg:pb-44">
+
+        {/* Master Two-Column Flex Container: Left = FAQ + Form; Right = Sticky Rail until Form Ends */}
+        <div className="relative flex flex-col lg:flex-row items-start justify-between gap-10 lg:gap-14 xl:gap-16">
+
+          {/* ════════════════════════════════════════════════════════════════════════
+              LEFT COLUMN: 1) FAQ ACCORDION FIRST → 2) CONTACT FORM DIRECTLY BELOW
+              ════════════════════════════════════════════════════════════════════════ */}
+          <div className="w-full lg:flex-1 min-w-0">
+
+            {/* ── 1. FAQ ACCORDION SUB-SECTION ── */}
+            <section id="faq" ref={faqSectionRef} className="scroll-mt-24">
+              <div className="text-left font-sans mb-10 sm:mb-12 max-w-3xl">
+                <div className="inline-flex items-center gap-2 bg-[#d8ff00] border-2 border-black px-3.5 py-1 rounded-full shadow-sm mb-2">
+                  <Sparkles className="w-3.5 h-3.5 text-black" />
+                  <span style={{ fontFamily: 'var(--font-caveat), cursive' }} className="text-base font-bold text-black">Got A Doubt?</span>
+                </div>
+                <h2 className="text-3xl xs:text-4xl sm:text-5xl lg:text-[50px] font-extrabold font-sans tracking-tight uppercase leading-none text-slate-950">
+                  FREQUENTLY ASKED QUESTIONS
+                </h2>
+                <p className="text-xs sm:text-sm lg:text-base font-sans font-medium mt-3 leading-relaxed text-slate-600">
+                  Everything you need to know about partnering together, development timelines, architecture, and post-launch support.
+                </p>
               </div>
 
-              {/* Mobile Inline Card */}
-              <div className="block lg:hidden mb-8">
-                <EditorialCard />
-              </div>
-            </div>
+              {/* FAQ Accordion Tiles */}
+              <div className="space-y-4 sm:space-y-5">
+                {faqList.map((item, index) => {
+                  const isOpen = openIndex === index;
 
-            {/* Right Column: Accordion List */}
-            <div className="lg:col-span-7 flex flex-col gap-4 sm:gap-4.5">
-              {faqList.map((item, index) => {
-                const isOpen = openIndex === index;
-
-                return (
-                  <div
-                    key={item.id}
-                    className={`group rounded-[22px] sm:rounded-[24px] border transition-all duration-300 overflow-hidden ${
-                      isOpen
-                        ? 'bg-white border-slate-300 shadow-[0_10px_30px_rgba(15,23,42,0.08)]'
-                        : 'bg-white/80 hover:bg-white border-slate-200/80 hover:border-slate-300 shadow-sm'
-                    }`}
-                  >
-                    <button
-                      onClick={() => toggleQuestion(index)}
-                      aria-expanded={isOpen}
-                      className="w-full text-left px-5 sm:px-7 py-5 sm:py-6 flex items-center justify-between gap-4 cursor-pointer focus:outline-none"
-                    >
-                      <span className="text-sm sm:text-base lg:text-lg font-bold font-sans text-slate-950 tracking-tight leading-snug">
-                        {item.question}
-                      </span>
-                      
-                      {/* Animated Circular Button (+ / −) */}
-                      <div
-                        className={`shrink-0 w-8 h-8 sm:w-9 sm:h-9 rounded-full flex items-center justify-center transition-all duration-300 ${
-                          isOpen
-                            ? 'bg-[#e11d48] text-white rotate-180 shadow-md shadow-rose-500/30'
-                            : 'bg-slate-100 text-slate-700 group-hover:bg-slate-200 rotate-0'
+                  return (
+                    <div
+                      key={item.id}
+                      className={`relative rounded-none border-y border-slate-300/70 border-l-[3.5px] border-r-[3.5px] transition-all duration-300 overflow-hidden backdrop-blur-xl group ${isOpen
+                        ? 'bg-white/60 border-l-[#d8ff00] border-r-[#d8ff00] shadow-[0_12px_36px_rgba(0,0,0,0.08)]'
+                        : 'bg-white/35 hover:bg-white/50 border-l-slate-900 border-r-slate-900 shadow-[0_4px_20px_rgba(0,0,0,0.04)]'
                         }`}
+                    >
+                      <button
+                        onClick={() => toggleQuestion(index)}
+                        aria-expanded={isOpen}
+                        className="w-full text-left p-5 sm:p-6 sm:py-5 flex items-center justify-between gap-4 cursor-pointer select-none transition-colors"
                       >
-                        {isOpen ? (
-                          <Minus className="w-4 h-4 stroke-[2.5]" />
-                        ) : (
-                          <Plus className="w-4 h-4 stroke-[2.5]" />
-                        )}
-                      </div>
-                    </button>
+                        <div className="flex items-center gap-2.5 sm:gap-4 min-w-0">
+                          <span
+                            className={`w-7 h-7 sm:w-8 sm:h-8 rounded-none flex items-center justify-center text-xs font-mono font-bold shrink-0 transition-colors ${isOpen
+                              ? 'bg-slate-950 text-white'
+                              : 'bg-white/70 text-slate-900 border border-slate-400/60'
+                              }`}
+                          >
+                            {isOpen ? <Minus className="w-3.5 h-3.5" /> : <Plus className="w-3.5 h-3.5" />}
+                          </span>
+                          <span className="hidden sm:inline font-mono text-[11px] sm:text-xs font-extrabold uppercase tracking-wider text-slate-500">
+                            {item.id.replace('faq-', '0')}
+                          </span>
+                          <h3
+                            className={`text-[13px] sm:text-base md:text-lg font-bold transition-colors leading-snug ${isOpen ? 'text-slate-950 font-extrabold' : 'text-slate-800 group-hover:text-slate-950'
+                              }`}
+                          >
+                            {item.question}
+                          </h3>
+                        </div>
 
-                    <AnimatePresence initial={false}>
-                      {isOpen && (
-                        <motion.div
-                          initial={{ height: 0, opacity: 0 }}
-                          animate={{ height: 'auto', opacity: 1 }}
-                          exit={{ height: 0, opacity: 0 }}
-                          transition={{ duration: 0.32, ease: [0.16, 1, 0.3, 1] }}
-                          className="overflow-hidden"
+                        <span
+                          className={`hidden sm:inline-block px-2.5 py-1 text-[10px] font-mono font-bold uppercase rounded-none border transition-colors shrink-0 ${isOpen
+                            ? 'bg-[#d8ff00]/20 text-slate-900 border-[#d8ff00]'
+                            : 'bg-slate-100/80 text-slate-600 border-slate-300'
+                            }`}
                         >
-                          <div className="px-5 sm:px-7 pb-6 pt-1 border-t border-slate-100">
-                            <p className="text-xs sm:text-sm lg:text-[15px] font-sans text-slate-600 font-normal leading-relaxed">
-                              {item.answer}
-                            </p>
-                            <div className="mt-3.5 inline-block">
-                              <span className="text-[11px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-md bg-slate-100 text-slate-500 font-mono">
-                                {item.tag}
-                              </span>
+                          {item.tag}
+                        </span>
+                      </button>
+
+                      <AnimatePresence initial={false}>
+                        {isOpen && (
+                          <motion.div
+                            initial={{ height: 0, opacity: 0 }}
+                            animate={{ height: 'auto', opacity: 1 }}
+                            exit={{ height: 0, opacity: 0 }}
+                            transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+                            className="overflow-hidden"
+                          >
+                            <div className="px-5 pb-5 sm:px-6 sm:pb-6 sm:pl-16 text-slate-700 text-xs sm:text-sm md:text-base leading-relaxed font-sans font-medium border-t border-slate-300/50 pt-4">
+                              <p>{item.answer}</p>
                             </div>
-                          </div>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                  </div>
-                );
-              })}
-            </div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
 
-          </div>
-        </div>
-      </section>
-
-      {/* ════════════════════════════════════════════════════════════════════════
-          PART 2: CONTACT US SECTION ("LET'S TALK SAY HI")
-          ════════════════════════════════════════════════════════════════════════ */}
-      <section id="contact" className="relative py-20 sm:py-28 lg:py-36 z-10">
-        <div className="mx-auto max-w-[1420px] w-full px-4 xs:px-6 sm:px-8 lg:px-12">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-14 items-start">
-            
-            {/* ── LEFT COLUMN: TAPED PAPER NOTE FORM WITH 3D AVATAR SITTING ON TOP ── */}
-            <div className="lg:col-span-6 relative pt-32 sm:pt-40 flex justify-center lg:justify-start">
-              
-              {/* 3D Usama Avatar Sitting on Top Edge with Legs Dangling Over Note */}
-              <div className="absolute top-0 left-1/2 -translate-x-1/2 lg:left-1/2 lg:-translate-x-1/2 z-20 w-[240px] sm:w-[290px] pointer-events-none drop-shadow-[0_15px_25px_rgba(0,0,0,0.22)]">
-                <motion.div
-                  initial={{ y: -10 }}
-                  animate={{ y: [0, -6, 0] }}
-                  transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
-                  className="relative w-full h-[280px] sm:h-[340px]"
-                >
-                  <Image
-                    src="/usama_sitting_avatar.png"
-                    alt="Usama 3D Avatar sitting on paper note"
-                    fill
-                    className="object-contain object-bottom select-none"
-                    priority
-                  />
-                </motion.div>
+                      <div
+                        className={`absolute bottom-0 left-0 right-0 transition-all duration-300 pointer-events-none ${isOpen
+                          ? 'h-[2px] bg-gradient-to-r from-transparent via-[#d8ff00] to-transparent shadow-[0_0_16px_rgba(216,255,0,0.9)] opacity-100'
+                          : 'h-[1.5px] bg-gradient-to-r from-transparent via-[#d8ff00]/60 to-transparent shadow-[0_0_10px_rgba(216,255,0,0.45)] opacity-75 group-hover:opacity-100 group-hover:via-[#d8ff00]'
+                          }`}
+                      />
+                    </div>
+                  );
+                })}
               </div>
+            </section>
 
-              {/* The Stylized Paper Note Sheet */}
-              <div className="relative w-full max-w-[500px] bg-[#faf8f3] rounded-[24px] sm:rounded-[28px] p-6 xs:p-8 sm:p-10 pt-16 sm:pt-20 border border-[#e2ded4] shadow-[0_20px_60px_rgba(0,0,0,0.08),0_4px_16px_rgba(0,0,0,0.04)]">
-                
+            {/* ── 2. CONTACT FORM (PAPER NOTE WITH 3D AVATAR & VINTAGE RED TELEPHONE) ── */}
+            <section id="contact" ref={contactSectionRef} className="mt-8 sm:mt-14 scroll-mt-24 sm:scroll-mt-32 pt-14 sm:pt-20 lg:pt-24 relative">
+
+              <div className="relative w-full max-w-[450px] mx-auto md:mx-0 md:ml-48 lg:ml-56 mt-2 sm:mt-4">
+                {/* ── RETRO RED TELEPHONE HANDSET (LEFT OF FORM, CONTINUING WIRE SAFELY BELOW FORM) ── */}
+                <div className="hidden sm:block absolute -left-44 lg:-left-52 top-12 sm:top-16 z-20 pointer-events-none">
+                  <RetroPhone cordWidth={920} wireBottomY={wireBottomY} />
+                </div>
+
+                {/* The Stylized Paper Note Sheet Form */}
+                <div ref={formCardRef} className="relative w-full rounded-[22px] sm:rounded-[26px] p-6 sm:p-7 pt-16 sm:pt-20 border border-[#e2ded4] bg-[#faf8f3]/95 text-slate-900 shadow-[0_18px_48px_rgba(0,0,0,0.09)] backdrop-blur-lg">
+
+                {/* ── Finalized 3D Thumbs-Up Avatar (Centered, Compact & Subtly Animated) ── */}
+                <div className="absolute -top-[106px] sm:-top-[125px] left-1/2 -translate-x-1/2 z-30 w-[130px] sm:w-[150px] pointer-events-none drop-shadow-[0_12px_22px_rgba(0,0,0,0.18)]">
+                  {/* Floating Speech Bubble */}
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1, y: [0, -3, 0] }}
+                    transition={{
+                      opacity: { duration: 0.4 },
+                      y: { repeat: Infinity, duration: 3.5, ease: 'easeInOut' },
+                    }}
+                    className="absolute -top-6.5 left-1/2 -translate-x-1/2 bg-white/95 border border-slate-200/90 text-slate-800 text-[10.5px] font-bold px-3 py-0.5 rounded-full shadow-md whitespace-nowrap z-40 flex items-center gap-1 backdrop-blur-xs"
+                  >
+                    <span>Ready to build? 🚀</span>
+                    <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1.5 h-1.5 bg-white border-b border-r border-slate-200/90 rotate-45" />
+                  </motion.div>
+
+                  {/* Smooth, Gentle Subtle Animation (Calm & Elegant) */}
+                  <motion.div
+                    animate={{
+                      y: [0, -3.5, 0],
+                      rotate: [-1.2, 1.2, -1.2],
+                    }}
+                    transition={{
+                      duration: 4.2,
+                      repeat: Infinity,
+                      ease: 'easeInOut',
+                    }}
+                    className="relative w-full h-[165px] sm:h-[190px] origin-bottom"
+                  >
+                    <Image
+                      src="/usaam_emoji.png"
+                      alt="Usama 3D Avatar giving thumbs up"
+                      fill
+                      className="object-contain object-bottom select-none"
+                      priority
+                    />
+                  </motion.div>
+                </div>
+
                 {/* Top-Left Masking Tape Strip */}
-                <div className="absolute -top-3.5 left-8 w-24 h-8 bg-amber-200/70 backdrop-blur-[1px] border border-amber-300/60 -rotate-[10deg] shadow-[0_2px_6px_rgba(0,0,0,0.08)] z-20 pointer-events-none rounded-xs" />
-                
+                <div className="absolute -top-3 left-6 w-20 h-7 bg-lime-200/70 backdrop-blur-[1px] border border-lime-300/60 -rotate-[8deg] shadow-[0_2px_6px_rgba(0,0,0,0.06)] z-20 pointer-events-none rounded-xs" />
+
                 {/* Top-Right Masking Tape Strip */}
-                <div className="absolute -top-3.5 right-8 w-24 h-8 bg-amber-200/70 backdrop-blur-[1px] border border-amber-300/60 rotate-[8deg] shadow-[0_2px_6px_rgba(0,0,0,0.08)] z-20 pointer-events-none rounded-xs" />
+                <div className="absolute -top-3 right-6 w-20 h-7 bg-lime-200/70 backdrop-blur-[1px] border border-lime-300/60 rotate-[7deg] shadow-[0_2px_6px_rgba(0,0,0,0.06)] z-20 pointer-events-none rounded-xs" />
 
                 {/* Form Heading Inside Paper */}
-                <div className="text-left font-sans mb-6 sm:mb-8">
-                  <span className="text-[#e11d48] text-xs font-black uppercase tracking-widest block mb-1">
+                <div className="text-left font-sans mb-5 sm:mb-6">
+                  <span className="text-[#0052ff] text-[11px] font-extrabold uppercase tracking-widest block mb-1">
                     GET IN TOUCH
                   </span>
-                  <h3 className="text-2xl sm:text-3xl font-black font-sans text-slate-950 uppercase tracking-tight leading-tight">
+                  <h3 className="text-xl sm:text-2xl font-extrabold font-sans uppercase tracking-tight leading-tight text-slate-950">
                     LET&apos;S MAKE IT FUN
                   </h3>
-                  <p className="text-xs sm:text-[13px] text-slate-500 font-medium mt-1">
+                  <p className="text-xs sm:text-[12.5px] font-medium mt-1 text-slate-500">
                     Fill in the details below and I&apos;ll get back to you within 24 hours.
                   </p>
                 </div>
 
                 {/* Interactive Form Fields */}
-                <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-4.5 text-left font-sans">
+                <form onSubmit={handleSubmit} className="space-y-3.5 sm:space-y-4 text-left font-sans">
                   <div>
-                    <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1.5">
+                    <label className="block text-[10.5px] font-bold uppercase tracking-wider mb-1.5 text-slate-600">
                       Your Name
                     </label>
                     <input
@@ -453,12 +429,12 @@ export default function FAQAndContact() {
                       placeholder="e.g. Alex Morgan"
                       value={formState.name}
                       onChange={(e) => setFormState({ ...formState, name: e.target.value })}
-                      className="w-full px-4 py-3 sm:py-3.5 rounded-[14px] bg-[#f0ebe1] border border-[#ded7c8] text-slate-900 text-sm placeholder-slate-400 font-medium focus:outline-none focus:border-slate-800 focus:bg-[#ede6da] transition-colors"
+                      className="w-full px-3.5 py-2.5 sm:py-2.5 rounded-xl border border-[#ded7c8] bg-white/90 hover:bg-white text-slate-900 text-[13px] sm:text-sm placeholder:text-slate-400 font-medium shadow-[0_1px_2px_rgba(0,0,0,0.03)] hover:border-slate-400 focus:outline-none focus-visible:outline-none focus:border-[#0052ff] focus:ring-2 focus:ring-[#0052ff]/20 focus:bg-white transition-all duration-200"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1.5">
+                    <label className="block text-[10.5px] font-bold uppercase tracking-wider mb-1.5 text-slate-600">
                       Email Address
                     </label>
                     <input
@@ -467,12 +443,12 @@ export default function FAQAndContact() {
                       placeholder="alex@company.com"
                       value={formState.email}
                       onChange={(e) => setFormState({ ...formState, email: e.target.value })}
-                      className="w-full px-4 py-3 sm:py-3.5 rounded-[14px] bg-[#f0ebe1] border border-[#ded7c8] text-slate-900 text-sm placeholder-slate-400 font-medium focus:outline-none focus:border-slate-800 focus:bg-[#ede6da] transition-colors"
+                      className="w-full px-3.5 py-2.5 sm:py-2.5 rounded-xl border border-[#ded7c8] bg-white/90 hover:bg-white text-slate-900 text-[13px] sm:text-sm placeholder:text-slate-400 font-medium shadow-[0_1px_2px_rgba(0,0,0,0.03)] hover:border-slate-400 focus:outline-none focus-visible:outline-none focus:border-[#0052ff] focus:ring-2 focus:ring-[#0052ff]/20 focus:bg-white transition-all duration-200"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1.5">
+                    <label className="block text-[10.5px] font-bold uppercase tracking-wider mb-1.5 text-slate-600">
                       Project Type
                     </label>
                     <input
@@ -480,12 +456,12 @@ export default function FAQAndContact() {
                       placeholder="e.g. Next.js SaaS Web App / Portfolio Redesign"
                       value={formState.projectType}
                       onChange={(e) => setFormState({ ...formState, projectType: e.target.value })}
-                      className="w-full px-4 py-3 sm:py-3.5 rounded-[14px] bg-[#f0ebe1] border border-[#ded7c8] text-slate-900 text-sm placeholder-slate-400 font-medium focus:outline-none focus:border-slate-800 focus:bg-[#ede6da] transition-colors"
+                      className="w-full px-3.5 py-2.5 sm:py-2.5 rounded-xl border border-[#ded7c8] bg-white/90 hover:bg-white text-slate-900 text-[13px] sm:text-sm placeholder:text-slate-400 font-medium shadow-[0_1px_2px_rgba(0,0,0,0.03)] hover:border-slate-400 focus:outline-none focus-visible:outline-none focus:border-[#0052ff] focus:ring-2 focus:ring-[#0052ff]/20 focus:bg-white transition-all duration-200"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1.5">
+                    <label className="block text-[10.5px] font-bold uppercase tracking-wider mb-1.5 text-slate-600">
                       Tell Me More About It
                     </label>
                     <textarea
@@ -494,107 +470,214 @@ export default function FAQAndContact() {
                       placeholder="Timeline, goals, budget, or wild ideas..."
                       value={formState.message}
                       onChange={(e) => setFormState({ ...formState, message: e.target.value })}
-                      className="w-full px-4 py-3 rounded-[14px] bg-[#f0ebe1] border border-[#ded7c8] text-slate-900 text-sm placeholder-slate-400 font-medium focus:outline-none focus:border-slate-800 focus:bg-[#ede6da] transition-colors resize-none"
+                      className="w-full px-3.5 py-2.5 sm:py-2.5 rounded-xl border border-[#ded7c8] bg-white/90 hover:bg-white text-slate-900 text-[13px] sm:text-sm placeholder:text-slate-400 font-medium shadow-[0_1px_2px_rgba(0,0,0,0.03)] hover:border-slate-400 focus:outline-none focus-visible:outline-none focus:border-[#0052ff] focus:ring-2 focus:ring-[#0052ff]/20 focus:bg-white transition-all duration-200 resize-none"
                     />
                   </div>
 
-                  {/* Submit Pill Button */}
-                  <button
-                    type="submit"
-                    className="w-full mt-2 py-4 px-6 rounded-full bg-gradient-to-r from-[#ff381e] to-[#e0240d] hover:from-[#e0240d] hover:to-[#b81804] text-white font-black text-sm uppercase tracking-wider shadow-[0_10px_25px_rgba(239,68,68,0.35)] transition-all transform active:scale-95 flex items-center justify-center gap-2 cursor-pointer"
-                  >
-                    {submitted ? (
-                      <>
-                        <Check className="w-4 h-4" />
-                        <span>Message Dispatched!</span>
-                      </>
-                    ) : (
-                      <>
-                        <span>Send Message</span>
-                        <Send className="w-4 h-4" />
-                      </>
-                    )}
-                  </button>
+                  {/* Submit Button Centered Inline-Block per Audio Instructions */}
+                  <div className="flex justify-center pt-2 sm:pt-2.5">
+                    <button
+                      type="submit"
+                      className="inline-flex items-center justify-center gap-2.5 px-8 py-3.5 rounded-full bg-[#0052ff] hover:bg-[#003fcc] text-white font-extrabold text-xs sm:text-[13px] uppercase tracking-wider shadow-[0_10px_22px_rgba(0,82,255,0.35)] hover:shadow-[0_14px_28px_rgba(0,82,255,0.48)] transition-all duration-300 transform hover:-translate-y-0.5 active:scale-95 cursor-pointer"
+                    >
+                      {submitted ? (
+                        <>
+                          <Check className="w-4 h-4 text-white" />
+                          <span>Message Dispatched!</span>
+                        </>
+                      ) : (
+                        <>
+                          <span>Send Message</span>
+                          <Send className="w-3.5 h-3.5 text-white" />
+                        </>
+                      )}
+                    </button>
+                  </div>
                 </form>
               </div>
 
             </div>
 
-            {/* ── RIGHT COLUMN: "LET'S TALK SAY HI" & DOCKED TRAVELLING CARD BELOW PARAGRAPH ── */}
-            <div className="lg:col-span-6 text-left font-sans space-y-6 sm:space-y-7 lg:pl-6">
-              
-              {/* Massive Hero Heading */}
-              <div className="space-y-1">
-                <h2 className="text-5xl xs:text-6xl sm:text-7xl lg:text-[84px] font-black font-sans tracking-tight text-slate-950 uppercase leading-[0.92]">
-                  LET&apos;S TALK
-                </h2>
-                <div className="text-5xl xs:text-6xl sm:text-7xl lg:text-[84px] font-black font-sans tracking-tight uppercase leading-[0.92] bg-gradient-to-r from-[#8b5cf6] via-[#ec4899] to-[#f97316] bg-clip-text text-transparent drop-shadow-sm">
-                  SAY HI
+              {/* Mobile Contact Action Row (< lg) */}
+              <div className="lg:hidden mt-6 sm:mt-8 max-w-[450px] mx-auto md:mx-0 flex items-center justify-between gap-3 sm:gap-4 p-3.5 sm:p-4 rounded-2xl bg-white/70 backdrop-blur-md border border-slate-300 shadow-sm">
+                <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
+                  <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-slate-900 text-white flex items-center justify-center shrink-0">
+                    <Mail className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                  </div>
+                  <div className="min-w-0 text-left">
+                    <span className="block text-[9px] sm:text-[10px] font-bold uppercase text-slate-500">Email</span>
+                    <span className="block text-[11px] sm:text-xs font-bold text-slate-900 truncate">developer@usamafaheem.com</span>
+                  </div>
                 </div>
+
+                <a
+                  href="https://wa.me/923249000000"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Chat on WhatsApp"
+                  className="w-10 h-10 rounded-full bg-emerald-600 hover:bg-emerald-500 text-white flex items-center justify-center shadow-md shrink-0"
+                >
+                  <MessageCircle className="w-5 h-5" />
+                </a>
               </div>
 
-              <p className="text-base sm:text-lg lg:text-xl text-slate-600 font-normal leading-relaxed max-w-lg">
-                Got a project, a wild idea, or just wanna say hi? Hit me up, coffee is on me. Let&apos;s build something that stops people in their tracks.
-              </p>
+            </section>
 
-              {/* Dedicated Docking Slot for the Travelling Card (Right below the paragraph!) */}
-              <div ref={contactSlotRef} className="pt-4 sm:pt-6">
-                {/* Desktop Slot Placeholder */}
-                <div className="hidden lg:block w-[320px] sm:w-[340px] xl:w-[360px] h-[460px] invisible pointer-events-none" />
+          </div>
 
-                {/* Mobile Inline Card */}
-                <div className="block lg:hidden my-6">
-                  <EditorialCard />
-                </div>
-              </div>
+          {/* ════════════════════════════════════════════════════════════════════════
+              RIGHT COLUMN: STICKY RAIL (PERSISTS ACROSS FAQ + CONTACT FORM UNTIL FORM ENDS!)
+              Cleanly anchored in its dedicated column with zero overlap on FAQ tiles
+              ════════════════════════════════════════════════════════════════════════ */}
+          <div className="hidden lg:flex flex-col w-72 shrink-0 select-none sticky top-32 z-20 self-start mt-8 lg:mt-12 pointer-events-auto">
+            <motion.div
+              style={{ x: rightRailX }}
+              className="flex flex-col gap-5 w-full"
+            >
 
-              {/* Quick Contact Badges */}
-              <div className="rounded-[24px] bg-white/90 backdrop-blur-md p-6 border border-slate-200/80 shadow-[0_12px_35px_rgba(15,23,42,0.06)] max-w-lg space-y-4">
-                <div className="flex items-center gap-3">
-                  <span className="w-3 h-3 rounded-full bg-emerald-500 animate-pulse" />
-                  <span className="text-xs font-bold uppercase tracking-wider text-slate-700">
-                    Available for Select Q3/Q4 Projects
-                  </span>
-                </div>
+              {/* ── 1. HANDCRAFTED TAPED PAPER NOTE (IDEA 5) WITH 3D PUSHPIN ── */}
+              <div className="relative p-5 w-full flex flex-col items-center justify-center bg-[#faf8f3] border border-[#e2ded4] text-slate-900 shadow-md rotate-2 transition-transform duration-300 hover:rotate-0 hover:scale-102">
+                {/* Masking Tape */}
+                <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-20 h-6 bg-lime-200/80 border border-lime-300/70 -rotate-2 shadow-xs pointer-events-none" />
 
-                {/* Email Copy Pill */}
-                <div className="flex flex-wrap items-center gap-3 pt-1">
-                  <button
-                    onClick={handleCopyEmail}
-                    className="inline-flex items-center gap-2 px-4 py-2.5 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-900 text-xs sm:text-[13px] font-bold transition-colors cursor-pointer"
+                {/* 3D Realistic Pushpin / Thumbtack */}
+                <div className="absolute -top-5 left-1/2 -translate-x-1/2 z-10 pointer-events-none -rotate-6">
+                  <svg
+                    width="26"
+                    height="34"
+                    viewBox="0 0 28 36"
+                    fill="none"
+                    className="drop-shadow-[2px_6px_5px_rgba(0,0,0,0.4)]"
                   >
-                    <Mail className="w-3.5 h-3.5 text-slate-600" />
-                    <span>usamafaheem989@gmail.com</span>
-                    {copiedEmail ? (
-                      <Check className="w-3.5 h-3.5 text-emerald-600" />
-                    ) : (
-                      <Copy className="w-3.5 h-3.5 text-slate-400" />
-                    )}
-                  </button>
+                    <defs>
+                      <radialGradient id="pushpinHead" cx="35%" cy="30%" r="70%">
+                        <stop offset="0%" stopColor="#60a5fa" />
+                        <stop offset="40%" stopColor="#0052ff" />
+                        <stop offset="85%" stopColor="#1d4ed8" />
+                        <stop offset="100%" stopColor="#1e3a8a" />
+                      </radialGradient>
+                      <linearGradient id="needleShine" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stopColor="#64748b" />
+                        <stop offset="50%" stopColor="#f8fafc" />
+                        <stop offset="100%" stopColor="#334155" />
+                      </linearGradient>
+                    </defs>
+                    {/* Pinhole shadow on tape/paper */}
+                    <ellipse cx="14" cy="33.5" rx="2.2" ry="0.9" fill="rgba(0,0,0,0.45)" />
+                    {/* Metal needle tip piercing through tape */}
+                    <polygon points="12.5,23 15.5,23 14,33 12.5,23" fill="url(#needleShine)" />
+                    {/* Pin collar base ring */}
+                    <ellipse cx="14" cy="22.5" rx="7" ry="2.5" fill="#1e3a8a" />
+                    <ellipse cx="14" cy="22" rx="6.5" ry="2.2" fill="url(#pushpinHead)" />
+                    {/* Pin body / waist */}
+                    <path d="M9 13 C9 18, 10.5 21, 14 21 C17.5 21, 19 18, 19 13 Z" fill="url(#pushpinHead)" />
+                    {/* Upper collar rim */}
+                    <ellipse cx="14" cy="13" rx="6.5" ry="2" fill="#1d4ed8" />
+                    {/* Pin top spherical dome */}
+                    <circle cx="14" cy="9" r="6" fill="url(#pushpinHead)" />
+                    {/* Glossy specular light reflection */}
+                    <ellipse cx="12" cy="7.5" rx="2" ry="1.2" fill="#ffffff" opacity="0.75" />
+                  </svg>
+                </div>
 
+                <span className="text-[10px] font-mono font-bold tracking-widest uppercase text-slate-400 mb-1">
+                  QUICK NOTE
+                </span>
+                <span style={{ fontFamily: 'var(--font-caveat), cursive' }} className="text-2xl text-[#0052ff] font-bold text-center leading-tight">
+                  &quot;Still got doubts?&quot;
+                </span>
+                <p className="text-xs font-sans text-slate-600 text-center mt-2 leading-relaxed">
+                  Hit me up directly on WhatsApp or email — let&apos;s clear it up in 5 mins! ☕
+                </p>
+                <a href="#contact" className="mt-2.5 text-[11px] font-bold uppercase tracking-wider text-slate-900 underline underline-offset-4 hover:text-[#5f7a12] transition-colors">
+                  Drop a Line →
+                </a>
+              </div>
+
+              {/* ── 2. USAMA 3D AVATAR MASCOT BADGE (IDEA 10) ── */}
+              <div className="relative p-4 w-full flex flex-col items-center justify-center bg-white/60 backdrop-blur-xl border-y border-slate-300/80 border-l-[3.5px] border-r-[3.5px] border-l-slate-900 border-r-slate-900 shadow-md rotate-0 transition-transform duration-300 hover:scale-102">
+                <span className="text-[10px] font-mono font-bold tracking-widest uppercase text-slate-500 mb-1.5">
+                  DIRECT ACCESS
+                </span>
+                <div className="relative mt-1 flex flex-col items-center">
+                  <div className="w-16 h-16 rounded-full border-2 border-slate-900 overflow-hidden bg-gradient-to-b from-[#d8ff00]/20 to-white shadow-md">
+                    <img src="/usaam_emoji.png" alt="Usama Faheem" className="w-full h-full object-contain scale-110 translate-y-1" />
+                  </div>
+                  <div className="mt-2.5 px-3 py-0.5 bg-slate-950 text-white text-[10px] font-mono font-bold tracking-wider shadow-sm">
+                    &quot;ASK ME ANYTHING&quot;
+                  </div>
+                </div>
+                <div className="absolute bottom-0 left-0 right-0 h-[1.5px] bg-gradient-to-r from-transparent via-[#d8ff00] to-transparent shadow-[0_0_10px_rgba(216,255,0,0.5)]" />
+              </div>
+
+              {/* ── 3. COMPACT CONTACT DOCK (LET'S TALK / SAY HI + EMAIL + CIRCULAR WHATSAPP) ── */}
+              <div className="relative p-4 w-full bg-white/60 backdrop-blur-xl border-y border-slate-300/80 border-l-[3.5px] border-r-[3.5px] border-l-slate-900 border-r-slate-900 shadow-md -rotate-1 transition-transform duration-300 hover:rotate-0 hover:scale-102">
+
+                {/* Compact Heading */}
+                <div className="text-left mb-2.5">
+                  <span
+                    style={{ fontFamily: 'var(--font-caveat), cursive' }}
+                    className="text-[#0052ff] text-base font-bold block -rotate-1"
+                  >
+                    have an idea? →
+                  </span>
+                  <div className="flex items-center gap-1.5 font-sans font-extrabold text-lg tracking-tight uppercase leading-none text-slate-950">
+                    <span>LET&apos;S TALK</span>
+                    <span className="text-[#0052ff]">SAY HI</span>
+                  </div>
+                </div>
+
+                {/* Direct Email Chip with Rounded Pill Styling per Audio instructions */}
+                <div
+                  onClick={handleCopyEmail}
+                  className="w-full p-2 px-2.5 rounded-xl bg-white/90 hover:bg-white border border-slate-300 flex items-center justify-between gap-1.5 cursor-pointer transition-all shadow-xs group"
+                >
+                  <div className="flex items-center gap-2 min-w-0">
+                    <div className="w-6 h-6 rounded-lg bg-slate-950 text-white flex items-center justify-center shrink-0">
+                      <Mail className="w-3.5 h-3.5" />
+                    </div>
+                    <span className="text-[10px] sm:text-[10.5px] font-mono font-bold text-slate-900 whitespace-nowrap group-hover:text-[#0052ff]">
+                      developer@usamafaheem.com
+                    </span>
+                  </div>
+                  <button
+                    type="button"
+                    aria-label="Copy Email"
+                    className="px-2 py-0.5 text-[8.5px] font-mono font-bold rounded-lg bg-slate-100 group-hover:bg-slate-900 group-hover:text-white transition-colors shrink-0"
+                  >
+                    {copiedEmail ? 'COPIED!' : 'COPY'}
+                  </button>
+                </div>
+
+                {/* Bottom Row: Status + Circular WhatsApp Button with Official WhatsApp Green */}
+                <div className="mt-3 flex items-center justify-between gap-2 pt-2 border-t border-slate-300/60">
+                  <div className="flex items-center gap-1.5 text-[10px] font-mono font-bold text-slate-700">
+                    <span className="w-2 h-2 rounded-full bg-[#25D366] animate-pulse" />
+                    <span>AVAILABLE NOW</span>
+                  </div>
+
+                  {/* Circular WhatsApp Button with Official Brand Green */}
                   <a
                     href="https://wa.me/923249000000"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-full bg-emerald-50 hover:bg-emerald-100 text-emerald-700 text-xs sm:text-[13px] font-bold border border-emerald-200 transition-colors"
+                    aria-label="Chat on WhatsApp"
+                    className="relative group/wa w-9 h-9 rounded-full bg-[#25D366] hover:bg-[#20ba59] text-white flex items-center justify-center shadow-[0_4px_14px_rgba(37,211,102,0.45)] hover:scale-110 active:scale-95 transition-all cursor-pointer"
                   >
-                    <MessageCircle className="w-3.5 h-3.5" />
-                    <span>WhatsApp Chat</span>
-                    <ArrowUpRight className="w-3 h-3" />
+                    <span className="absolute inset-0 rounded-full bg-[#25D366] opacity-75 animate-ping pointer-events-none group-hover/wa:opacity-0" />
+                    <MessageCircle className="w-4 h-4 relative z-10" />
                   </a>
                 </div>
 
-                <div className="pt-2 flex items-center gap-2 text-xs text-slate-500 font-medium">
-                  <MapPin className="w-3.5 h-3.5 text-slate-400" />
-                  <span>Lahore, Pakistan • Working with clients worldwide</span>
-                </div>
+                <div className="absolute bottom-0 left-0 right-0 h-[1.5px] bg-gradient-to-r from-transparent via-[#d8ff00] to-transparent shadow-[0_0_10px_rgba(216,255,0,0.5)]" />
               </div>
 
-            </div>
-
+            </motion.div>
           </div>
+
         </div>
-      </section>
+
+      </div>
     </div>
   );
 }

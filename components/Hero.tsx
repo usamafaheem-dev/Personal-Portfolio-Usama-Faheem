@@ -132,8 +132,8 @@ export default function Hero() {
           className="group relative flex h-14 w-14 items-center justify-center rounded-full bg-white/90 backdrop-blur-md border border-black/5 text-black shadow-[0_8px_32px_rgba(0,0,0,0.12)] transition-all duration-300 hover:bg-white hover:scale-110 cursor-pointer"
         >
           {/* Animated Circles */}
-          <div className="absolute inset-[-6px] rounded-full border-2 border-[#ffaa00] animate-[ping_3s_ease-in-out_infinite]" />
-          <div className="absolute inset-[-14px] rounded-full border-[3px] border-blue-500 border-dashed shadow-[0_0_12px_rgba(255,170,0,0.55)] animate-[spin_8s_linear_infinite]" />
+          <div className="absolute inset-[-6px] rounded-full border-2 border-[#d8ff00] animate-[ping_3s_ease-in-out_infinite]" />
+          <div className="absolute inset-[-14px] rounded-full border-[3px] border-[#5f7a12] border-dashed shadow-[0_0_12px_rgba(216,255,0,0.55)] animate-[spin_8s_linear_infinite]" />
 
           <div className="absolute inset-0 rounded-full border border-white/60 animate-[ping_2.5s_ease-in-out_infinite]" />
           <div className="absolute inset-0 rounded-full border border-white/40 animate-[ping_3s_ease-in-out_infinite_0.5s]" />
@@ -148,9 +148,8 @@ export default function Hero() {
         </button>
       </div>
 
-      {/* ── Ultra Soft Light Black Tint Overlay ── */}
-      <div className="absolute inset-0 z-[1] bg-black/8 pointer-events-none" />
-      <div className="absolute inset-0 z-[1] bg-gradient-to-b from-black/15 via-transparent to-black/10 pointer-events-none" />
+      {/* ── Very light tint: just enough edge shading to keep overlaid text legible ── */}
+      <div className="absolute inset-0 z-[1] bg-gradient-to-b from-black/6 via-transparent to-black/4 pointer-events-none" />
 
       {/* ══════════════════════════════════════════════════════════════
           HERO SIDE ELEMENTS:
@@ -162,7 +161,7 @@ export default function Hero() {
         className="absolute inset-0 z-[20] pointer-events-none overflow-hidden select-none block"
       >
         {/* Left Wall: Stacked Vertical U - S - A - M - A starting after page is ready */}
-        <div className="absolute top-14 sm:top-12 xl:top-14 left-2 sm:left-1.5 flex flex-col items-center gap-0.5 sm:gap-1 xl:gap-2 select-none pointer-events-none z-20">
+        <div className="absolute top-14 sm:top-12 xl:top-16 left-2.5 sm:left-3 xl:left-4 flex flex-col items-center gap-0.5 sm:gap-1 xl:gap-1.5 select-none pointer-events-none z-20">
           {NAME_LETTERS.map((item, index) => (
             <motion.span
               key={`letter-${index}`}
@@ -173,9 +172,9 @@ export default function Hero() {
                 duration: 0.75,
                 ease: [0.34, 1.56, 0.64, 1],
               }}
-              className="text-4xl sm:text-6xl xl:text-[86px] font-black font-poppins uppercase leading-none select-none transition-all duration-300"
+              className="text-2xl sm:text-4xl xl:text-[54px] font-extrabold font-poppins uppercase leading-none select-none transition-all duration-300"
               style={{
-                WebkitTextStroke: '2.2px #cbd5e1',
+                WebkitTextStroke: '1.2px rgba(255, 255, 255, 0.9)',
                 WebkitTextFillColor: 'transparent',
                 color: 'transparent',
               }}
@@ -199,12 +198,12 @@ export default function Hero() {
             >
               <svg viewBox="0 0 100 100" className="w-full h-full">
                 <path id="curve-hero-stamp" fill="none" d="M 50, 50 m -37, 0 a 37,37 0 1,1 74,0 a 37,37 0 1,1 -74,0" />
-                <text className="text-[9px] sm:text-[10px] font-mono font-black uppercase tracking-[0.2em] fill-white">
+                <text className="text-[9px] sm:text-[10px] font-mono font-extrabold uppercase tracking-[0.2em] fill-white">
                   <textPath href="#curve-hero-stamp">✦ STUDIO 2026 • CREATIVE DEV ✦</textPath>
                 </text>
               </svg>
               <div className="absolute inset-0 flex items-center justify-center">
-                <div className="w-6 h-6 sm:w-9 sm:h-9 rounded-full bg-white text-slate-950 flex items-center justify-center shadow-md font-black font-poppins text-[9px] sm:text-xs tracking-wider">
+                <div className="w-6 h-6 sm:w-9 sm:h-9 rounded-full bg-white text-slate-950 flex items-center justify-center shadow-md font-extrabold font-poppins text-[9px] sm:text-xs tracking-wider">
                   UF
                 </div>
               </div>
@@ -232,7 +231,7 @@ export default function Hero() {
       >
         <a
           href="#about"
-          className="flex flex-col items-center gap-2 text-black/50 transition-colors hover:text-blue-500"
+          className="flex flex-col items-center gap-2 text-black/50 transition-colors hover:text-[#5f7a12]"
           aria-label="Scroll to about section"
         >
           <span className="font-poppins text-[11px] font-bold uppercase tracking-wider text-black/80">

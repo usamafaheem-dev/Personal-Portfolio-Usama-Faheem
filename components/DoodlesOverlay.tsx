@@ -8,7 +8,7 @@ export default function DoodlesOverlay({ visible }: { visible: boolean }) {
   return (
     <div
       className="hidden sm:block absolute inset-0 pointer-events-none select-none z-0 overflow-hidden"
-      style={{ fontFamily: 'var(--font-caveat)' }}
+      style={{ fontFamily: 'var(--font-caveat), cursive' }}
     >
       <svg className="absolute inset-0 w-full h-full pointer-events-none" style={{ zIndex: 1 }}>
         <defs>
@@ -64,7 +64,7 @@ export default function DoodlesOverlay({ visible }: { visible: boolean }) {
         transition={{ delay: 0.6, duration: 0.6 }}
         className="absolute top-[14%] left-[4%] sm:left-[8%] lg:left-[10%] text-black text-lg sm:text-2xl md:text-3xl lg:text-4xl max-w-[130px] sm:max-w-[180px] lg:max-w-[200px] leading-tight"
       >
-        <span className="text-orange-700 text-[10px] sm:text-xs font-sans font-bold uppercase block tracking-wider">fave stack?</span>
+        <span className="text-blue-600 text-sm sm:text-base font-bold block">fave stack?</span>
         React &amp; Next.js 🚀
       </motion.div>
 
@@ -75,7 +75,7 @@ export default function DoodlesOverlay({ visible }: { visible: boolean }) {
         transition={{ delay: 1.2, duration: 0.6 }}
         className="absolute top-[42%] left-[1%] sm:left-[2%] lg:left-[4%] text-black text-lg sm:text-2xl md:text-3xl lg:text-4xl max-w-[130px] sm:max-w-[180px] lg:max-w-[200px] leading-tight"
       >
-        <span className="text-orange-700 text-[10px] sm:text-xs font-sans font-bold uppercase block tracking-wider">specialty:</span>
+        <span className="text-blue-600 text-sm sm:text-base font-bold block">specialty:</span>
         MERN Stack Lead 💻
       </motion.div>
 
@@ -86,7 +86,7 @@ export default function DoodlesOverlay({ visible }: { visible: boolean }) {
         transition={{ delay: 1.8, duration: 0.6 }}
         className="absolute bottom-[12%] left-[4%] sm:left-[8%] lg:left-[12%] text-black text-lg sm:text-2xl md:text-3xl lg:text-4xl max-w-[130px] sm:max-w-[180px] lg:max-w-[200px] leading-tight"
       >
-        <span className="text-orange-700 text-[10px] sm:text-xs font-sans font-bold uppercase block tracking-wider">location:</span>
+        <span className="text-blue-600 text-sm sm:text-base font-bold block">location:</span>
         Pakistan 🇵🇰
       </motion.div>
 
@@ -97,7 +97,7 @@ export default function DoodlesOverlay({ visible }: { visible: boolean }) {
         transition={{ delay: 0.9, duration: 0.6 }}
         className="absolute top-[15%] right-[4%] sm:right-[8%] lg:right-[14%] text-black text-lg sm:text-2xl md:text-3xl lg:text-4xl max-w-[130px] sm:max-w-[180px] lg:max-w-[200px] leading-tight text-right"
       >
-        <span className="text-orange-700 text-[10px] sm:text-xs font-sans font-bold uppercase block tracking-wider">3D web:</span>
+        <span className="text-blue-600 text-sm sm:text-base font-bold block">3D web:</span>
         Three.js &amp; WebGL ✨
       </motion.div>
 
@@ -108,7 +108,7 @@ export default function DoodlesOverlay({ visible }: { visible: boolean }) {
         transition={{ delay: 1.5, duration: 0.6 }}
         className="absolute top-[42%] right-[1%] sm:right-[2%] lg:right-[4%] text-black text-lg sm:text-2xl md:text-3xl lg:text-4xl max-w-[140px] sm:max-w-[190px] lg:max-w-[220px] leading-tight text-right"
       >
-        <span className="text-orange-700 text-[10px] sm:text-xs font-sans font-bold uppercase block tracking-wider">can&apos;t live without:</span>
+        <span className="text-blue-600 text-sm sm:text-base font-bold block">can&apos;t live without:</span>
         VS Code &amp; Coffee ☕
       </motion.div>
 
@@ -119,7 +119,7 @@ export default function DoodlesOverlay({ visible }: { visible: boolean }) {
         transition={{ delay: 2.1, duration: 0.6 }}
         className="absolute bottom-[12%] right-[1%] sm:right-[2%] lg:right-[4%] text-black text-lg sm:text-2xl md:text-3xl lg:text-4xl max-w-[150px] sm:max-w-[200px] lg:max-w-[250px] leading-tight text-right"
       >
-        <span className="text-orange-700 text-[10px] sm:text-xs font-sans font-bold uppercase block tracking-wider">vibe coding:</span>
+        <span className="text-blue-600 text-sm sm:text-base font-bold block">vibe coding:</span>
         Cursor &amp; Antigravity 🚀
       </motion.div>
     </div>

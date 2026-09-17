@@ -102,8 +102,8 @@ export default function VoiceRibbonOverlay() {
               fill="none"
             />
             <linearGradient id="mobRibbonGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="#ffea00" />
-              <stop offset="100%" stopColor="#ffaa00" />
+              <stop offset="0%" stopColor="#d8ff00" />
+              <stop offset="100%" stopColor="#ccf23a" />
             </linearGradient>
           </defs>
 
@@ -161,7 +161,7 @@ export default function VoiceRibbonOverlay() {
                     className="text-black font-sans text-[11px] font-semibold tracking-tight flex items-center gap-1 drop-shadow-sm px-3 py-0.5 rounded-full bg-white/95 backdrop-blur-md border border-black/10 shadow-sm"
                   >
                     <span>{current.raw}</span>
-                    <span className="text-orange-500 text-[10px]">✨</span>
+                    <span className="text-[#5f7a12] text-[10px]">✨</span>
                   </motion.div>
                 ) : (
                   <motion.div
@@ -198,7 +198,7 @@ export default function VoiceRibbonOverlay() {
             className="overflow-visible pointer-events-none"
           >
             <div className="w-full h-full flex items-center justify-center">
-              <div className="flex items-center justify-center h-[44px] px-4 rounded-full bg-[#fffdf5] text-black shadow-xl border-[2px] border-[#18181b]">
+              <div className="flex items-center justify-center h-[44px] px-4 rounded-full bg-[#fbfff0] text-black shadow-xl border-[2px] border-[#18181b]">
                 <div className="flex items-center gap-[2.5px] h-4 px-0.5">
                   <span className="w-[2px] h-2.5 bg-black rounded-full animate-[bounce_1s_infinite_100ms]" />
                   <span className="w-[2px] h-4 bg-black rounded-full animate-[bounce_1s_infinite_200ms]" />
@@ -250,8 +250,8 @@ export default function VoiceRibbonOverlay() {
             <feDropShadow dx="0" dy="6" stdDeviation="6" floodOpacity="0.3" />
           </filter>
           <linearGradient id="ribbonGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="#ffea00" />
-            <stop offset="100%" stopColor="#ffaa00" />
+            <stop offset="0%" stopColor="#d8ff00" />
+            <stop offset="100%" stopColor="#ccf23a" />
           </linearGradient>
         </defs>
 
@@ -306,7 +306,7 @@ export default function VoiceRibbonOverlay() {
                   className="text-black font-sans text-xs font-semibold tracking-tight flex items-center gap-1.5 drop-shadow-sm px-3.5 py-1 rounded-full bg-white/95 backdrop-blur-md border border-black/10 shadow-sm"
                 >
                   <span>{current.raw}</span>
-                  <span className="text-orange-500 text-xs">✨</span>
+                  <span className="text-[#5f7a12] text-xs">✨</span>
                 </motion.div>
               ) : (
                 <motion.div
@@ -342,7 +342,7 @@ export default function VoiceRibbonOverlay() {
           className="overflow-visible pointer-events-none"
         >
           <div className="w-full h-full flex items-center justify-center">
-            <div className="flex items-center justify-center h-[52px] px-5 rounded-full bg-[#fffdf5] text-black shadow-xl border-[2.5px] border-[#18181b]">
+            <div className="flex items-center justify-center h-[52px] px-5 rounded-full bg-[#fbfff0] text-black shadow-xl border-[2.5px] border-[#18181b]">
               <div className="flex items-center gap-[3px] h-5 px-1">
                 <span className="w-[2.5px] h-3 bg-black rounded-full animate-[bounce_1s_infinite_100ms]" />
                 <span className="w-[2.5px] h-4.5 bg-black rounded-full animate-[bounce_1s_infinite_200ms]" />

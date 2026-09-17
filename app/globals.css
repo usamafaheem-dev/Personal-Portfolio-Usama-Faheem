@@ -1,20 +1,19 @@
 @import "tailwindcss";
 
-.font-clash {
-  font-family: 'Clash Display', 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+html {
+  scrollbar-gutter: stable;
 }
 
 /* ── Design Tokens ─────────────────────────────────────── */
+/* Palette: 2 accents only — Gold (primary) + Lime (secondary) — plus neutrals. */
 :root {
-  --porcelain: #fbfcfb; /* Seamless off-white background matching card */
-  --ink: #111827; /* Dark gray/black for text */
-  --coral: #ffaa00; /* Reeba's Orange */
-  --coral-light: #ffea00; /* Reeba's Yellow */
-  --coral-dark: #ff00a0; /* Reeba's Pink */
-  --lime: #ccff00; /* Reeba's Lime Green */
-  --purple-accent: #d900ff; /* Reeba's Purple */
-  --graphite: #6B7280; /* Gray 500 */
-  --graphite-light: #9CA3AF; /* Gray 400 */
+  --porcelain: #fbfcfb; /* Off-white background */
+  --ink: #0f172a; /* Single dark text color (was #111827 / #1a1a1a / #0f172a mixed) */
+  --gold: #ffaa00; /* Primary accent */
+  --gold-light: #ffea00; /* Primary accent, light tint (gradients) */
+  --lime: #ccff00; /* Secondary accent */
+  --graphite: #6B7280; /* Gray 500 — secondary text */
+  --graphite-light: #9CA3AF; /* Gray 400 — muted text */
   --glass: rgba(251, 252, 251, 0.8);
   --glass-border: rgba(229, 231, 235, 1);
 }
@@ -22,11 +21,9 @@
 @theme inline {
   --color-porcelain: var(--porcelain);
   --color-ink: var(--ink);
-  --color-coral: var(--coral);
-  --color-coral-light: var(--coral-light);
-  --color-coral-dark: var(--coral-dark);
+  --color-gold: var(--gold);
+  --color-gold-light: var(--gold-light);
   --color-lime: var(--lime);
-  --color-purple-accent: var(--purple-accent);
   --color-graphite: var(--graphite);
   --color-graphite-light: var(--graphite-light);
   --color-glass: var(--glass);
@@ -34,10 +31,9 @@
 
   --font-sans: var(--font-inter), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --font-poppins: var(--font-poppins), sans-serif;
-  --font-display: var(--font-space-grotesk);
+  --font-display: var(--font-poppins);
   --font-body: var(--font-inter);
   --font-mono: var(--font-jetbrains-mono);
-  --font-serif: var(--font-serif), Georgia, serif;
 }
 
 .font-poppins {
@@ -99,10 +95,18 @@ body {
 }
 
 /* ── Focus Visible ─────────────────────────────────────── */
-*:focus-visible {
-  outline: 2px solid var(--coral);
+input:focus,
+input:focus-visible,
+textarea:focus,
+textarea:focus-visible {
+  outline: none !important;
+  box-shadow: none;
+}
+
+button:focus-visible,
+a:focus-visible {
+  outline: 2px solid #0052ff;
   outline-offset: 2px;
-  border-radius: 2px;
 }
 
 /* ── Animations ────────────────────────────────────────── */

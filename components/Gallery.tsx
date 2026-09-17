@@ -15,16 +15,16 @@ export default function Gallery() {
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-[200px_1fr] lg:gap-16">
           <AnimatedSection direction="left">
-            <p className="font-mono text-xs uppercase tracking-[0.2em] text-coral">
+            <p className="font-mono text-xs uppercase tracking-[0.2em] text-gold">
               Gallery
             </p>
-            <div className="mt-3 h-px w-12 bg-coral/30" />
+            <div className="mt-3 h-px w-12 bg-gold/30" />
           </AnimatedSection>
 
           <div>
             <AnimatedSection>
               <h2 className="font-display text-3xl font-bold tracking-tight text-ink sm:text-4xl">
-                A glimpse into my <span className="text-coral">workspace</span>
+                A glimpse into my <span className="text-gold">workspace</span>
               </h2>
             </AnimatedSection>
 

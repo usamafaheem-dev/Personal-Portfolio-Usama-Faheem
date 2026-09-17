@@ -90,11 +90,11 @@ export default function FAQ() {
         <div className="text-left font-sans mb-12 sm:mb-16 lg:mb-20">
           <span
             style={{ fontFamily: 'var(--font-caveat), cursive' }}
-            className="text-[#e11d48] text-xl xs:text-2xl sm:text-3xl lg:text-4xl font-bold tracking-wide -rotate-2 inline-block mb-1"
+            className="text-[#0052ff] text-xl xs:text-2xl sm:text-3xl lg:text-4xl font-bold tracking-wide -rotate-2 inline-block mb-1"
           >
             got a doubt? →
           </span>
-          <h2 className="text-2xl xs:text-3xl sm:text-5xl lg:text-[56px] font-black font-sans tracking-tight text-slate-950 uppercase leading-none">
+          <h2 className="text-2xl xs:text-3xl sm:text-5xl lg:text-[56px] font-extrabold font-sans tracking-tight text-slate-950 uppercase leading-none">
             FREQUENTLY ASKED QUESTIONS
           </h2>
           <p className="text-xs sm:text-sm lg:text-base font-sans text-slate-600 font-medium mt-2 max-w-2xl leading-relaxed">
@@ -117,13 +117,13 @@ export default function FAQ() {
             >
               <div className="relative rounded-[32px] bg-gradient-to-br from-[#ffffff] via-[#f8fafc] to-[#edf2f7] p-8 sm:p-9 border border-slate-300/80 shadow-[0_20px_50px_rgba(15,23,42,0.12)] overflow-hidden">
                 {/* Decorative Subtle Grid & Glow */}
-                <div className="absolute top-0 right-0 w-44 h-44 bg-gradient-to-bl from-rose-500/10 via-amber-500/10 to-transparent rounded-full blur-2xl pointer-events-none" />
+                <div className="absolute top-0 right-0 w-44 h-44 bg-gradient-to-bl from-rose-500/10 via-lime-500/10 to-transparent rounded-full blur-2xl pointer-events-none" />
                 <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-gradient-to-tr from-sky-500/10 via-indigo-500/10 to-transparent rounded-full blur-2xl pointer-events-none" />
 
                 {/* Top Badge */}
                 <div className="flex items-center justify-between mb-6">
                   <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-950 text-white text-xs font-bold uppercase tracking-wider">
-                    <Sparkles className="w-3.5 h-3.5 text-amber-400" />
+                    <Sparkles className="w-3.5 h-3.5 text-lime-400" />
                     <span>Always Available</span>
                   </span>
                   <span className="text-xs font-bold text-slate-400 font-mono">
@@ -133,10 +133,10 @@ export default function FAQ() {
 
                 {/* Main Card Content */}
                 <div className="space-y-4 text-left">
-                  <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#ff381e] to-[#e0240d] text-white flex items-center justify-center shadow-lg shadow-red-500/25">
+                  <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#0052ff] to-[#003fcc] text-white flex items-center justify-center shadow-lg shadow-blue-500/25">
                     <Code2 className="w-7 h-7" />
                   </div>
-                  <h3 className="text-2xl font-black font-sans text-slate-950 uppercase tracking-tight leading-tight">
+                  <h3 className="text-2xl font-extrabold font-sans text-slate-950 uppercase tracking-tight leading-tight">
                     Have a unique idea or custom requirements?
                   </h3>
                   <p className="text-sm text-slate-600 font-sans leading-relaxed">
@@ -151,7 +151,7 @@ export default function FAQ() {
                   </span>
                   <a
                     href="#contact"
-                    className="inline-flex items-center gap-1.5 text-xs font-black uppercase tracking-wider text-[#e11d48] hover:text-slate-950 transition-colors"
+                    className="inline-flex items-center gap-1.5 text-xs font-extrabold uppercase tracking-wider text-[#0052ff] hover:text-slate-950 transition-colors"
                   >
                     <span>Jump to form</span>
                     <ArrowUpRight className="w-4 h-4" />
@@ -188,7 +188,7 @@ export default function FAQ() {
                     <div
                       className={`shrink-0 w-8 h-8 sm:w-9 sm:h-9 rounded-full flex items-center justify-center transition-all duration-300 ${
                         isOpen
-                          ? 'bg-[#e11d48] text-white rotate-180 shadow-md shadow-rose-500/30'
+                          ? 'bg-[#0052ff] text-white rotate-180 shadow-md shadow-blue-500/30'
                           : 'bg-slate-100 text-slate-700 group-hover:bg-slate-200 rotate-0'
                       }`}
                     >

@@ -35,10 +35,10 @@ const testimonialsCol1: Testimonial[] = [
     quote: 'Usama delivered our Next.js platform 4 days ahead of deadline. The UI micro-animations and loading performance are world-class.',
     tag: 'Full-Stack Web App',
     tagTheme: {
-      bg: 'bg-amber-100/80',
-      text: 'text-amber-900',
-      border: 'border-amber-300/90',
-      icon: 'text-amber-600',
+      bg: 'bg-lime-100/80',
+      text: 'text-lime-900',
+      border: 'border-lime-300/90',
+      icon: 'text-lime-600',
     },
     location: 'San Francisco, USA',
     featured: true,
@@ -172,7 +172,7 @@ const testimonialsCol2: Testimonial[] = [
 
 function TestimonialCard({ item }: { item: Testimonial }) {
   return (
-    <div className="relative bg-white rounded-2xl p-5 border border-slate-200 shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_12px_32px_rgba(255,170,0,0.18)] hover:border-[#ffaa00] transition-all duration-300 group flex flex-col justify-between [transform:translateZ(0)] [backface-visibility:hidden]">
+    <div className="relative bg-white rounded-2xl p-5 border border-slate-200 shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_12px_32px_rgba(216,255,0,0.18)] hover:border-[#d8ff00] transition-all duration-300 group flex flex-col justify-between [transform:translateZ(0)] [backface-visibility:hidden]">
       {/* Top Row: User Avatar, Name, Role & Stars */}
       <div>
         <div className="flex items-start justify-between gap-3 mb-3">
@@ -192,7 +192,7 @@ function TestimonialCard({ item }: { item: Testimonial }) {
 
             <div>
               <div className="flex items-center gap-1.5">
-                <h4 className="text-xs sm:text-[13px] font-poppins font-bold text-slate-900 leading-tight group-hover:text-amber-600 transition-colors">
+                <h4 className="text-xs sm:text-[13px] font-poppins font-bold text-slate-900 leading-tight group-hover:text-lime-600 transition-colors">
                   {item.name}
                 </h4>
                 <CheckCircle2 size={12} className="text-sky-500 shrink-0 fill-sky-50" />
@@ -204,7 +204,7 @@ function TestimonialCard({ item }: { item: Testimonial }) {
           </div>
 
           {/* 5 Stars */}
-          <div className="flex items-center gap-0.5 text-amber-400 shrink-0">
+          <div className="flex items-center gap-0.5 text-lime-400 shrink-0">
             {[...Array(item.rating)].map((_, i) => (
               <Star key={i} size={11} fill="currentColor" />
             ))}
@@ -237,7 +237,7 @@ export default function Testimonials() {
   return (
     <section
       id="testimonials"
-      className="relative z-20 bg-[#fbfcfb] py-20 lg:py-28 overflow-hidden font-sans text-slate-900 select-none [contain:paint] rounded-t-[36px] sm:rounded-t-[54px] shadow-[0_-25px_60px_rgba(0,0,0,0.12)] border-t border-slate-300/70"
+      className="relative z-20 bg-[#fbfcfb] py-14 lg:py-20 overflow-hidden font-sans text-slate-900 select-none [contain:paint] rounded-t-[36px] sm:rounded-t-[54px] shadow-[0_-25px_60px_rgba(0,0,0,0.12)] border-t border-slate-300/70"
     >
       {/* ── GPU-Accelerated Anti-Jitter CSS Marquee ── */}
       <style>{`
@@ -273,8 +273,8 @@ export default function Testimonials() {
       <div className="absolute inset-0 bg-[radial-gradient(#99a1af_1.2px,transparent_1.2px)] [background-size:24px_24px] opacity-40 pointer-events-none [mask-image:radial-gradient(ellipse_75%_75%_at_50%_50%,#000_60%,transparent_100%)]" />
 
       {/* ── Background Ambient Radiant Warm Glows Matching Website Theme ── */}
-      <div className="absolute top-1/4 left-1/3 -translate-x-1/2 -translate-y-1/2 w-[750px] h-[520px] bg-gradient-to-tr from-amber-300/20 via-yellow-200/15 to-lime-200/20 rounded-full blur-[140px] pointer-events-none" />
-      <div className="absolute bottom-10 right-10 w-[650px] h-[520px] bg-gradient-to-br from-orange-300/15 via-pink-200/12 to-amber-300/15 rounded-full blur-[140px] pointer-events-none" />
+      <div className="absolute top-1/4 left-1/3 -translate-x-1/2 -translate-y-1/2 w-[750px] h-[520px] bg-gradient-to-tr from-lime-300/20 via-lime-200/15 to-lime-200/20 rounded-full blur-[140px] pointer-events-none" />
+      <div className="absolute bottom-10 right-10 w-[650px] h-[520px] bg-gradient-to-br from-orange-300/15 via-pink-200/12 to-lime-300/15 rounded-full blur-[140px] pointer-events-none" />
 
       <div className="mx-auto max-w-[1420px] px-4 sm:px-6 lg:px-8 relative z-10">
 
@@ -294,9 +294,9 @@ export default function Testimonials() {
               transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
               className="mb-5 sm:mb-6"
             >
-              <div className="inline-flex items-center gap-2 bg-gradient-to-r from-[#ffaa00]/15 via-[#ffea00]/15 to-[#ccff00]/15 border border-[#ffaa00]/30 px-3.5 py-1.5 rounded-full text-xs font-bold text-amber-900 uppercase tracking-widest font-poppins shadow-2xs">
-                <Sparkles className="w-3.5 h-3.5 text-[#ffaa00]" />
-                <span>CLIENT STORIES & FEEDBACK</span>
+              <div className="inline-flex items-center gap-2 bg-gradient-to-r from-[#d8ff00]/15 via-[#ccf23a]/15 to-[#ccff00]/15 border border-[#d8ff00]/30 px-3.5 py-1.5 rounded-full text-lime-900 shadow-2xs">
+                <Sparkles className="w-3.5 h-3.5 text-[#d8ff00]" />
+                <span style={{ fontFamily: 'var(--font-caveat), cursive' }} className="text-base font-bold">Client stories & feedback</span>
               </div>
             </motion.div>
 
@@ -306,10 +306,10 @@ export default function Testimonials() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.05 }}
-              className="text-4xl sm:text-5xl lg:text-[54px] font-black tracking-tight text-slate-900 leading-[1.12] mb-5 font-poppins"
+              className="text-4xl sm:text-5xl lg:text-[54px] font-extrabold tracking-tight text-slate-900 leading-[1.12] mb-5 font-poppins"
             >
               Loved by{' '}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#ffaa00] via-amber-500 to-[#ffea00] font-black font-poppins">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#d8ff00] via-lime-500 to-[#ccf23a] font-extrabold font-poppins">
                 Founders
               </span>{' '}
               & Global Teams.
@@ -337,7 +337,7 @@ export default function Testimonials() {
               {/* Vibrant Main Theme Golden Amber Action Button */}
               <a
                 href="#contact"
-                className="relative group inline-flex items-center justify-center gap-3 px-8 py-4 rounded-2xl bg-gradient-to-r from-[#ffaa00] via-[#ffb703] to-[#ffea00] text-slate-950 font-bold text-base shadow-[0_10px_28px_rgba(255,170,0,0.35)] hover:shadow-[0_14px_36px_rgba(255,170,0,0.5)] hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 font-poppins cursor-pointer overflow-hidden"
+                className="relative group inline-flex items-center justify-center gap-3 px-8 py-4 rounded-2xl bg-gradient-to-r from-[#d8ff00] via-[#ffb703] to-[#ccf23a] text-slate-950 font-bold text-base shadow-[0_10px_28px_rgba(216,255,0,0.35)] hover:shadow-[0_14px_36px_rgba(216,255,0,0.5)] hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 font-poppins cursor-pointer overflow-hidden"
               >
                 {/* Subtle Hover Shimmer Effect */}
                 <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/35 to-transparent pointer-events-none" />
@@ -355,7 +355,7 @@ export default function Testimonials() {
               className="mt-8 flex flex-col gap-2 text-left font-sans"
             >
               <div className="flex items-center gap-3 flex-wrap">
-                <h4 className="text-2xl sm:text-3xl font-black tracking-tight bg-gradient-to-r from-[#ffaa00] via-amber-500 to-orange-500 bg-clip-text text-transparent font-poppins">
+                <h4 className="text-2xl sm:text-3xl font-extrabold tracking-tight bg-gradient-to-r from-[#d8ff00] via-lime-500 to-orange-500 bg-clip-text text-transparent font-poppins">
                   Usama Faheem
                 </h4>
                 <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-50 border border-emerald-200/80 text-[11px] font-poppins font-bold text-emerald-700 shadow-2xs">

@@ -48,10 +48,10 @@ const quadrantData: Quadrant[] = [
     glowColor: 'rgba(14, 165, 233, 0.4)',
     borderColor: '#38bdf8',
     items: [
-      { name: 'JavaScript', category: 'ES6+ Engine', icon: SiJavascript, color: '#eab308', bgLight: 'bg-amber-50' },
-      { name: 'React 19', category: 'Core Library', icon: SiReact, color: '#0284c7', bgLight: 'bg-sky-50', isFeatured: true },
-      { name: 'Next.js 15', category: 'Full-Stack App', icon: SiNextdotjs, color: '#000000', bgLight: 'bg-zinc-100', isFeatured: true },
-      { name: 'TypeScript', category: 'Type Safety', icon: SiTypescript, color: '#2563eb', bgLight: 'bg-blue-50' }
+      { name: 'JavaScript', category: 'ES6+ Engine', icon: SiJavascript, color: '#5f7a12', bgLight: 'bg-lime-50' },
+      { name: 'React 19', category: 'Core Library', icon: SiReact, color: '#0284c7', bgLight: 'bg-slate-50', isFeatured: true },
+      { name: 'Next.js 15', category: 'Full-Stack App', icon: SiNextdotjs, color: '#000000', bgLight: 'bg-slate-100', isFeatured: true },
+      { name: 'TypeScript', category: 'Type Safety', icon: SiTypescript, color: '#2563eb', bgLight: 'bg-slate-50' }
     ]
   },
   {
@@ -61,10 +61,10 @@ const quadrantData: Quadrant[] = [
     glowColor: 'rgba(236, 72, 153, 0.4)',
     borderColor: '#ec4899',
     items: [
-      { name: 'Tailwind CSS', category: 'Utility UI', icon: SiTailwindcss, color: '#0284c7', bgLight: 'bg-cyan-50' },
-      { name: 'Framer Motion', category: 'Web Animations', icon: SiFramer, color: '#db2777', bgLight: 'bg-pink-50' },
-      { name: 'Three.js 3D', category: 'WebGL Canvas', icon: SiThreedotjs, color: '#d97706', bgLight: 'bg-amber-50' },
-      { name: 'Figma 1:1', category: 'Pixel Perfect', icon: SiFigma, color: '#a259ff', bgLight: 'bg-purple-50' }
+      { name: 'Tailwind CSS', category: 'Utility UI', icon: SiTailwindcss, color: '#0284c7', bgLight: 'bg-slate-50' },
+      { name: 'Framer Motion', category: 'Web Animations', icon: SiFramer, color: '#db2777', bgLight: 'bg-slate-50' },
+      { name: 'Three.js 3D', category: 'WebGL Canvas', icon: SiThreedotjs, color: '#5f7a12', bgLight: 'bg-lime-50' },
+      { name: 'Figma 1:1', category: 'Pixel Perfect', icon: SiFigma, color: '#a259ff', bgLight: 'bg-slate-50' }
     ]
   },
   {
@@ -74,10 +74,10 @@ const quadrantData: Quadrant[] = [
     glowColor: 'rgba(34, 197, 94, 0.4)',
     borderColor: '#22c55e',
     items: [
-      { name: 'Node.js', category: 'Async Engine', icon: SiNodedotjs, color: '#16a34a', bgLight: 'bg-green-50' },
-      { name: 'Express.js', category: 'REST APIs', icon: SiExpress, color: '#000000', bgLight: 'bg-zinc-100' },
-      { name: 'MongoDB', category: 'NoSQL Cluster', icon: SiMongodb, color: '#15803d', bgLight: 'bg-emerald-50', isFeatured: true },
-      { name: 'Supabase', category: 'Realtime BaaS', icon: SiSupabase, color: '#3ecf8e', bgLight: 'bg-emerald-50' }
+      { name: 'Node.js', category: 'Async Engine', icon: SiNodedotjs, color: '#16a34a', bgLight: 'bg-slate-50' },
+      { name: 'Express.js', category: 'REST APIs', icon: SiExpress, color: '#000000', bgLight: 'bg-slate-100' },
+      { name: 'MongoDB', category: 'NoSQL Cluster', icon: SiMongodb, color: '#15803d', bgLight: 'bg-slate-50', isFeatured: true },
+      { name: 'Supabase', category: 'Realtime BaaS', icon: SiSupabase, color: '#3ecf8e', bgLight: 'bg-slate-50' }
     ]
   },
   {
@@ -87,10 +87,10 @@ const quadrantData: Quadrant[] = [
     glowColor: 'rgba(249, 115, 22, 0.4)',
     borderColor: '#f97316',
     items: [
-      { name: 'Git & GitHub', category: 'CI/CD & Code', icon: SiGit, color: '#f05032', bgLight: 'bg-orange-50' },
-      { name: 'Hostinger', category: 'VPS & Cloud', icon: SiHostinger, color: '#673de6', bgLight: 'bg-purple-50' },
-      { name: 'Vercel', category: 'Edge Cloud', icon: SiVercel, color: '#000000', bgLight: 'bg-zinc-100' },
-      { name: 'Groq AI (LLMs)', category: 'AI Integration', icon: Sparkles, color: '#f59e0b', bgLight: 'bg-amber-50' }
+      { name: 'Git & GitHub', category: 'CI/CD & Code', icon: SiGit, color: '#f05032', bgLight: 'bg-slate-50' },
+      { name: 'Hostinger', category: 'VPS & Cloud', icon: SiHostinger, color: '#673de6', bgLight: 'bg-slate-50' },
+      { name: 'Vercel', category: 'Edge Cloud', icon: SiVercel, color: '#000000', bgLight: 'bg-slate-100' },
+      { name: 'Groq AI (LLMs)', category: 'AI Integration', icon: Sparkles, color: '#5f7a12', bgLight: 'bg-lime-50' }
     ]
   }
 ];
@@ -139,13 +139,13 @@ export default function TechStack() {
   return (
     <section
       id="stack"
-      className="relative bg-[#f8fafc] py-20 sm:py-28 overflow-hidden font-sans text-[#1a1a1a] border-t border-b border-slate-200 select-none"
+      className="relative bg-[#f8fafc] py-8 sm:py-12 lg:py-14 overflow-hidden font-sans text-[#0f172a] border-t border-b border-slate-200 select-none"
     >
       {/* ── Precision Dotted Grid Background Pattern ── */}
       <div className="absolute inset-0 bg-[radial-gradient(#99a1af_1.2px,transparent_1.2px)] [background-size:24px_24px] opacity-40 pointer-events-none [mask-image:radial-gradient(ellipse_70%_70%_at_50%_50%,#000_60%,transparent_100%)]" />
 
       {/* Background Subtle Ambient Glass Glows */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[600px] bg-gradient-to-br from-blue-400/8 via-purple-400/5 to-pink-400/5 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[600px] bg-gradient-to-br from-[#d8ff00]/10 via-[#ccf23a]/5 to-transparent rounded-full blur-3xl pointer-events-none" />
 
       <div className="mx-auto max-w-[1360px] px-4 sm:px-6 lg:px-8 relative z-10">
 
@@ -158,14 +158,14 @@ export default function TechStack() {
             transition={{ duration: 0.6 }}
           >
             {/* 🌟 Signature Amber Eyebrow Badge */}
-            <div className="inline-flex items-center gap-2 bg-gradient-to-r from-[#ffaa00]/15 via-[#ffea00]/15 to-[#ccff00]/15 border border-[#ffaa00]/30 px-3.5 py-1 rounded-full text-xs font-bold text-amber-800 uppercase tracking-widest font-poppins mb-4 shadow-2xs">
-              <Sparkles className="w-3.5 h-3.5 text-[#ffaa00]" />
-              <span>TECH STACK & ARCHITECTURE</span>
+            <div className="inline-flex items-center gap-2 bg-[#d8ff00] border-2 border-black px-3.5 py-1 rounded-full shadow-sm mb-4">
+              <Sparkles className="w-3.5 h-3.5 text-black" />
+              <span style={{ fontFamily: 'var(--font-caveat), cursive' }} className="text-base font-bold text-black">Tech Stack & Architecture</span>
             </div>
 
             {/* Title with Yellow Accent on Development */}
-            <h2 className="text-3xl sm:text-4xl lg:text-[44px] font-black text-[#1e293b] tracking-tight mb-3 font-poppins">
-              Technologies for Marketplace & SaaS <span className="bg-gradient-to-r from-[#ffaa00] to-[#ffea00] bg-clip-text text-transparent">Development</span>
+            <h2 className="text-3xl sm:text-4xl lg:text-[44px] font-extrabold text-[#1e293b] tracking-tight mb-3 font-poppins">
+              Technologies for Marketplace & SaaS <span className="bg-gradient-to-r from-[#d8ff00] to-[#ccf23a] bg-clip-text text-transparent">Development</span>
             </h2>
             <p className="text-slate-500 text-sm sm:text-base leading-relaxed font-normal font-sans">
               High-performance frontend libraries, cloud databases, microservices, and AI toolchains connected seamlessly in a scalable architecture.
@@ -263,7 +263,7 @@ export default function TechStack() {
                 stroke="#94a3b8"
                 strokeWidth="2"
                 strokeDasharray="6 6"
-                fill="rgba(250, 204, 21, 0.03)"
+                fill="rgba(163,230,53, 0.03)"
                 initial={{ opacity: 0 }}
                 animate={isInView ? { opacity: 0.7 } : { opacity: 0 }}
                 transition={{ duration: 1.2, delay: 0.3, ease: "easeOut" }}
@@ -441,13 +441,13 @@ export default function TechStack() {
               onMouseLeave={() => setIsCenterHovered(false)}
               className="absolute top-[350px] left-[500px] -translate-x-1/2 -translate-y-1/2 z-30 pointer-events-auto cursor-pointer flex items-center justify-center group"
             >
-              <div className="relative w-[130px] h-[130px] rounded-full bg-gradient-to-r from-[#ffaa00] to-[#ffea00] backdrop-blur-xl border border-white shadow-[0_12px_35px_rgba(255,170,0,0.5)] group-hover:shadow-[0_18px_50px_rgba(255,170,0,0.85)] transition-shadow duration-300 flex items-center justify-center">
-                <div className="absolute inset-0 rounded-full bg-[#ffaa00]/40 animate-ping group-hover:bg-[#ffaa00]/80" style={{ animationDuration: '2.5s' }} />
-                <div className="absolute -inset-2 rounded-full border-2 border-[#ffea00]/60 animate-pulse" />
-                <div className="absolute inset-2 rounded-full border-2 border-dashed border-amber-800/25 animate-[spin_15s_linear_infinite]" />
+              <div className="relative w-[130px] h-[130px] rounded-full bg-gradient-to-r from-[#d8ff00] to-[#ccf23a] backdrop-blur-xl border border-white shadow-[0_12px_35px_rgba(216,255,0,0.5)] group-hover:shadow-[0_18px_50px_rgba(216,255,0,0.85)] transition-shadow duration-300 flex items-center justify-center">
+                <div className="absolute inset-0 rounded-full bg-[#d8ff00]/40 animate-ping group-hover:bg-[#d8ff00]/80" style={{ animationDuration: '2.5s' }} />
+                <div className="absolute -inset-2 rounded-full border-2 border-[#ccf23a]/60 animate-pulse" />
+                <div className="absolute inset-2 rounded-full border-2 border-dashed border-lime-800/25 animate-[spin_15s_linear_infinite]" />
                 <div className="w-[82px] h-[82px] rounded-full bg-white/95 shadow-inner flex items-center justify-center group-hover:scale-105 transition-transform duration-300">
-                  <div className="w-12 h-12 rounded-full bg-yellow-400/20 flex items-center justify-center">
-                    <div className="w-8 h-8 rounded-full bg-amber-50 flex items-center justify-center" />
+                  <div className="w-12 h-12 rounded-full bg-lime-400/20 flex items-center justify-center">
+                    <div className="w-8 h-8 rounded-full bg-lime-50 flex items-center justify-center" />
                   </div>
                 </div>
                 <motion.div
@@ -469,7 +469,7 @@ export default function TechStack() {
                 animate={isInView ? { scale: 1, opacity: 1, y: 0 } : { scale: 0, opacity: 0, y: 15 }}
                 transition={{ duration: 0.6, delay: 1.0, ease: [0.16, 1, 0.3, 1] }}
                 whileHover={{ scale: 1.06 }}
-                className="w-[140px] h-[44px] bg-gradient-to-r from-[#1e293b] to-[#334155] text-white rounded-full font-black text-xs sm:text-sm tracking-wider shadow-[0_10px_25px_rgba(14,165,233,0.35)] border-2 border-[#38bdf8] flex items-center justify-center gap-2 cursor-pointer relative font-poppins"
+                className="w-[140px] h-[44px] bg-gradient-to-r from-[#1e293b] to-[#334155] text-white rounded-full font-extrabold text-xs sm:text-sm tracking-wider shadow-[0_10px_25px_rgba(14,165,233,0.35)] border-2 border-[#38bdf8] flex items-center justify-center gap-2 cursor-pointer relative font-poppins"
               >
                 <div className="w-2 h-2 rounded-full bg-[#38bdf8] animate-pulse" />
                 <span>Front-end</span>
@@ -482,7 +482,7 @@ export default function TechStack() {
                 animate={isInView ? { scale: 1, opacity: 1, x: 0 } : { scale: 0, opacity: 0, x: -15 }}
                 transition={{ duration: 0.6, delay: 1.0, ease: [0.16, 1, 0.3, 1] }}
                 whileHover={{ scale: 1.06 }}
-                className="w-[126px] h-[44px] bg-gradient-to-r from-[#1e293b] to-[#334155] text-white rounded-full font-black text-xs sm:text-sm tracking-wider shadow-[0_10px_25px_rgba(236,72,153,0.35)] border-2 border-[#ec4899] flex items-center justify-center gap-2 cursor-pointer relative font-poppins"
+                className="w-[126px] h-[44px] bg-gradient-to-r from-[#1e293b] to-[#334155] text-white rounded-full font-extrabold text-xs sm:text-sm tracking-wider shadow-[0_10px_25px_rgba(236,72,153,0.35)] border-2 border-[#ec4899] flex items-center justify-center gap-2 cursor-pointer relative font-poppins"
               >
                 <div className="w-2 h-2 rounded-full bg-[#ec4899] animate-pulse" />
                 <span>UI & 3D</span>
@@ -495,7 +495,7 @@ export default function TechStack() {
                 animate={isInView ? { scale: 1, opacity: 1, y: 0 } : { scale: 0, opacity: 0, y: -15 }}
                 transition={{ duration: 0.6, delay: 1.0, ease: [0.16, 1, 0.3, 1] }}
                 whileHover={{ scale: 1.06 }}
-                className="w-[140px] h-[44px] bg-gradient-to-r from-[#1e293b] to-[#334155] text-white rounded-full font-black text-xs sm:text-sm tracking-wider shadow-[0_10px_25px_rgba(34,197,94,0.35)] border-2 border-[#22c55e] flex items-center justify-center gap-2 cursor-pointer relative font-poppins"
+                className="w-[140px] h-[44px] bg-gradient-to-r from-[#1e293b] to-[#334155] text-white rounded-full font-extrabold text-xs sm:text-sm tracking-wider shadow-[0_10px_25px_rgba(34,197,94,0.35)] border-2 border-[#22c55e] flex items-center justify-center gap-2 cursor-pointer relative font-poppins"
               >
                 <div className="w-2 h-2 rounded-full bg-[#22c55e] animate-pulse" />
                 <span>Back-end</span>
@@ -508,7 +508,7 @@ export default function TechStack() {
                 animate={isInView ? { scale: 1, opacity: 1, x: 0 } : { scale: 0, opacity: 0, x: 15 }}
                 transition={{ duration: 0.6, delay: 1.0, ease: [0.16, 1, 0.3, 1] }}
                 whileHover={{ scale: 1.06 }}
-                className="w-[160px] h-[44px] bg-gradient-to-r from-[#1e293b] to-[#334155] text-white rounded-full font-black text-xs sm:text-sm tracking-wider shadow-[0_10px_25px_rgba(249,115,22,0.35)] border-2 border-[#f97316] flex items-center justify-center gap-2 cursor-pointer relative font-poppins"
+                className="w-[160px] h-[44px] bg-gradient-to-r from-[#1e293b] to-[#334155] text-white rounded-full font-extrabold text-xs sm:text-sm tracking-wider shadow-[0_10px_25px_rgba(249,115,22,0.35)] border-2 border-[#f97316] flex items-center justify-center gap-2 cursor-pointer relative font-poppins"
               >
                 <div className="w-2 h-2 rounded-full bg-[#f97316] animate-pulse" />
                 <span>AI & Deployment</span>
@@ -522,10 +522,10 @@ export default function TechStack() {
               animate={isInView ? { scale: 1, opacity: 1 } : { scale: 0, opacity: 0 }}
               transition={{ duration: 0.55, delay: 2.1, ease: [0.16, 1, 0.3, 1] }}
               whileHover={{ scale: 1.1, y: -3 }}
-              className="absolute top-[75px] left-[260px] -translate-x-1/2 -translate-y-1/2 bg-white/95 backdrop-blur-md border border-slate-200 rounded-2xl px-3.5 py-2 flex items-center gap-2 shadow-md hover:border-amber-400 cursor-pointer transition-all whitespace-nowrap"
+              className="absolute top-[75px] left-[260px] -translate-x-1/2 -translate-y-1/2 bg-white/95 backdrop-blur-md border border-slate-200 rounded-2xl px-3.5 py-2 flex items-center gap-2 shadow-md hover:border-lime-400 cursor-pointer transition-all whitespace-nowrap"
             >
-              <div className="w-7 h-7 rounded-xl bg-amber-50 flex items-center justify-center shrink-0">
-                <SiJavascript size={16} className="text-[#eab308]" />
+              <div className="w-7 h-7 rounded-xl bg-lime-50 flex items-center justify-center shrink-0">
+                <SiJavascript size={16} className="text-[#5f7a12]" />
               </div>
               <div className="whitespace-nowrap">
                 <div className="font-extrabold text-xs text-slate-800 leading-tight whitespace-nowrap font-poppins">JavaScript</div>
@@ -538,14 +538,14 @@ export default function TechStack() {
               animate={isInView ? { scale: 1, opacity: 1 } : { scale: 0, opacity: 0 }}
               transition={{ duration: 0.55, delay: 2.25, ease: [0.16, 1, 0.3, 1] }}
               whileHover={{ scale: 1.12, y: -4 }}
-              className="absolute top-[30px] left-[420px] -translate-x-1/2 -translate-y-1/2 bg-white/95 backdrop-blur-md border-2 border-sky-400/90 rounded-2xl px-4 py-2.5 flex items-center gap-2.5 shadow-lg cursor-pointer transition-all whitespace-nowrap"
+              className="absolute top-[30px] left-[420px] -translate-x-1/2 -translate-y-1/2 bg-white/95 backdrop-blur-md border-2 border-slate-200/90 rounded-2xl px-4 py-2.5 flex items-center gap-2.5 shadow-lg cursor-pointer transition-all whitespace-nowrap"
             >
-              <div className="w-8 h-8 rounded-xl bg-sky-50 flex items-center justify-center shrink-0">
+              <div className="w-8 h-8 rounded-xl bg-slate-50 flex items-center justify-center shrink-0">
                 <SiReact size={20} className="text-[#0284c7] animate-[spin_10s_linear_infinite]" />
               </div>
               <div className="whitespace-nowrap">
-                <div className="font-black text-xs text-slate-900 leading-tight whitespace-nowrap font-poppins">React 19</div>
-                <div className="text-[8px] text-sky-600 font-extrabold uppercase tracking-wider whitespace-nowrap font-poppins">CORE FRAMEWORK</div>
+                <div className="font-extrabold text-xs text-slate-900 leading-tight whitespace-nowrap font-poppins">React 19</div>
+                <div className="text-[8px] text-[#5f7a12] font-extrabold uppercase tracking-wider whitespace-nowrap font-poppins">CORE FRAMEWORK</div>
               </div>
             </motion.div>
 
@@ -556,11 +556,11 @@ export default function TechStack() {
               whileHover={{ scale: 1.12, y: -4 }}
               className="absolute top-[30px] left-[580px] -translate-x-1/2 -translate-y-1/2 bg-white/95 backdrop-blur-md border-2 border-slate-800/90 rounded-2xl px-4 py-2.5 flex items-center gap-2.5 shadow-lg cursor-pointer transition-all whitespace-nowrap"
             >
-              <div className="w-8 h-8 rounded-xl bg-zinc-100 flex items-center justify-center shrink-0">
+              <div className="w-8 h-8 rounded-xl bg-slate-100 flex items-center justify-center shrink-0">
                 <SiNextdotjs size={18} className="text-black" />
               </div>
               <div className="whitespace-nowrap">
-                <div className="font-black text-xs text-slate-900 leading-tight whitespace-nowrap font-poppins">Next.js 15</div>
+                <div className="font-extrabold text-xs text-slate-900 leading-tight whitespace-nowrap font-poppins">Next.js 15</div>
                 <div className="text-[8px] text-slate-700 font-extrabold uppercase tracking-wider whitespace-nowrap font-poppins">FULL-STACK APP</div>
               </div>
             </motion.div>
@@ -570,9 +570,9 @@ export default function TechStack() {
               animate={isInView ? { scale: 1, opacity: 1 } : { scale: 0, opacity: 0 }}
               transition={{ duration: 0.55, delay: 2.55, ease: [0.16, 1, 0.3, 1] }}
               whileHover={{ scale: 1.1, y: -3 }}
-              className="absolute top-[75px] left-[740px] -translate-x-1/2 -translate-y-1/2 bg-white/95 backdrop-blur-md border border-slate-200 rounded-2xl px-3.5 py-2 flex items-center gap-2 shadow-md hover:border-blue-400 cursor-pointer transition-all whitespace-nowrap"
+              className="absolute top-[75px] left-[740px] -translate-x-1/2 -translate-y-1/2 bg-white/95 backdrop-blur-md border border-slate-200 rounded-2xl px-3.5 py-2 flex items-center gap-2 shadow-md hover:border-slate-200 cursor-pointer transition-all whitespace-nowrap"
             >
-              <div className="w-7 h-7 rounded-xl bg-blue-50 flex items-center justify-center shrink-0">
+              <div className="w-7 h-7 rounded-xl bg-slate-50 flex items-center justify-center shrink-0">
                 <SiTypescript size={16} className="text-[#2563eb]" />
               </div>
               <div className="whitespace-nowrap">
@@ -587,9 +587,9 @@ export default function TechStack() {
               animate={isInView ? { scale: 1, opacity: 1 } : { scale: 0, opacity: 0 }}
               transition={{ duration: 0.55, delay: 2.2, ease: [0.16, 1, 0.3, 1] }}
               whileHover={{ scale: 1.1, x: 3 }}
-              className="absolute top-[190px] left-[970px] -translate-y-1/2 bg-white/95 backdrop-blur-md border border-slate-200 rounded-2xl px-3.5 py-2 flex items-center gap-2 shadow-md hover:border-cyan-400 cursor-pointer transition-all whitespace-nowrap"
+              className="absolute top-[190px] left-[970px] -translate-y-1/2 bg-white/95 backdrop-blur-md border border-slate-200 rounded-2xl px-3.5 py-2 flex items-center gap-2 shadow-md hover:border-slate-200 cursor-pointer transition-all whitespace-nowrap"
             >
-              <div className="w-7 h-7 rounded-xl bg-cyan-50 flex items-center justify-center shrink-0">
+              <div className="w-7 h-7 rounded-xl bg-slate-50 flex items-center justify-center shrink-0">
                 <SiTailwindcss size={18} className="text-[#0284c7]" />
               </div>
               <div className="whitespace-nowrap">
@@ -603,9 +603,9 @@ export default function TechStack() {
               animate={isInView ? { scale: 1, opacity: 1 } : { scale: 0, opacity: 0 }}
               transition={{ duration: 0.55, delay: 2.35, ease: [0.16, 1, 0.3, 1] }}
               whileHover={{ scale: 1.1, x: 3 }}
-              className="absolute top-[305px] left-[900px] -translate-y-1/2 bg-white/95 backdrop-blur-md border border-slate-200 rounded-2xl px-3.5 py-2 flex items-center gap-2 shadow-md hover:border-pink-400 cursor-pointer transition-all whitespace-nowrap"
+              className="absolute top-[305px] left-[900px] -translate-y-1/2 bg-white/95 backdrop-blur-md border border-slate-200 rounded-2xl px-3.5 py-2 flex items-center gap-2 shadow-md hover:border-slate-200 cursor-pointer transition-all whitespace-nowrap"
             >
-              <div className="w-7 h-7 rounded-xl bg-pink-50 flex items-center justify-center shrink-0">
+              <div className="w-7 h-7 rounded-xl bg-slate-50 flex items-center justify-center shrink-0">
                 <SiFramer size={18} className="text-[#db2777]" />
               </div>
               <div className="whitespace-nowrap">
@@ -619,10 +619,10 @@ export default function TechStack() {
               animate={isInView ? { scale: 1, opacity: 1 } : { scale: 0, opacity: 0 }}
               transition={{ duration: 0.55, delay: 2.5, ease: [0.16, 1, 0.3, 1] }}
               whileHover={{ scale: 1.1, x: 3 }}
-              className="absolute top-[395px] left-[900px] -translate-y-1/2 bg-white/95 backdrop-blur-md border border-slate-200 rounded-2xl px-3.5 py-2 flex items-center gap-2 shadow-md hover:border-amber-400 cursor-pointer transition-all whitespace-nowrap"
+              className="absolute top-[395px] left-[900px] -translate-y-1/2 bg-white/95 backdrop-blur-md border border-slate-200 rounded-2xl px-3.5 py-2 flex items-center gap-2 shadow-md hover:border-lime-400 cursor-pointer transition-all whitespace-nowrap"
             >
-              <div className="w-7 h-7 rounded-xl bg-amber-50 flex items-center justify-center shrink-0">
-                <SiThreedotjs size={18} className="text-[#d97706]" />
+              <div className="w-7 h-7 rounded-xl bg-lime-50 flex items-center justify-center shrink-0">
+                <SiThreedotjs size={18} className="text-[#5f7a12]" />
               </div>
               <div className="whitespace-nowrap">
                 <div className="font-extrabold text-xs text-slate-800 leading-tight whitespace-nowrap font-poppins">Three.js 3D</div>
@@ -635,9 +635,9 @@ export default function TechStack() {
               animate={isInView ? { scale: 1, opacity: 1 } : { scale: 0, opacity: 0 }}
               transition={{ duration: 0.55, delay: 2.65, ease: [0.16, 1, 0.3, 1] }}
               whileHover={{ scale: 1.1, x: 3 }}
-              className="absolute top-[510px] left-[970px] -translate-y-1/2 bg-white/95 backdrop-blur-md border border-slate-200 rounded-2xl px-3.5 py-2 flex items-center gap-2 shadow-md hover:border-purple-400 cursor-pointer transition-all whitespace-nowrap"
+              className="absolute top-[510px] left-[970px] -translate-y-1/2 bg-white/95 backdrop-blur-md border border-slate-200 rounded-2xl px-3.5 py-2 flex items-center gap-2 shadow-md hover:border-slate-200 cursor-pointer transition-all whitespace-nowrap"
             >
-              <div className="w-7 h-7 rounded-xl bg-purple-50 flex items-center justify-center shrink-0">
+              <div className="w-7 h-7 rounded-xl bg-slate-50 flex items-center justify-center shrink-0">
                 <SiFigma size={18} className="text-[#a259ff]" />
               </div>
               <div className="whitespace-nowrap">
@@ -652,9 +652,9 @@ export default function TechStack() {
               animate={isInView ? { scale: 1, opacity: 1 } : { scale: 0, opacity: 0 }}
               transition={{ duration: 0.55, delay: 2.2, ease: [0.16, 1, 0.3, 1] }}
               whileHover={{ scale: 1.1, y: 3 }}
-              className="absolute top-[600px] left-[230px] -translate-x-1/2 -translate-y-1/2 bg-white/95 backdrop-blur-md border border-slate-200 rounded-2xl px-3.5 py-2 flex items-center gap-2 shadow-md hover:border-green-400 cursor-pointer transition-all whitespace-nowrap"
+              className="absolute top-[600px] left-[230px] -translate-x-1/2 -translate-y-1/2 bg-white/95 backdrop-blur-md border border-slate-200 rounded-2xl px-3.5 py-2 flex items-center gap-2 shadow-md hover:border-slate-200 cursor-pointer transition-all whitespace-nowrap"
             >
-              <div className="w-7 h-7 rounded-xl bg-green-50 flex items-center justify-center shrink-0">
+              <div className="w-7 h-7 rounded-xl bg-slate-50 flex items-center justify-center shrink-0">
                 <SiNodedotjs size={18} className="text-[#16a34a]" />
               </div>
               <div className="whitespace-nowrap">
@@ -670,7 +670,7 @@ export default function TechStack() {
               whileHover={{ scale: 1.1, y: 3 }}
               className="absolute top-[660px] left-[410px] -translate-x-1/2 -translate-y-1/2 bg-white/95 backdrop-blur-md border border-slate-200 rounded-2xl px-3.5 py-2 flex items-center gap-2 shadow-md hover:border-black cursor-pointer transition-all whitespace-nowrap"
             >
-              <div className="w-7 h-7 rounded-xl bg-zinc-100 flex items-center justify-center shrink-0">
+              <div className="w-7 h-7 rounded-xl bg-slate-100 flex items-center justify-center shrink-0">
                 <SiExpress size={16} className="text-black" />
               </div>
               <div className="whitespace-nowrap">
@@ -684,14 +684,14 @@ export default function TechStack() {
               animate={isInView ? { scale: 1, opacity: 1 } : { scale: 0, opacity: 0 }}
               transition={{ duration: 0.55, delay: 2.5, ease: [0.16, 1, 0.3, 1] }}
               whileHover={{ scale: 1.12, y: 4 }}
-              className="absolute top-[660px] left-[590px] -translate-x-1/2 -translate-y-1/2 bg-white/95 backdrop-blur-md border-2 border-emerald-400/90 rounded-2xl px-4 py-2.5 flex items-center gap-2.5 shadow-lg cursor-pointer transition-all whitespace-nowrap"
+              className="absolute top-[660px] left-[590px] -translate-x-1/2 -translate-y-1/2 bg-white/95 backdrop-blur-md border-2 border-slate-200/90 rounded-2xl px-4 py-2.5 flex items-center gap-2.5 shadow-lg cursor-pointer transition-all whitespace-nowrap"
             >
-              <div className="w-8 h-8 rounded-xl bg-emerald-50 flex items-center justify-center shrink-0">
+              <div className="w-8 h-8 rounded-xl bg-slate-50 flex items-center justify-center shrink-0">
                 <SiMongodb size={20} className="text-[#15803d]" />
               </div>
               <div className="whitespace-nowrap">
-                <div className="font-black text-xs text-slate-900 leading-tight whitespace-nowrap font-poppins">MongoDB</div>
-                <div className="text-[8px] text-emerald-600 font-extrabold uppercase tracking-wider whitespace-nowrap font-poppins">NOSQL CLUSTER</div>
+                <div className="font-extrabold text-xs text-slate-900 leading-tight whitespace-nowrap font-poppins">MongoDB</div>
+                <div className="text-[8px] text-[#5f7a12] font-extrabold uppercase tracking-wider whitespace-nowrap font-poppins">NOSQL CLUSTER</div>
               </div>
             </motion.div>
 
@@ -700,9 +700,9 @@ export default function TechStack() {
               animate={isInView ? { scale: 1, opacity: 1 } : { scale: 0, opacity: 0 }}
               transition={{ duration: 0.55, delay: 2.65, ease: [0.16, 1, 0.3, 1] }}
               whileHover={{ scale: 1.1, y: 3 }}
-              className="absolute top-[600px] left-[770px] -translate-x-1/2 -translate-y-1/2 bg-white/95 backdrop-blur-md border border-slate-200 rounded-2xl px-3.5 py-2 flex items-center gap-2 shadow-md hover:border-emerald-400 cursor-pointer transition-all whitespace-nowrap"
+              className="absolute top-[600px] left-[770px] -translate-x-1/2 -translate-y-1/2 bg-white/95 backdrop-blur-md border border-slate-200 rounded-2xl px-3.5 py-2 flex items-center gap-2 shadow-md hover:border-slate-200 cursor-pointer transition-all whitespace-nowrap"
             >
-              <div className="w-7 h-7 rounded-xl bg-emerald-50 flex items-center justify-center shrink-0">
+              <div className="w-7 h-7 rounded-xl bg-slate-50 flex items-center justify-center shrink-0">
                 <SiSupabase size={16} className="text-[#3ecf8e]" />
               </div>
               <div className="whitespace-nowrap">
@@ -717,9 +717,9 @@ export default function TechStack() {
               animate={isInView ? { scale: 1, opacity: 1 } : { scale: 0, opacity: 0 }}
               transition={{ duration: 0.55, delay: 2.2, ease: [0.16, 1, 0.3, 1] }}
               whileHover={{ scale: 1.1, x: -3 }}
-              className="absolute top-[190px] left-[70px] -translate-x-full -translate-y-1/2 bg-white/95 backdrop-blur-md border border-slate-200 rounded-2xl px-3.5 py-2 flex items-center gap-2 shadow-md hover:border-orange-400 cursor-pointer transition-all whitespace-nowrap"
+              className="absolute top-[190px] left-[70px] -translate-x-full -translate-y-1/2 bg-white/95 backdrop-blur-md border border-slate-200 rounded-2xl px-3.5 py-2 flex items-center gap-2 shadow-md hover:border-slate-200 cursor-pointer transition-all whitespace-nowrap"
             >
-              <div className="w-7 h-7 rounded-xl bg-orange-50 flex items-center justify-center shrink-0">
+              <div className="w-7 h-7 rounded-xl bg-slate-50 flex items-center justify-center shrink-0">
                 <SiGit size={18} className="text-[#f05032]" />
               </div>
               <div className="whitespace-nowrap">
@@ -733,9 +733,9 @@ export default function TechStack() {
               animate={isInView ? { scale: 1, opacity: 1 } : { scale: 0, opacity: 0 }}
               transition={{ duration: 0.55, delay: 2.35, ease: [0.16, 1, 0.3, 1] }}
               whileHover={{ scale: 1.1, x: -3 }}
-              className="absolute top-[305px] left-[100px] -translate-x-full -translate-y-1/2 bg-white/95 backdrop-blur-md border border-slate-200 rounded-2xl px-3.5 py-2 flex items-center gap-2 shadow-md hover:border-purple-400 cursor-pointer transition-all whitespace-nowrap"
+              className="absolute top-[305px] left-[100px] -translate-x-full -translate-y-1/2 bg-white/95 backdrop-blur-md border border-slate-200 rounded-2xl px-3.5 py-2 flex items-center gap-2 shadow-md hover:border-slate-200 cursor-pointer transition-all whitespace-nowrap"
             >
-              <div className="w-7 h-7 rounded-xl bg-purple-50 flex items-center justify-center shrink-0">
+              <div className="w-7 h-7 rounded-xl bg-slate-50 flex items-center justify-center shrink-0">
                 <SiHostinger size={18} className="text-[#673de6]" />
               </div>
               <div className="whitespace-nowrap">
@@ -751,7 +751,7 @@ export default function TechStack() {
               whileHover={{ scale: 1.1, x: -3 }}
               className="absolute top-[395px] left-[100px] -translate-x-full -translate-y-1/2 bg-white/95 backdrop-blur-md border border-slate-200 rounded-2xl px-3.5 py-2 flex items-center gap-2 shadow-md hover:border-black cursor-pointer transition-all whitespace-nowrap"
             >
-              <div className="w-7 h-7 rounded-xl bg-zinc-100 flex items-center justify-center shrink-0">
+              <div className="w-7 h-7 rounded-xl bg-slate-100 flex items-center justify-center shrink-0">
                 <SiVercel size={16} className="text-black" />
               </div>
               <div className="whitespace-nowrap">
@@ -765,10 +765,10 @@ export default function TechStack() {
               animate={isInView ? { scale: 1, opacity: 1 } : { scale: 0, opacity: 0 }}
               transition={{ duration: 0.55, delay: 2.65, ease: [0.16, 1, 0.3, 1] }}
               whileHover={{ scale: 1.1, x: -3 }}
-              className="absolute top-[510px] left-[70px] -translate-x-full -translate-y-1/2 bg-white/95 backdrop-blur-md border border-slate-200 rounded-2xl px-3.5 py-2 flex items-center gap-2 shadow-md hover:border-amber-400 cursor-pointer transition-all whitespace-nowrap"
+              className="absolute top-[510px] left-[70px] -translate-x-full -translate-y-1/2 bg-white/95 backdrop-blur-md border border-slate-200 rounded-2xl px-3.5 py-2 flex items-center gap-2 shadow-md hover:border-lime-400 cursor-pointer transition-all whitespace-nowrap"
             >
-              <div className="w-7 h-7 rounded-xl bg-amber-50 flex items-center justify-center shrink-0">
-                <Sparkles size={16} className="text-[#f59e0b]" />
+              <div className="w-7 h-7 rounded-xl bg-lime-50 flex items-center justify-center shrink-0">
+                <Sparkles size={16} className="text-[#5f7a12]" />
               </div>
               <div className="whitespace-nowrap">
                 <div className="font-extrabold text-xs text-slate-800 leading-tight whitespace-nowrap font-poppins">Groq AI (LLMs)</div>
@@ -799,7 +799,7 @@ export default function TechStack() {
                     onClick={() => setActiveTab(tab.id)}
                     className={`py-1.5 px-3 rounded-xl text-[11px] font-bold tracking-wide transition-all cursor-pointer font-poppins text-center ${
                       isActive
-                        ? 'bg-[#111827] text-white shadow-md'
+                        ? 'bg-[#0f172a] text-white shadow-md'
                         : 'bg-transparent text-slate-700 hover:text-slate-900'
                     }`}
                   >
@@ -834,10 +834,10 @@ export default function TechStack() {
                       delay: (index % 4) * 0.12,
                     }}
                     whileTap={{ scale: 0.96 }}
-                    className="group relative overflow-hidden bg-white border border-slate-200/80 hover:border-amber-400/80 rounded-[18px] py-2 px-2 flex flex-col items-center justify-center gap-1 text-center shadow-[0_2px_8px_rgba(0,0,0,0.03)] hover:shadow-md transition-all duration-300 cursor-pointer h-[62px]"
+                    className="group relative overflow-hidden bg-white border border-slate-200/80 hover:border-lime-400/80 rounded-[18px] py-2 px-2 flex flex-col items-center justify-center gap-1 text-center shadow-[0_2px_8px_rgba(0,0,0,0.03)] hover:shadow-md transition-all duration-300 cursor-pointer h-[62px]"
                   >
                     {/* Bottom-to-Top Slide Fill Hover Accent */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#ffaa00]/20 via-[#ffea00]/8 to-transparent translate-y-full group-hover:translate-y-0 group-active:translate-y-0 transition-transform duration-400 ease-[cubic-bezier(0.16,1,0.3,1)] pointer-events-none rounded-[18px]" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#d8ff00]/20 via-[#ccf23a]/8 to-transparent translate-y-full group-hover:translate-y-0 group-active:translate-y-0 transition-transform duration-400 ease-[cubic-bezier(0.16,1,0.3,1)] pointer-events-none rounded-[18px]" />
 
                     {/* Ultra-Delicate Icon (18px) */}
                     <div className="relative z-10 group-hover:scale-105 transition-transform duration-300 flex items-center justify-center">
@@ -850,7 +850,7 @@ export default function TechStack() {
                     </div>
 
                     {/* Bottom accent glow line */}
-                    <div className="absolute bottom-0 left-2.5 right-2.5 h-[2px] bg-gradient-to-r from-[#ffaa00] to-[#ffea00] rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                    <div className="absolute bottom-0 left-2.5 right-2.5 h-[2px] bg-gradient-to-r from-[#d8ff00] to-[#ccf23a] rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                   </motion.div>
                 );
               })}

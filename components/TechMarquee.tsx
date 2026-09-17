@@ -64,8 +64,8 @@ export default function TechMarquee() {
         `}
       </style>
 
-      {/* Background Gradient Slanted Box */}
-      <div className="absolute w-[115%] h-12 sm:h-16 md:h-20 bg-gradient-to-r from-cyan-300 via-lime-300 to-[#ffaa00] rotate-2 origin-center opacity-90 shadow-lg" style={{ transform: 'translateZ(0)' }} />
+      {/* Background Slanted Box: brand lime running into the action blue on the right */}
+      <div className="absolute w-[115%] h-12 sm:h-16 md:h-20 bg-gradient-to-r from-[#d8ff00] to-[#0052ff] rotate-2 origin-center opacity-90 shadow-lg" style={{ transform: 'translateZ(0)' }} />
 
       {/* Black Marquee Slanted Strip */}
       <div className="absolute w-[115%] h-12 sm:h-16 md:h-20 bg-[#18181b] -rotate-2 origin-center flex flex-col justify-center border-y border-white/10 shadow-xl" style={{ transform: 'translateZ(0)' }}>
@@ -81,7 +81,7 @@ export default function TechMarquee() {
                     {tech.name}
                   </span>
                   {/* Star Separator */}
-                  <span className="text-yellow-400/90 mx-2 sm:mx-4 md:mx-6 text-xs sm:text-lg md:text-xl">
+                  <span className="text-lime-400/90 mx-2 sm:mx-4 md:mx-6 text-xs sm:text-lg md:text-xl">
                     ✦
                   </span>
                 </div>

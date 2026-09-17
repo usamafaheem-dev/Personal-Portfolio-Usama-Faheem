@@ -55,169 +55,242 @@ export default function Footer() {
   return (
     <footer
       ref={containerRef}
-      className="relative bg-[#eae9e5] text-slate-900 pt-16 sm:pt-24 lg:pt-32 overflow-hidden select-none"
+      className="relative bg-[#eae9e5] text-slate-900 pt-8 sm:pt-12 overflow-hidden select-none"
     >
-      {/* ── Ambient Background Pattern ── */}
+      {/* ── Ambient Background Dot Grid ── */}
       <div className="absolute inset-0 bg-[radial-gradient(#99a1af_1.2px,transparent_1.2px)] [background-size:24px_24px] opacity-35 pointer-events-none" />
 
-      {/* ── Top Header with Hand-Drawn Circled "DON'T" ── */}
-      <div className="mx-auto max-w-[1420px] w-full px-4 sm:px-8 relative z-10 text-center">
+      {/* ── Top Area: Floating Badges (Stairs) + Centered Condensed Statement ── */}
+      <div className="relative mx-auto max-w-[1440px] w-full px-4 sm:px-8 z-10">
         
-        {/* Floating Pill Badges */}
-        <div className="flex items-center justify-center gap-3 sm:gap-6 mb-8 flex-wrap">
+        {/* ── LEFT FLOATING STAIRCASE (3 Stepped Levels - Closer to Footer Curve) ── */}
+        <div className="hidden md:flex absolute left-4 lg:left-8 top-12 sm:top-16 lg:top-22 flex-col gap-7 lg:gap-10 items-start z-20 pointer-events-auto">
+          {/* Step 1: Outer Top Step */}
           <motion.div
-            animate={{ y: [0, -6, 0] }}
-            transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
-            className="px-4 py-1.5 rounded-full bg-[#f03e1e] text-white text-xs font-bold uppercase tracking-wider shadow-md shadow-red-500/20"
+            animate={{ y: [0, -4, 0] }}
+            transition={{ duration: 3.2, repeat: Infinity, ease: 'easeInOut' }}
+            className="px-5 py-2 rounded-full bg-[#d8ff00] border-2 border-black text-black text-xs lg:text-[13px] font-extrabold uppercase tracking-wider shadow-[0_6px_20px_rgba(216,255,0,0.38)] -rotate-12 cursor-default"
           >
-            Available Now
+            AVAILABLE NOW
           </motion.div>
-          <motion.div
-            animate={{ y: [0, -8, 0] }}
-            transition={{ duration: 3.5, repeat: Infinity, ease: 'easeInOut', delay: 0.3 }}
-            className="px-4 py-1.5 rounded-full bg-[#f03e1e] text-white text-xs font-bold uppercase tracking-wider shadow-md shadow-red-500/20"
-          >
-            Worldwide Remote
-          </motion.div>
+
+          {/* Step 2: Middle Inward Step */}
           <motion.div
             animate={{ y: [0, -5, 0] }}
-            transition={{ duration: 2.8, repeat: Infinity, ease: 'easeInOut', delay: 0.6 }}
-            className="px-4 py-1.5 rounded-full bg-[#f03e1e] text-white text-xs font-bold uppercase tracking-wider shadow-md shadow-red-500/20"
+            transition={{ duration: 3.8, repeat: Infinity, ease: 'easeInOut', delay: 0.3 }}
+            className="ml-14 lg:ml-20 px-5 py-2 rounded-full bg-[#d8ff00] border-2 border-black text-black text-xs lg:text-[13px] font-extrabold uppercase tracking-wider shadow-[0_6px_20px_rgba(216,255,0,0.38)] -rotate-6 cursor-default"
           >
-            Say Hello ↗
+            WORLDWIDE REMOTE
+          </motion.div>
+
+          {/* Step 3: Inner Bottom Step (Close to Footer Curve) */}
+          <motion.div
+            animate={{ y: [0, -4, 0] }}
+            transition={{ duration: 3.5, repeat: Infinity, ease: 'easeInOut', delay: 0.6 }}
+            className="ml-24 lg:ml-34 px-5 py-2 rounded-full bg-[#d8ff00] border-2 border-black text-black text-xs lg:text-[13px] font-extrabold uppercase tracking-wider shadow-[0_6px_20px_rgba(216,255,0,0.38)] rotate-3 cursor-default"
+          >
+            OPEN FOR PROJECTS
           </motion.div>
         </div>
 
-        {/* Stacked Typographic Statement */}
-        <div className="inline-block relative">
-          
-          {/* Circled "DON'T" with SVG Hand-Drawn Oval Sketch */}
-          <div className="relative inline-block">
-            <span className="text-4xl xs:text-5xl sm:text-7xl lg:text-[86px] font-black font-sans tracking-tight text-slate-950 uppercase leading-none px-4 sm:px-6">
-              DON&apos;T
-            </span>
-            {/* Hand-Drawn Sketchy Circle Stroke */}
-            <svg
-              className="absolute -inset-2 sm:-inset-4 w-[calc(100%+16px)] sm:w-[calc(100%+32px)] h-[calc(100%+16px)] sm:h-[calc(100%+32px)] pointer-events-none text-slate-800"
-              viewBox="0 0 200 90"
-              fill="none"
-              preserveAspectRatio="none"
-            >
-              <path
-                d="M10,48 C14,18 70,8 140,12 C185,15 194,40 188,62 C180,82 120,86 50,82 C16,80 6,60 12,42 C16,28 45,15 90,13"
-                stroke="currentColor"
-                strokeWidth="2.4"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="opacity-75"
-              />
-            </svg>
-          </div>
+        {/* ── RIGHT FLOATING STAIRCASE (3 Stepped Levels - Closer to Footer Curve) ── */}
+        <div className="hidden md:flex absolute right-4 lg:right-8 top-12 sm:top-16 lg:top-22 flex-col gap-7 lg:gap-10 items-end z-20 pointer-events-auto">
+          {/* Step 1: Outer Top Step (Book a Call Button) */}
+          <motion.a
+            href="#contact"
+            animate={{ y: [0, -4, 0] }}
+            transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
+            className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-[#0052ff] hover:bg-[#003fcc] border-2 border-black text-white text-xs lg:text-sm font-extrabold uppercase tracking-wider shadow-[0_6px_22px_rgba(0,82,255,0.42)] transition-all hover:scale-105 cursor-pointer"
+          >
+            <span>Book a Call</span>
+            <span className="text-base leading-none font-extrabold">+</span>
+          </motion.a>
 
-          <h2 className="text-4xl xs:text-5xl sm:text-7xl lg:text-[86px] font-black font-sans tracking-tight text-slate-950 uppercase leading-[0.9] mt-1 sm:mt-2">
-            HESITATE<br />
-            TO REACH<br />
-            OUT!
-          </h2>
+          {/* Step 2: Middle Inward Step */}
+          <motion.a
+            href="#contact"
+            animate={{ y: [0, -5, 0] }}
+            transition={{ duration: 3.6, repeat: Infinity, ease: 'easeInOut', delay: 0.3 }}
+            className="mr-14 lg:mr-20 px-5 py-2 rounded-full bg-[#d8ff00] border-2 border-black text-black text-xs lg:text-[13px] font-extrabold uppercase tracking-wider shadow-[0_6px_20px_rgba(216,255,0,0.38)] rotate-6 hover:scale-105 transition-transform cursor-pointer"
+          >
+            LET&apos;S TALK
+          </motion.a>
+
+          {/* Step 3: Inner Bottom Step (Close to Footer Curve) */}
+          <motion.a
+            href="#contact"
+            animate={{ y: [0, -4, 0] }}
+            transition={{ duration: 3.4, repeat: Infinity, ease: 'easeInOut', delay: 0.5 }}
+            className="mr-24 lg:mr-34 px-5 py-2 rounded-full bg-[#d8ff00] border-2 border-black text-black text-xs lg:text-[13px] font-extrabold uppercase tracking-wider shadow-[0_6px_20px_rgba(216,255,0,0.38)] -rotate-3 hover:scale-105 transition-transform cursor-pointer"
+          >
+            SAY HELLO 👋
+          </motion.a>
+        </div>
+
+        {/* ── Mobile-Only Badges Row ── */}
+        <div className="flex md:hidden items-center justify-center gap-2 mb-4 flex-wrap">
+          <span className="px-3.5 py-1 rounded-full bg-[#d8ff00] border-2 border-black text-black text-[10px] font-extrabold uppercase tracking-wider shadow-sm">
+            Available Now
+          </span>
+          <span className="px-3.5 py-1 rounded-full bg-[#d8ff00] border-2 border-black text-black text-[10px] font-extrabold uppercase tracking-wider shadow-sm">
+            Worldwide Remote
+          </span>
+          <a
+            href="#contact"
+            className="px-3.5 py-1 rounded-full bg-[#0052ff] border-2 border-black text-white text-[10px] font-extrabold uppercase tracking-wider shadow-sm"
+          >
+            Book a Call +
+          </a>
+        </div>
+
+        {/* ── Centered Condensed Poster Statement ── */}
+        <div className="text-center pt-2 sm:pt-4 pb-2 sm:pb-4 relative z-30 px-2">
+          <div className="inline-block relative">
+
+            {/* Circled "DON'T" with SVG Hand-Drawn Oval Sketch (LIME) */}
+            <div className="relative inline-block">
+              <span
+                style={{
+                  transform: 'scaleY(1.15)',
+                  display: 'inline-block',
+                }}
+                className="text-3xl xs:text-4xl sm:text-6xl lg:text-[70px] xl:text-[76px] font-extrabold font-sans tracking-tight uppercase leading-none px-3 sm:px-6 origin-bottom text-[#0052ff]"
+              >
+                DON&apos;T
+              </span>
+              {/* Hand-Drawn Sketchy Circle Stroke (LIME) */}
+              <svg
+                className="absolute -inset-2 sm:-inset-3 w-[calc(100%+16px)] sm:w-[calc(100%+24px)] h-[calc(100%+16px)] sm:h-[calc(100%+24px)] pointer-events-none text-[#0052ff]"
+                viewBox="0 0 200 90"
+                fill="none"
+                preserveAspectRatio="none"
+              >
+                <path
+                  d="M10,48 C14,18 70,8 140,12 C185,15 194,40 188,62 C180,82 120,86 50,82 C16,80 6,60 12,42 C16,28 45,15 90,13"
+                  stroke="currentColor"
+                  strokeWidth="2.4"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="opacity-90"
+                />
+              </svg>
+            </div>
+
+            {/* "HESITATE TO REACH OUT!" (BLACK) */}
+            <h2
+              style={{
+                transform: 'scaleY(1.15)',
+                display: 'block',
+              }}
+              className="text-3xl xs:text-4xl sm:text-6xl lg:text-[70px] xl:text-[76px] font-extrabold font-sans tracking-tight text-slate-950 uppercase leading-[0.88] mt-1 origin-top"
+            >
+              HESITATE<br />
+              TO REACH<br />
+              OUT!
+            </h2>
+          </div>
         </div>
 
       </div>
 
-      {/* ── Giant Red/Orange Curved Arch Hill with Interactive Cartoon Eyes ── */}
-      <div className="relative w-full mt-10 sm:mt-14 pt-16 sm:pt-24 pb-12 sm:pb-16 bg-[#f03e1e] rounded-t-[100px] xs:rounded-t-[140px] sm:rounded-t-[220px] lg:rounded-t-[300px] shadow-[0_-15px_50px_rgba(240,62,30,0.25)] text-white overflow-hidden">
+      {/* ── Giant Monster Curved Arch Hill (ELECTRIC BLUE) ── */}
+      <div className="relative w-full -mt-2 sm:-mt-3 lg:-mt-4 z-20">
         
-        {/* Subtle Arch Ambient Shading */}
-        <div className="absolute inset-0 bg-gradient-to-b from-white/10 via-transparent to-black/15 pointer-events-none" />
-
-        {/* ── TWO INTERACTIVE EYES ── */}
-        <div className="flex items-center justify-center gap-4 sm:gap-7 relative z-20 mb-10 sm:mb-14">
-          
-          {/* Left Eye */}
-          <div
-            ref={leftEyeRef}
-            className={`relative w-20 h-28 xs:w-24 xs:h-34 sm:w-32 sm:h-44 lg:w-40 lg:h-54 rounded-full bg-white shadow-[inset_0_4px_12px_rgba(0,0,0,0.15)] flex items-center justify-center overflow-hidden transition-all duration-150 ${
-              isBlinking ? 'scale-y-[0.06]' : 'scale-y-100'
-            }`}
+        {/* Continuous SVG Arch Dome Top with Embedded Eyes */}
+        <div className="relative w-full leading-none overflow-visible">
+          <svg
+            viewBox="0 0 1440 140"
+            preserveAspectRatio="none"
+            className="w-full h-24 sm:h-32 lg:h-44 block -mb-[2px]"
           >
-            <motion.div
-              animate={{
-                x: leftPupilPos.x,
-                y: leftPupilPos.y,
-              }}
-              transition={{ type: 'spring', stiffness: 260, damping: 22, mass: 0.6 }}
-              className="relative w-10 h-10 xs:w-12 xs:h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20 rounded-full bg-[#111319] flex items-center justify-center"
-            >
-              {/* Pupil Light Glare Highlight */}
-              <div className="absolute top-2 left-2 w-3 h-3 sm:w-4 sm:h-4 rounded-full bg-white opacity-90" />
-            </motion.div>
-          </div>
+            {/* Gentle, Subtle, Broad Dome Hill (Unified Solid Electric Blue) */}
+            <path
+              d="M 0,110 C 480,18 960,18 1440,110 L 1440,140 L 0,140 Z"
+              fill="#000000"
+            />
+            {/* Crisp Top Rim Highlight */}
+            <path
+              d="M 0,110 C 480,18 960,18 1440,110"
+              fill="none"
+              stroke="rgba(255,255,255,0.25)"
+              strokeWidth="2"
+            />
+          </svg>
 
-          {/* Right Eye */}
-          <div
-            ref={rightEyeRef}
-            className={`relative w-20 h-28 xs:w-24 xs:h-34 sm:w-32 sm:h-44 lg:w-40 lg:h-54 rounded-full bg-white shadow-[inset_0_4px_12px_rgba(0,0,0,0.15)] flex items-center justify-center overflow-hidden transition-all duration-150 ${
-              isBlinking ? 'scale-y-[0.06]' : 'scale-y-100'
-            }`}
-          >
-            <motion.div
-              animate={{
-                x: rightPupilPos.x,
-                y: rightPupilPos.y,
-              }}
-              transition={{ type: 'spring', stiffness: 260, damping: 22, mass: 0.6 }}
-              className="relative w-10 h-10 xs:w-12 xs:h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20 rounded-full bg-[#111319] flex items-center justify-center"
-            >
-              {/* Pupil Light Glare Highlight */}
-              <div className="absolute top-2 left-2 w-3 h-3 sm:w-4 sm:h-4 rounded-full bg-white opacity-90" />
-            </motion.div>
-          </div>
+          {/* ── TWO INTERACTIVE EYES (Positioned neatly inside the dome, below the top curve) ── */}
+          <div className="absolute inset-x-0 top-6 sm:top-14 lg:top-20 flex items-center justify-center gap-2.5 sm:gap-4 z-20 pointer-events-none">
 
+            {/* Left Eye */}
+            <div
+              ref={leftEyeRef}
+              className={`pointer-events-auto relative w-14 h-20 xs:w-16 xs:h-24 sm:w-24 sm:h-36 lg:w-28 lg:h-42 rounded-[50%_50%_48%_48%] bg-white shadow-[0_6px_20px_rgba(0,0,0,0.18),inset_0_3px_10px_rgba(0,0,0,0.06)] flex items-center justify-center overflow-hidden transition-all duration-150 ${
+                isBlinking ? 'scale-y-[0.06]' : 'scale-y-100'
+              }`}
+            >
+              <motion.div
+                animate={{
+                  x: leftPupilPos.x,
+                  y: leftPupilPos.y,
+                }}
+                transition={{ type: 'spring', stiffness: 280, damping: 24, mass: 0.5 }}
+                className="relative w-7 h-7 xs:w-8 xs:h-8 sm:w-12 sm:h-12 lg:w-14 lg:h-14 rounded-full bg-[#111319] flex items-center justify-center shadow-md"
+              >
+                {/* Pupil Light Glare Highlight */}
+                <div className="absolute top-1.5 left-1.5 w-2 h-2 sm:w-3 sm:h-3 rounded-full bg-white opacity-95" />
+              </motion.div>
+            </div>
+
+            {/* Right Eye */}
+            <div
+              ref={rightEyeRef}
+              className={`pointer-events-auto relative w-14 h-20 xs:w-16 xs:h-24 sm:w-24 sm:h-36 lg:w-28 lg:h-42 rounded-[50%_50%_48%_48%] bg-white shadow-[0_6px_20px_rgba(0,0,0,0.18),inset_0_3px_10px_rgba(0,0,0,0.06)] flex items-center justify-center overflow-hidden transition-all duration-150 ${
+                isBlinking ? 'scale-y-[0.06]' : 'scale-y-100'
+              }`}
+            >
+              <motion.div
+                animate={{
+                  x: rightPupilPos.x,
+                  y: rightPupilPos.y,
+                }}
+                transition={{ type: 'spring', stiffness: 280, damping: 24, mass: 0.5 }}
+                className="relative w-7 h-7 xs:w-8 xs:h-8 sm:w-12 sm:h-12 lg:w-14 lg:h-14 rounded-full bg-[#111319] flex items-center justify-center shadow-md"
+              >
+                {/* Pupil Light Glare Highlight */}
+                <div className="absolute top-1.5 left-1.5 w-2 h-2 sm:w-3 sm:h-3 rounded-full bg-white opacity-95" />
+              </motion.div>
+            </div>
+
+          </div>
         </div>
 
-        {/* ── Footer Bottom Copy & Credits (Matching Video Reference) ── */}
-        <div className="mx-auto max-w-[1420px] w-full px-5 sm:px-8 lg:px-12 relative z-20">
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-end pt-8 border-t border-white/20">
-            
-            {/* Left Column: Brand & Copyright */}
-            <div className="md:col-span-6 text-left space-y-2">
-              <h4 className="text-xl sm:text-2xl font-black font-sans uppercase tracking-tight text-white">
-                USAMA FAHEEM
-              </h4>
-              <p className="text-xs sm:text-sm text-white/80 font-medium max-w-sm leading-relaxed">
-                Creative Full-Stack Web Developer & UI Engineer crafting immersive digital experiences that convert.
-              </p>
-              <div className="text-[11px] text-white/60 font-mono pt-2">
-                © {new Date().getFullYear()} Usama Faheem • All rights reserved.
+        {/* ── Monster Bottom Body (Electric Blue) ── */}
+        <div
+          className="relative w-full bg-black pt-12 sm:pt-16 lg:pt-22 pb-6 sm:pb-8 text-white"
+        >
+          <div className="mx-auto max-w-[1440px] w-full px-4 sm:px-10 lg:px-14 relative z-20">
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-5 sm:gap-8 items-end">
+
+              {/* Left: Brand & Copyright */}
+              <div className="md:col-span-6 text-center md:text-left space-y-1.5 sm:space-y-2">
+                <h4 className="text-lg sm:text-2xl font-extrabold font-sans uppercase tracking-tight text-white">
+                  USAMA FAHEEM
+                </h4>
+                <p className="text-[11px] sm:text-sm font-semibold max-w-sm mx-auto md:mx-0 leading-relaxed text-white/85">
+                  Creative Full-Stack Web Developer & UI Engineer crafting immersive digital experiences that convert.
+                </p>
+                <div className="text-[10px] sm:text-[11px] font-mono font-medium pt-1 text-white/60">
+                  © {new Date().getFullYear()} Usama Faheem • All rights reserved.
+                </div>
               </div>
-            </div>
 
-            {/* Right Column: Persona Note & Fast Action */}
-            <div className="md:col-span-6 text-left md:text-right space-y-3">
-              <p className="text-xs sm:text-[13px] lg:text-sm text-white/90 font-medium leading-relaxed max-w-md md:ml-auto">
-                &ldquo;I don&apos;t have all the answers but I know a person or three. Overnight sleep (or 4h naps) to hear about what you&apos;re building. Drop a message and I&apos;ll get back to you asap.&rdquo;
-              </p>
-              
-              <div className="flex items-center justify-start md:justify-end gap-3 pt-1">
-                <a
-                  href="#contact"
-                  className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-full bg-white text-[#f03e1e] text-xs font-black uppercase tracking-wider hover:bg-white/90 transition-all shadow-md transform hover:-translate-y-0.5 cursor-pointer"
-                >
-                  <span>Drop a Note</span>
-                  <ArrowUpRight className="w-3.5 h-3.5" />
-                </a>
-
-                <a
-                  href="https://linkedin.com/in/usama-faheem"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-full bg-white/15 hover:bg-white/25 text-white text-xs font-bold uppercase tracking-wider border border-white/25 transition-all"
-                >
-                  <span>LinkedIn</span>
-                  <ArrowUpRight className="w-3.5 h-3.5" />
-                </a>
+              {/* Right: Persona Note */}
+              <div className="md:col-span-6 text-center md:text-right flex flex-col items-center md:items-end justify-end">
+                <p className="text-[11px] sm:text-[13px] lg:text-sm font-semibold leading-relaxed max-w-md text-white/90">
+                  &ldquo;I don&apos;t take on every project, as I don&apos;t always have room right away, but I&apos;d love to hear what you&apos;re building. Drop a message and I&apos;ll get back to you asap.&rdquo;
+                </p>
               </div>
-            </div>
 
+            </div>
           </div>
         </div>
 

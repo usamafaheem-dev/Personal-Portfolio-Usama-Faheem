@@ -2,7 +2,7 @@
 
 import { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
-import { Sparkles, Download } from 'lucide-react';
+import { Sparkles, Download, Award, BadgeCheck } from 'lucide-react';
 import usePageReady from './usePageReady';
 
 interface ExperienceItem {
@@ -34,7 +34,7 @@ const experiences: ExperienceItem[] = [
     logoAlt: 'VertexAi Tec Logo',
     cardGradient: 'bg-gradient-to-r from-[#0244ad] via-[#1d4ed8] to-[#2563eb]',
     cardShadow: 'shadow-[0_20px_45px_rgba(2,68,173,0.35)]',
-    cardBorder: 'border-blue-400/50',
+    cardBorder: 'border-lime-400/50',
     roleTagBg: 'bg-white/20 text-white border-white/30',
     numberColor: 'text-slate-200/75',
     accentColor: '#38bdf8',
@@ -50,7 +50,7 @@ const experiences: ExperienceItem[] = [
     logoAlt: 'SoftCr8ors Logo',
     cardGradient: 'bg-gradient-to-r from-[#3b82f6] via-[#8b5cf6] to-[#ec4899]',
     cardShadow: 'shadow-[0_20px_45px_rgba(139,92,246,0.35)]',
-    cardBorder: 'border-purple-300/50',
+    cardBorder: 'border-lime-300/50',
     roleTagBg: 'bg-white/20 text-white border-white/30',
     numberColor: 'text-slate-200/75',
     accentColor: '#ec4899',
@@ -66,10 +66,53 @@ const experiences: ExperienceItem[] = [
     logoAlt: 'Tekrivo Logo',
     cardGradient: 'bg-gradient-to-r from-[#6d28d9] via-[#7c3aed] to-[#8b5cf6]',
     cardShadow: 'shadow-[0_20px_45px_rgba(124,58,237,0.35)]',
-    cardBorder: 'border-purple-300/50',
+    cardBorder: 'border-lime-300/50',
     roleTagBg: 'bg-white/20 text-white border-white/30',
     numberColor: 'text-slate-200/75',
     accentColor: '#8b5cf6',
+  },
+];
+
+interface ExperienceCert {
+  id: string;
+  company: string;
+  title: string;
+  period: string;
+  logoSrc: string;
+  gradientFrom: string;
+  gradientTo: string;
+  imageSrc?: string;
+}
+
+const experienceCerts: ExperienceCert[] = [
+  {
+    id: 'vertex-cert',
+    company: 'VertexAI Tec',
+    title: 'Experience Certificate — React/Next.js & MERN Developer',
+    period: 'Dec 2025 – Aug 2026',
+    logoSrc: '/company_icon/vertex_mark.png',
+    gradientFrom: '#0052ff',
+    gradientTo: '#38bdf8',
+    imageSrc: '/certificatoin/image copy.png',
+  },
+  {
+    id: 'softcr8ors-cert',
+    company: 'SoftCr8ors',
+    title: 'Experience Certificate — Frontend Developer Intern',
+    period: 'April 2026 – July 2026',
+    logoSrc: '/company_icon/softcr8ors_mark.png',
+    gradientFrom: '#8b5cf6',
+    gradientTo: '#ec4899',
+    imageSrc: '/certificatoin/ChatGPT Image Sep 7, 2026, 07_31_24 AM.png',
+  },
+  {
+    id: 'tekrivo-cert',
+    company: 'Tekrivo',
+    title: 'Experience Certificate — Founder & Full-Stack Engineer',
+    period: 'Overall 1 Year Experience',
+    logoSrc: '/company_icon/tekrivo_mark.png',
+    gradientFrom: '#6d28d9',
+    gradientTo: '#8b5cf6',
   },
 ];
 
@@ -105,7 +148,7 @@ export default function Experience() {
 
           <div className="flex flex-col min-w-0 pr-2">
             <div className="flex items-center gap-2">
-              <h3 className="font-black font-poppins text-lg tracking-tight text-white uppercase drop-shadow-xs truncate">
+              <h3 className="font-extrabold font-poppins text-lg tracking-tight text-white uppercase drop-shadow-xs truncate">
                 {item.company}
               </h3>
             </div>
@@ -144,7 +187,7 @@ export default function Experience() {
                 className="w-full h-full object-contain"
               />
             </div>
-            <h3 className="font-black font-poppins text-xs sm:text-sm tracking-wide text-white uppercase drop-shadow-xs truncate">
+            <h3 className="font-extrabold font-poppins text-xs sm:text-sm tracking-wide text-white uppercase drop-shadow-xs truncate">
               {item.company}
             </h3>
           </div>
@@ -154,7 +197,7 @@ export default function Experience() {
             <span className="text-[10px] sm:text-xs text-white/80 font-medium font-sans whitespace-nowrap hidden min-[380px]:inline-block">
               {item.period}
             </span>
-            <span className={`font-black font-poppins text-base sm:text-xl tracking-tight ${item.numberColor}`}>
+            <span className={`font-extrabold font-poppins text-base sm:text-xl tracking-tight ${item.numberColor}`}>
               {item.badgeNumber}
             </span>
           </div>
@@ -186,20 +229,20 @@ export default function Experience() {
     <section
       id="experience"
       ref={sectionRef}
-      className="relative bg-[#f8fafc] py-14 sm:py-20 lg:py-32 overflow-hidden font-sans text-[#1a1a1a] border-t border-b border-slate-200 select-none min-h-[500px]"
+      className="relative bg-[#ededf0] py-8 sm:py-12 lg:py-14 overflow-hidden font-sans text-[#0f172a] border-t border-b border-slate-200/80 select-none min-h-[500px]"
     >
       {/* ── Precision Dotted Grid Background Pattern ── */}
       <div className="absolute inset-0 bg-[radial-gradient(#99a1af_1.2px,transparent_1.2px)] [background-size:24px_24px] opacity-45 pointer-events-none [mask-image:radial-gradient(ellipse_70%_70%_at_50%_50%,#000_60%,transparent_100%)]" />
 
       {/* ── Background Subtle Glow Gradients ── */}
-      <div className="absolute top-1/4 -left-40 w-72 sm:w-96 h-72 sm:h-96 bg-blue-400/10 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-10 right-10 w-72 sm:w-96 h-72 sm:h-96 bg-purple-400/10 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute top-1/4 -left-40 w-72 sm:w-96 h-72 sm:h-96 bg-lime-400/10 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute bottom-10 right-10 w-72 sm:w-96 h-72 sm:h-96 bg-lime-400/10 rounded-full blur-3xl pointer-events-none" />
 
       {/* ── Decorative Corner Lines ── */}
       <div className="absolute bottom-0 right-0 w-60 sm:w-80 h-60 sm:h-80 pointer-events-none opacity-40 overflow-hidden">
         <svg
           viewBox="0 0 300 300"
-          className="w-full h-full text-zinc-300"
+          className="w-full h-full text-slate-300"
           fill="none"
           stroke="currentColor"
           strokeWidth="1.5"
@@ -312,24 +355,24 @@ export default function Experience() {
           >
 
             {/* 🌟 Stylish Eyebrow Badge */}
-            <div className="inline-flex items-center gap-2 bg-gradient-to-r from-[#ffaa00]/15 via-[#ffea00]/15 to-[#ccff00]/15 border border-[#ffaa00]/30 px-3.5 py-1 rounded-full text-xs font-bold text-amber-800 uppercase tracking-widest font-poppins shadow-2xs self-center lg:self-start">
-              <Sparkles className="w-3.5 h-3.5 text-[#ffaa00]" />
-              <span>EXPERIENCE & IMPACT</span>
+            <div className="inline-flex items-center gap-2 bg-[#d8ff00] border-2 border-black px-3.5 py-1 rounded-full shadow-sm self-center lg:self-start">
+              <Sparkles className="w-3.5 h-3.5 text-black" />
+              <span style={{ fontFamily: 'var(--font-caveat), cursive' }} className="text-base font-bold text-black">Experience & Impact</span>
             </div>
 
             {/* Main Dual-Tone Poppins Headline */}
-            <h2 className="text-2xl min-[380px]:text-3xl sm:text-4xl lg:text-[46px] font-black leading-[1.15] sm:leading-[1.12] tracking-tight font-poppins">
+            <h2 className="text-2xl min-[380px]:text-3xl sm:text-4xl lg:text-[46px] font-extrabold leading-[1.15] sm:leading-[1.12] tracking-tight font-poppins">
               <span className="text-[#0f172a] block">Why Hire Me</span>
               <span className="text-[#0f172a]">For Your </span>
-              <span className="bg-gradient-to-r from-[#ffaa00] to-[#ffea00] bg-clip-text text-transparent">Next Project?</span>
+              <span className="text-[#0052ff]">Next Project?</span>
             </h2>
 
             {/* Description Bio with Highlighted Key Terms */}
             <p className="text-[#475569] text-xs min-[380px]:text-sm sm:text-base leading-[1.75] sm:leading-[1.8] font-normal font-sans max-w-[600px] lg:max-w-none">
-              With over <strong className="font-bold text-[#d97706] bg-[#ffaa00]/15 px-1.5 py-0.5 rounded border border-[#ffaa00]/30">1 year</strong> of production experience across fast-paced AI agencies, <strong className="font-bold text-[#d97706] bg-[#ffaa00]/15 px-1.5 py-0.5 rounded border border-[#ffaa00]/30">client</strong> projects, <strong className="font-bold text-[#d97706] bg-[#ffaa00]/15 px-1.5 py-0.5 rounded border border-[#ffaa00]/30">startups</strong>, and <strong className="font-bold text-[#d97706] bg-[#ffaa00]/15 px-1.5 py-0.5 rounded border border-[#ffaa00]/30">agencies</strong>, I specialize in translating complex <strong className="font-bold text-[#d97706] bg-[#ffaa00]/15 px-1.5 py-0.5 rounded border border-[#ffaa00]/30">ideas</strong> into high-performance, conversion-driven <strong className="font-bold text-[#d97706] bg-[#ffaa00]/15 px-1.5 py-0.5 rounded border border-[#ffaa00]/30">web applications</strong>.
+              With over <strong className="font-bold text-[#171712] bg-[#d8ff00] px-1.5 py-0.5 rounded font-black">1 year</strong> of production experience across fast-paced AI agencies, <strong className="font-bold text-[#171712] bg-[#d8ff00] px-1.5 py-0.5 rounded font-black">client</strong> projects, <strong className="font-bold text-[#171712] bg-[#d8ff00] px-1.5 py-0.5 rounded font-black">startups</strong>, and <strong className="font-bold text-[#171712] bg-[#d8ff00] px-1.5 py-0.5 rounded font-black">agencies</strong>, I specialize in translating complex <strong className="font-bold text-[#171712] bg-[#d8ff00] px-1.5 py-0.5 rounded font-black">ideas</strong> into high-performance, conversion-driven <strong className="font-bold text-[#171712] bg-[#d8ff00] px-1.5 py-0.5 rounded font-black">web applications</strong>.
             </p>
 
-            {/* Pill Button: Download My CV in Yellow Accent (Compact Size) */}
+            {/* Pill Button: Download My CV (primary action = blue) */}
             <div className="pt-1">
               <motion.button
                 onClick={handleDownloadCV}
@@ -337,22 +380,114 @@ export default function Experience() {
                 whileTap={{ scale: 0.96 }}
                 className="
                   inline-flex items-center gap-2.5 px-5 py-2.5 sm:px-6 sm:py-3 rounded-full
-                  bg-gradient-to-r from-[#ffaa00] to-[#ffea00] hover:brightness-105
-                  text-[#0f172a] font-black text-xs sm:text-[13px] tracking-wider uppercase font-poppins
-                  shadow-[0_8px_20px_rgba(255,170,0,0.35)] 
-                  hover:shadow-[0_12px_26px_rgba(255,170,0,0.55)]
-                  transition-all duration-300 group cursor-pointer border border-[#ffaa00]/40
+                  bg-[#0052ff] hover:bg-[#003fcc]
+                  text-white font-extrabold text-xs sm:text-[13px] tracking-wider uppercase font-poppins
+                  shadow-[0_8px_20px_rgba(0,82,255,0.35)] 
+                  hover:shadow-[0_12px_26px_rgba(0,82,255,0.55)]
+                  transition-all duration-300 group cursor-pointer border border-[#0052ff]/40
                 "
               >
                 <span>Download My CV</span>
-                <div className="w-6 h-6 rounded-full bg-[#0f172a]/10 group-hover:bg-[#0f172a] flex items-center justify-center transition-all duration-300 group-hover:scale-110">
-                  <Download size={13} className="text-[#0f172a] group-hover:text-[#ffea00] group-hover:translate-y-0.5 transition-all duration-300" />
+                <div className="w-6 h-6 rounded-full bg-[#d8ff00] flex items-center justify-center transition-all duration-300 group-hover:scale-110">
+                  <Download size={13} className="text-[#171712] group-hover:translate-y-0.5 transition-all duration-300 stroke-[2.2]" />
                 </div>
               </motion.button>
             </div>
 
           </motion.div>
 
+        </div>
+
+        {/* ══════════════════════════════════════════════════════════════
+            EXPERIENCE CERTIFICATES (Placeholder Cards)
+           ══════════════════════════════════════════════════════════════ */}
+        <div className="mt-8 sm:mt-12 lg:mt-14">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+            className="text-center mb-8 sm:mb-10"
+          >
+            <div className="inline-flex items-center gap-2 bg-[#d8ff00] border-2 border-black px-3.5 py-1 rounded-full shadow-sm mb-4">
+              <Award className="w-3.5 h-3.5 text-black" />
+              <span style={{ fontFamily: 'var(--font-caveat), cursive' }} className="text-base font-bold text-black">Work Certificates</span>
+            </div>
+            <h3 className="text-xl min-[380px]:text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight font-poppins text-[#0f172a]">
+              Experience <span className="text-[#0052ff]">Certificates</span>
+            </h3>
+          </motion.div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6 lg:gap-8">
+            {experienceCerts.map((cert, i) => (
+              <motion.div
+                key={cert.id}
+                initial={{ opacity: 0, y: 30, scale: 0.96 }}
+                whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                viewport={{ once: true, amount: 0.2 }}
+                transition={{ duration: 0.7, delay: i * 0.15, ease: [0.16, 1, 0.3, 1] }}
+                whileHover={{ y: -6, scale: 1.02, transition: { duration: 0.25 } }}
+                className="relative group rounded-[22px] sm:rounded-[26px] bg-white p-[2.5px] pb-3.5 sm:pb-4 overflow-hidden cursor-pointer transition-shadow duration-300 hover:shadow-[0_8px_30px_rgba(0,0,0,0.12)]"
+              >
+                {/* Animated border beam & bottom shelf on hover */}
+                <div className="absolute inset-0 rounded-[22px] sm:rounded-[26px] opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none overflow-hidden">
+                  {/* Base gradient ensuring bottom border is vibrant and steady */}
+                  <div
+                    className="absolute inset-0"
+                    style={{ background: `linear-gradient(to bottom, transparent 35%, ${cert.gradientFrom} 75%, ${cert.gradientTo} 100%)` }}
+                  />
+                  {/* Dynamic rotating beam around edges */}
+                  <div
+                    className="absolute inset-[-150%] animate-[spin_2s_linear_infinite]"
+                    style={{ background: `conic-gradient(from 0deg, transparent 0 170deg, ${cert.gradientFrom} 230deg, ${cert.gradientTo} 310deg, transparent 360deg)` }}
+                  />
+                </div>
+
+                {/* Static border */}
+                <div className="absolute inset-0 rounded-[22px] sm:rounded-[26px] border-2 border-slate-200/70 pointer-events-none group-hover:opacity-0 transition-opacity duration-300" />
+
+                {/* Card body */}
+                <div className="relative w-full rounded-[20px] sm:rounded-[24px] bg-white p-4 sm:p-5 z-10">
+                  {/* Top row: logo + company */}
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-slate-50 border border-slate-100 p-1.5 flex items-center justify-center shrink-0">
+                      <img src={cert.logoSrc} alt={cert.company} className="w-full h-full object-contain" />
+                    </div>
+                    <div className="min-w-0">
+                      <h4 className="font-extrabold font-poppins text-sm sm:text-[15px] text-slate-900 uppercase tracking-tight truncate">{cert.company}</h4>
+                      <p className="text-[10px] sm:text-xs text-slate-500 font-medium">{cert.period}</p>
+                    </div>
+                    <div className="ml-auto shrink-0">
+                      <BadgeCheck className="w-5 h-5 sm:w-6 sm:h-6" style={{ color: cert.gradientFrom }} />
+                    </div>
+                  </div>
+
+                  {/* Certificate image placeholder */}
+                  {cert.imageSrc ? (
+                    <div className="relative w-full h-[180px] xs:h-[200px] sm:h-[220px] rounded-xl bg-slate-50 border border-slate-100 overflow-hidden flex items-center justify-center p-2 group-hover:border-slate-200 transition-colors">
+                      <img src={cert.imageSrc} alt={cert.title} className="w-full h-full object-contain rounded-lg transition-transform duration-500 group-hover:scale-105" />
+                    </div>
+                  ) : (
+                    <div className="relative w-full h-[180px] xs:h-[200px] sm:h-[220px] rounded-xl border-2 border-dashed border-slate-200 overflow-hidden flex flex-col items-center justify-center gap-3 group-hover:border-slate-300 transition-colors"
+                      style={{ background: `linear-gradient(135deg, ${cert.gradientFrom}08, ${cert.gradientTo}08)` }}
+                    >
+                      <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center"
+                        style={{ background: `linear-gradient(135deg, ${cert.gradientFrom}, ${cert.gradientTo})` }}
+                      >
+                        <Award className="w-7 h-7 sm:w-8 sm:h-8 text-white" />
+                      </div>
+                      <span className="text-[10px] sm:text-xs font-bold text-slate-400 uppercase tracking-wider">Certificate Coming Soon</span>
+                    </div>
+                  )}
+
+                  {/* Certificate title (equalized min-height across all cards) */}
+                  <p className="mt-3 text-xs sm:text-[13px] font-semibold text-slate-700 leading-snug line-clamp-2 min-h-[34px] sm:min-h-[38px] flex items-center">
+                    {cert.title}
+                  </p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
         </div>
 
       </div>

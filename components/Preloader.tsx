@@ -1,15 +1,47 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
-import { Hand } from 'lucide-react';
 
-const SLAT_ROWS = [0, 1, 2, 3, 4, 5, 6, 7];
+const PILLARS = [0, 1, 2, 3];
 
 export default function Preloader() {
   const [stage, setStage] = useState<'entering' | 'exiting' | 'removed'>('entering');
+  const [isClient, setIsClient] = useState(false);
+  const [themeMode, setThemeMode] = useState<'light' | 'dark'>('light');
+  const [videoReady, setVideoReady] = useState(false);
 
-  useEffect(() => {
+  const timersRef = useRef<NodeJS.Timeout[]>([]);
+
+  const clearAllTimers = () => {
+    timersRef.current.forEach((t) => clearTimeout(t));
+    timersRef.current = [];
+  };
+
+  const triggerExit = () => {
+    setStage((prev) => (prev === 'removed' ? 'removed' : 'exiting'));
+    
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new CustomEvent('preloaderExiting'));
+    }
+
+    const removeTimer = setTimeout(() => {
+      setStage('removed');
+      document.body.style.overflow = '';
+      if (typeof window !== 'undefined') {
+        (window as any).__preloaderDone = true;
+        window.dispatchEvent(new CustomEvent('preloaderComplete'));
+      }
+    }, 850);
+
+    timersRef.current.push(removeTimer);
+  };
+
+  const startSequence = () => {
+    clearAllTimers();
+    setStage('entering');
+    document.body.style.overflow = 'hidden';
+
     if (typeof window !== 'undefined') {
       try {
         window.history.scrollRestoration = 'manual';
@@ -17,161 +49,484 @@ export default function Preloader() {
       window.scrollTo(0, 0);
       (window as any).__preloaderDone = false;
     }
-    document.body.style.overflow = 'hidden';
 
-    // 1. At 3.5s: Start tile exit animation
+    // Auto-exit trigger after ~2.1s (smooth, snappy 2-second intro)
     const exitTimer = setTimeout(() => {
-      setStage('exiting');
-      if (typeof window !== 'undefined') {
-        window.dispatchEvent(new CustomEvent('preloaderExiting'));
-      }
-    }, 3500);
+      triggerExit();
+    }, 2100);
 
-    // 2. At 4.0s: Dispatch preloaderComplete so website components mount fresh as doors slice open
-    const completeTimer = setTimeout(() => {
+    // Hard safety failsafe: always unlock scroll after 2.9s
+    const failsafeTimer = setTimeout(() => {
+      setStage('removed');
+      document.body.style.overflow = '';
       if (typeof window !== 'undefined') {
         (window as any).__preloaderDone = true;
         window.dispatchEvent(new CustomEvent('preloaderComplete'));
       }
-    }, 4000);
+    }, 2900);
 
-    // 3. Unmount preloader div at 5.4s (giving full 1.9s for mobile GPU exit animation)
-    const removeTimer = setTimeout(() => {
-      setStage('removed');
-      document.body.style.overflow = '';
-    }, 5400);
+    timersRef.current.push(exitTimer, failsafeTimer);
+  };
+
+  useEffect(() => {
+    setIsClient(true);
+    if (typeof document !== 'undefined') {
+      const isDark = document.documentElement.classList.contains('dark');
+      setThemeMode(isDark ? 'dark' : 'light');
+    }
+
+    startSequence();
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' || e.key === ' ' || e.key === 'Enter') {
+        triggerExit();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
 
     return () => {
-      clearTimeout(exitTimer);
-      clearTimeout(completeTimer);
-      clearTimeout(removeTimer);
+      clearAllTimers();
       document.body.style.overflow = '';
+      window.removeEventListener('keydown', handleKeyDown);
     };
   }, []);
 
-  if (stage === 'removed') return null;
-
   const isExiting = stage === 'exiting';
+  const showPreloader = stage !== 'removed';
+  const isLight = themeMode === 'light';
+
+  // Theme palettes
+  const pillarBg = isLight ? 'bg-[#f8fafc]' : 'bg-[#030712]';
+  const primaryColor = isLight ? '#0052ff' : '#ffffff';
+  const glowDrop = isLight 
+    ? 'drop-shadow-[0_0_16px_rgba(0,82,255,0.35)]' 
+    : 'drop-shadow-[0_0_18px_rgba(255,255,255,0.6)]';
 
   return (
-    <div className="fixed inset-0 z-[99999] pointer-events-auto select-none overflow-hidden font-poppins bg-transparent">
+    <>
       {/* ══════════════════════════════════════════════════════════
-          STAGGERED HORIZONTAL LIGHT GREY TILE SLAT DOORS (GPU Accelerated for Mobile)
-          8 Horizontal rows splitting cleanly at exact 50% X axis across all viewports
+          PRELOADER OVERLAY (Click anywhere to exit immediately)
          ══════════════════════════════════════════════════════════ */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden z-10">
-        {SLAT_ROWS.map((row) => (
-          <div
-            key={`slat-row-${row}`}
-            className="absolute left-0 w-full"
-            style={{
-              top: `${row * 12.5}vh`,
-              height: '12.55vh',
-            }}
-          >
-            {/* Left Tile Slat (0% to 50% Center, GPU Hardware Accelerated) */}
-            <motion.div
-              initial={{ x: '0%' }}
-              animate={{ x: isExiting ? '-105%' : '0%' }}
-              transition={{
-                duration: 1.25,
-                delay: isExiting ? row * 0.06 : 0,
-                ease: [0.76, 0, 0.24, 1],
-              }}
-              className="absolute top-0 left-0 w-[50.15vw] h-full bg-[#eae9e5] border-b border-black/5 will-change-transform transform-gpu shadow-sm"
-            />
-
-            {/* Right Tile Slat (50% Center to 100%, GPU Hardware Accelerated) */}
-            <motion.div
-              initial={{ x: '0%' }}
-              animate={{ x: isExiting ? '105%' : '0%' }}
-              transition={{
-                duration: 1.25,
-                delay: isExiting ? row * 0.06 : 0,
-                ease: [0.76, 0, 0.24, 1],
-              }}
-              className="absolute top-0 right-0 w-[50.15vw] h-full bg-[#eae9e5] border-b border-black/5 will-change-transform transform-gpu shadow-sm"
-            />
-          </div>
-        ))}
-      </div>
-
-      {/* ══════════════════════════════════════════════════════════
-          MAIN HIGH-FASHION EDITORIAL INTRO CONTENT (Mobile Responsive)
-         ══════════════════════════════════════════════════════════ */}
-      <motion.div
-        initial={{ opacity: 1, scale: 1 }}
-        animate={{ opacity: isExiting ? 0 : 1, scale: isExiting ? 0.94 : 1 }}
-        transition={{ duration: 0.45, ease: 'easeInOut' }}
-        className="relative z-20 w-full h-full flex flex-col justify-center items-center p-3 sm:p-12 md:p-16"
-      >
-        {/* ── Center Composition: SOFTWARE (Left) ➔ ENGINEER (Right) ➔ PORTRAIT CARD (Top Drop) ── */}
-        <div className="w-full max-w-[1020px] mx-auto flex flex-col md:flex-row items-center justify-center relative gap-2 sm:gap-4 lg:gap-6 px-2 sm:px-4">
+      {showPreloader && (
+        <div 
+          onClick={triggerExit}
+          title="Click anywhere to skip intro"
+          className="fixed inset-0 z-[99999] pointer-events-auto select-none overflow-hidden bg-transparent cursor-pointer transition-colors duration-300"
+        >
           
-          {/* STEP 1: SOFTWARE TEXT */}
-          <motion.div
-            initial={{ opacity: 0, x: -100 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 1.2, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-            className="z-10 flex flex-col items-center md:items-start md:mt-8 lg:mt-10"
-          >
-            {/* Name placed directly above SOFTWARE text */}
-            <span className="text-[10px] xs:text-xs sm:text-sm font-extrabold uppercase tracking-[0.2em] sm:tracking-[0.25em] text-[#1c1c1c] mb-0.5 sm:mb-1 font-poppins text-center md:text-left">
-              USAMA FAHEEM
-            </span>
+          {/* ── 4 ARCHITECTURAL PILLARS / TILES (Staggered Split Exit revealing site underneath) ── */}
+          <div className="absolute inset-0 pointer-events-none overflow-hidden z-10">
+            {PILLARS.map((col) => {
+              const goUp = col % 2 === 0;
+              return (
+                <motion.div
+                  key={`pillar-${col}`}
+                  initial={{ y: '0%' }}
+                  animate={{ y: isExiting ? (goUp ? '-103%' : '103%') : '0%' }}
+                  transition={{
+                    duration: 0.72,
+                    delay: isExiting ? col * 0.035 : 0,
+                    ease: [0.76, 0, 0.24, 1],
+                  }}
+                  style={{ left: `${col * 25}vw` }}
+                  className={`absolute top-0 w-[25.25vw] h-full ${pillarBg} border-none shadow-none will-change-transform transform-gpu`}
+                />
+              );
+            })}
+          </div>
 
-            <h1 className="text-3xl xs:text-4xl sm:text-5xl md:text-[68px] lg:text-[88px] xl:text-[98px] font-extrabold uppercase text-[#222222] tracking-tight leading-none select-none font-poppins whitespace-nowrap">
-              SOFTWARE
-            </h1>
-          </motion.div>
-
-          {/* STEP 3: CENTER PORTRAIT CARD */}
+          {/* ══════════════════════════════════════════════════════════
+              COSMIC GALAXY WAVE VIDEO & UNIFIED GEOMETRIC LOGOTYPE
+              - Mobile:
+                * Pure CSS media queries guarantee ZERO long lines at start
+                * 'f' is 100% normal geometric letter
+                * Background video is rotated 90deg to run VERTICALLY on mobile
+                * Avatar picture sits cleanly above 'P' with zero overlap
+              - Desktop:
+                * Architectural extended stems on P and l untouched
+                * Horizontal background video untouched
+             ══════════════════════════════════════════════════════════ */}
           <motion.div
-            initial={{ opacity: 0, y: -200, scale: 0.9 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            transition={{ duration: 1.3, delay: 1.4, ease: [0.34, 1.25, 0.64, 1] }}
-            className="relative z-20 my-2 sm:my-4 md:my-0 flex-shrink-0 mx-1 sm:mx-4"
+            initial={{ opacity: 1 }}
+            animate={{
+              opacity: isExiting ? 0 : 1,
+              scale: isExiting ? 0.98 : 1,
+              y: isExiting ? -16 : 0,
+            }}
+            transition={{ duration: 0.35, ease: 'easeInOut' }}
+            className="relative z-20 w-full h-full flex flex-col justify-center items-center px-4 pointer-events-none"
           >
-            <div className="relative w-[170px] xs:w-[210px] sm:w-[270px] md:w-[320px] lg:w-[370px] h-[210px] xs:h-[260px] sm:h-[340px] md:h-[400px] lg:h-[470px] rounded-[14px] xs:rounded-[16px] sm:rounded-[20px] md:rounded-[22px] bg-[#d5d4cf] border-2 border-black/10 shadow-[0_20px_50px_rgba(0,0,0,0.22)] overflow-hidden group">
-              {/* Usama Portrait Photo */}
-              <img
-                src="/Man_looking_back_over_shoulder_202608131928 copy.jpeg"
-                alt="Usama Faheem Portrait"
-                className="w-full h-full object-cover object-[center_top] filter contrast-105 group-hover:scale-105 transition-all duration-500"
+            {/* ── RICH TECH DOT MATRIX & AMBIENT CANVAS ACCENTS ── */}
+            <div 
+              className={`absolute inset-0 pointer-events-none ${
+                isLight 
+                  ? 'bg-[radial-gradient(#0052ff_1.2px,transparent_1.2px)] opacity-[0.14]' 
+                  : 'bg-[radial-gradient(rgba(255,255,255,0.35)_1.2px,transparent_1.2px)] opacity-[0.20]'
+              } [background-size:28px_28px] [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_88%)]`} 
+            />
+
+            {/* Ambient Floating Micro-Dots */}
+            <div className="absolute inset-0 pointer-events-none overflow-hidden z-10">
+              <div className="absolute top-[18%] left-[10%] w-2 h-2 rounded-full bg-[#0052ff]/40 blur-[0.5px] animate-pulse" />
+              <div className="absolute top-[26%] right-[12%] w-2.5 h-2.5 rounded-full bg-[#0052ff]/45 blur-[0.5px] animate-ping [animation-duration:3.5s]" />
+              <div className="absolute bottom-[26%] left-[14%] w-2 h-2 rounded-full bg-blue-500/40 blur-[0.5px] animate-pulse" />
+              <div className="absolute bottom-[20%] right-[16%] w-2 h-2 rounded-full bg-[#0052ff]/40 blur-[0.5px] animate-pulse [animation-duration:4s]" />
+
+              {/* 3x3 Matrix Grid Accents on Margins (hidden on mobile to prevent clutter) */}
+              <div className="hidden sm:grid absolute top-[22%] left-[6%] grid-cols-3 gap-1.5 opacity-35">
+                {[...Array(9)].map((_, i) => (
+                  <span key={`tl-dot-${i}`} className="w-1 h-1 rounded-full bg-[#0052ff]" />
+                ))}
+              </div>
+              <div className="hidden sm:grid absolute bottom-[22%] right-[6%] grid-cols-3 gap-1.5 opacity-35">
+                {[...Array(9)].map((_, i) => (
+                  <span key={`br-dot-${i}`} className="w-1 h-1 rounded-full bg-[#0052ff]" />
+                ))}
+              </div>
+            </div>
+
+            {/* ── SVG Filters for Clean Wave Extraction ── */}
+            <svg className="absolute w-0 h-0 pointer-events-none opacity-0" aria-hidden="true">
+              <defs>
+                <filter id="cleanBlueWave" colorInterpolationFilters="sRGB">
+                  <feColorMatrix
+                    type="matrix"
+                    values="
+                      0 0 0 0 0.12
+                      0 0 0 0 0.48
+                      0 0 0 0 1.0
+                      0.35 0.55 0.15 0 -0.1
+                    "
+                  />
+                </filter>
+              </defs>
+            </svg>
+
+            {/* ── REAL COSMIC GALAXY WAVE VIDEO 
+                * Mobile: Rotated 90deg to run VERTICALLY in portrait mode
+                * Desktop: Horizontal, standard orientation
+                * Plays strictly 6.0s to 8.0s segment (never shows 0s)
+            ── */}
+            <div className="absolute inset-0 w-full h-full pointer-events-none z-0 overflow-hidden flex items-center justify-center">
+              <video
+                ref={(el) => {
+                  if (el) {
+                    if (el.currentTime < 5.9 || el.currentTime >= 8.0) {
+                      el.currentTime = 6.0;
+                    }
+                  }
+                }}
+                autoPlay
+                muted
+                loop
+                playsInline
+                preload="auto"
+                onLoadedMetadata={(e) => {
+                  e.currentTarget.currentTime = 6.0;
+                }}
+                onCanPlay={(e) => {
+                  if (e.currentTarget.currentTime < 5.9) {
+                    e.currentTarget.currentTime = 6.0;
+                  }
+                }}
+                onTimeUpdate={(e) => {
+                  const v = e.currentTarget;
+                  if (v.currentTime >= 5.9 && !videoReady) {
+                    setVideoReady(true);
+                  }
+                  if (v.currentTime >= 8.0 || v.currentTime < 6.0) {
+                    v.currentTime = 6.0;
+                  }
+                }}
+                className="min-w-[100vh] min-h-[100vw] w-[100vh] h-[100vw] sm:min-w-full sm:min-h-full sm:w-full sm:h-full object-cover rotate-90 sm:rotate-0 transform-gpu transition-all duration-300 scale-110"
+                style={{
+                  filter: isLight 
+                    ? 'url(#cleanBlueWave) drop-shadow(0 0 16px rgba(0,82,255,0.25))' 
+                    : 'hue-rotate(0deg) saturate(1.3) contrast(1.2)',
+                  mixBlendMode: isLight ? 'normal' : 'screen',
+                  opacity: videoReady ? (isLight ? 0.55 : 0.95) : 0,
+                  transition: 'opacity 0.25s ease',
+                }}
+              >
+                <source src="/vesper-bg.mp4#t=6.0,8.0" type="video/mp4" />
+                <source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260818_072341_50851634-bbc3-4c33-9acc-7647d4db44aa.mp4#t=6.0,8.0" type="video/mp4" />
+              </video>
+              
+              {/* Atmospheric Diffused Center Aura Glow */}
+              <div 
+                className="absolute inset-0 pointer-events-none -z-10"
+                style={{
+                  background: isLight
+                    ? 'radial-gradient(circle at center, rgba(0, 82, 255, 0.12) 0%, rgba(59, 130, 246, 0.05) 50%, transparent 80%)'
+                    : 'radial-gradient(circle at center, rgba(168, 85, 247, 0.2) 0%, rgba(59, 130, 246, 0.1) 50%, transparent 80%)',
+                }}
               />
             </div>
 
-            {/* STEP 4: Floating Blue Hand Wave Badge */}
-            <motion.div
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              transition={{ duration: 0.6, delay: 2.2, type: 'spring' }}
-              className="absolute -bottom-3 -left-3 xs:-bottom-4 xs:-left-4 sm:-bottom-6 sm:-left-6 z-30 w-12 h-12 xs:w-15 xs:h-15 sm:w-20 sm:h-20 rounded-full bg-[#3b52f6] text-white flex items-center justify-center shadow-2xl shadow-blue-600/45 border-2 xs:border-4 border-white cursor-pointer hover:scale-110 transition-transform"
-            >
-              <Hand className="w-5 h-5 xs:w-7 xs:h-7 sm:w-10 sm:h-10 animate-[bounce_2s_infinite]" />
-            </motion.div>
-          </motion.div>
+            {/* Main Wordmark Container */}
+            <div className="relative z-10 flex flex-col items-center max-w-5xl mx-auto w-full">
+              
+              {/* Top Tagline: "WEB DEVELOPER" (Shifted right on mobile to clear avatar completely) */}
+              <motion.div
+                initial={{ opacity: 0, y: -6 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4, delay: 0.05 }}
+                className="w-full flex justify-start pl-[34%] xs:pl-[35%] sm:pl-[24%] md:pl-[24%] mb-1 sm:mb-2"
+              >
+                <span className={`text-xs xs:text-sm sm:text-xl md:text-2xl lg:text-3xl font-extrabold tracking-[0.22em] uppercase font-mono ${
+                  isLight ? 'text-[#0043d4]' : 'text-white/95'
+                }`}>
+                  WEB DEVELOPER
+                </span>
+              </motion.div>
 
-          {/* STEP 2: ENGINEER TEXT */}
-          <motion.div
-            initial={{ opacity: 0, x: 100 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 1.2, delay: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            className="z-10 flex flex-col items-center md:items-start md:-mt-8 lg:-mt-10"
-          >
-            <h1 className="text-3xl xs:text-4xl sm:text-5xl md:text-[68px] lg:text-[88px] xl:text-[98px] font-extrabold uppercase text-[#222222] tracking-tight leading-none select-none font-poppins whitespace-nowrap">
-              ENGINEER
-            </h1>
-            
-            {/* Sub-caption under ENGINEER */}
-            <p className="mt-2 sm:mt-4 max-w-[220px] xs:max-w-[250px] sm:max-w-[290px] text-[11px] xs:text-xs sm:text-sm text-slate-600 font-medium leading-relaxed font-sans text-center md:text-left">
-              I accelerate business growth through digital demand generation.
-            </p>
+              {/* Central Wordmark */}
+              <div className={`relative w-full max-w-[850px] flex items-center justify-center px-2 select-none ${glowDrop}`}>
+                {/* ── Tilted Avatar Cutout: Lifted cleanly ABOVE 'P' so it never overlaps or covers letters ── */}
+                <motion.div
+                  initial={{ scale: 0.85, opacity: 0 }}
+                  animate={{
+                    scale: 1,
+                    rotate: [-12, -6, -12],
+                    y: [0, -4, 0],
+                    opacity: 1,
+                  }}
+                  transition={{
+                    scale: { duration: 0.4, ease: 'easeOut' },
+                    opacity: { duration: 0.25 },
+                    rotate: { repeat: Infinity, duration: 4.5, ease: 'easeInOut' },
+                    y: { repeat: Infinity, duration: 3.5, ease: 'easeInOut' },
+                  }}
+                  className="absolute -top-18 xs:-top-22 sm:-top-22 md:-top-27 lg:-top-29 -left-1 xs:-left-2 sm:-left-16 md:-left-22 lg:-left-25 z-30 pointer-events-none transition-all"
+                >
+                  <img
+                    src="/usaam_emoji.png"
+                    alt="Usama Faheem"
+                    className="w-18 xs:w-22 sm:w-32 md:w-38 lg:w-42 h-auto object-contain drop-shadow-[0_12px_28px_rgba(0,0,0,0.2)] select-none"
+                  />
+                </motion.div>
+
+                <svg
+                  viewBox="0 0 304 100"
+                  className="w-full h-auto overflow-visible select-none"
+                  style={{ color: primaryColor }}
+                >
+                  {/* ── Letter P (Mobile: Pure CSS sm:hidden ensures baseline at y=80 with ZERO startup lag/flash) ── */}
+                  <path
+                    className="sm:hidden"
+                    d="
+                      M 0,15 
+                      L 36,15 
+                      A 12,12 0 0,1 48,27 
+                      L 48,46 
+                      A 12,12 0 0,1 36,58 
+                      L 10,58 
+                      L 10,80 
+                      L 0,80 
+                      Z 
+                      M 10,25 
+                      L 34,25 
+                      A 5,5 0 0,1 39,30 
+                      L 39,43 
+                      A 5,5 0 0,1 34,48 
+                      L 10,48 
+                      Z
+                    "
+                    fill="currentColor"
+                    fillRule="evenodd"
+                  />
+
+                  {/* ── Letter P (Desktop: hidden sm:inline keeps architectural downward beam to y=950) ── */}
+                  <path
+                    className="hidden sm:inline"
+                    d="
+                      M 0,15 
+                      L 36,15 
+                      A 12,12 0 0,1 48,27 
+                      L 48,46 
+                      A 12,12 0 0,1 36,58 
+                      L 10,58 
+                      L 10,950 
+                      L 0,950 
+                      Z 
+                      M 10,25 
+                      L 34,25 
+                      A 5,5 0 0,1 39,30 
+                      L 39,43 
+                      A 5,5 0 0,1 34,48 
+                      L 10,48 
+                      Z
+                    "
+                    fill="currentColor"
+                    fillRule="evenodd"
+                  />
+
+                  {/* ── Letter o (1st): Squircle (54 to 90 — 6px gap) ── */}
+                  <path
+                    d="
+                      M 64,35 
+                      L 80,35 
+                      A 10,10 0 0,1 90,45 
+                      L 90,70 
+                      A 10,10 0 0,1 80,80 
+                      L 64,80 
+                      A 10,10 0 0,1 54,70 
+                      L 54,45 
+                      A 10,10 0 0,1 64,35 
+                      Z 
+                      M 66,45 
+                      L 78,45 
+                      A 3,3 0 0,1 81,48 
+                      L 81,67 
+                      A 3,3 0 0,1 78,70 
+                      L 66,70 
+                      A 3,3 0 0,1 63,67 
+                      L 63,48 
+                      A 3,3 0 0,1 66,45 
+                      Z
+                    "
+                    fill="currentColor"
+                    fillRule="evenodd"
+                  />
+
+                  {/* ── Letter r: Straight Stem + Smooth Shoulder (96 to 122 — 6px gap) ── */}
+                  <rect x="96" y="35" width="10" height="45" rx="1" fill="currentColor" />
+                  <path
+                    d="
+                      M 106,35 
+                      L 114,35 
+                      A 8,8 0 0,1 122,43 
+                      L 122,49 
+                      L 114,49 
+                      L 114,45 
+                      A 2,2 0 0,0 112,43 
+                      L 106,43 
+                      Z
+                    "
+                    fill="currentColor"
+                  />
+
+                  {/* ── Letter t: Full Symmetrical Crossbar + Stem (128 to 152 — 6px gap from r) ── */}
+                  <rect x="135" y="24" width="10" height="56" rx="1" fill="currentColor" />
+                  <rect x="128" y="35" width="24" height="10" rx="2" fill="currentColor" />
+
+                  {/* ── Letter f (100% Normal standard geometric letter on all screens) ── */}
+                  <path
+                    d="
+                      M 165,80 
+                      L 175,80 
+                      L 175,26 
+                      A 10,10 0 0,1 185,16 
+                      L 188,16 
+                      L 188,25 
+                      L 185,25 
+                      A 3,3 0 0,0 182,28 
+                      L 182,80 
+                      Z
+                    "
+                    fill="currentColor"
+                  />
+                  <rect x="158" y="35" width="24" height="10" rx="2" fill="currentColor" />
+
+                  {/* ── Letter o (2nd): Squircle (188 to 224 — 6px gap from f) ── */}
+                  <path
+                    d="
+                      M 198,35 
+                      L 214,35 
+                      A 10,10 0 0,1 224,45 
+                      L 224,70 
+                      A 10,10 0 0,1 214,80 
+                      L 198,80 
+                      A 10,10 0 0,1 188,70 
+                      L 188,45 
+                      A 10,10 0 0,1 198,35 
+                      Z 
+                      M 200,45 
+                      L 212,45 
+                      A 3,3 0 0,1 215,48 
+                      L 215,67 
+                      A 3,3 0 0,1 212,70 
+                      L 200,70 
+                      A 3,3 0 0,1 197,67 
+                      L 197,48 
+                      A 3,3 0 0,1 200,45 
+                      Z
+                    "
+                    fill="currentColor"
+                    fillRule="evenodd"
+                  />
+
+                  {/* ── Letter l (Mobile: sm:hidden keeps normal height 65 from y=15 to y=80 with ZERO startup lag/flash) ── */}
+                  <rect className="sm:hidden" x="230" y="15" width="10" height="65" rx="1" fill="currentColor" />
+
+                  {/* ── Letter l (Desktop: hidden sm:inline keeps upward beam to y=-950) ── */}
+                  <rect className="hidden sm:inline" x="230" y="-950" width="10" height="1030" rx="1" fill="currentColor" />
+
+                  {/* ── Letter i: Straight Stem + Squircle Dot (246 to 256 — 6px gap) ── */}
+                  <rect x="246" y="35" width="10" height="45" rx="1" fill="currentColor" />
+                  <rect x="246" y="19" width="10" height="10" rx="2" fill="currentColor" />
+
+                  {/* ── Letter o (3rd): Squircle (262 to 298 — 6px gap) ── */}
+                  <path
+                    d="
+                      M 272,35 
+                      L 288,35 
+                      A 10,10 0 0,1 298,45 
+                      L 298,70 
+                      A 10,10 0 0,1 288,80 
+                      L 272,80 
+                      A 10,10 0 0,1 262,70 
+                      L 262,45 
+                      A 10,10 0 0,1 272,35 
+                      Z 
+                      M 274,45 
+                      L 286,45 
+                      A 3,3 0 0,1 289,48 
+                      L 289,67 
+                      A 3,3 0 0,1 286,70 
+                      L 274,70 
+                      A 3,3 0 0,1 271,67 
+                      L 271,48 
+                      A 3,3 0 0,1 274,45 
+                      Z
+                    "
+                    fill="currentColor"
+                    fillRule="evenodd"
+                  />
+                </svg>
+              </div>
+
+              {/* Bottom Right Details: Author Name + 2026 Year Badge */}
+              <motion.div
+                initial={{ opacity: 0, y: 6 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4, delay: 0.08 }}
+                className="w-full flex justify-end mt-2 sm:-mt-6 md:-mt-8 lg:-mt-10 pr-[1%] sm:pr-[2%]"
+              >
+                <div className="flex flex-row items-center gap-2 sm:gap-4">
+                  <span className={`text-xs xs:text-sm sm:text-xl md:text-2xl lg:text-3xl font-extrabold tracking-[0.14em] font-mono uppercase ${
+                    isLight ? 'text-slate-900' : 'text-white'
+                  }`}>
+                    USAMA FAHEEM
+                  </span>
+
+                  {/* Premium Styled 2026 Capsule Badge */}
+                  <div className={`inline-flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-4 py-0.5 sm:py-1.5 rounded-full text-[10px] xs:text-xs sm:text-sm md:text-base font-mono font-extrabold tracking-widest shadow-md backdrop-blur-md transition-all ${
+                    isLight 
+                      ? 'bg-gradient-to-r from-[#0052ff] to-[#1d4ed8] text-white shadow-[0_4px_18px_rgba(0,82,255,0.35)] border border-blue-400/40' 
+                      : 'bg-gradient-to-r from-white/20 to-white/10 text-white shadow-[0_0_20px_rgba(255,255,255,0.25)] border border-white/30'
+                  }`}>
+                    <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-emerald-400 shadow-[0_0_10px_#34d399] animate-pulse" />
+                    <span>2026</span>
+                  </div>
+                </div>
+              </motion.div>
+
+            </div>
           </motion.div>
 
         </div>
-
-      </motion.div>
-    </div>
+      )}
+    </>
   );
 }

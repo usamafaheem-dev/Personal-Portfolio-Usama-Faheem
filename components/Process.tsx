@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import {
   Compass,
@@ -16,51 +16,86 @@ interface ProcessStep {
   subtitle: string;
   description: string;
   icon: React.ReactNode;
-  bubbleGradient: string;
+  bubbleBg: string;
   glowColor: string;
   tagColor: string;
+  titleColor: string;
+  hoverTitleColor: string;
+  badge1Class: string;
+  badge2Class: string;
+  cardBorderHover: string;
+  cardShadowHover: string;
+  badges: [string, string];
 }
 
 const stepsData: ProcessStep[] = [
   {
     stepNum: '01',
-    title: 'Discovery & Strategy',
-    subtitle: 'Deep dive in the first 48 hours.',
-    description: 'Clear architecture roadmap, audience research & technical scoping. 100% aligned on deliverables.',
+    title: 'Discussion & Planning',
+    subtitle: 'Understanding your vision.',
+    description: 'We talk about your project goals, audience, and features to create a clear, realistic roadmap.',
     icon: <Compass className="w-5 h-5 sm:w-6 sm:h-6 text-white stroke-[2.2]" />,
-    bubbleGradient: 'from-[#ffaa00] via-[#f59e0b] to-[#d97706]',
-    glowColor: 'rgba(255, 170, 0, 0.45)',
-    tagColor: 'text-amber-700',
+    bubbleBg: 'bg-[#0052ff]',
+    glowColor: 'rgba(0, 82, 255, 0.45)',
+    tagColor: 'text-[#0052ff]',
+    titleColor: 'text-[#0052ff]',
+    hoverTitleColor: 'group-hover:text-blue-700',
+    badge1Class: 'bg-[#0052ff]/10 text-[#0052ff] border-[#0052ff]/25',
+    badge2Class: 'bg-blue-50 text-blue-700 border-blue-200/70',
+    cardBorderHover: 'hover:border-blue-400/50',
+    cardShadowHover: 'hover:shadow-[0_16px_36px_rgba(0,82,255,0.12)]',
+    badges: ['Roadmap', 'Discovery'],
   },
   {
     stepNum: '02',
-    title: 'Figma & Visual Contrast',
-    subtitle: 'Stand out from competitors.',
-    description: 'Bespoke modern UI concepts, design tokens & high-fidelity prototypes. Zero generic templates.',
-    icon: <Palette className="w-5 h-5 sm:w-6 sm:h-6 text-black stroke-[2.2]" />,
-    bubbleGradient: 'from-[#ffea00] via-[#eab308] to-[#84cc16]',
-    glowColor: 'rgba(255, 234, 0, 0.45)',
-    tagColor: 'text-amber-800',
+    title: 'UI/UX & Wireframing',
+    subtitle: 'Designing the look & feel.',
+    description: 'Creating clean modern layouts and clickable Figma prototypes so you can preview everything beforehand.',
+    icon: <Palette className="w-5 h-5 sm:w-6 sm:h-6 text-white stroke-[2.2]" />,
+    bubbleBg: 'bg-[#8b5cf6]',
+    glowColor: 'rgba(139, 92, 246, 0.45)',
+    tagColor: 'text-purple-600',
+    titleColor: 'text-[#8b5cf6]',
+    hoverTitleColor: 'group-hover:text-purple-700',
+    badge1Class: 'bg-purple-500/10 text-purple-600 border-purple-500/25',
+    badge2Class: 'bg-purple-50 text-purple-700 border-purple-200/70',
+    cardBorderHover: 'hover:border-purple-400/50',
+    cardShadowHover: 'hover:shadow-[0_16px_36px_rgba(139,92,246,0.12)]',
+    badges: ['Figma', 'Prototypes'],
   },
   {
     stepNum: '03',
-    title: 'Engineering & Motion',
-    subtitle: 'Sub-second speed & spring physics.',
-    description: 'Next.js 15, React 19 & TypeScript paired with silky Framer Motion & Three.js animations.',
+    title: 'Development & Build',
+    subtitle: 'Writing fast, clean code.',
+    description: 'Turning designs into reality using Next.js and Tailwind, with smooth interactions and mobile responsiveness.',
     icon: <Code2 className="w-5 h-5 sm:w-6 sm:h-6 text-white stroke-[2.2]" />,
-    bubbleGradient: 'from-[#38bdf8] via-[#0284c7] to-[#0369a1]',
-    glowColor: 'rgba(56, 189, 248, 0.45)',
-    tagColor: 'text-sky-700',
+    bubbleBg: 'bg-[#10b981]',
+    glowColor: 'rgba(16, 185, 129, 0.45)',
+    tagColor: 'text-emerald-600',
+    titleColor: 'text-[#10b981]',
+    hoverTitleColor: 'group-hover:text-emerald-700',
+    badge1Class: 'bg-emerald-500/10 text-emerald-600 border-emerald-500/25',
+    badge2Class: 'bg-emerald-50 text-emerald-700 border-emerald-200/70',
+    cardBorderHover: 'hover:border-emerald-400/50',
+    cardShadowHover: 'hover:shadow-[0_16px_36px_rgba(16,185,129,0.12)]',
+    badges: ['Next.js', 'Tailwind'],
   },
   {
     stepNum: '04',
-    title: '99+ Speed & Global Launch',
-    subtitle: 'Zero layout shift, 100% SEO.',
-    description: 'Rigorous performance audits, automated Vercel CI/CD pipelines & 30-day post-launch warranty.',
+    title: 'Testing & Launch',
+    subtitle: 'Ready for the world.',
+    description: 'Testing speed, fixing every small detail, deploying live, and making sure everything runs smoothly.',
     icon: <Rocket className="w-5 h-5 sm:w-6 sm:h-6 text-white stroke-[2.2]" />,
-    bubbleGradient: 'from-[#f43f5e] via-[#e11d48] to-[#be123c]',
-    glowColor: 'rgba(244, 63, 94, 0.45)',
-    tagColor: 'text-rose-700',
+    bubbleBg: 'bg-[#f97316]',
+    glowColor: 'rgba(249, 115, 22, 0.45)',
+    tagColor: 'text-orange-600',
+    titleColor: 'text-[#f97316]',
+    hoverTitleColor: 'group-hover:text-orange-700',
+    badge1Class: 'bg-orange-500/10 text-orange-600 border-orange-500/25',
+    badge2Class: 'bg-orange-50 text-orange-700 border-orange-200/70',
+    cardBorderHover: 'hover:border-orange-400/50',
+    cardShadowHover: 'hover:shadow-[0_16px_36px_rgba(249,115,22,0.12)]',
+    badges: ['Vercel', 'QA Pass'],
   },
 ];
 
@@ -68,22 +103,22 @@ export default function Process() {
   return (
     <section
       id="process"
-      className="relative py-12 sm:py-16 lg:py-20 bg-[#090a0f] text-white overflow-hidden select-none font-sans"
+      className="relative py-6 sm:py-8 lg:py-10 overflow-hidden select-none font-sans bg-[#fbfcfb] text-slate-900 border-y border-slate-200/80"
     >
-      {/* ── Precision Dotted Grid Background Canvas Matching Entire Website ── */}
-      <div className="absolute inset-0 bg-[radial-gradient(#99a1af_1.2px,transparent_1.2px)] [background-size:24px_24px] opacity-25 pointer-events-none z-0" />
+      {/* ── Precision Dotted Grid Background Canvas Matching Proven Metrics ── */}
+      <div className="absolute inset-0 bg-[radial-gradient(#99a1af_1.2px,transparent_1.2px)] [background-size:24px_24px] opacity-40 pointer-events-none [mask-image:radial-gradient(ellipse_75%_75%_at_50%_50%,#000_60%,transparent_100%)]" />
 
       {/* ── Ambient Studio Glows in Usama's Brand Accents (Amber & Lime) ── */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">
-        <div className="absolute top-[10%] left-[5%] w-[450px] h-[450px] rounded-full bg-[#ffaa00]/10 blur-[140px]" />
-        <div className="absolute bottom-[10%] right-[5%] w-[500px] h-[500px] rounded-full bg-[#ccff00]/08 blur-[150px]" />
-        <div className="absolute top-[35%] right-[25%] w-[350px] h-[350px] rounded-full bg-[#ffea00]/08 blur-[130px]" />
+        <div className="absolute top-[10%] left-[5%] w-[450px] h-[450px] rounded-full bg-[#d8ff00]/08 blur-[140px]" />
+        <div className="absolute bottom-[10%] right-[5%] w-[500px] h-[500px] rounded-full bg-[#ccf23a]/06 blur-[150px]" />
+        <div className="absolute top-[35%] right-[25%] w-[350px] h-[350px] rounded-full bg-[#ccf23a]/06 blur-[130px]" />
       </div>
 
       <div className="mx-auto max-w-[1440px] w-full px-5 sm:px-8 lg:px-12 relative z-10">
 
         {/* ── Section Header ── */}
-        <div className="text-center max-w-4xl mx-auto mb-6 sm:mb-8">
+        <div className="text-center max-w-4xl mx-auto mb-5 sm:mb-7">
 
           {/* Top Brand Badge */}
           <motion.div
@@ -91,25 +126,37 @@ export default function Process() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
-            className="inline-flex items-center gap-2 bg-gradient-to-r from-[#ffaa00]/15 via-[#ffea00]/15 to-[#ccff00]/15 border border-[#ffaa00]/30 px-3.5 py-1 rounded-full text-xs font-bold text-[#ffaa00] uppercase tracking-widest font-poppins mb-3 shadow-sm backdrop-blur-md"
+            className="inline-flex items-center gap-2 bg-[#d8ff00] border-2 border-black px-3.5 py-1 rounded-full shadow-sm mb-3"
           >
-            <Sparkles className="w-3.5 h-3.5 text-[#ffaa00]" />
-            <span>HOW WE WORK</span>
+            <Sparkles className="w-3.5 h-3.5 text-black" />
+            <span style={{ fontFamily: 'var(--font-caveat), cursive' }} className="text-base font-bold text-black">How We Work</span>
           </motion.div>
 
-          {/* Clean 2-Line Headline */}
+          {/* Clean Responsive Headline */}
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-2xl xs:text-3xl sm:text-5xl lg:text-[48px] xl:text-[52px] font-black font-poppins tracking-tight text-white uppercase leading-[1.12]"
+            className="text-2xl xs:text-3xl sm:text-4xl lg:text-[42px] font-bold font-poppins tracking-tight uppercase leading-[1.2] text-slate-950"
           >
-            <span className="block whitespace-normal sm:whitespace-nowrap">
-              HOW WE BUILD YOUR PRODUCT
+            {/* Mobile / Tablet view: 3 well-balanced lines */}
+            <span className="block sm:hidden">
+              <span className="block">How We Build</span>
+              <span className="block mt-1">
+                Your Product In 4
+              </span>
+              <span className="block text-[#0052ff] mt-1">
+                Simple Steps
+              </span>
             </span>
-            <span className="block bg-gradient-to-r from-[#ffaa00] via-[#ffea00] to-[#ccff00] bg-clip-text text-transparent mt-1">
-              IN 4 SEAMLESS STEPS?
+
+            {/* Desktop / Tablet screens (sm and up): clean 2-line layout */}
+            <span className="hidden sm:block">
+              <span className="block">How We Build Your Product</span>
+              <span className="block text-[#0052ff] mt-1">
+                In 4 Simple Steps
+              </span>
             </span>
           </motion.h2>
 
@@ -118,22 +165,22 @@ export default function Process() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-xs sm:text-sm lg:text-base text-slate-400 font-sans mt-2 leading-relaxed max-w-xl mx-auto"
+            className="text-xs sm:text-sm lg:text-base font-sans mt-2.5 leading-relaxed max-w-xl mx-auto text-slate-600"
           >
-            A battle-tested engineering sprint from initial wireframing to high-performance production launch.
+            From the initial idea to the final launch, here is how we bring your project to life.
           </motion.p>
         </div>
 
         {/* ═════════════════════════════════════════════════════════════════
-            DESKTOP: COMPACT ELEGANT WAVE (100% MATCH TO USER SKETCH)
+            DESKTOP: COMPACT ELEGANT WAVE (FINALIZED CRISP WHITE CARDS)
            ═════════════════════════════════════════════════════════════════ */}
-        <div className="hidden lg:block relative w-full max-w-[1180px] mx-auto h-[370px] my-1">
+        <div className="hidden lg:block relative w-full max-w-[1260px] mx-auto h-[480px] my-2">
 
           {/* Continuous Gentle Sine Wave SVG Track + Embedded Nodes & Stems */}
-          <div className="absolute inset-0 pointer-events-none z-10">
+          <div className="absolute inset-0 pointer-events-none z-30">
             <svg
               className="w-full h-full overflow-visible"
-              viewBox="0 0 1260 370"
+              viewBox="0 0 1260 480"
               preserveAspectRatio="none"
               fill="none"
             >
@@ -146,17 +193,13 @@ export default function Process() {
                     <feMergeNode in="SourceGraphic" />
                   </feMerge>
                 </filter>
-                <radialGradient id="node-center-grad" cx="50%" cy="50%" r="50%">
-                  <stop offset="0%" stopColor="#ffea00" />
-                  <stop offset="100%" stopColor="#ffaa00" />
-                </radialGradient>
               </defs>
 
-              {/* ── Soft Ambient Glow Trail for the Mountain Wave ── */}
+              {/* ── Soft Ambient Glow Trail for the Mountain Wave (Blue) ── */}
               <motion.path
-                d="M 20,175 C 80,175 110,95 180,95 C 280,95 380,255 480,255 C 580,255 680,95 780,95 C 880,95 980,255 1080,255 C 1150,255 1180,175 1240,175"
-                stroke="rgba(255, 170, 0, 0.16)"
-                strokeWidth="7"
+                d="M 20,230 C 80,230 110,130 180,130 C 280,130 380,330 480,330 C 580,330 680,130 780,130 C 880,130 980,330 1080,330 C 1150,330 1180,230 1240,230"
+                stroke="rgba(0, 82, 255, 0.25)"
+                strokeWidth="8"
                 strokeLinecap="round"
                 initial={{ opacity: 0 }}
                 whileInView={{ opacity: 1 }}
@@ -164,10 +207,10 @@ export default function Process() {
                 transition={{ duration: 0.8 }}
               />
 
-              {/* ── Mountain Wave Line Drawing from Left to Right (Fades out once complete so dashed dots shine) ── */}
+              {/* ── Mountain Wave Line Drawing from Left to Right (Solid Blue) ── */}
               <motion.path
-                d="M 20,175 C 80,175 110,95 180,95 C 280,95 380,255 480,255 C 580,255 680,95 780,95 C 880,95 980,255 1080,255 C 1150,255 1180,175 1240,175"
-                stroke="rgba(255, 170, 0, 0.95)"
+                d="M 20,230 C 80,230 110,130 180,130 C 280,130 380,330 480,330 C 580,330 680,130 780,130 C 880,130 980,330 1080,330 C 1150,330 1180,230 1240,230"
+                stroke="#0052ff"
                 strokeWidth="3.2"
                 strokeLinecap="round"
                 initial={{ pathLength: 0, opacity: 1 }}
@@ -179,10 +222,10 @@ export default function Process() {
                 }}
               />
 
-              {/* ── Flowing Dashed Mountain Wave (Original Dotted Effect 100% Visible) ── */}
+              {/* ── Flowing Dashed Mountain Wave (Vibrant Blue) ── */}
               <motion.path
-                d="M 20,175 C 80,175 110,95 180,95 C 280,95 380,255 480,255 C 580,255 680,95 780,95 C 880,95 980,255 1080,255 C 1150,255 1180,175 1240,175"
-                stroke="rgba(255, 170, 0, 0.85)"
+                d="M 20,230 C 80,230 110,130 180,130 C 280,130 380,330 480,330 C 580,330 680,130 780,130 C 880,130 980,330 1080,330 C 1150,330 1180,230 1240,230"
+                stroke="#0052ff"
                 strokeWidth="3.2"
                 strokeDasharray="8 8"
                 strokeLinecap="round"
@@ -195,244 +238,268 @@ export default function Process() {
                 }}
               />
 
-              {/* ── Vertical Connector Stems (Balanced ~66px gap, Sequentially Revealed) ── */}
-              <g opacity="0.85">
-                {/* Step 1: Stem from Node 1 (113) straight DOWN to Card 1 Pointer (179) */}
+              {/* ── Vertical Connector Stems & Terminal Dots (Blue & Role Accents) ── */}
+              <g opacity="0.95">
+                {/* Step 1: Stem from Node 1 (148) straight DOWN to Card 1 Pointer Tip (244) */}
                 <motion.g
                   initial={{ opacity: 0 }}
                   whileInView={{ opacity: 1 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.4, delay: 1.35 }}
                 >
-                  <line x1="180" y1="113" x2="180" y2="179" stroke="#ffaa00" strokeWidth="1.5" strokeDasharray="3 3" />
-                  <circle cx="180" cy="179" r="2.5" fill="#ffaa00" />
+                  <line x1="180" y1="148" x2="180" y2="244" stroke="#0052ff" strokeWidth="1.8" strokeDasharray="3 3" />
+                  <circle cx="180" cy="148" r="2.5" fill="#0052ff" />
+                  <circle cx="180" cy="244" r="3.5" fill="#0052ff" stroke="#ffffff" strokeWidth="1.5" />
                 </motion.g>
 
-                {/* Step 2: Stem from Card 2 Pointer (171) straight DOWN to Node 2 (237) */}
+                {/* Step 2: Stem from Card 2 Pointer Tip (217) straight DOWN to Node 2 (312) */}
                 <motion.g
                   initial={{ opacity: 0 }}
                   whileInView={{ opacity: 1 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.4, delay: 2.30 }}
                 >
-                  <line x1="480" y1="171" x2="480" y2="237" stroke="#ffaa00" strokeWidth="1.5" strokeDasharray="3 3" />
-                  <circle cx="480" cy="171" r="2.5" fill="#ffaa00" />
+                  <line x1="480" y1="217" x2="480" y2="312" stroke="#0052ff" strokeWidth="1.8" strokeDasharray="3 3" />
+                  <circle cx="480" cy="217" r="3.5" fill="#8b5cf6" stroke="#ffffff" strokeWidth="1.5" />
+                  <circle cx="480" cy="312" r="2.5" fill="#0052ff" />
                 </motion.g>
 
-                {/* Step 3: Stem from Node 3 (113) straight DOWN to Card 3 Pointer (179) */}
+                {/* Step 3: Stem from Node 3 (148) straight DOWN to Card 3 Pointer Tip (244) */}
                 <motion.g
                   initial={{ opacity: 0 }}
                   whileInView={{ opacity: 1 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.4, delay: 3.25 }}
                 >
-                  <line x1="780" y1="113" x2="780" y2="179" stroke="#ffaa00" strokeWidth="1.5" strokeDasharray="3 3" />
-                  <circle cx="780" cy="179" r="2.5" fill="#ffaa00" />
+                  <line x1="780" y1="148" x2="780" y2="244" stroke="#0052ff" strokeWidth="1.8" strokeDasharray="3 3" />
+                  <circle cx="780" cy="148" r="2.5" fill="#0052ff" />
+                  <circle cx="780" cy="244" r="3.5" fill="#10b981" stroke="#ffffff" strokeWidth="1.5" />
                 </motion.g>
 
-                {/* Step 4: Stem from Card 4 Pointer (171) straight DOWN to Node 4 (237) */}
+                {/* Step 4: Stem from Card 4 Pointer Tip (217) straight DOWN to Node 4 (312) */}
                 <motion.g
                   initial={{ opacity: 0 }}
                   whileInView={{ opacity: 1 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.4, delay: 4.20 }}
                 >
-                  <line x1="1080" y1="171" x2="1080" y2="237" stroke="#ffaa00" strokeWidth="1.5" strokeDasharray="3 3" />
-                  <circle cx="1080" cy="171" r="2.5" fill="#ffaa00" />
+                  <line x1="1080" y1="217" x2="1080" y2="312" stroke="#0052ff" strokeWidth="1.8" strokeDasharray="3 3" />
+                  <circle cx="1080" cy="217" r="3.5" fill="#f97316" stroke="#ffffff" strokeWidth="1.5" />
+                  <circle cx="1080" cy="312" r="2.5" fill="#0052ff" />
                 </motion.g>
               </g>
 
-              {/* ── 4 NODES DIRECTLY ON THE WAVE (CIRCULAR MOUNTAIN CRESTS & VALLEYS) ── */}
-              {/* Node 1: Crest 1 at (180, 95) */}
-              <g transform="translate(180, 95)">
+              {/* ── 4 NODES DIRECTLY ON THE WAVE (Original Lime Numbers & Blue STEP Labels) ── */}
+              {/* Node 1: Crest 1 at (180, 130) */}
+              <g transform="translate(180, 130)">
                 <motion.g
                   initial={{ opacity: 0 }}
                   whileInView={{ opacity: 1 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.45, delay: 1.25 }}
                 >
-                  <circle r="18" fill="#10121a" stroke="#ffaa00" strokeWidth="2.5" filter="url(#process-node-glow)" />
-                  <text className="font-poppins font-black" textAnchor="middle" dy="4.5" fill="#ffea00" fontSize="11" fontWeight="900" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>01</text>
-                  <text className="font-poppins font-black" textAnchor="middle" dy="-22" fill="#ffaa00" fontSize="9" fontWeight="900" letterSpacing="0.2em" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>STEP</text>
+                  <circle r="18" fill="#10121a" stroke="#d8ff00" strokeWidth="2.5" filter="url(#process-node-glow)" />
+                  <text className="font-poppins font-extrabold" textAnchor="middle" dy="4.5" fill="#ccf23a" fontSize="11" fontWeight="900" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>01</text>
+                  <text className="font-poppins font-extrabold" textAnchor="middle" dy="-22" fill="#0052ff" fontSize="9" fontWeight="900" letterSpacing="0.2em" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>STEP</text>
                 </motion.g>
               </g>
 
-              {/* Node 2: Valley 1 at (480, 255) */}
-              <g transform="translate(480, 255)">
+              {/* Node 2: Valley 1 at (480, 330) */}
+              <g transform="translate(480, 330)">
                 <motion.g
                   initial={{ opacity: 0 }}
                   whileInView={{ opacity: 1 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.45, delay: 2.20 }}
                 >
-                  <circle r="18" fill="#10121a" stroke="#ffaa00" strokeWidth="2.5" filter="url(#process-node-glow)" />
-                  <text className="font-poppins font-black" textAnchor="middle" dy="4.5" fill="#ffea00" fontSize="11" fontWeight="900" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>02</text>
-                  <text className="font-poppins font-black" textAnchor="middle" dy="28" fill="#ffaa00" fontSize="9" fontWeight="900" letterSpacing="0.2em" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>STEP</text>
+                  <circle r="18" fill="#10121a" stroke="#d8ff00" strokeWidth="2.5" filter="url(#process-node-glow)" />
+                  <text className="font-poppins font-extrabold" textAnchor="middle" dy="4.5" fill="#ccf23a" fontSize="11" fontWeight="900" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>02</text>
+                  <text className="font-poppins font-extrabold" textAnchor="middle" dy="28" fill="#0052ff" fontSize="9" fontWeight="900" letterSpacing="0.2em" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>STEP</text>
                 </motion.g>
               </g>
 
-              {/* Node 3: Crest 2 at (780, 95) */}
-              <g transform="translate(780, 95)">
+              {/* Node 3: Crest 2 at (780, 130) */}
+              <g transform="translate(780, 130)">
                 <motion.g
                   initial={{ opacity: 0 }}
                   whileInView={{ opacity: 1 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.45, delay: 3.15 }}
                 >
-                  <circle r="18" fill="#10121a" stroke="#ffaa00" strokeWidth="2.5" filter="url(#process-node-glow)" />
-                  <text className="font-poppins font-black" textAnchor="middle" dy="4.5" fill="#ffea00" fontSize="11" fontWeight="900" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>03</text>
-                  <text className="font-poppins font-black" textAnchor="middle" dy="-22" fill="#ffaa00" fontSize="9" fontWeight="900" letterSpacing="0.2em" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>STEP</text>
+                  <circle r="18" fill="#10121a" stroke="#d8ff00" strokeWidth="2.5" filter="url(#process-node-glow)" />
+                  <text className="font-poppins font-extrabold" textAnchor="middle" dy="4.5" fill="#ccf23a" fontSize="11" fontWeight="900" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>03</text>
+                  <text className="font-poppins font-extrabold" textAnchor="middle" dy="-22" fill="#0052ff" fontSize="9" fontWeight="900" letterSpacing="0.2em" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>STEP</text>
                 </motion.g>
               </g>
 
-              {/* Node 4: Valley 2 at (1080, 255) */}
-              <g transform="translate(1080, 255)">
+              {/* Node 4: Valley 2 at (1080, 330) */}
+              <g transform="translate(1080, 330)">
                 <motion.g
                   initial={{ opacity: 0 }}
                   whileInView={{ opacity: 1 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.45, delay: 4.10 }}
                 >
-                  <circle r="18" fill="#10121a" stroke="#ffaa00" strokeWidth="2.5" filter="url(#process-node-glow)" />
-                  <text className="font-poppins font-black" textAnchor="middle" dy="4.5" fill="#ffea00" fontSize="11" fontWeight="900" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>04</text>
-                  <text className="font-poppins font-black" textAnchor="middle" dy="28" fill="#ffaa00" fontSize="9" fontWeight="900" letterSpacing="0.2em" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>STEP</text>
+                  <circle r="18" fill="#10121a" stroke="#d8ff00" strokeWidth="2.5" filter="url(#process-node-glow)" />
+                  <text className="font-poppins font-extrabold" textAnchor="middle" dy="4.5" fill="#ccf23a" fontSize="11" fontWeight="900" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>04</text>
+                  <text className="font-poppins font-extrabold" textAnchor="middle" dy="28" fill="#0052ff" fontSize="9" fontWeight="900" letterSpacing="0.2em" style={{ fontFamily: 'var(--font-poppins), sans-serif' }}>STEP</text>
                 </motion.g>
               </g>
             </svg>
           </div>
 
           {/* ── STEP 1: Card 1 at BOTTOM (X = 14.286%) ── */}
-          <div className="absolute left-[14.286%] -translate-x-1/2 top-[185px] w-[240px]">
+          <div className="absolute left-[14.286%] -translate-x-1/2 top-[252px] w-[270px] z-20">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.75, delay: 1.45, ease: [0.22, 1, 0.36, 1] }}
-              whileHover={{ y: -3, scale: 1.02 }}
-              className="w-full bg-white rounded-[20px] p-3 text-slate-900 shadow-[0_12px_28px_rgba(0,0,0,0.4)] flex items-center gap-2.5 border border-white/80 cursor-pointer group z-20"
+              whileHover={{ y: -4, scale: 1.02 }}
+              className={`w-full rounded-[22px] transition-all duration-300 cursor-pointer group relative p-3.5 bg-white text-slate-900 border border-slate-200/90 shadow-[0_12px_28px_rgba(0,0,0,0.06)] ${stepsData[0].cardShadowHover} ${stepsData[0].cardBorderHover} flex items-start gap-3`}
             >
               {/* Pointer Indicator pointing UP to Stem */}
-              <div className="absolute -top-1.5 left-1/2 -translate-x-1/2 w-3 h-3 bg-white rotate-45 border-t border-l border-white/80" />
+              <div className="absolute -top-1.5 left-1/2 -translate-x-1/2 w-3 h-3 rotate-45 border-t border-l bg-white border-slate-200/90" />
 
               <div
-                className="relative shrink-0 w-9 h-9 rounded-full bg-gradient-to-br from-[#ffaa00] via-[#f59e0b] to-[#d97706] p-0.5 flex items-center justify-center shadow-md group-hover:scale-105 transition-transform duration-300"
-                style={{ boxShadow: '0 4px 12px rgba(255, 170, 0, 0.4)' }}
+                className="relative shrink-0 rounded-full bg-[#0052ff] p-0.5 flex items-center justify-center shadow-md group-hover:scale-105 transition-transform duration-300 w-9 h-9 mt-0.5"
+                style={{ boxShadow: '0 4px 12px rgba(0,82,255, 0.4)' }}
               >
                 <div className="absolute inset-0.5 rounded-full border-t border-l border-white/60 pointer-events-none" />
-                <div className="relative z-10 scale-80">{stepsData[0].icon}</div>
+                <div className="relative z-10 scale-85">{stepsData[0].icon}</div>
               </div>
-              <div className="flex-1 min-w-0 text-left">
-                <h4 className="text-[12px] font-black text-slate-950 font-poppins leading-tight group-hover:text-amber-600 transition-colors">
+
+              <div className="min-w-0 flex-1 text-left">
+                <h4 className={`text-[12.5px] font-bold font-poppins leading-tight transition-colors ${stepsData[0].titleColor} ${stepsData[0].hoverTitleColor}`}>
                   {stepsData[0].title}
                 </h4>
-                <p className="text-[9.5px] font-bold text-amber-700 font-sans mt-0.5 leading-snug">
+                <p className={`text-[10px] font-semibold font-sans mt-0.5 leading-snug ${stepsData[0].tagColor}`}>
                   {stepsData[0].subtitle}
                 </p>
-                <p className="text-[8.5px] text-slate-600 font-sans mt-0.5 leading-snug line-clamp-2 font-normal">
+                <p className="text-[9px] font-sans mt-1 leading-relaxed text-slate-600">
                   {stepsData[0].description}
                 </p>
+                <div className="mt-1.5 flex items-center gap-1.5">
+                  <span className={`text-[8px] font-semibold px-2 py-0.5 rounded-full border ${stepsData[0].badge1Class}`}>{stepsData[0].badges[0]}</span>
+                  <span className={`text-[8px] font-semibold px-2 py-0.5 rounded-full border ${stepsData[0].badge2Class}`}>{stepsData[0].badges[1]}</span>
+                </div>
               </div>
             </motion.div>
           </div>
 
           {/* ── STEP 2: Card 2 at TOP (X = 38.095%) ── */}
-          <div className="absolute left-[38.095%] -translate-x-1/2 top-[165px] -translate-y-full w-[240px]">
+          <div className="absolute left-[38.095%] -translate-x-1/2 top-[208px] -translate-y-full w-[270px] z-20">
             <motion.div
               initial={{ opacity: 0, y: -20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.75, delay: 2.40, ease: [0.22, 1, 0.36, 1] }}
-              whileHover={{ y: -3, scale: 1.02 }}
-              className="w-full bg-white rounded-[20px] p-3 text-slate-900 shadow-[0_12px_28px_rgba(0,0,0,0.4)] flex items-center gap-2.5 border border-white/80 cursor-pointer group z-20"
+              whileHover={{ y: -4, scale: 1.02 }}
+              className={`w-full rounded-[22px] transition-all duration-300 cursor-pointer group relative p-3.5 bg-white text-slate-900 border border-slate-200/90 shadow-[0_12px_28px_rgba(0,0,0,0.06)] ${stepsData[1].cardShadowHover} ${stepsData[1].cardBorderHover} flex items-start gap-3`}
             >
               {/* Pointer Indicator pointing DOWN to Stem */}
-              <div className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-3 h-3 bg-white rotate-45 border-b border-r border-white/80" />
+              <div className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-3 h-3 rotate-45 border-b border-r bg-white border-slate-200/90" />
 
               <div
-                className="relative shrink-0 w-9 h-9 rounded-full bg-gradient-to-br from-[#ffea00] via-[#eab308] to-[#84cc16] p-0.5 flex items-center justify-center shadow-md group-hover:scale-105 transition-transform duration-300"
-                style={{ boxShadow: '0 4px 12px rgba(255, 234, 0, 0.4)' }}
+                className="relative shrink-0 rounded-full bg-[#8b5cf6] p-0.5 flex items-center justify-center shadow-md group-hover:scale-105 transition-transform duration-300 w-9 h-9 mt-0.5"
+                style={{ boxShadow: '0 4px 12px rgba(139,92,246, 0.4)' }}
               >
                 <div className="absolute inset-0.5 rounded-full border-t border-l border-white/60 pointer-events-none" />
-                <div className="relative z-10 scale-80">{stepsData[1].icon}</div>
+                <div className="relative z-10 scale-85">{stepsData[1].icon}</div>
               </div>
-              <div className="flex-1 min-w-0 text-left">
-                <h4 className="text-[12px] font-black text-slate-950 font-poppins leading-tight group-hover:text-amber-600 transition-colors">
+
+              <div className="min-w-0 flex-1 text-left">
+                <h4 className={`text-[12.5px] font-bold font-poppins leading-tight transition-colors ${stepsData[1].titleColor} ${stepsData[1].hoverTitleColor}`}>
                   {stepsData[1].title}
                 </h4>
-                <p className="text-[9.5px] font-bold text-amber-800 font-sans mt-0.5 leading-snug">
+                <p className={`text-[10px] font-semibold font-sans mt-0.5 leading-snug ${stepsData[1].tagColor}`}>
                   {stepsData[1].subtitle}
                 </p>
-                <p className="text-[8.5px] text-slate-600 font-sans mt-0.5 leading-snug line-clamp-2 font-normal">
+                <p className="text-[9px] font-sans mt-1 leading-relaxed text-slate-600">
                   {stepsData[1].description}
                 </p>
+                <div className="mt-1.5 flex items-center gap-1.5">
+                  <span className={`text-[8px] font-semibold px-2 py-0.5 rounded-full border ${stepsData[1].badge1Class}`}>{stepsData[1].badges[0]}</span>
+                  <span className={`text-[8px] font-semibold px-2 py-0.5 rounded-full border ${stepsData[1].badge2Class}`}>{stepsData[1].badges[1]}</span>
+                </div>
               </div>
             </motion.div>
           </div>
 
           {/* ── STEP 3: Card 3 at BOTTOM (X = 61.905%) ── */}
-          <div className="absolute left-[61.905%] -translate-x-1/2 top-[185px] w-[240px]">
+          <div className="absolute left-[61.905%] -translate-x-1/2 top-[252px] w-[270px] z-20">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.75, delay: 3.35, ease: [0.22, 1, 0.36, 1] }}
-              whileHover={{ y: -3, scale: 1.02 }}
-              className="w-full bg-white rounded-[20px] p-3 text-slate-900 shadow-[0_12px_28px_rgba(0,0,0,0.4)] flex items-center gap-2.5 border border-white/80 cursor-pointer group z-20"
+              whileHover={{ y: -4, scale: 1.02 }}
+              className={`w-full rounded-[22px] transition-all duration-300 cursor-pointer group relative p-3.5 bg-white text-slate-900 border border-slate-200/90 shadow-[0_12px_28px_rgba(0,0,0,0.06)] ${stepsData[2].cardShadowHover} ${stepsData[2].cardBorderHover} flex items-start gap-3`}
             >
               {/* Pointer Indicator pointing UP to Stem */}
-              <div className="absolute -top-1.5 left-1/2 -translate-x-1/2 w-3 h-3 bg-white rotate-45 border-t border-l border-white/80" />
+              <div className="absolute -top-1.5 left-1/2 -translate-x-1/2 w-3 h-3 rotate-45 border-t border-l bg-white border-slate-200/90" />
 
               <div
-                className="relative shrink-0 w-9 h-9 rounded-full bg-gradient-to-br from-[#38bdf8] via-[#0284c7] to-[#0369a1] p-0.5 flex items-center justify-center shadow-md group-hover:scale-105 transition-transform duration-300"
-                style={{ boxShadow: '0 4px 12px rgba(56, 189, 248, 0.4)' }}
+                className="relative shrink-0 rounded-full bg-[#10b981] p-0.5 flex items-center justify-center shadow-md group-hover:scale-105 transition-transform duration-300 w-9 h-9 mt-0.5"
+                style={{ boxShadow: '0 4px 12px rgba(16,185,129, 0.4)' }}
               >
                 <div className="absolute inset-0.5 rounded-full border-t border-l border-white/60 pointer-events-none" />
-                <div className="relative z-10 scale-80">{stepsData[2].icon}</div>
+                <div className="relative z-10 scale-85">{stepsData[2].icon}</div>
               </div>
-              <div className="flex-1 min-w-0 text-left">
-                <h4 className="text-[12px] font-black text-slate-950 font-poppins leading-tight group-hover:text-amber-600 transition-colors">
+
+              <div className="min-w-0 flex-1 text-left">
+                <h4 className={`text-[12.5px] font-bold font-poppins leading-tight transition-colors ${stepsData[2].titleColor} ${stepsData[2].hoverTitleColor}`}>
                   {stepsData[2].title}
                 </h4>
-                <p className="text-[9.5px] font-bold text-sky-700 font-sans mt-0.5 leading-snug">
+                <p className={`text-[10px] font-semibold font-sans mt-0.5 leading-snug ${stepsData[2].tagColor}`}>
                   {stepsData[2].subtitle}
                 </p>
-                <p className="text-[8.5px] text-slate-600 font-sans mt-0.5 leading-snug line-clamp-2 font-normal">
+                <p className="text-[9px] font-sans mt-1 leading-relaxed text-slate-600">
                   {stepsData[2].description}
                 </p>
+                <div className="mt-1.5 flex items-center gap-1.5">
+                  <span className={`text-[8px] font-semibold px-2 py-0.5 rounded-full border ${stepsData[2].badge1Class}`}>{stepsData[2].badges[0]}</span>
+                  <span className={`text-[8px] font-semibold px-2 py-0.5 rounded-full border ${stepsData[2].badge2Class}`}>{stepsData[2].badges[1]}</span>
+                </div>
               </div>
             </motion.div>
           </div>
 
           {/* ── STEP 4: Card 4 at TOP (X = 85.714%) ── */}
-          <div className="absolute left-[85.714%] -translate-x-1/2 top-[165px] -translate-y-full w-[240px]">
+          <div className="absolute left-[85.714%] -translate-x-1/2 top-[208px] -translate-y-full w-[270px] z-20">
             <motion.div
               initial={{ opacity: 0, y: -20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.75, delay: 4.30, ease: [0.22, 1, 0.36, 1] }}
-              whileHover={{ y: -3, scale: 1.02 }}
-              className="w-full bg-white rounded-[20px] p-3 text-slate-900 shadow-[0_12px_28px_rgba(0,0,0,0.4)] flex items-center gap-2.5 border border-white/80 cursor-pointer group z-20"
+              whileHover={{ y: -4, scale: 1.02 }}
+              className={`w-full rounded-[22px] transition-all duration-300 cursor-pointer group relative p-3.5 bg-white text-slate-900 border border-slate-200/90 shadow-[0_12px_28px_rgba(0,0,0,0.06)] ${stepsData[3].cardShadowHover} ${stepsData[3].cardBorderHover} flex items-start gap-3`}
             >
               {/* Pointer Indicator pointing DOWN to Stem */}
-              <div className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-3 h-3 bg-white rotate-45 border-b border-r border-white/80" />
+              <div className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-3 h-3 rotate-45 border-b border-r bg-white border-slate-200/90" />
 
               <div
-                className="relative shrink-0 w-9 h-9 rounded-full bg-gradient-to-br from-[#f43f5e] via-[#e11d48] to-[#be123c] p-0.5 flex items-center justify-center shadow-md group-hover:scale-105 transition-transform duration-300"
-                style={{ boxShadow: '0 4px 12px rgba(244, 63, 94, 0.4)' }}
+                className="relative shrink-0 rounded-full bg-[#f97316] p-0.5 flex items-center justify-center shadow-md group-hover:scale-105 transition-transform duration-300 w-9 h-9 mt-0.5"
+                style={{ boxShadow: '0 4px 12px rgba(249,115,22, 0.4)' }}
               >
                 <div className="absolute inset-0.5 rounded-full border-t border-l border-white/60 pointer-events-none" />
-                <div className="relative z-10 scale-80">{stepsData[3].icon}</div>
+                <div className="relative z-10 scale-85">{stepsData[3].icon}</div>
               </div>
-              <div className="flex-1 min-w-0 text-left">
-                <h4 className="text-[12px] font-black text-slate-950 font-poppins leading-tight group-hover:text-amber-600 transition-colors">
+
+              <div className="min-w-0 flex-1 text-left">
+                <h4 className={`text-[12.5px] font-bold font-poppins leading-tight transition-colors ${stepsData[3].titleColor} ${stepsData[3].hoverTitleColor}`}>
                   {stepsData[3].title}
                 </h4>
-                <p className="text-[9.5px] font-bold text-rose-700 font-sans mt-0.5 leading-snug">
+                <p className={`text-[10px] font-semibold font-sans mt-0.5 leading-snug ${stepsData[3].tagColor}`}>
                   {stepsData[3].subtitle}
                 </p>
-                <p className="text-[8.5px] text-slate-600 font-sans mt-0.5 leading-snug line-clamp-2 font-normal">
+                <p className="text-[9px] font-sans mt-1 leading-relaxed text-slate-600">
                   {stepsData[3].description}
                 </p>
+                <div className="mt-1.5 flex items-center gap-1.5">
+                  <span className={`text-[8px] font-semibold px-2 py-0.5 rounded-full border ${stepsData[3].badge1Class}`}>{stepsData[3].badges[0]}</span>
+                  <span className={`text-[8px] font-semibold px-2 py-0.5 rounded-full border ${stepsData[3].badge2Class}`}>{stepsData[3].badges[1]}</span>
+                </div>
               </div>
             </motion.div>
           </div>
@@ -440,119 +507,58 @@ export default function Process() {
         </div>
 
         {/* ═════════════════════════════════════════════════════════════════
-            MOBILE & TABLET: COMPACT VERTICAL S-CURVE
+            MOBILE & TABLET: CLEAN RESPONSIVE TIMELINE
            ═════════════════════════════════════════════════════════════════ */}
-        <div className="block lg:hidden relative max-w-xl mx-auto py-3">
+        <div className="block lg:hidden relative max-w-lg mx-auto py-2">
 
-          <div className="absolute left-1/2 -translate-x-1/2 top-2 bottom-2 w-1 pointer-events-none z-0">
-            <div className="w-0.5 h-full mx-auto border-r-2 border-dashed border-[#ffaa00]/40" />
-          </div>
+          {/* Vertical dashed guideline (Blue) */}
+          <div className="absolute left-6 top-3 bottom-3 w-0.5 border-l-2 border-dashed border-[#0052ff]/40 pointer-events-none" />
 
-          <div className="space-y-7 sm:space-y-9 relative z-10">
+          <div className="space-y-4 relative z-10">
             {stepsData.map((step, index) => {
-              const isEven = index % 2 === 1;
-
               return (
-                <div key={step.stepNum} className="relative flex items-center justify-between gap-2.5 sm:gap-4">
-
-                  {/* Left Side */}
-                  <div className="w-[46%] flex justify-end">
-                    {!isEven ? (
-                      <motion.div
-                        initial={{ opacity: 0, x: -20 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.4 }}
-                        className="w-full bg-white rounded-2xl p-3 text-slate-900 shadow-lg border border-white/60 flex flex-col sm:flex-row items-center sm:items-start gap-2 text-center sm:text-left"
-                      >
-                        <div
-                          className={`shrink-0 w-9 h-9 rounded-full bg-gradient-to-br ${step.bubbleGradient} flex items-center justify-center shadow-md`}
-                          style={{ boxShadow: `0 4px 12px ${step.glowColor}` }}
-                        >
-                          <div className="scale-80">{step.icon}</div>
-                        </div>
-                        <div className="min-w-0">
-                          <h4 className="text-xs font-black text-slate-950 font-poppins leading-tight">
-                            {step.title}
-                          </h4>
-                          <p className={`text-[9px] font-bold ${step.tagColor} font-sans mt-0.5`}>
-                            {step.subtitle}
-                          </p>
-                          <p className="text-[8.5px] text-slate-600 font-sans mt-0.5 leading-snug line-clamp-2 font-normal">
-                            {step.description}
-                          </p>
-                        </div>
-                      </motion.div>
-                    ) : (
-                      <motion.div
-                        initial={{ opacity: 0, x: -15 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.4 }}
-                        className="text-right pr-2 sm:pr-3"
-                      >
-                        <span className="block text-[10px] font-black uppercase tracking-widest text-[#ffaa00] font-poppins">
-                          STEP
-                        </span>
-                        <span className="block text-3xl sm:text-4xl font-black font-poppins tracking-tight text-white leading-none mt-0.5">
-                          {step.stepNum}
-                        </span>
-                      </motion.div>
-                    )}
+                <motion.div
+                  key={step.stepNum}
+                  initial={{ opacity: 0, y: 15 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.4, delay: index * 0.1 }}
+                  className="relative flex items-start gap-3.5 pl-1"
+                >
+                  {/* Step Marker Node (Original Lime) */}
+                  <div className="shrink-0 w-10 h-10 rounded-full bg-[#10121a] border-2 border-[#d8ff00] text-[#d8ff00] shadow-[0_0_10px_rgba(216,255,0,0.35)] flex items-center justify-center z-20 mt-1">
+                    <span className="text-[12px] font-bold font-poppins">
+                      {step.stepNum}
+                    </span>
                   </div>
 
-                  {/* Center Node Dot */}
-                  <div className="shrink-0 w-7 h-7 rounded-full bg-[#12141c] border-2 border-[#ffaa00] flex items-center justify-center shadow-[0_0_12px_rgba(255,170,0,0.6)] z-20">
-                    <div className="w-2.5 h-2.5 rounded-full bg-gradient-to-r from-[#ffaa00] to-[#ffea00]" />
-                  </div>
-
-                  {/* Right Side */}
-                  <div className="w-[46%] flex justify-start">
-                    {isEven ? (
-                      <motion.div
-                        initial={{ opacity: 0, x: 20 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.4 }}
-                        className="w-full bg-white rounded-2xl p-3 text-slate-900 shadow-lg border border-white/60 flex flex-col sm:flex-row items-center sm:items-start gap-2 text-center sm:text-left"
+                  {/* Card with Finalized Crisp White Theme */}
+                  <div className="flex-1 min-w-0 rounded-2xl p-3.5 sm:p-4 shadow-[0_4px_20px_rgba(0,0,0,0.05)] border border-slate-200/90 bg-white text-slate-900 transition-all">
+                    <div className="flex items-center gap-2.5 mb-1.5">
+                      <div
+                        className={`shrink-0 w-8 h-8 rounded-full ${step.bubbleBg} flex items-center justify-center shadow-sm`}
+                        style={{ boxShadow: `0 3px 8px ${step.glowColor}` }}
                       >
-                        <div
-                          className={`shrink-0 w-9 h-9 rounded-full bg-gradient-to-br ${step.bubbleGradient} flex items-center justify-center shadow-md`}
-                          style={{ boxShadow: `0 4px 12px ${step.glowColor}` }}
-                        >
-                          <div className="scale-80">{step.icon}</div>
-                        </div>
-                        <div className="min-w-0">
-                          <h4 className="text-xs font-black text-slate-950 font-poppins leading-tight">
-                            {step.title}
-                          </h4>
-                          <p className={`text-[9px] font-bold ${step.tagColor} font-sans mt-0.5`}>
-                            {step.subtitle}
-                          </p>
-                          <p className="text-[8.5px] text-slate-600 font-sans mt-0.5 leading-snug line-clamp-2 font-normal">
-                            {step.description}
-                          </p>
-                        </div>
-                      </motion.div>
-                    ) : (
-                      <motion.div
-                        initial={{ opacity: 0, x: 15 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.4 }}
-                        className="text-left pl-2 sm:pl-3"
-                      >
-                        <span className="block text-[10px] font-black uppercase tracking-widest text-[#ffaa00] font-poppins">
-                          STEP
-                        </span>
-                        <span className="block text-3xl sm:text-4xl font-black font-poppins tracking-tight text-white leading-none mt-0.5">
-                          {step.stepNum}
-                        </span>
-                      </motion.div>
-                    )}
+                        <div className="scale-75">{step.icon}</div>
+                      </div>
+                      <div className="min-w-0 flex-1">
+                        <h4 className={`text-[13px] sm:text-sm font-bold font-poppins leading-tight whitespace-nowrap overflow-hidden text-ellipsis ${step.titleColor}`}>
+                          {step.title}
+                        </h4>
+                        <p className={`text-[10.5px] sm:text-[11px] font-semibold font-sans truncate ${step.tagColor}`}>
+                          {step.subtitle}
+                        </p>
+                      </div>
+                    </div>
+                    <p className="text-[11.5px] sm:text-xs font-sans leading-relaxed pl-0.5 text-slate-600">
+                      {step.description}
+                    </p>
+                    <div className="mt-2 flex items-center gap-1.5 pl-0.5">
+                      <span className={`text-[8.5px] font-semibold px-2 py-0.5 rounded-full border ${step.badge1Class}`}>{step.badges[0]}</span>
+                      <span className={`text-[8.5px] font-semibold px-2 py-0.5 rounded-full border ${step.badge2Class}`}>{step.badges[1]}</span>
+                    </div>
                   </div>
-
-                </div>
+                </motion.div>
               );
             })}
           </div>

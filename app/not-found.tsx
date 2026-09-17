@@ -53,7 +53,7 @@ export default function NotFound() {
       }}
     >
       {/* ── Background Colorful Glowing Orbs (Portfolio Colors) ── */}
-      <div className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-yellow-400/30 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-lime-400/30 rounded-full blur-[120px] pointer-events-none" />
       <div className="absolute bottom-[-10%] right-[-10%] w-[600px] h-[600px] bg-blue-500/20 rounded-full blur-[140px] pointer-events-none" />
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-orange-500/15 rounded-full blur-[150px] pointer-events-none" />
 
@@ -91,7 +91,7 @@ export default function NotFound() {
             href="/Usama_Faheem_Resume.pdf"
             target="_blank"
             rel="noopener noreferrer"
-            className="hidden md:inline-flex rounded-full bg-yellow-400 px-6 py-2.5 font-sans text-sm font-black uppercase tracking-widest text-black shadow-[0_4px_14px_rgba(250,204,21,0.3)] transition-all hover:bg-yellow-500 hover:shadow-[0_6px_20px_rgba(250,204,21,0.4)]"
+            className="hidden md:inline-flex rounded-full bg-lime-400 px-6 py-2.5 font-sans text-sm font-extrabold uppercase tracking-widest text-black shadow-[0_4px_14px_rgba(163,230,53,0.3)] transition-all hover:bg-lime-500 hover:shadow-[0_6px_20px_rgba(163,230,53,0.4)]"
           >
             RESUME
           </a>
@@ -177,7 +177,7 @@ export default function NotFound() {
             <Link
               href="/"
               onClick={() => setIsMenuOpen(false)}
-              className="w-full py-4 rounded-full bg-yellow-400 text-black font-bold text-sm tracking-widest uppercase font-mono flex items-center justify-center gap-2 shadow-[0_12px_28px_rgba(250,204,21,0.35)] hover:bg-yellow-500 hover:shadow-[0_16px_36px_rgba(250,204,21,0.55)] transition-all"
+              className="w-full py-4 rounded-full bg-lime-400 text-black font-bold text-sm tracking-widest uppercase font-mono flex items-center justify-center gap-2 shadow-[0_12px_28px_rgba(163,230,53,0.35)] hover:bg-lime-500 hover:shadow-[0_16px_36px_rgba(163,230,53,0.55)] transition-all"
             >
               <ArrowLeft className="w-5 h-5" />
               <span>Back to Home</span>
@@ -198,7 +198,7 @@ export default function NotFound() {
           {/* Giant 404 Text - Vibrant Gradient matching Portfolio */}
           <h1
             ref={textRef}
-            className="font-black leading-none tracking-tighter whitespace-nowrap select-none bg-gradient-to-br from-yellow-400 via-blue-500 to-orange-500 bg-clip-text text-transparent opacity-20"
+            className="font-extrabold leading-none tracking-tighter whitespace-nowrap select-none bg-gradient-to-br from-lime-400 via-blue-500 to-orange-500 bg-clip-text text-transparent opacity-20"
             style={{
               fontSize: 'clamp(200px, 48vw, 800px)',
               transform: `scale(1.15, ${scaleY * 1.4})`,
@@ -210,7 +210,7 @@ export default function NotFound() {
 
           {/* Clean Crisp White "0" Oval Portal */}
           <div
-            className="absolute rounded-full bg-white/60 backdrop-blur-md shadow-[0_8px_40px_rgba(250,204,21,0.15)] border border-white/50 pointer-events-none"
+            className="absolute rounded-full bg-white/60 backdrop-blur-md shadow-[0_8px_40px_rgba(163,230,53,0.15)] border border-white/50 pointer-events-none"
             style={{
               height: 'clamp(320px, 68vh, 720px)',
               width: 'clamp(240px, 28vw, 440px)',
@@ -239,7 +239,7 @@ export default function NotFound() {
 
       {/* ── 5. BOTTOM CONTENT & CTA ── */}
       <div className="relative z-30 mt-auto pb-8 sm:pb-16 flex flex-col items-center text-center px-4">
-        <h2 className="text-slate-800 text-lg sm:text-xl md:text-2xl font-black mb-4 sm:mb-6 tracking-tight drop-shadow-sm font-sans">
+        <h2 className="text-slate-800 text-lg sm:text-xl md:text-2xl font-extrabold mb-4 sm:mb-6 tracking-tight drop-shadow-sm font-sans">
           Oops, something went wrong!
         </h2>
 
@@ -247,10 +247,10 @@ export default function NotFound() {
           href="/"
           className="
             inline-flex items-center gap-3 px-8 py-3.5 sm:px-10 sm:py-4 rounded-full
-            bg-yellow-400 hover:bg-yellow-500
-            text-black font-black text-sm sm:text-base tracking-widest uppercase font-mono
-            shadow-[0_12px_28px_rgba(250,204,21,0.35)] 
-            hover:shadow-[0_16px_36px_rgba(250,204,21,0.55)]
+            bg-lime-400 hover:bg-lime-500
+            text-black font-extrabold text-sm sm:text-base tracking-widest uppercase font-mono
+            shadow-[0_12px_28px_rgba(163,230,53,0.35)] 
+            hover:shadow-[0_16px_36px_rgba(163,230,53,0.55)]
             transition-all active:scale-95 duration-300 group hover:scale-105
           "
         >

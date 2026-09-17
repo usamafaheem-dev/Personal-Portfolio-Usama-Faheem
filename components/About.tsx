@@ -26,7 +26,7 @@ export default function About() {
   }, []);
 
   return (
-    <section id="about" ref={sectionRef} className="w-full bg-[#fbfcfb] py-16 sm:py-28 text-[#1a1a1a] relative overflow-hidden border-b border-zinc-200/80">
+    <section id="about" ref={sectionRef} className="w-full bg-[#fbfcfb] py-8 sm:py-12 lg:py-14 text-[#0f172a] relative overflow-hidden border-b border-slate-200/80">
       {/* ── Precision Dotted Grid Background Pattern ── */}
       <div className="absolute inset-0 bg-[radial-gradient(#99a1af_1.2px,transparent_1.2px)] [background-size:24px_24px] opacity-40 pointer-events-none [mask-image:radial-gradient(ellipse_75%_75%_at_50%_50%,#000_60%,transparent_100%)]" />
 
@@ -78,17 +78,17 @@ export default function About() {
             className="font-sans flex flex-col items-center lg:items-start w-full relative"
           >
             {/* 🌟 Stylish About Me Badge */}
-            <div className="inline-flex items-center gap-2 bg-gradient-to-r from-[#ffaa00]/15 via-[#ffea00]/15 to-[#ccff00]/15 border border-[#ffaa00]/30 px-3.5 py-1 rounded-full text-xs font-bold text-amber-800 uppercase tracking-widest font-poppins mb-4 shadow-2xs self-center lg:self-start">
-              <Sparkles className="w-3.5 h-3.5 text-[#ffaa00]" />
-              <span>ABOUT ME</span>
+            <div className="inline-flex items-center gap-2 bg-[#d8ff00] border-2 border-black px-3.5 py-1 rounded-full shadow-sm mb-4 self-center lg:self-start">
+              <Sparkles className="w-3.5 h-3.5 text-black" />
+              <span style={{ fontFamily: 'var(--font-caveat), cursive' }} className="text-base font-bold text-black">About Me</span>
             </div>
 
-            <h2 className="text-[22px] min-[380px]:text-[26px] sm:text-4xl lg:text-[54px] font-black text-[#0f172a] mb-4 sm:mb-5 tracking-tight font-poppins text-center lg:text-left whitespace-nowrap sm:whitespace-normal">
-              Hi, I'm <span className="bg-gradient-to-r from-[#ffaa00] to-[#ffea00] bg-clip-text text-transparent">Usama Faheem</span>
+            <h2 className="text-[22px] min-[380px]:text-[26px] sm:text-4xl lg:text-[54px] font-extrabold text-[#0f172a] mb-4 sm:mb-5 tracking-tight font-poppins text-center lg:text-left whitespace-nowrap sm:whitespace-normal">
+              Hi, I'm <span className="text-[#0052ff]">Usama Faheem</span>
             </h2>
 
-            <p className="text-[#555555] text-sm sm:text-[16px] leading-[1.75] max-w-[850px] font-normal font-sans mb-6 lg:mb-10 text-center lg:text-left">
-              I am a Frontend-focused MERN Stack Developer with <strong className="font-bold text-[#d97706] bg-[#ffaa00]/15 px-1.5 py-0.5 rounded border border-[#ffaa00]/30">1 year</strong> of experience building high-converting <strong className="font-bold text-[#d97706] bg-[#ffaa00]/15 px-1.5 py-0.5 rounded border border-[#ffaa00]/30">web applications</strong> for <strong className="font-bold text-[#d97706] bg-[#ffaa00]/15 px-1.5 py-0.5 rounded border border-[#ffaa00]/30">clients</strong>, <strong className="font-bold text-[#d97706] bg-[#ffaa00]/15 px-1.5 py-0.5 rounded border border-[#ffaa00]/30">startups</strong>, and <strong className="font-bold text-[#d97706] bg-[#ffaa00]/15 px-1.5 py-0.5 rounded border border-[#ffaa00]/30">agencies</strong>. Turning complex <strong className="font-bold text-[#d97706] bg-[#ffaa00]/15 px-1.5 py-0.5 rounded border border-[#ffaa00]/30">ideas</strong> into clean <strong className="font-bold text-[#d97706] bg-[#ffaa00]/15 px-1.5 py-0.5 rounded border border-[#ffaa00]/30">development</strong> and effortless user experiences.
+            <p className="text-[#6B7280] text-sm sm:text-[16px] leading-[1.75] max-w-[850px] font-normal font-sans mb-6 lg:mb-10 text-center lg:text-left">
+              I am a Frontend-focused MERN Stack Developer with <strong className="font-bold text-[#171712] bg-[#d8ff00] px-1.5 py-0.5 rounded font-black">1 year</strong> of experience building high-converting <strong className="font-bold text-[#171712] bg-[#d8ff00] px-1.5 py-0.5 rounded font-black">web applications</strong> for <strong className="font-bold text-[#171712] bg-[#d8ff00] px-1.5 py-0.5 rounded font-black">clients</strong>, <strong className="font-bold text-[#171712] bg-[#d8ff00] px-1.5 py-0.5 rounded font-black">startups</strong>, and <strong className="font-bold text-[#171712] bg-[#d8ff00] px-1.5 py-0.5 rounded font-black">agencies</strong>. Turning complex <strong className="font-bold text-[#171712] bg-[#d8ff00] px-1.5 py-0.5 rounded font-black">ideas</strong> into clean <strong className="font-bold text-[#171712] bg-[#d8ff00] px-1.5 py-0.5 rounded font-black">development</strong> and effortless user experiences.
             </p>
           </motion.div>
 
@@ -123,8 +123,8 @@ export default function About() {
           >
             
             {/* Column 1: EXPERIENCE */}
-            <div className="flex flex-col items-center lg:items-start text-center lg:text-left lg:pr-8 lg:border-r border-zinc-300/80">
-              <h3 className="text-[13px] font-black tracking-[0.18em] text-[#d97706] mb-6 uppercase font-poppins">
+            <div className="flex flex-col items-center lg:items-start text-center lg:text-left lg:pr-8 lg:border-r border-slate-300/80">
+              <h3 className="text-[13px] font-extrabold tracking-[0.18em] text-[#5f7a12] mb-6 uppercase font-poppins">
                 EXPERIENCE
               </h3>
               
@@ -133,10 +133,10 @@ export default function About() {
                   <h4 className="text-[13px] xl:text-[14px] font-bold text-[#1f1f1f] leading-snug font-poppins">
                     React/Next.js & MERN Developer
                   </h4>
-                  <p className="text-[12.5px] text-[#555555] font-normal mt-0.5 font-sans">
+                  <p className="text-[12.5px] text-[#6B7280] font-normal mt-0.5 font-sans">
                     VertexAi Tec
                   </p>
-                  <p className="text-[11px] text-[#888888] font-normal mt-0.5 font-sans">
+                  <p className="text-[11px] text-[#9CA3AF] font-normal mt-0.5 font-sans">
                     Dec 2025 – Aug 2026
                   </p>
                 </div>
@@ -145,10 +145,10 @@ export default function About() {
                   <h4 className="text-[13px] xl:text-[14px] font-bold text-[#1f1f1f] leading-snug font-poppins">
                     Frontend Developer Intern
                   </h4>
-                  <p className="text-[12.5px] text-[#555555] font-normal mt-0.5 font-sans">
+                  <p className="text-[12.5px] text-[#6B7280] font-normal mt-0.5 font-sans">
                     SoftCr8ors
                   </p>
-                  <p className="text-[11px] text-[#888888] font-normal mt-0.5 font-sans">
+                  <p className="text-[11px] text-[#9CA3AF] font-normal mt-0.5 font-sans">
                     April 2026 – July 2026
                   </p>
                 </div>
@@ -157,10 +157,10 @@ export default function About() {
                   <h4 className="text-[13px] xl:text-[14px] font-bold text-[#1f1f1f] leading-snug font-poppins">
                     Freelance Full-Stack Developer
                   </h4>
-                  <p className="text-[12.5px] text-[#555555] font-normal mt-0.5 font-sans">
+                  <p className="text-[12.5px] text-[#6B7280] font-normal mt-0.5 font-sans">
                     3+ Client Projects
                   </p>
-                  <p className="text-[11px] text-[#888888] font-normal mt-0.5 font-sans">
+                  <p className="text-[11px] text-[#9CA3AF] font-normal mt-0.5 font-sans">
                     Overall 1 Year Experience
                   </p>
                 </div>
@@ -168,8 +168,8 @@ export default function About() {
             </div>
 
             {/* Column 2: EDUCATION */}
-            <div className="flex flex-col items-center lg:items-start text-center lg:text-left lg:pr-8 lg:border-r border-zinc-300/80">
-              <h3 className="text-[13px] font-black tracking-[0.18em] text-[#d97706] mb-6 uppercase font-poppins">
+            <div className="flex flex-col items-center lg:items-start text-center lg:text-left lg:pr-8 lg:border-r border-slate-300/80">
+              <h3 className="text-[13px] font-extrabold tracking-[0.18em] text-[#5f7a12] mb-6 uppercase font-poppins">
                 EDUCATION
               </h3>
               
@@ -178,10 +178,10 @@ export default function About() {
                   <h4 className="text-[13px] xl:text-[14px] font-bold text-[#1f1f1f] leading-snug font-poppins">
                     BS Computer Science (6th Sem)
                   </h4>
-                  <p className="text-[12.5px] text-[#555555] font-normal mt-0.5 font-sans">
+                  <p className="text-[12.5px] text-[#6B7280] font-normal mt-0.5 font-sans">
                     Virtual University of Pakistan
                   </p>
-                  <p className="text-[11px] text-[#888888] font-normal mt-0.5 font-sans">
+                  <p className="text-[11px] text-[#9CA3AF] font-normal mt-0.5 font-sans">
                     Sep 2025 – Present
                   </p>
                 </div>
@@ -190,10 +190,10 @@ export default function About() {
                   <h4 className="text-[13px] xl:text-[14px] font-bold text-[#1f1f1f] leading-snug font-poppins">
                     ADP in Computer Science
                   </h4>
-                  <p className="text-[12.5px] text-[#555555] font-normal mt-0.5 font-sans">
+                  <p className="text-[12.5px] text-[#6B7280] font-normal mt-0.5 font-sans">
                     Virtual University of Pakistan
                   </p>
-                  <p className="text-[11px] text-[#888888] font-normal mt-0.5 font-sans">
+                  <p className="text-[11px] text-[#9CA3AF] font-normal mt-0.5 font-sans">
                     March 2023 – March 2025
                   </p>
                 </div>
@@ -202,10 +202,10 @@ export default function About() {
                   <h4 className="text-[13px] xl:text-[14px] font-bold text-[#1f1f1f] leading-snug font-poppins">
                     MERN Stack Certification
                   </h4>
-                  <p className="text-[12.5px] text-[#555555] font-normal mt-0.5 font-sans">
+                  <p className="text-[12.5px] text-[#6B7280] font-normal mt-0.5 font-sans">
                     Nexskill Institute
                   </p>
-                  <p className="text-[11px] text-[#888888] font-normal mt-0.5 font-sans">
+                  <p className="text-[11px] text-[#9CA3AF] font-normal mt-0.5 font-sans">
                     Dec 2024 – May 2025
                   </p>
                 </div>
@@ -217,41 +217,41 @@ export default function About() {
               
               {/* Contact Links */}
               <div className="w-full flex flex-col items-center lg:items-start">
-                <h3 className="text-[13px] font-black tracking-[0.18em] text-[#d97706] mb-6 uppercase font-poppins">
+                <h3 className="text-[13px] font-extrabold tracking-[0.18em] text-[#5f7a12] mb-6 uppercase font-poppins">
                   CONTACT
                 </h3>
                 
                 <ul className="flex flex-col gap-3.5 items-center lg:items-start">
                   <li className="flex items-center gap-3 group">
-                    <div className="w-7 h-7 rounded-md bg-[#ededf0] border border-zinc-200 flex items-center justify-center flex-shrink-0 shadow-2xs group-hover:scale-110 transition-transform">
+                    <div className="w-7 h-7 rounded-md bg-[#ededf0] border border-slate-200 flex items-center justify-center flex-shrink-0 shadow-2xs group-hover:scale-110 transition-transform">
                       <FaLinkedin className="w-5 h-5 text-[#0077b5]" />
                     </div>
                     <a 
                       href="https://www.linkedin.com/in/usama-faheem/" 
                       target="_blank" 
                       rel="noopener noreferrer" 
-                      className="text-[12.5px] xl:text-[13px] text-[#444444] hover:text-[#0077b5] transition-colors whitespace-nowrap font-normal font-sans"
+                      className="text-[12.5px] xl:text-[13px] text-[#6B7280] hover:text-[#0077b5] transition-colors whitespace-nowrap font-normal font-sans"
                     >
                       linkedin.com/in/usama-faheem
                     </a>
                   </li>
 
                   <li className="flex items-center gap-3 group">
-                    <div className="w-7 h-7 rounded-md bg-[#ededf0] border border-zinc-200 flex items-center justify-center flex-shrink-0 shadow-2xs group-hover:scale-110 transition-transform">
+                    <div className="w-7 h-7 rounded-md bg-[#ededf0] border border-slate-200 flex items-center justify-center flex-shrink-0 shadow-2xs group-hover:scale-110 transition-transform">
                       <SiGithub className="w-[19px] h-[19px] text-[#24292f]" />
                     </div>
                     <a 
                       href="https://github.com/usamafaheem-dev" 
                       target="_blank" 
                       rel="noopener noreferrer" 
-                      className="text-[12.5px] xl:text-[13px] text-[#444444] hover:text-[#181717] transition-colors whitespace-nowrap font-normal font-sans"
+                      className="text-[12.5px] xl:text-[13px] text-[#6B7280] hover:text-[#181717] transition-colors whitespace-nowrap font-normal font-sans"
                     >
                       github.com/usamafaheem-dev
                     </a>
                   </li>
 
                   <li className="flex items-center gap-3 group">
-                    <div className="w-7 h-7 rounded-md bg-[#ededf0] border border-zinc-200 flex items-center justify-center flex-shrink-0 shadow-2xs group-hover:scale-110 transition-transform">
+                    <div className="w-7 h-7 rounded-md bg-[#ededf0] border border-slate-200 flex items-center justify-center flex-shrink-0 shadow-2xs group-hover:scale-110 transition-transform">
                       {/* Official Google 4-Color Gmail Logo */}
                       <svg className="w-[20px] h-[20px] flex-shrink-0" viewBox="0 0 24 24" fill="none">
                         <path d="M1.5 6.5C1.5 5.39543 2.39543 4.5 3.5 4.5H5L12 9.75L19 4.5H20.5C21.6046 4.5 22.5 5.39543 22.5 6.5V17.5C22.5 18.6046 21.6046 19.5 20.5 19.5H19V8.5L12 13.75L5 8.5V19.5H3.5C2.39543 19.5 1.5 18.6046 1.5 17.5V6.5Z" fill="#EA4335"/>
@@ -263,7 +263,7 @@ export default function About() {
                     </div>
                     <a 
                       href="mailto:developer@usamafaheem.com" 
-                      className="text-[12.5px] xl:text-[13px] text-[#444444] hover:text-[#ea4335] transition-colors whitespace-nowrap font-normal font-sans"
+                      className="text-[12.5px] xl:text-[13px] text-[#6B7280] hover:text-[#ea4335] transition-colors whitespace-nowrap font-normal font-sans"
                     >
                       developer@usamafaheem.com
                     </a>
@@ -275,28 +275,28 @@ export default function About() {
               <div className="mt-7 w-full flex flex-col items-center lg:items-start gap-5">
                 {/* MERN Stack Row */}
                 <div className="flex flex-col items-center lg:items-start">
-                  <h3 className="text-[13px] font-black tracking-[0.18em] text-[#d97706] mb-3 uppercase font-poppins">
+                  <h3 className="text-[13px] font-extrabold tracking-[0.18em] text-[#5f7a12] mb-3 uppercase font-poppins">
                     MERN STACK
                   </h3>
                   
                   <div className="flex items-center justify-center lg:justify-start gap-3 flex-nowrap">
                     {/* MongoDB */}
-                    <div className="w-8 h-8 rounded-lg bg-[#fffce8] border border-amber-300/70 flex items-center justify-center p-1.5 shadow-2xs hover:scale-110 transition-transform cursor-pointer" title="MongoDB">
+                    <div className="w-8 h-8 rounded-lg bg-[#f7ffdd] border border-lime-300/70 flex items-center justify-center p-1.5 shadow-2xs hover:scale-110 transition-transform cursor-pointer" title="MongoDB">
                       <SiMongodb className="w-5 h-5 text-[#47A248]" />
                     </div>
 
                     {/* Express.js */}
-                    <div className="w-8 h-8 rounded-lg bg-[#fffce8] border border-amber-300/70 flex items-center justify-center p-1.5 shadow-2xs hover:scale-110 transition-transform cursor-pointer" title="Express.js">
+                    <div className="w-8 h-8 rounded-lg bg-[#f7ffdd] border border-lime-300/70 flex items-center justify-center p-1.5 shadow-2xs hover:scale-110 transition-transform cursor-pointer" title="Express.js">
                       <SiExpress className="w-4.5 h-4.5 text-[#18181b]" />
                     </div>
 
                     {/* React.js */}
-                    <div className="w-8 h-8 rounded-lg bg-[#fffce8] border border-amber-300/70 flex items-center justify-center p-1.5 shadow-2xs hover:scale-110 transition-transform cursor-pointer" title="React.js">
+                    <div className="w-8 h-8 rounded-lg bg-[#f7ffdd] border border-lime-300/70 flex items-center justify-center p-1.5 shadow-2xs hover:scale-110 transition-transform cursor-pointer" title="React.js">
                       <SiReact className="w-5 h-5 text-[#61DAFB]" />
                     </div>
 
                     {/* Node.js */}
-                    <div className="w-8 h-8 rounded-lg bg-[#fffce8] border border-amber-300/70 flex items-center justify-center p-1.5 shadow-2xs hover:scale-110 transition-transform cursor-pointer" title="Node.js">
+                    <div className="w-8 h-8 rounded-lg bg-[#f7ffdd] border border-lime-300/70 flex items-center justify-center p-1.5 shadow-2xs hover:scale-110 transition-transform cursor-pointer" title="Node.js">
                       <SiNodedotjs className="w-5 h-5 text-[#339933]" />
                     </div>
                   </div>
@@ -304,24 +304,24 @@ export default function About() {
 
                 {/* Softwares Row */}
                 <div className="flex flex-col items-center lg:items-start">
-                  <h3 className="text-[13px] font-black tracking-[0.18em] text-[#d97706] uppercase font-poppins mb-3">
+                  <h3 className="text-[13px] font-extrabold tracking-[0.18em] text-[#5f7a12] uppercase font-poppins mb-3">
                     SOFTWARES & TOOLS
                   </h3>
                   
                   <div className="flex items-center justify-center lg:justify-start gap-3 flex-nowrap">
-                    <div className="w-8 h-8 rounded-lg bg-[#fffce8] border border-amber-300/70 flex items-center justify-center p-1.5 shadow-2xs hover:scale-110 transition-transform cursor-pointer overflow-hidden" title="Visual Studio Code">
+                    <div className="w-8 h-8 rounded-lg bg-[#f7ffdd] border border-lime-300/70 flex items-center justify-center p-1.5 shadow-2xs hover:scale-110 transition-transform cursor-pointer overflow-hidden" title="Visual Studio Code">
                       <img src="/icons/vscode.png" alt="VS Code" className="w-full h-full object-contain mix-blend-multiply" />
                     </div>
-                    <div className="w-8 h-8 rounded-lg bg-[#fffce8] border border-amber-300/70 flex items-center justify-center p-1.5 shadow-2xs hover:scale-110 transition-transform cursor-pointer overflow-hidden" title="Cursor">
+                    <div className="w-8 h-8 rounded-lg bg-[#f7ffdd] border border-lime-300/70 flex items-center justify-center p-1.5 shadow-2xs hover:scale-110 transition-transform cursor-pointer overflow-hidden" title="Cursor">
                       <img src="/icons/cursor.png" alt="Cursor" className="w-full h-full object-contain mix-blend-multiply" />
                     </div>
-                    <div className="w-8 h-8 rounded-lg bg-[#fffce8] border border-amber-300/70 flex items-center justify-center p-1.5 shadow-2xs hover:scale-110 transition-transform cursor-pointer overflow-hidden" title="Google Antigravity">
+                    <div className="w-8 h-8 rounded-lg bg-[#f7ffdd] border border-lime-300/70 flex items-center justify-center p-1.5 shadow-2xs hover:scale-110 transition-transform cursor-pointer overflow-hidden" title="Google Antigravity">
                       <img src="/icons/antigravity.png" alt="Antigravity" className="w-full h-full object-contain mix-blend-multiply" />
                     </div>
-                    <div className="w-8 h-8 rounded-lg bg-[#fffce8] border border-amber-300/70 flex items-center justify-center p-1.5 shadow-2xs hover:scale-110 transition-transform cursor-pointer overflow-hidden" title="Claude AI">
+                    <div className="w-8 h-8 rounded-lg bg-[#f7ffdd] border border-lime-300/70 flex items-center justify-center p-1.5 shadow-2xs hover:scale-110 transition-transform cursor-pointer overflow-hidden" title="Claude AI">
                       <img src="/icons/claude.png" alt="Claude AI" className="w-full h-full object-contain mix-blend-multiply" />
                     </div>
-                    <div className="w-8 h-8 rounded-lg bg-[#fffce8] border border-amber-300/70 flex items-center justify-center p-1.5 shadow-2xs hover:scale-110 transition-transform cursor-pointer" title="Figma">
+                    <div className="w-8 h-8 rounded-lg bg-[#f7ffdd] border border-lime-300/70 flex items-center justify-center p-1.5 shadow-2xs hover:scale-110 transition-transform cursor-pointer" title="Figma">
                       <svg className="w-[16px] h-[16px] flex-shrink-0" viewBox="0 0 38 57" fill="none">
                         <path d="M19 28.5C19 23.2533 23.2533 19 28.5 19C33.7467 19 38 23.2533 38 28.5C38 33.7467 33.7467 38 28.5 38C23.2533 38 19 33.7467 19 28.5Z" fill="#1ABCFE"/>
                         <path d="M0 47.5C0 42.2533 4.25329 38 9.5 38H19V47.5C19 52.7467 14.7467 57 9.5 57C4.25329 57 0 52.7467 0 47.5Z" fill="#0ACF83"/>

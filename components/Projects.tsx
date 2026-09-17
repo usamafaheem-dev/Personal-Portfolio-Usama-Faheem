@@ -139,19 +139,84 @@ const projects: ProjectData[] = [
     ],
     image: '/projects_images/3d_proeejct.mp4',
     video: '/projects_images/3d_proeejct.mp4',
-    cardBg: 'bg-gradient-to-tr from-[#D5F2FD] via-[#E8DBFC] to-[#FFD8EC]',
+    cardBg: 'bg-gradient-to-tr from-[#BAE6FD] via-[#D5F2FD] to-[#E0F2FE]',
   },
 ];
 
 // Ultra-Smooth Continuous Card Index Mapping with Start & End Dwell Buffers
+const START_PHASE = 0.055;
+const END_BUFFER = 0.93;
+
 function getContinuousIndex(p: number, total: number): number {
-  const START_PHASE = 0.04;
-  const END_BUFFER = 0.93; // 9th card fully centers at 93% scroll; 93%-100% gives comfortable dwell time before exit
   if (p <= START_PHASE) return 0;
   if (p >= END_BUFFER) return total - 1;
   const progress = (p - START_PHASE) / (END_BUFFER - START_PHASE);
   return progress * (total - 1);
 }
+
+// ── Progress Points & Card-Matching Background Color Stops ──
+// Begins with the original deep teal green (#042f2e / teal-950) at the top when the header is visible.
+// As soon as the user begins scrolling (first card moves up), smoothly morphs into each card's authentic color!
+const progressPoints = [
+  0,           // 1. Initial landing at top of section: Original deep teal green (#042f2e)
+  0.025,       // 2. Start scrolling / header beginning to slide: Still original teal green
+  START_PHASE, // 3. 0.055: First card (SoftCr8ors) reaches focus -> morphs into card color (#eabed5)
+  ...projects.slice(1).map((_, idx) => {
+    const i = idx + 1;
+    return START_PHASE + (i / (projects.length - 1)) * (END_BUFFER - START_PHASE);
+  }),
+  1,           // 12. Bottom exit: Graceful transition back to original teal green (#042f2e)
+];
+
+// ── Authentic Card-Matched Background Colors ──
+// 0. SoftCr8ors: [#F2FFC2] & [#F2FFC2] (Pastel Pink/Lilac) -> #eabed5 (Soft Rose Mauve)
+// 1. Tehreem Arif: [#FBFFF0] (Pastel Lilac) -> #d5c3f3 (Soft Royal Lilac)
+// 2. Reeba Yaseen: [#F3F3ED] (Pastel Aqua Cyan) -> #9ee0f5 (Vibrant Sky Aqua Cyan)
+// 3. GM MZ Removals: [#F2FFC2] (Pastel Periwinkle) -> #a8ccf4 (Clean Periwinkle Blue)
+// 4. Shadab Rice: [#FBFFF0] (Pastel Mint Green) -> #aee5c3 (Fresh Sage Mint Green)
+// 5. MZ Cleaner: [#F2FFC2] (Pastel Sky Blue) -> #a8ccf4 (Clean Sky Blue)
+// 6. Northwest Tyres: [#F3F3ED] (Pastel Warm Peach) -> #f9be80 (Vibrant Warm Peach)
+// 7. Tekrivo Platform: [#FBFFF0] (Pastel Lilac) -> #d5c3f3 (Soft Royal Lilac)
+// 8. 3D Next: [#F2FFC2] & [#F2FFC2] (Cosmic Ice/Lavender) -> #b9d8f8 (Cosmic Sky Blue)
+// ── 100% Exact Card Background Hex Colors (Exact Card Match) ──
+// 0. SoftCr8ors: [#F2FFC2]
+// 1. Tehreem Arif: [#FBFFF0]
+// 2. Reeba Yaseen: [#F3F3ED]
+// 3. GM MZ Removals: [#F2FFC2]
+// 4. Shadab Rice: [#FBFFF0]
+// 5. MZ Cleaner: [#F2FFC2]
+// 6. Northwest Tyres: [#F3F3ED]
+// 7. Tekrivo Platform: [#FBFFF0]
+// 8. 3D Next: [#F2FFC2]
+const projectBgColors = [
+  '#042f2e', // at p = 0: Original teal green (teal-950)
+  '#042f2e', // at p = 0.025: Original teal green (teal-950)
+  '#de81b2', // 0: SoftCr8ors (Rich Rose Pink)
+  '#aa8be4', // 1: Tehreem Arif (Rich Royal Lilac)
+  '#54bbe4', // 2: Reeba Yaseen (Rich Vibrant Sky Cyan)
+  '#71a7e2', // 3: GM MZ Removals (Rich Periwinkle Blue)
+  '#63cb8c', // 4: Shadab Rice (Rich Fresh Mint Green)
+  '#6ea5e3', // 5: MZ Cleaner (Rich Crisp Sky Blue)
+  '#ee8931', // 6: Northwest Tyres (Rich Warm Amber Apricot)
+  '#aa8be4', // 7: Tekrivo Platform (Rich Royal Lilac)
+  '#4fa8e2', // 8: 3D Next (Rich Cosmic Sky Blue)
+  '#042f2e', // exit back to original teal green (#042f2e)
+];
+
+const projectGlowColors = [
+  'rgba(20, 184, 166, 0.25)', // at p = 0: teal green aura
+  'rgba(20, 184, 166, 0.25)', // at p = 0.025: teal green aura
+  'rgba(255, 255, 255, 0.55)', // 0: SoftCr8ors luminous aura
+  'rgba(255, 255, 255, 0.55)', // 1: Tehreem Arif luminous aura
+  'rgba(255, 255, 255, 0.55)', // 2: Reeba Yaseen luminous aura
+  'rgba(255, 255, 255, 0.55)', // 3: GM MZ Removals luminous aura
+  'rgba(255, 255, 255, 0.55)', // 4: Shadab Rice luminous aura
+  'rgba(255, 255, 255, 0.55)', // 5: MZ Cleaner luminous aura
+  'rgba(255, 255, 255, 0.55)', // 6: Northwest Tyres luminous aura
+  'rgba(255, 255, 255, 0.55)', // 7: Tekrivo Platform luminous aura
+  'rgba(255, 255, 255, 0.55)', // 8: 3D Next luminous aura
+  'rgba(20, 184, 166, 0.25)',  // exit back to teal green aura
+];
 
 // ── DIAGONAL CONVEYOR CARD COMPONENT ──
 function DiagonalConveyorCard({
@@ -202,9 +267,6 @@ function DiagonalConveyorCard({
   });
 
   // Wispr Flow Exact Z-Tilt:
-  // - Upcoming card (bottom-left, rel = +1): Tilted counter-clockwise (-7.5°)
-  // - Active card (center, rel = 0): Perfectly level and straight (0°)
-  // - Exiting card (top-right, rel = -1): Tilted clockwise (+7.5°)
   const rotate = useTransform(smoothProgress, (p) => {
     const activeIndex = getContinuousIndex(p, total);
     const rel = index - activeIndex;
@@ -219,7 +281,6 @@ function DiagonalConveyorCard({
   });
 
   // 3D Pitch / "Fall-Back" Tilt (X-axis):
-  // Smooth asymptotic curve that tops out at 20° without sharp derivative kinks
   const rotateX = useTransform(smoothProgress, (p) => {
     const activeIndex = getContinuousIndex(p, total);
     const dist = Math.abs(index - activeIndex);
@@ -282,6 +343,14 @@ export default function Projects() {
     restDelta: 0.0001,
   });
 
+  // ── Dynamic Real-Time Color Morphing Linked to Active Center Card ──
+  const dynamicBgColor = useTransform(smoothProgress, progressPoints, projectBgColors);
+  const dynamicGlowColor = useTransform(smoothProgress, progressPoints, projectGlowColors);
+  const dynamicRadialGlow = useTransform(
+    dynamicGlowColor,
+    (c) => `radial-gradient(ellipse 70% 60% at 50% 50%, ${c} 0%, transparent 75%)`
+  );
+
   // Header Animation: Slides completely off screen and fades out swiftly on initial scroll
   const headerY = useTransform(smoothProgress, [0, 0.06], [0, -220]);
   const headerOpacity = useTransform(smoothProgress, [0, 0.04], [1, 0]);
@@ -303,7 +372,7 @@ export default function Projects() {
     const containerTop = rect.top + scrollTop;
     const scrollableHeight = container.offsetHeight - window.innerHeight;
 
-    const START_PHASE = 0.04;
+    const START_PHASE = 0.055;
     const END_BUFFER = 0.93;
     const progressForIndex = index === 0 ? 0 : START_PHASE + (index / (projects.length - 1)) * (END_BUFFER - START_PHASE);
     const targetScroll = containerTop + progressForIndex * scrollableHeight;
@@ -327,20 +396,36 @@ export default function Projects() {
   };
 
   return (
-    <section
+    <motion.section
       ref={containerRef}
       id="projects"
-      className="relative h-[480vh] sm:h-[750vh] bg-teal-950 text-teal-50 border-t border-teal-500/20 overflow-visible"
+      style={{ backgroundColor: dynamicBgColor }}
+      className="relative h-[480vh] sm:h-[750vh] text-[#0f172a] border-t border-slate-300/30 overflow-visible"
     >
-      {/* Sticky Viewport Frame with Video Background */}
-      <div className="sticky top-0 h-screen w-full flex flex-col justify-between overflow-hidden bg-teal-950">
+      {/* Sticky Viewport Frame with Dynamic Card-Matched Background */}
+      <motion.div
+        style={{ backgroundColor: dynamicBgColor }}
+        className="sticky top-0 h-screen w-full flex flex-col justify-between overflow-hidden"
+      >
 
-        {/* ── 0. SLEEK WAVE PARTICLE VIDEO BACKGROUND ── */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none z-0 select-none flex items-center justify-center">
+        {/* ── Precision Dotted Grid Background Canvas (Subtle & Elegant Pinpoint Dots) ── */}
+        <div className="absolute inset-0 bg-[radial-gradient(#0f172a_1.1px,transparent_1.1px)] [background-size:24px_24px] opacity-25 pointer-events-none z-0" />
+
+        {/* ── Dynamic Ambient Card Aura Glow Behind Center Stage ── */}
+        <motion.div
+          style={{ background: dynamicRadialGlow }}
+          className="absolute inset-0 pointer-events-none z-0"
+        />
+
+        {/* ── 0. SLEEK WAVE PARTICLE VIDEO BACKGROUND (Temporarily commented out for preview) ── */}
+        {/*
+        <div className="absolute inset-0 w-full h-full pointer-events-none z-0 overflow-hidden flex items-center justify-center select-none">
           <video
             ref={(el) => {
-              if (el && el.currentTime < 3) {
-                el.currentTime = 3;
+              if (el) {
+                if (el.currentTime < 5.9 || el.currentTime >= 8.0) {
+                  el.currentTime = 6.0;
+                }
               }
             }}
             autoPlay
@@ -348,22 +433,37 @@ export default function Projects() {
             loop
             playsInline
             preload="auto"
-            className="w-full h-full object-cover object-center scale-[1.15] opacity-60"
+            onLoadedMetadata={(e) => {
+              e.currentTarget.currentTime = 6.0;
+            }}
+            onCanPlay={(e) => {
+              if (e.currentTarget.currentTime < 5.9) {
+                e.currentTarget.currentTime = 6.0;
+              }
+            }}
+            onTimeUpdate={(e) => {
+              const v = e.currentTarget;
+              if (v.currentTime >= 8.0 || v.currentTime < 6.0) {
+                v.currentTime = 6.0;
+              }
+            }}
+            className="min-w-[100vh] min-h-[100vw] w-[100vh] h-[100vw] sm:min-w-full sm:min-h-full sm:w-full sm:h-full object-cover object-center rotate-90 sm:rotate-0 transform-gpu transition-all duration-300 scale-110 pointer-events-none"
+            style={{
+              filter: 'hue-rotate(0deg) saturate(1.35) contrast(1.25)',
+              mixBlendMode: 'screen',
+              opacity: 0.50,
+            }}
           >
-            <source src="/vesper-bg.mp4" type="video/mp4" />
-            <source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260818_072341_50851634-bbc3-4c33-9acc-7647d4db44aa.mp4" type="video/mp4" />
+            <source src="/vesper-bg.mp4#t=6.0,8.0" type="video/mp4" />
+            <source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260818_072341_50851634-bbc3-4c33-9acc-7647d4db44aa.mp4#t=6.0,8.0" type="video/mp4" />
           </video>
-          {/* Dynamic dark gradient overlay & ambient glow */}
-          <div className="absolute inset-0 bg-gradient-to-b from-teal-950/95 via-teal-950/60 to-teal-950/95 pointer-events-none" />
-          <div className="absolute inset-0 bg-[radial-gradient(rgba(255,255,255,0.1)_1.2px,transparent_1.2px)] pointer-events-none" />
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-teal-600/20 via-transparent to-transparent pointer-events-none" />
+          <div className="absolute inset-0 bg-gradient-to-b from-teal-950/40 via-transparent to-black/30 pointer-events-none" />
         </div>
+        */}
 
-        {/* ── TOP-LEFT: Hand-Drawn Curvy Arrow Doodle (Crisp White on #1A1A1A) ── */}
+        {/* ── TOP-LEFT: Hand-Drawn Curvy Arrow Doodle (Crisp White, fades with header) ── */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.8, rotate: -15 }}
-          animate={{ opacity: 0.85, scale: 1, rotate: 0 }}
-          transition={{ duration: 0.8, ease: 'easeOut' }}
+          style={{ opacity: headerOpacity, display: headerDisplay }}
           className="absolute top-16 sm:top-20 left-6 sm:left-14 pointer-events-none hidden md:block z-20"
         >
           <svg
@@ -392,11 +492,11 @@ export default function Projects() {
           </svg>
         </motion.div>
 
-        {/* ── BOTTOM-RIGHT: Continuous Infinite Rotating Star Spinner Doodle (Vibrant Blue #60a5fa) ── */}
+        {/* ── BOTTOM-RIGHT: Continuous Infinite Rotating Star Spinner Doodle (Signature Lime #d8ff00) ── */}
         <motion.div
           animate={{ rotate: 360 }}
           transition={{ duration: 15, repeat: Infinity, ease: 'linear' }}
-          className="absolute bottom-20 sm:bottom-28 right-8 sm:right-24 pointer-events-none hidden md:block z-20 text-[#60a5fa] drop-shadow-[0_0_16px_rgba(96,165,250,0.5)]"
+          className="absolute bottom-20 sm:bottom-28 right-8 sm:right-24 pointer-events-none hidden md:block z-20 text-[#d8ff00] drop-shadow-[0_0_16px_rgba(216,255,0,0.55)]"
         >
           <svg
             width="85"
@@ -420,13 +520,13 @@ export default function Projects() {
           style={{ y: headerY, opacity: headerOpacity, display: headerDisplay }}
           className="absolute top-14 sm:top-18 left-0 right-0 z-30 max-w-4xl mx-auto px-6 text-center pointer-events-none"
         >
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#ffaa00]/15 border border-[#ffaa00]/30 text-[11px] font-black uppercase tracking-widest text-[#ffaa00] mb-2 backdrop-blur-md shadow-sm">
-            <Sparkles size={12} className="text-[#ffaa00]" />
-            <span>Featured Portfolio & Projects</span>
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#d8ff00] border-2 border-black mb-2 shadow-sm">
+            <Sparkles size={12} className="text-black" />
+            <span style={{ fontFamily: 'var(--font-caveat), cursive' }} className="text-base font-bold text-black">Featured Portfolio & Projects</span>
           </div>
 
-          <h2 className="text-2xl sm:text-5xl font-poppins font-black text-white tracking-tight leading-tight mb-1">
-            From concept to <span className="font-poppins italic font-black bg-gradient-to-r from-[#ffaa00] to-[#ffea00] bg-clip-text text-transparent">production.</span>
+          <h2 className="text-2xl sm:text-5xl font-poppins font-extrabold text-white tracking-tight leading-tight mb-1">
+            From concept to <span className="font-poppins italic font-extrabold bg-gradient-to-r from-[#d8ff00] to-[#ccf23a] bg-clip-text text-transparent">production.</span>
           </h2>
 
           <p className="text-teal-200 text-[11px] sm:text-sm max-w-lg mx-auto font-normal font-sans">
@@ -448,7 +548,7 @@ export default function Projects() {
           ))}
         </div>
 
-      </div>
-    </section>
+      </motion.div>
+    </motion.section>
   );
 }

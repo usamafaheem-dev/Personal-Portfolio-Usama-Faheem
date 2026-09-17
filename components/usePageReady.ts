@@ -22,13 +22,15 @@ export function usePageReady(): boolean {
       return;
     }
 
-    const handleComplete = () => {
+    const handleReady = () => {
       setIsReady(true);
     };
 
-    window.addEventListener('preloaderComplete', handleComplete);
+    window.addEventListener('preloaderExiting', handleReady);
+    window.addEventListener('preloaderComplete', handleReady);
     return () => {
-      window.removeEventListener('preloaderComplete', handleComplete);
+      window.removeEventListener('preloaderExiting', handleReady);
+      window.removeEventListener('preloaderComplete', handleReady);
     };
   }, []);
 

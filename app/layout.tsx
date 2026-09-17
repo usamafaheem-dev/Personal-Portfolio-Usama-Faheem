@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Poppins, Space_Grotesk, JetBrains_Mono, Caveat, Instrument_Serif } from "next/font/google";
+import { Inter, Poppins, JetBrains_Mono, Caveat } from "next/font/google";
 import "./globals.css";
 
 const inter = Inter({
@@ -15,12 +15,6 @@ const poppins = Poppins({
   display: "swap",
 });
 
-const spaceGrotesk = Space_Grotesk({
-  variable: "--font-space-grotesk",
-  subsets: ["latin"],
-  display: "swap",
-});
-
 const jetbrainsMono = JetBrains_Mono({
   variable: "--font-jetbrains-mono",
   subsets: ["latin"],
@@ -29,13 +23,6 @@ const jetbrainsMono = JetBrains_Mono({
 
 const caveat = Caveat({
   variable: "--font-caveat",
-  subsets: ["latin"],
-  display: "swap",
-});
-
-const instrumentSerif = Instrument_Serif({
-  variable: "--font-serif",
-  weight: "400",
   subsets: ["latin"],
   display: "swap",
 });
@@ -87,14 +74,8 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${poppins.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable} ${caveat.variable} ${instrumentSerif.variable}`}
+      className={`${inter.variable} ${poppins.variable} ${jetbrainsMono.variable} ${caveat.variable}`}
     >
-      <head>
-        <link
-          href="https://api.fontshare.com/v2/css?f[]=clash-display@400,500,600,700&display=swap"
-          rel="stylesheet"
-        />
-      </head>
       <body className="min-h-screen bg-porcelain text-ink font-body antialiased select-none">
         <SmoothScrollProvider>
           {children}

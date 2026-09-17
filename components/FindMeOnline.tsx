@@ -2,6 +2,7 @@
 
 import React, { useRef, useState, useEffect } from 'react';
 import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
+import { Sparkles } from 'lucide-react';
 
 interface SocialPlatform {
   id: string;
@@ -30,11 +31,11 @@ const socialPlatforms: SocialPlatform[] = [
     subtitle: 'Production code repositories, MERN architectures & full-stack open source packages.',
     ctaText: 'EXPLORE REPOS →',
     url: 'https://github.com/UsamaFaheem0',
-    cardBg: 'bg-gradient-to-b from-[#f8fafc] via-[#f1f5f9] to-[#e2e8f0]',
-    cardBorder: 'border-[#cbd5e1] hover:border-[#334155]',
-    cardShadow: 'shadow-[0_4px_18px_rgba(15,23,42,0.06)] hover:shadow-[0_16px_38px_rgba(15,23,42,0.18)]',
-    ctaColor: 'text-[#0f172a] group-hover:text-[#2563eb]',
-    titleHover: 'group-hover:text-[#0f172a]',
+    cardBg: 'bg-gradient-to-b from-[#fbfbf7] via-[#f3f3ed] to-[#e8e8e0]',
+    cardBorder: 'border-0',
+    cardShadow: 'shadow-[0_4px_22px_rgba(13,13,13,0.06)] hover:shadow-[0_16px_36px_rgba(13,13,13,0.12)]',
+    ctaColor: 'text-[#0052ff] group-hover:text-blue-700',
+    titleHover: 'group-hover:text-[#0052ff]',
     iconBg: 'bg-gradient-to-br from-[#24292f] via-[#161b22] to-[#0d1117]',
     iconShadow: 'shadow-[0_10px_24px_rgba(13,17,23,0.35)]',
     iconBorder: 'border-t border-l border-white/35 border-b border-r border-black/40',
@@ -52,11 +53,11 @@ const socialPlatforms: SocialPlatform[] = [
     subtitle: 'Longer stories, web dev tutorials & behind-the-scenes engineering build vlogs.',
     ctaText: 'WATCH NOW →',
     url: 'https://youtube.com/@usamafaheem',
-    cardBg: 'bg-gradient-to-b from-[#fff5f5] via-[#ffebeb] to-[#ffdcd8]',
-    cardBorder: 'border-[#fecaca] hover:border-[#ef4444]',
-    cardShadow: 'shadow-[0_4px_18px_rgba(239,68,68,0.14)] hover:shadow-[0_16px_38px_rgba(239,68,68,0.28)]',
-    ctaColor: 'text-[#dc2626] group-hover:text-[#991b1b]',
-    titleHover: 'group-hover:text-[#dc2626]',
+    cardBg: 'bg-gradient-to-b from-[#fbfbf7] via-[#f3f3ed] to-[#e8e8e0]',
+    cardBorder: 'border-0',
+    cardShadow: 'shadow-[0_4px_22px_rgba(13,13,13,0.06)] hover:shadow-[0_16px_36px_rgba(13,13,13,0.12)]',
+    ctaColor: 'text-[#0052ff] group-hover:text-blue-700',
+    titleHover: 'group-hover:text-[#0052ff]',
     iconBg: 'bg-gradient-to-br from-[#ff2a2a] via-[#e60000] to-[#b30000]',
     iconShadow: 'shadow-[0_10px_24px_rgba(230,0,0,0.38)]',
     iconBorder: 'border-t border-l border-white/45 border-b border-r border-red-950/30',
@@ -74,11 +75,11 @@ const socialPlatforms: SocialPlatform[] = [
     subtitle: 'Professional updates, engineering case studies & tech leadership insights.',
     ctaText: "LET'S CONNECT →",
     url: 'https://www.linkedin.com/in/usama-faheem/',
-    cardBg: 'bg-gradient-to-b from-[#f0f7ff] via-[#e0f0fe] to-[#d0e7fd]',
-    cardBorder: 'border-[#bae6fd] hover:border-[#0284c7]',
-    cardShadow: 'shadow-[0_4px_18px_rgba(2,132,199,0.14)] hover:shadow-[0_16px_38px_rgba(2,132,199,0.28)]',
-    ctaColor: 'text-[#0284c7] group-hover:text-[#0369a1]',
-    titleHover: 'group-hover:text-[#0284c7]',
+    cardBg: 'bg-gradient-to-b from-[#fbfbf7] via-[#f3f3ed] to-[#e8e8e0]',
+    cardBorder: 'border-0',
+    cardShadow: 'shadow-[0_4px_22px_rgba(13,13,13,0.06)] hover:shadow-[0_16px_36px_rgba(13,13,13,0.12)]',
+    ctaColor: 'text-[#0052ff] group-hover:text-blue-700',
+    titleHover: 'group-hover:text-[#0052ff]',
     iconBg: 'bg-gradient-to-br from-[#0a84ff] via-[#0077b5] to-[#004182]',
     iconShadow: 'shadow-[0_10px_24px_rgba(0,119,181,0.38)]',
     iconBorder: 'border-t border-l border-white/45 border-b border-r border-blue-950/30',
@@ -96,11 +97,11 @@ const socialPlatforms: SocialPlatform[] = [
     subtitle: 'Daily web dev insights, interactive UI micro-animations & founder workflow.',
     ctaText: 'FOLLOW ME →',
     url: 'https://x.com/usamafaheem',
-    cardBg: 'bg-gradient-to-b from-[#fafafa] via-[#f4f4f5] to-[#e4e4e7]',
-    cardBorder: 'border-[#e4e4e7] hover:border-[#27272a]',
-    cardShadow: 'shadow-[0_4px_18px_rgba(0,0,0,0.08)] hover:shadow-[0_16px_38px_rgba(0,0,0,0.22)]',
-    ctaColor: 'text-[#18181b] group-hover:text-black',
-    titleHover: 'group-hover:text-[#18181b]',
+    cardBg: 'bg-gradient-to-b from-[#fbfbf7] via-[#f3f3ed] to-[#e8e8e0]',
+    cardBorder: 'border-0',
+    cardShadow: 'shadow-[0_4px_22px_rgba(13,13,13,0.06)] hover:shadow-[0_16px_36px_rgba(13,13,13,0.12)]',
+    ctaColor: 'text-[#0052ff] group-hover:text-blue-700',
+    titleHover: 'group-hover:text-[#0052ff]',
     iconBg: 'bg-gradient-to-br from-[#27272a] via-[#18181b] to-[#09090b]',
     iconShadow: 'shadow-[0_10px_24px_rgba(0,0,0,0.35)]',
     iconBorder: 'border-t border-l border-white/35 border-b border-r border-black/40',
@@ -118,11 +119,11 @@ const socialPlatforms: SocialPlatform[] = [
     subtitle: 'Design experiments, visual UI showcases & behind-the-scenes engineering builds.',
     ctaText: 'FOLLOW ALONG →',
     url: 'https://instagram.com/usamafaheem',
-    cardBg: 'bg-gradient-to-b from-[#fff1f5] via-[#fce7f3] to-[#fae8ff]',
-    cardBorder: 'border-[#fbcfe8] hover:border-[#db2777]',
-    cardShadow: 'shadow-[0_4px_18px_rgba(219,39,119,0.15)] hover:shadow-[0_16px_38px_rgba(219,39,119,0.3)]',
-    ctaColor: 'text-[#db2777] group-hover:text-[#9d174d]',
-    titleHover: 'group-hover:text-[#db2777]',
+    cardBg: 'bg-gradient-to-b from-[#fbfbf7] via-[#f3f3ed] to-[#e8e8e0]',
+    cardBorder: 'border-0',
+    cardShadow: 'shadow-[0_4px_22px_rgba(13,13,13,0.06)] hover:shadow-[0_16px_36px_rgba(13,13,13,0.12)]',
+    ctaColor: 'text-[#0052ff] group-hover:text-blue-700',
+    titleHover: 'group-hover:text-[#0052ff]',
     iconBg: 'bg-gradient-to-tr from-[#f58529] via-[#dd2a7b] to-[#8134af]',
     iconShadow: 'shadow-[0_10px_24px_rgba(221,42,123,0.38)]',
     iconBorder: 'border-t border-l border-white/45 border-b border-r border-purple-950/30',
@@ -215,7 +216,7 @@ function LargeSocialCard({
 
         {/* Right Column Content */}
         <div className="flex-1 min-w-0 flex flex-col justify-center text-left font-sans">
-          <h3 className={`text-xl lg:text-2xl font-black font-sans text-slate-950 uppercase tracking-wide ${platform.titleHover} transition-colors truncate mb-1.5`}>
+          <h3 className={`text-xl lg:text-2xl font-extrabold font-sans text-slate-950 uppercase tracking-wide ${platform.titleHover} transition-colors truncate mb-1.5`}>
             {platform.name}
           </h3>
           <p className="text-xs sm:text-[13.5px] lg:text-[14.5px] text-slate-600 font-sans font-normal leading-relaxed line-clamp-2 mb-3 sm:mb-3.5">
@@ -249,7 +250,7 @@ function CompactMobileCard({ platform }: { platform: SocialPlatform }) {
 
       {/* Right Column Content */}
       <div className="flex-1 min-w-0 flex flex-col justify-center text-left font-sans">
-        <h3 className={`text-xs xs:text-sm font-black font-sans text-slate-950 uppercase tracking-wide ${platform.titleHover} transition-colors truncate mb-0.5`}>
+        <h3 className={`text-xs xs:text-sm font-extrabold font-sans text-slate-950 uppercase tracking-wide ${platform.titleHover} transition-colors truncate mb-0.5`}>
           {platform.name}
         </h3>
         <p className="text-[10px] xs:text-[11px] text-slate-600 font-sans font-normal leading-snug line-clamp-1 mb-1">
@@ -352,27 +353,25 @@ export default function FindMeOnline() {
     <section
       ref={containerRef}
       id="find-me-online"
-      className="relative h-[220vh] xs:h-[240vh] sm:h-[270vh] lg:h-[300vh] bg-[#eae9e5] text-slate-900 select-none"
+      className="relative h-[220vh] xs:h-[240vh] sm:h-[270vh] lg:h-[300vh] bg-[#ededf0] text-slate-900 select-none border-t border-b border-slate-200/80"
     >
       {/* Sticky Full-Viewport Showcase Container */}
-      <div className="sticky top-0 h-screen w-full flex flex-col justify-between pt-24 xs:pt-28 sm:pt-24 lg:pt-28 pb-8 sm:pb-14 lg:pb-16 overflow-hidden bg-[#eae9e5] z-10">
+      <div className="sticky top-0 h-screen w-full flex flex-col justify-between pt-24 xs:pt-28 sm:pt-24 lg:pt-28 pb-8 sm:pb-14 lg:pb-16 overflow-hidden bg-[#ededf0] z-10">
         
-        {/* ── Crisp Ambient Background Dot Pattern ── */}
-        <div className="absolute inset-0 bg-[radial-gradient(#99a1af_1.2px,transparent_1.2px)] [background-size:24px_24px] opacity-35 pointer-events-none" />
+        {/* ── Crisp Ambient Background Dot Pattern (Matched with Proven / Stats) ── */}
+        <div className="absolute inset-0 bg-[radial-gradient(#99a1af_1.2px,transparent_1.2px)] [background-size:24px_24px] opacity-40 pointer-events-none [mask-image:radial-gradient(ellipse_75%_75%_at_50%_50%,#000_60%,transparent_100%)]" />
 
         {/* ── SECTION HEADER ── */}
         <div className="mx-auto max-w-[1420px] w-full px-4 xs:px-6 sm:px-8 lg:px-12 relative z-10">
           <div className="text-left font-sans">
-            <span
-              style={{ fontFamily: 'var(--font-caveat), cursive' }}
-              className="text-[#e11d48] text-xl xs:text-2xl sm:text-3xl lg:text-4xl font-bold tracking-wide -rotate-2 inline-block mb-0.5 sm:mb-1"
-            >
-              stay in touch →
-            </span>
-            <h2 className="text-2xl xs:text-3xl sm:text-5xl lg:text-[56px] font-black font-sans tracking-tight text-slate-950 uppercase leading-none">
+            <div className="inline-flex items-center gap-2 bg-[#d8ff00] border-2 border-black px-3.5 py-1 rounded-full shadow-sm mb-2">
+              <Sparkles className="w-3.5 h-3.5 text-black" />
+              <span style={{ fontFamily: 'var(--font-caveat), cursive' }} className="text-base font-bold text-black">Stay In Touch</span>
+            </div>
+            <h2 className="text-2xl xs:text-3xl sm:text-5xl lg:text-[56px] font-extrabold font-sans tracking-tight text-slate-950 uppercase leading-none">
               FIND ME ONLINE
             </h2>
-            <p className="text-xs sm:text-sm lg:text-base font-sans text-slate-600 font-medium mt-1.5 sm:mt-2 max-w-2xl leading-relaxed line-clamp-2 sm:line-clamp-none">
+            <p className="text-[11px] sm:text-sm lg:text-base font-sans text-slate-600 font-medium mt-1 sm:mt-2 max-w-2xl leading-relaxed line-clamp-2 sm:line-clamp-none">
               Where I share open-source code, design systems, tech tutorials & behind-the-scenes engineering experiments.
             </p>
           </div>
@@ -380,8 +379,8 @@ export default function FindMeOnline() {
 
         {/* ── DESKTOP SCROLL-DRIVEN HORIZONTAL TRACK (MD & UP: 5 LARGE CARDS) ── */}
         <div className="hidden md:block relative w-full my-auto overflow-y-visible py-14 lg:py-20">
-          <div className="absolute top-0 bottom-0 left-0 w-8 sm:w-20 bg-gradient-to-r from-[#eae9e5] to-transparent z-20 pointer-events-none" />
-          <div className="absolute top-0 bottom-0 right-0 w-8 sm:w-20 bg-gradient-to-l from-[#eae9e5] to-transparent z-20 pointer-events-none" />
+          <div className="absolute top-0 bottom-0 left-0 w-8 sm:w-20 bg-gradient-to-r from-[#ededf0] to-transparent z-20 pointer-events-none" />
+          <div className="absolute top-0 bottom-0 right-0 w-8 sm:w-20 bg-gradient-to-l from-[#ededf0] to-transparent z-20 pointer-events-none" />
 
           <motion.div
             ref={desktopTrackRef}
@@ -402,8 +401,8 @@ export default function FindMeOnline() {
 
         {/* ── MOBILE SCROLL-DRIVEN TRAY TRACK (< MD: 3 CARDS IN TRAY 1 + 2 CARDS IN TRAY 2) ── */}
         <div className="block md:hidden relative w-full my-auto overflow-y-visible py-8 xs:py-12">
-          <div className="absolute top-0 bottom-0 left-0 w-4 bg-gradient-to-r from-[#eae9e5] to-transparent z-20 pointer-events-none" />
-          <div className="absolute top-0 bottom-0 right-0 w-4 bg-gradient-to-l from-[#eae9e5] to-transparent z-20 pointer-events-none" />
+          <div className="absolute top-0 bottom-0 left-0 w-4 bg-gradient-to-r from-[#ededf0] to-transparent z-20 pointer-events-none" />
+          <div className="absolute top-0 bottom-0 right-0 w-4 bg-gradient-to-l from-[#ededf0] to-transparent z-20 pointer-events-none" />
 
           <motion.div
             ref={mobileTrackRef}

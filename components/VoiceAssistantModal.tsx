@@ -57,6 +57,8 @@ export default function VoiceAssistantModal({
   const retryRef = useRef(0);
   const voiceRef = useRef(selectedVoice);
   const mutedRef = useRef(isMicMuted);
+  const silenceTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const lastTranscriptRef = useRef('');
 
   // Keep refs in sync with state
   voiceRef.current = selectedVoice;
@@ -85,6 +87,7 @@ export default function VoiceAssistantModal({
 
   function killRecog() {
     retryRef.current = MAX_RETRIES;
+    if (silenceTimerRef.current) { clearTimeout(silenceTimerRef.current); silenceTimerRef.current = null; }
     if (recogRef.current) {
       try { recogRef.current.abort(); } catch {}
       recogRef.current = null;
@@ -111,6 +114,8 @@ export default function VoiceAssistantModal({
     if (typeof window === 'undefined') return;
 
     killAudio();
+    if (silenceTimerRef.current) { clearTimeout(silenceTimerRef.current); silenceTimerRef.current = null; }
+    lastTranscriptRef.current = '';
 
     const SR = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
     if (!SR) return;
@@ -129,6 +134,12 @@ export default function VoiceAssistantModal({
 
       let transcript = '';
 
+      // Safety net: max 20 seconds per recording session
+      silenceTimerRef.current = setTimeout(() => {
+        silenceTimerRef.current = null;
+        try { r.stop(); } catch {}
+      }, 20000);
+
       r.onstart = () => {
         if (mountedRef.current) setVoiceState('listening');
       };
@@ -137,10 +148,12 @@ export default function VoiceAssistantModal({
         let t = '';
         for (let i = 0; i < e.results.length; i++) t += e.results[i][0].transcript + ' ';
         transcript = t.trim();
+        lastTranscriptRef.current = transcript;
         retryRef.current = 0;
       };
 
       r.onerror = (e: any) => {
+        if (silenceTimerRef.current) { clearTimeout(silenceTimerRef.current); silenceTimerRef.current = null; }
         if (e.error === 'aborted') return;
         if (e.error === 'no-speech') {
           if (retryRef.current < MAX_RETRIES && callActiveRef.current && !mutedRef.current) {
@@ -159,6 +172,7 @@ export default function VoiceAssistantModal({
       };
 
       r.onend = () => {
+        if (silenceTimerRef.current) { clearTimeout(silenceTimerRef.current); silenceTimerRef.current = null; }
         if (transcript.length > 1) {
           queryFnRef.current(transcript);
         } else if (callActiveRef.current && !mutedRef.current && retryRef.current < MAX_RETRIES) {
@@ -456,7 +470,10 @@ export default function VoiceAssistantModal({
             <div
               onClick={() => {
                 if (voiceState === 'speaking') handleInterrupt();
-                else if (voiceState === 'listening') { killRecog(); setVoiceState('idle'); }
+                else if (voiceState === 'listening') {
+                  if (silenceTimerRef.current) { clearTimeout(silenceTimerRef.current); silenceTimerRef.current = null; }
+                  if (recogRef.current) { try { recogRef.current.stop(); } catch {} }
+                }
                 else { retryRef.current = 0; listenFnRef.current(); }
               }}
               className={`relative w-32 h-32 sm:w-36 sm:h-36 rounded-full flex items-center justify-center shadow-2xl transition-all duration-500 overflow-hidden border-2 cursor-pointer active:scale-95 ${
@@ -517,7 +534,10 @@ export default function VoiceAssistantModal({
               <RefreshCw className="w-3.5 h-3.5 animate-spin" /><span>Thinking...</span>
             </button>
           ) : voiceState === 'listening' ? (
-            <button type="button" onClick={() => { killRecog(); setVoiceState('idle'); }} className="flex-1 py-3 px-4 rounded-2xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-poppins text-xs font-bold shadow-lg shadow-emerald-600/30 flex items-center justify-center gap-2 active:scale-95 transition-all cursor-pointer animate-pulse">
+            <button type="button" onClick={() => {
+              if (silenceTimerRef.current) { clearTimeout(silenceTimerRef.current); silenceTimerRef.current = null; }
+              if (recogRef.current) { try { recogRef.current.stop(); } catch {} }
+            }} className="flex-1 py-3 px-4 rounded-2xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-poppins text-xs font-bold shadow-lg shadow-emerald-600/30 flex items-center justify-center gap-2 active:scale-95 transition-all cursor-pointer animate-pulse">
               <Mic className="w-4 h-4" /><span>Listening... Tap when Done</span>
             </button>
           ) : (

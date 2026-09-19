@@ -526,10 +526,11 @@ export default function AIChatbot() {
 
   return (
     <>
-      {/* ── 1. SPEED DIAL LAUNCHER (VERTICAL STACK) ── */}
+      {/* ── 1. SPEED DIAL LAUNCHER (VERTICAL STACK) — hidden for now ── */}
       <div
         ref={menuContainerRef}
         className="fixed bottom-5 right-5 sm:bottom-6 sm:right-6 z-50 flex flex-col items-end pointer-events-auto"
+        style={{ display: 'none' }}
       >
         {/* Speed-Dial Expanded Options (Popping Up Vertically) */}
         <AnimatePresence>
@@ -886,7 +887,7 @@ export default function AIChatbot() {
         )}
       </AnimatePresence>
 
-      {/* ── 3. ELEVENLABS CONVERSATIONAL AI VOICE WIDGET (LEFT SIDE) ── */}
+      {/* ── 3. ELEVENLABS CONVERSATIONAL AI VOICE WIDGET ── */}
       <ElevenLabsVoice />
     </>
   );

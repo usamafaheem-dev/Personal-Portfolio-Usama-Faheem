@@ -127,7 +127,7 @@ function BackgroundVideoPlayer({ progress }: { progress?: any }) {
         poster={posterSrc}
         playsInline
         muted
-        preload="auto"
+        preload="none"
         style={{ opacity: 0.60 }}
         className="w-full h-full object-cover object-[center_top] pointer-events-none"
       />

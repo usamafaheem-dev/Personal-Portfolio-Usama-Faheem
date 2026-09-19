@@ -181,7 +181,7 @@ export default function VoiceAssistantModal({
   speakFnRef.current = async (text: string, onDone?: () => void) => {
     killAudio();
     if (!mountedRef.current || !callActiveRef.current) return;
-    setVoiceState('speaking');
+    setVoiceState('thinking');
 
     const afterDone = () => {
       killAudio();
@@ -192,7 +192,7 @@ export default function VoiceAssistantModal({
 
     try {
       const ctrl = new AbortController();
-      const tid = setTimeout(() => ctrl.abort(), 12000);
+      const tid = setTimeout(() => ctrl.abort(), 15000);
 
       const res = await fetch('/api/tts', {
         method: 'POST',
@@ -215,10 +215,12 @@ export default function VoiceAssistantModal({
         audioRef.current.src = url;
         audioRef.current.onended = afterDone;
         audioRef.current.onerror = () => browserTTS(text, afterDone);
+        audioRef.current.onplay = () => { if (mountedRef.current) setVoiceState('speaking'); };
         audioRef.current.play().catch(() => browserTTS(text, afterDone));
       }
     } catch {
       if (!mountedRef.current || !callActiveRef.current) return;
+      setVoiceState('speaking');
       browserTTS(text, afterDone);
     }
   };
@@ -320,14 +322,17 @@ export default function VoiceAssistantModal({
 
     if (!greetedRef.current) {
       greetedRef.current = true;
+      const greeting = "Assalam-o-Alaikum, I am Usama's AI assistant, I am here to help you.";
       const t = setTimeout(() => {
-        if (callActiveRef.current) {
-          speakFnRef.current(
-            "Assalam-o-Alaikum, I am Usama's AI assistant, I am here to help you.",
-            () => { listenFnRef.current(); }
-          );
-        }
-      }, 400);
+        if (!callActiveRef.current) return;
+        setVoiceState('speaking');
+        browserTTS(greeting, () => {
+          if (callActiveRef.current) {
+            setVoiceState('idle');
+            listenFnRef.current();
+          }
+        });
+      }, 300);
       return () => { clearTimeout(t); clearInterval(timer); };
     }
 

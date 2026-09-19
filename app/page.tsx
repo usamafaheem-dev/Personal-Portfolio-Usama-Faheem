@@ -1,21 +1,23 @@
+import dynamic from 'next/dynamic';
 import Preloader from "@/components/Preloader";
 import MainWrapper from "@/components/MainWrapper";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import TechMarquee from "@/components/TechMarquee";
 import About from "@/components/About";
-import Stats from "@/components/Stats";
-import WhatIDoDifferently from "@/components/WhatIDoDifferently";
-import Services from "@/components/Services";
-import Process from "@/components/Process";
-import Experience from "@/components/Experience";
-import TechStack from "@/components/TechStack";
-import Projects from "@/components/Projects";
-import Certifications from "@/components/Certifications";
-import FindMeOnline from "@/components/FindMeOnline";
-import FAQAndContact from "@/components/FAQAndContact";
-import Footer from "@/components/Footer";
-import AIChatbot from "@/components/AIChatbot";
+
+const Stats = dynamic(() => import("@/components/Stats"));
+const WhatIDoDifferently = dynamic(() => import("@/components/WhatIDoDifferently"));
+const Services = dynamic(() => import("@/components/Services"));
+const Process = dynamic(() => import("@/components/Process"));
+const Experience = dynamic(() => import("@/components/Experience"));
+const TechStack = dynamic(() => import("@/components/TechStack"));
+const Projects = dynamic(() => import("@/components/Projects"));
+const Certifications = dynamic(() => import("@/components/Certifications"));
+const FindMeOnline = dynamic(() => import("@/components/FindMeOnline"));
+const FAQAndContact = dynamic(() => import("@/components/FAQAndContact"));
+const Footer = dynamic(() => import("@/components/Footer"));
+const AIChatbot = dynamic(() => import("@/components/AIChatbot"));
 
 export default function Home() {
   return (

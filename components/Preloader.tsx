@@ -220,7 +220,7 @@ export default function Preloader() {
                 muted
                 loop
                 playsInline
-                preload="auto"
+                preload="metadata"
                 onLoadedMetadata={(e) => {
                   e.currentTarget.currentTime = 6.0;
                 }}

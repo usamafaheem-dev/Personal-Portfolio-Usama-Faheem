@@ -432,7 +432,7 @@ export default function Projects() {
             muted
             loop
             playsInline
-            preload="auto"
+            preload="none"
             onLoadedMetadata={(e) => {
               e.currentTarget.currentTime = 6.0;
             }}

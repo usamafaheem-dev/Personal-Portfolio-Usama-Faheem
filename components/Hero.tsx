@@ -74,7 +74,7 @@ export default function Hero() {
           ref={videoRef}
           muted
           playsInline
-          preload="auto"
+          preload="metadata"
           onLoadedData={(e) => {
             if (window.innerWidth < 768) {
               e.currentTarget.currentTime = 3.0;

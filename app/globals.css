@@ -4,6 +4,9 @@ html {
   scrollbar-gutter: stable;
 }
 
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
 /* ── Design Tokens ─────────────────────────────────────── */
 /* Palette: 2 accents only — Gold (primary) + Lime (secondary) — plus neutrals. */
 :root {

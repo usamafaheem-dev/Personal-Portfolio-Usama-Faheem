@@ -93,26 +93,17 @@ const experienceCerts: ExperienceCert[] = [
     logoSrc: '/company_icon/vertex_mark.png',
     gradientFrom: '#0052ff',
     gradientTo: '#38bdf8',
-    imageSrc: '/certificatoin/image copy.png',
+    imageSrc: '/Experience Certificate/Usama_Faheem_Experience_Certificate.pdf',
   },
   {
     id: 'softcr8ors-cert',
     company: 'SoftCr8ors',
-    title: 'Experience Certificate — Frontend Developer Intern',
-    period: 'April 2026 – July 2026',
+    title: 'Internship Completion Certificate — Frontend Developer Intern',
+    period: 'April 2026 – June 2026',
     logoSrc: '/company_icon/softcr8ors_mark.png',
     gradientFrom: '#8b5cf6',
     gradientTo: '#ec4899',
-    imageSrc: '/certificatoin/ChatGPT Image Sep 7, 2026, 07_31_24 AM.png',
-  },
-  {
-    id: 'tekrivo-cert',
-    company: 'Tekrivo',
-    title: 'Experience Certificate — Founder & Full-Stack Engineer',
-    period: 'Overall 1 Year Experience',
-    logoSrc: '/company_icon/tekrivo_mark.png',
-    gradientFrom: '#6d28d9',
-    gradientTo: '#8b5cf6',
+    imageSrc: '/Experience Certificate/certificate.jpeg',
   },
 ];
 
@@ -418,25 +409,26 @@ export default function Experience() {
             </h3>
           </motion.div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6 lg:gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 sm:gap-6 lg:gap-8 max-w-3xl mx-auto">
             {experienceCerts.map((cert, i) => (
-              <motion.div
+              <motion.a
                 key={cert.id}
+                href={cert.imageSrc}
+                target="_blank"
+                rel="noopener noreferrer"
                 initial={{ opacity: 0, y: 30, scale: 0.96 }}
                 whileInView={{ opacity: 1, y: 0, scale: 1 }}
                 viewport={{ once: true, amount: 0.2 }}
                 transition={{ duration: 0.7, delay: i * 0.15, ease: [0.16, 1, 0.3, 1] }}
                 whileHover={{ y: -6, scale: 1.02, transition: { duration: 0.25 } }}
-                className="relative group rounded-[22px] sm:rounded-[26px] bg-white p-[2.5px] pb-3.5 sm:pb-4 overflow-hidden cursor-pointer transition-shadow duration-300 hover:shadow-[0_8px_30px_rgba(0,0,0,0.12)]"
+                className="relative group rounded-[22px] sm:rounded-[26px] bg-white p-[2.5px] pb-3.5 sm:pb-4 overflow-hidden cursor-pointer transition-shadow duration-300 hover:shadow-[0_8px_30px_rgba(0,0,0,0.12)] block"
               >
                 {/* Animated border beam & bottom shelf on hover */}
                 <div className="absolute inset-0 rounded-[22px] sm:rounded-[26px] opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none overflow-hidden">
-                  {/* Base gradient ensuring bottom border is vibrant and steady */}
                   <div
                     className="absolute inset-0"
                     style={{ background: `linear-gradient(to bottom, transparent 35%, ${cert.gradientFrom} 75%, ${cert.gradientTo} 100%)` }}
                   />
-                  {/* Dynamic rotating beam around edges */}
                   <div
                     className="absolute inset-[-150%] animate-[spin_2s_linear_infinite]"
                     style={{ background: `conic-gradient(from 0deg, transparent 0 170deg, ${cert.gradientFrom} 230deg, ${cert.gradientTo} 310deg, transparent 360deg)` }}
@@ -462,30 +454,24 @@ export default function Experience() {
                     </div>
                   </div>
 
-                  {/* Certificate image placeholder */}
-                  {cert.imageSrc ? (
+                  {/* Certificate preview */}
+                  {cert.imageSrc?.endsWith('.pdf') ? (
+                    <div className="relative w-full h-[180px] xs:h-[200px] sm:h-[220px] rounded-xl bg-slate-50 border border-slate-100 overflow-hidden group-hover:border-slate-200 transition-colors">
+                      <iframe src={`${cert.imageSrc}#toolbar=0&navpanes=0&scrollbar=0&view=FitH`} title={cert.title} className="w-full h-[500px] pointer-events-none select-none origin-top-left scale-[0.45] sm:scale-[0.5]" style={{ width: '220%', height: '500px' }} tabIndex={-1} />
+                      <div className="absolute inset-0 bg-transparent group-hover:bg-black/5 transition-colors" />
+                    </div>
+                  ) : cert.imageSrc ? (
                     <div className="relative w-full h-[180px] xs:h-[200px] sm:h-[220px] rounded-xl bg-slate-50 border border-slate-100 overflow-hidden flex items-center justify-center p-2 group-hover:border-slate-200 transition-colors">
                       <img src={cert.imageSrc} alt={cert.title} className="w-full h-full object-contain rounded-lg transition-transform duration-500 group-hover:scale-105" />
                     </div>
-                  ) : (
-                    <div className="relative w-full h-[180px] xs:h-[200px] sm:h-[220px] rounded-xl border-2 border-dashed border-slate-200 overflow-hidden flex flex-col items-center justify-center gap-3 group-hover:border-slate-300 transition-colors"
-                      style={{ background: `linear-gradient(135deg, ${cert.gradientFrom}08, ${cert.gradientTo}08)` }}
-                    >
-                      <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center"
-                        style={{ background: `linear-gradient(135deg, ${cert.gradientFrom}, ${cert.gradientTo})` }}
-                      >
-                        <Award className="w-7 h-7 sm:w-8 sm:h-8 text-white" />
-                      </div>
-                      <span className="text-[10px] sm:text-xs font-bold text-slate-400 uppercase tracking-wider">Certificate Coming Soon</span>
-                    </div>
-                  )}
+                  ) : null}
 
-                  {/* Certificate title (equalized min-height across all cards) */}
+                  {/* Certificate title */}
                   <p className="mt-3 text-xs sm:text-[13px] font-semibold text-slate-700 leading-snug line-clamp-2 min-h-[34px] sm:min-h-[38px] flex items-center">
                     {cert.title}
                   </p>
                 </div>
-              </motion.div>
+              </motion.a>
             ))}
           </div>
         </div>

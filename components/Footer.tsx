@@ -14,32 +14,61 @@ export default function Footer() {
   const [rightPupilPos, setRightPupilPos] = useState({ x: 0, y: 0 });
   const [isBlinking, setIsBlinking] = useState(false);
 
-  // Calculate mouse gaze angle and offset relative to eye centers
+  // Calculate mouse gaze angle and offset relative to eye centers ONLY when footer is visible
   useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      const calcPupil = (eyeEl: HTMLDivElement | null) => {
-        if (!eyeEl) return { x: 0, y: 0 };
-        const rect = eyeEl.getBoundingClientRect();
-        const eyeCenterX = rect.left + rect.width / 2;
-        const eyeCenterY = rect.top + rect.height / 2;
+    let isIntersecting = false;
+    let rafId: number | null = null;
+    let lastEvent: MouseEvent | null = null;
 
-        const deltaX = e.clientX - eyeCenterX;
-        const deltaY = e.clientY - eyeCenterY;
-        const angle = Math.atan2(deltaY, deltaX);
-        const distance = Math.min(26, Math.hypot(deltaX, deltaY) / 14);
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        isIntersecting = entry.isIntersecting;
+      },
+      { threshold: 0.05 }
+    );
 
-        return {
-          x: Math.cos(angle) * distance,
-          y: Math.sin(angle) * distance,
-        };
+    if (containerRef.current) {
+      observer.observe(containerRef.current);
+    }
+
+    const calcPupil = (eyeEl: HTMLDivElement | null, clientX: number, clientY: number) => {
+      if (!eyeEl) return { x: 0, y: 0 };
+      const rect = eyeEl.getBoundingClientRect();
+      const eyeCenterX = rect.left + rect.width / 2;
+      const eyeCenterY = rect.top + rect.height / 2;
+
+      const deltaX = clientX - eyeCenterX;
+      const deltaY = clientY - eyeCenterY;
+      const angle = Math.atan2(deltaY, deltaX);
+      const distance = Math.min(26, Math.hypot(deltaX, deltaY) / 14);
+
+      return {
+        x: Math.cos(angle) * distance,
+        y: Math.sin(angle) * distance,
       };
-
-      setLeftPupilPos(calcPupil(leftEyeRef.current));
-      setRightPupilPos(calcPupil(rightEyeRef.current));
     };
 
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
+    const handleMouseMove = (e: MouseEvent) => {
+      if (!isIntersecting) return;
+      lastEvent = e;
+
+      if (!rafId) {
+        rafId = requestAnimationFrame(() => {
+          if (lastEvent && isIntersecting) {
+            setLeftPupilPos(calcPupil(leftEyeRef.current, lastEvent.clientX, lastEvent.clientY));
+            setRightPupilPos(calcPupil(rightEyeRef.current, lastEvent.clientX, lastEvent.clientY));
+          }
+          rafId = null;
+        });
+      }
+    };
+
+    window.addEventListener('mousemove', handleMouseMove, { passive: true });
+    return () => {
+      observer.disconnect();
+      if (rafId) cancelAnimationFrame(rafId);
+      window.removeEventListener('mousemove', handleMouseMove);
+    };
   }, []);
 
   // Natural spontaneous blinking loop

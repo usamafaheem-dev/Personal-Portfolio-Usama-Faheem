@@ -786,8 +786,8 @@ export default function TechStack() {
         <div className="lg:hidden flex flex-col items-center w-full px-2">
 
           {/* Segmented Tab Controller */}
-          <div className="w-full max-w-sm mx-auto mb-6">
-            <div className="flex items-center justify-center flex-wrap gap-1 bg-slate-200/80 p-1.5 rounded-2xl border border-slate-300/80 font-poppins shadow-inner">
+          <div className="w-full mb-6 -mx-2 px-2">
+            <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar snap-x snap-mandatory pb-1 font-poppins">
               {[
                 { id: 'all', label: 'All Tech' },
                 ...quadrantData.map(q => ({ id: q.id, label: q.label }))
@@ -797,10 +797,10 @@ export default function TechStack() {
                   <button
                     key={tab.id}
                     onClick={() => setActiveTab(tab.id)}
-                    className={`py-1.5 px-3 rounded-xl text-[11px] font-bold tracking-wide transition-all cursor-pointer font-poppins text-center ${
+                    className={`snap-start shrink-0 py-2 px-4 rounded-full text-[11px] font-bold tracking-wide transition-all cursor-pointer font-poppins text-center border ${
                       isActive
-                        ? 'bg-[#0f172a] text-white shadow-md'
-                        : 'bg-transparent text-slate-700 hover:text-slate-900'
+                        ? 'bg-[#0f172a] text-white shadow-md border-[#0f172a]'
+                        : 'bg-white text-slate-600 hover:text-slate-900 border-slate-200 hover:border-slate-300'
                     }`}
                   >
                     {tab.label}

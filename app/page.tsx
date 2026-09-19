@@ -15,6 +15,7 @@ import Certifications from "@/components/Certifications";
 import FindMeOnline from "@/components/FindMeOnline";
 import FAQAndContact from "@/components/FAQAndContact";
 import Footer from "@/components/Footer";
+import AIChatbot from "@/components/AIChatbot";
 
 export default function Home() {
   return (
@@ -43,6 +44,7 @@ export default function Home() {
             <Footer />
           </main>
         </MainWrapper>
+        <AIChatbot />
       </div>
     </div>
   );

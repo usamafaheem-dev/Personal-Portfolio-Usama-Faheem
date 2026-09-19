@@ -16,7 +16,7 @@ import {
   VolumeX,
 } from 'lucide-react';
 import { FaLinkedinIn, FaInstagram, FaWhatsapp } from 'react-icons/fa';
-import VoiceAssistantModal from './VoiceAssistantModal';
+import ElevenLabsVoice from './ElevenLabsVoice';
 
 interface ChatMessage {
   id: string;
@@ -96,7 +96,6 @@ const ChatInput = memo(function ChatInput({
 export default function AIChatbot() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isChatOpen, setIsChatOpen] = useState(false);
-  const [isVoiceOpen, setIsVoiceOpen] = useState(false);
   const [isMinimized, setIsMinimized] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [messages, setMessages] = useState<ChatMessage[]>([INITIAL_WELCOME]);
@@ -491,18 +490,6 @@ export default function AIChatbot() {
       },
     },
     {
-      id: 'ai-voice',
-      label: 'Voice Assistant',
-      subtitle: 'Live Voice Call with AI',
-      icon: <Mic className="w-4 h-4 text-white" />,
-      bg: 'bg-gradient-to-r from-[#6d28d9] via-[#7c3aed] to-[#9333ea]',
-      onClick: () => {
-        setIsMenuOpen(false);
-        setIsChatOpen(false);
-        setIsVoiceOpen(true);
-      },
-    },
-    {
       id: 'whatsapp',
       label: 'WhatsApp Chat',
       subtitle: '+92 324 9000000',
@@ -546,7 +533,7 @@ export default function AIChatbot() {
       >
         {/* Speed-Dial Expanded Options (Popping Up Vertically) */}
         <AnimatePresence>
-          {isMenuOpen && !isChatOpen && !isVoiceOpen && (
+          {isMenuOpen && !isChatOpen && (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -587,7 +574,7 @@ export default function AIChatbot() {
         </AnimatePresence>
 
         {/* ── Main Floating Trigger Button with 3D Purple Robot Icon (When closed) ── */}
-        {!isChatOpen && !isVoiceOpen && (
+        {!isChatOpen && (
           <motion.button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             aria-label="Open Contact & AI Assistant"
@@ -899,15 +886,8 @@ export default function AIChatbot() {
         )}
       </AnimatePresence>
 
-      {/* ── 3. DEDICATED LIVE VOICE ASSISTANT MODAL (CHATGPT / GEMINI LIVE STYLE) ── */}
-      <VoiceAssistantModal
-        isOpen={isVoiceOpen}
-        onClose={() => setIsVoiceOpen(false)}
-        onSwitchToTextChat={() => {
-          setIsVoiceOpen(false);
-          setIsChatOpen(true);
-        }}
-      />
+      {/* ── 3. ELEVENLABS CONVERSATIONAL AI VOICE WIDGET (LEFT SIDE) ── */}
+      <ElevenLabsVoice />
     </>
   );
 }

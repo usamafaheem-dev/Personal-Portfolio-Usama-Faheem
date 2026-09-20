@@ -687,7 +687,11 @@ export default function AIChatbot() {
                 <button
                   onClick={() => {
                     setIsChatOpen(false);
-                    setIsVoiceOpen(true);
+                    const widget = document.querySelector('elevenlabs-convai');
+                    if (widget) {
+                      const btn = widget.shadowRoot?.querySelector('button') || (widget as HTMLElement);
+                      (btn as HTMLElement)?.click();
+                    }
                   }}
                   title="Switch to Live Voice Call"
                   className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-white/10 hover:bg-white/20 text-purple-200 hover:text-white transition-colors cursor-pointer text-[11px] font-medium"

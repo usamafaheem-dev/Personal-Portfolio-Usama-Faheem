@@ -511,7 +511,7 @@ export default function FAQAndContact() {
                 </div>
 
                 <a
-                  href="https://wa.me/923249000000"
+                  href="https://wa.me/923143416588"
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="Chat on WhatsApp"
@@ -658,7 +658,7 @@ export default function FAQAndContact() {
 
                   {/* Circular WhatsApp Button with Official Brand Green */}
                   <a
-                    href="https://wa.me/923249000000"
+                    href="https://wa.me/923143416588"
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label="Chat on WhatsApp"

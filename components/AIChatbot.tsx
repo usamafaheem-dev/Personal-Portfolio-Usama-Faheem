@@ -18,7 +18,7 @@ import {
 import { FaLinkedinIn, FaInstagram, FaWhatsapp } from 'react-icons/fa';
 import ElevenLabsVoice from './ElevenLabsVoice';
 
-interface ChatMessage {
+interface ChatMessage  {
   id: string;
   role: 'user' | 'assistant';
   content: string;
@@ -96,11 +96,26 @@ const ChatInput = memo(function ChatInput({
 export default function AIChatbot() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isChatOpen, setIsChatOpen] = useState(false);
+  const [isVoiceOpen, setIsVoiceOpen] = useState(false);
   const [isMinimized, setIsMinimized] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [messages, setMessages] = useState<ChatMessage[]>([INITIAL_WELCOME]);
   const [inputText, setInputText] = useState('');
   const [speakingMessageId, setSpeakingMessageId] = useState<string | null>(null);
+
+  // Sync state with ElevenLabs dialog opening/closing
+  useEffect(() => {
+    const handleVoiceOpen = () => setIsVoiceOpen(true);
+    const handleVoiceClose = () => setIsVoiceOpen(false);
+
+    window.addEventListener('elevenlabs-voice-open', handleVoiceOpen);
+    window.addEventListener('elevenlabs-voice-close', handleVoiceClose);
+
+    return () => {
+      window.removeEventListener('elevenlabs-voice-open', handleVoiceOpen);
+      window.removeEventListener('elevenlabs-voice-close', handleVoiceClose);
+    };
+  }, []);
 
   const messagesContainerRef = useRef<HTMLDivElement>(null);
   const lastMessageRef = useRef<HTMLDivElement>(null);
@@ -236,7 +251,7 @@ export default function AIChatbot() {
           id: (Date.now() + 1).toString(),
           role: 'assistant',
           content:
-            "Here are Usama's top projects:\n\n• SoftCr8ors: AI & Tech Agency platform with 3D showcases and 60fps motion.\n• GM MZ Removals: UK logistics and booking calculator.\n• Shadab Rice: E-commerce with 1-click WhatsApp checkout.\n• Reeba Yaseen: Full-stack developer portfolio & SaaS.\n\nYou can also contact Usama directly on WhatsApp (+92 324 9000000)! 🚀",
+            "Here are Usama's top projects:\n\n• SoftCr8ors: AI & Tech Agency platform with 3D showcases and 60fps motion.\n• GM MZ Removals: UK logistics and booking calculator.\n• Shadab Rice: E-commerce with 1-click WhatsApp checkout.\n• Reeba Yaseen: Full-stack developer portfolio & SaaS.\n\nYou can also contact Usama directly on WhatsApp (+92 314 3416588)! 🚀",
           timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
         };
         setMessages((prev) => [...prev, errorMessage]);
@@ -490,13 +505,25 @@ export default function AIChatbot() {
       },
     },
     {
+      id: 'ai-voice',
+      label: 'Voice Assistant',
+      subtitle: 'Live Voice Call with AI',
+      icon: <Mic className="w-4 h-4 text-white" />,
+      bg: 'bg-gradient-to-r from-[#6d28d9] via-[#7c3aed] to-[#9333ea]',
+      onClick: () => {
+        setIsMenuOpen(false);
+        setIsChatOpen(false);
+        setIsVoiceOpen(true);
+      },
+    },
+    {
       id: 'whatsapp',
       label: 'WhatsApp Chat',
-      subtitle: '+92 324 9000000',
+      subtitle: '+92 314 3416588',
       icon: <FaWhatsapp className="w-4 h-4 text-white" />,
       bg: 'bg-gradient-to-r from-emerald-600 to-green-500',
       onClick: () => {
-        window.open('https://wa.me/923249000000', '_blank', 'noopener,noreferrer');
+        window.open('https://wa.me/923143416588', '_blank', 'noopener,noreferrer');
         setIsMenuOpen(false);
       },
     },
@@ -526,13 +553,13 @@ export default function AIChatbot() {
 
   return (
     <>
-      {/* ── 1. SPEED DIAL LAUNCHER (VERTICAL STACK) — hidden for now ── */}
+      {/* ── 1. SPEED DIAL LAUNCHER (VERTICAL STACK) ── */}
+      {/* Temporarily commented out to prevent overlap with ElevenLabs widget */}
+      {/*
       <div
         ref={menuContainerRef}
         className="fixed bottom-5 right-5 sm:bottom-6 sm:right-6 z-50 flex flex-col items-end pointer-events-auto"
-        style={{ display: 'none' }}
       >
-        {/* Speed-Dial Expanded Options (Popping Up Vertically) */}
         <AnimatePresence>
           {isMenuOpen && !isChatOpen && (
             <motion.div
@@ -574,8 +601,7 @@ export default function AIChatbot() {
           )}
         </AnimatePresence>
 
-        {/* ── Main Floating Trigger Button with 3D Purple Robot Icon (When closed) ── */}
-        {!isChatOpen && (
+        {!isChatOpen && !isVoiceOpen && (
           <motion.button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             aria-label="Open Contact & AI Assistant"
@@ -583,10 +609,8 @@ export default function AIChatbot() {
             whileTap={{ scale: 0.94 }}
             className="group relative flex items-center justify-center w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-gradient-to-tr from-[#5b21b6] via-[#7c3aed] to-[#9333ea] text-white shadow-[0_12px_32px_rgba(124,58,237,0.45)] border-2 border-white/30 focus:outline-none focus:ring-4 focus:ring-purple-500/40 cursor-pointer"
           >
-            {/* Ambient Pulsing Aura */}
             <span className="absolute -inset-1 rounded-full bg-gradient-to-r from-[#7c3aed] to-[#ec4899] opacity-45 blur-md group-hover:opacity-75 transition-opacity duration-300 animate-pulse pointer-events-none" />
 
-            {/* 3D Purple Robot Icon OR Close 'X' */}
             <AnimatePresence mode="wait">
               {isMenuOpen ? (
                 <motion.div
@@ -619,14 +643,12 @@ export default function AIChatbot() {
               )}
             </AnimatePresence>
 
-            {/* Glowing Green Online Indicator Badge */}
             {!isMenuOpen && (
               <span className="absolute top-0.5 right-0.5 w-3.5 h-3.5 bg-emerald-400 border-2 border-[#5b21b6] rounded-full shadow-xs">
                 <span className="absolute inset-0 rounded-full bg-emerald-300 animate-ping opacity-75" />
               </span>
             )}
 
-            {/* Hover Tooltip (Desktop) */}
             {!isMenuOpen && (
               <span className="hidden sm:block absolute right-full mr-3.5 px-3 py-1.5 rounded-xl bg-slate-900 text-white text-[12px] font-medium tracking-wide whitespace-nowrap opacity-0 group-hover:opacity-100 transition-all duration-200 pointer-events-none shadow-lg border border-slate-700/50">
                 ✨ Chat with Usama AI
@@ -635,6 +657,7 @@ export default function AIChatbot() {
           </motion.button>
         )}
       </div>
+      */}
 
       {/* ── 2. CHAT MODAL WINDOW (GPU ISOLATED TO ELIMINATE REPAINT LAG) ── */}
       <AnimatePresence>
@@ -687,11 +710,7 @@ export default function AIChatbot() {
                 <button
                   onClick={() => {
                     setIsChatOpen(false);
-                    const widget = document.querySelector('elevenlabs-convai');
-                    if (widget) {
-                      const btn = widget.shadowRoot?.querySelector('button') || (widget as HTMLElement);
-                      (btn as HTMLElement)?.click();
-                    }
+                    setIsVoiceOpen(true);
                   }}
                   title="Switch to Live Voice Call"
                   className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-white/10 hover:bg-white/20 text-purple-200 hover:text-white transition-colors cursor-pointer text-[11px] font-medium"

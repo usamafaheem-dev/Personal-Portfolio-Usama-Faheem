@@ -36,8 +36,13 @@ Your purpose is to warmly welcome visitors, answer questions about Usama's skill
   - Yes, Usama can definitely build custom 3D web projects, 3D lighting/physics simulations, interactive visualizers, and creative web animations!
 - **Contact Info**:
   - Email: developer@usamafaheem.com
-  - WhatsApp: +92 324 9000000
+  - Phone / WhatsApp: +92 314 3416588 / +92 348 7700972
   - Location: Lahore, Pakistan (Available for remote work worldwide)
+- **Services & Pricing Packages (PKR)**:
+  - Frontend / Portfolio Website (Simple): 15,000 to 20,000 PKR
+  - Simple Full-Stack Web App: 40,000 to 50,000 PKR
+  - AI-Powered Full-Stack Web App: 80,000 to 100,000 PKR (1 Lakh)
+  - AI Agents & Voice Agents (Business Voice Agents, Text Chatbots, Automation): 25,000 to 50,000 PKR
 - **STRICT WRITING & FORMATTING RULES**:
   - BE DIRECT, RELEVANT, AND CONCISE. Answer ONLY what the user asked. No unnecessary filler or fluff.
   - DO NOT append repetitive sales pitches or unsolicited paragraphs like "Whether you need a sleek portfolio... feel free to contact on WhatsApp" at the end of every answer. Only provide contact info if the user specifically asks how to contact, hire, or start a project.
@@ -98,7 +103,7 @@ function getFallbackResponse(query: string): string {
       "1. Frontend Development: High-converting, blazing fast web apps with Next.js & React.\n" +
       "2. Backend & REST APIs: Robust, scalable server logic with Node.js & Express.\n" +
       "3. Full-Stack MERN Apps: End-to-end database, auth, and dashboard architectures.\n" +
-      "4. Figma to Code: 100% pixel-perfect, responsive conversion with zero layout shifts.\n" +
+      "4. AI Agents & Voice Solutions: Custom business voice agents and conversational chatbots.\n" +
       "5. Interactive 3D & Motion: Three.js 3D models and GSAP storytelling animations.";
   }
 
@@ -121,18 +126,20 @@ function getFallbackResponse(query: string): string {
   // Contact / Hire / WhatsApp / Email
   if (q.match(/\b(contact|hire|email|whatsapp|phone|number|reach|message|talk|call|meeting)\b/)) {
     return "You can easily connect with Usama directly:\n\n" +
+      "• Phone / WhatsApp: +92 314 3416588 (https://wa.me/923143416588) or +92 348 7700972\n" +
       "• Email: developer@usamafaheem.com\n" +
-      "• WhatsApp: +92 324 9000000 (https://wa.me/923249000000)\n" +
       "• Location: Lahore, Pakistan (Available for remote projects globally)\n\n" +
-      "You can also scroll down to the FAQ & Contact section to send a direct message through the form!";
+      "Feel free to drop a message anytime!";
   }
 
   // Pricing / Cost / Rates
-  if (q.match(/\b(price|pricing|cost|rate|rates|budget|charges|fee)\b/)) {
-    return "Project rates depend on scope and complexity:\n\n" +
-      "• Landing Pages & MVPs: Typically delivered in 1-2 weeks at flexible startup-friendly rates.\n" +
-      "• Full-Stack Web Applications: 3-5 weeks milestone-based delivery with weekly live demos.\n\n" +
-      "Would you like to discuss your specific project requirements? Share what you are planning to build and Usama will provide a tailored quote!";
+  if (q.match(/\b(price|pricing|cost|rate|rates|budget|charges|fee|pkr)\b/)) {
+    return "Here are our transparent pricing packages:\n\n" +
+      "• Frontend / Portfolio Website: 15,000 – 20,000 PKR\n" +
+      "• Simple Full-Stack Web App: 40,000 – 50,000 PKR\n" +
+      "• AI-Powered Full-Stack Platform: 80,000 – 100,000 PKR (1 Lakh)\n" +
+      "• AI Agents & Voice Solutions: 25,000 – 50,000 PKR\n\n" +
+      "Would you like to discuss your specific requirements? Usama can provide a tailored quote!";
   }
 
   // Roman Urdu queries

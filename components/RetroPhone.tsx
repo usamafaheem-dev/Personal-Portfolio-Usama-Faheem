@@ -41,7 +41,7 @@ export function RetroPhoneHandset({
     if (onCallClick) {
       onCallClick();
     } else {
-      window.open('https://wa.me/923249000000', '_blank');
+      window.open('https://wa.me/923143416588', '_blank');
     }
   };
 

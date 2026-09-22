@@ -99,7 +99,7 @@ export default function Services() {
     <section
       id="services"
       ref={sectionRef}
-      className={`relative bg-[#ededf0] ${showContent ? 'pt-8 sm:pt-12 lg:pt-14 pb-32 sm:pb-36 lg:pb-40' : 'py-3.5 sm:py-5 h-[270px] sm:h-[330px] md:h-[480px] lg:h-[540px]'} overflow-hidden select-none border-t border-b border-slate-200/80 transition-all duration-450 ease-out`}
+      className={`relative bg-[#ededf0] ${showContent ? 'pt-8 sm:pt-12 lg:pt-14 pb-32 sm:pb-36 lg:pb-40' : 'py-3.5 sm:py-5 h-[270px] sm:h-[330px] md:h-[480px] lg:h-[540px]'} overflow-hidden border-t border-b border-slate-200/80 transition-all duration-450 ease-out`}
     >
       {/* ── Precision Dotted Grid Background Pattern ── */}
       <div className="absolute inset-0 bg-[radial-gradient(#99a1af_1.2px,transparent_1.2px)] [background-size:24px_24px] opacity-45 pointer-events-none [mask-image:radial-gradient(ellipse_70%_70%_at_50%_50%,#000_60%,transparent_100%)]" />

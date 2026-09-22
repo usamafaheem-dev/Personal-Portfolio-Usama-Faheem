@@ -11,6 +11,8 @@ import {
   Sparkles,
   User,
   ArrowUpRight,
+  Copy,
+  Check,
 } from 'lucide-react';
 
 interface ChatMessage {
@@ -96,15 +98,31 @@ export default function AIChatbot() {
   const [isLoading, setIsLoading] = useState(false);
   const [messages, setMessages] = useState<ChatMessage[]>([INITIAL_WELCOME]);
   const [inputText, setInputText] = useState('');
+  const [copiedMessageId, setCopiedMessageId] = useState<string | null>(null);
+
+  const handleCopyMessage = (text: string, id: string) => {
+    try {
+      navigator.clipboard.writeText(text);
+      setCopiedMessageId(id);
+      setTimeout(() => setCopiedMessageId(null), 2000);
+    } catch {}
+  };
 
   // Sync state with ElevenLabs dialog opening/closing
   useEffect(() => {
     const handleVoiceOpen = () => setIsVoiceOpen(true);
     const handleVoiceClose = () => setIsVoiceOpen(false);
 
-    const handleToggleGemini = () => {
-      setIsChatOpen((prev) => !prev);
-      setIsMinimized(false);
+    const handleToggleGemini = (e?: any) => {
+      if (e?.detail?.forceOpen) {
+        setIsChatOpen(true);
+        setIsMinimized(false);
+      } else if (e?.detail?.forceClose) {
+        setIsChatOpen(false);
+      } else {
+        setIsChatOpen((prev) => !prev);
+        setIsMinimized(false);
+      }
       setIsMenuOpen(false);
     };
 
@@ -532,24 +550,44 @@ export default function AIChatbot() {
                         )}
 
                         <div
-                          className={`group relative max-w-[84%] sm:max-w-[80%] rounded-2xl px-3.5 py-2.5 shadow-xs ${isBot
+                          className={`group relative max-w-[84%] sm:max-w-[80%] rounded-2xl px-3.5 py-2.5 shadow-xs select-text ${isBot
                             ? 'bg-white border border-slate-200 text-slate-800 rounded-tl-sm'
                             : 'bg-gradient-to-r from-[#0052ff] to-[#1e40af] text-white rounded-br-sm shadow-md'
                             }`}
                         >
                           {!isBot ? (
-                            <p className="text-white font-medium text-[13px] sm:text-[13.5px] leading-relaxed break-words whitespace-pre-wrap selection:bg-white/20">
+                            <p className="text-white font-medium text-[13px] sm:text-[13.5px] leading-relaxed break-words whitespace-pre-wrap select-text selection:bg-white/30">
                               {msg.content}
                             </p>
                           ) : (
-                            <div className="break-words text-slate-800">
+                            <div className="break-words text-slate-800 select-text selection:bg-blue-100">
                               {renderFormattedText(msg.content)}
                             </div>
                           )}
 
-                          <div className="flex items-center justify-end mt-1 pt-0.5">
+                          <div className="flex items-center justify-between mt-1 pt-0.5 gap-2 select-none">
+                            {isBot && (
+                              <button
+                                type="button"
+                                onClick={() => handleCopyMessage(msg.content, msg.id)}
+                                className="flex items-center gap-1 text-[10.5px] text-slate-400 hover:text-blue-600 transition-colors cursor-pointer py-0.5 px-1.5 rounded-md hover:bg-slate-100/80 active:scale-95"
+                                title="Copy message"
+                              >
+                                {copiedMessageId === msg.id ? (
+                                  <>
+                                    <Check className="w-3 h-3 text-emerald-500" />
+                                    <span className="text-emerald-500 font-medium text-[10px]">Copied!</span>
+                                  </>
+                                ) : (
+                                  <>
+                                    <Copy className="w-3 h-3" />
+                                    <span className="text-[10px]">Copy</span>
+                                  </>
+                                )}
+                              </button>
+                            )}
                             <span
-                              className={`block text-[10px] font-mono ${isBot ? 'text-slate-400' : 'text-blue-100/90'
+                              className={`block text-[10px] font-mono ml-auto ${isBot ? 'text-slate-400' : 'text-blue-100/90'
                                 }`}
                             >
                               {msg.timestamp}

@@ -1,32 +1,6 @@
 import type { Metadata } from "next";
 import Script from "next/script";
-import { Inter, Poppins, JetBrains_Mono, Caveat } from "next/font/google";
 import "./globals.css";
-
-const inter = Inter({
-  variable: "--font-inter",
-  subsets: ["latin"],
-  display: "swap",
-});
-
-const poppins = Poppins({
-  variable: "--font-poppins",
-  weight: ["400", "600", "700"],
-  subsets: ["latin"],
-  display: "swap",
-});
-
-const jetbrainsMono = JetBrains_Mono({
-  variable: "--font-jetbrains-mono",
-  subsets: ["latin"],
-  display: "swap",
-});
-
-const caveat = Caveat({
-  variable: "--font-caveat",
-  subsets: ["latin"],
-  display: "swap",
-});
 
 export const metadata: Metadata = {
   title: "Usama Faheem — Frontend & MERN Stack Developer",
@@ -73,11 +47,18 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="en"
-      className={`${inter.variable} ${poppins.variable} ${jetbrainsMono.variable} ${caveat.variable}`}
-    >
-      <body className="min-h-screen bg-porcelain text-ink font-body antialiased select-none">
+    <html lang="en">
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Inter:wght@300..900&family=JetBrains+Mono:wght@400..800&family=Poppins:wght@400;600;700&display=swap"
+          rel="stylesheet"
+        />
+        <link rel="preload" href="/usaam_emoji.png" as="image" />
+        <link rel="preload" href="/vesper_preloader_opt.mp4" as="video" type="video/mp4" />
+      </head>
+      <body className="min-h-screen bg-porcelain text-ink font-body antialiased">
         <SmoothScrollProvider>
           {children}
         </SmoothScrollProvider>

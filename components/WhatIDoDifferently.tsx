@@ -6,7 +6,7 @@ import { ArrowRight, Zap, Sparkles, ShieldCheck, Heart, Star, Code2, ExternalLin
 
 export default function WhatIDoDifferently() {
   return (
-    <section id="difference" className="bg-[#f8fafc] py-8 sm:py-10 lg:py-12 overflow-hidden font-sans select-none relative text-slate-900 border-t border-b border-slate-200">
+    <section id="difference" className="bg-[#f8fafc] py-8 sm:py-10 lg:py-12 overflow-hidden font-sans relative text-slate-900 border-t border-b border-slate-200">
       {/* ── Precision Dotted Grid Background Pattern ── */}
       <div className="absolute inset-0 bg-[radial-gradient(#99a1af_1.2px,transparent_1.2px)] [background-size:24px_24px] opacity-40 pointer-events-none [mask-image:radial-gradient(ellipse_70%_70%_at_50%_50%,#000_60%,transparent_100%)]" />
 

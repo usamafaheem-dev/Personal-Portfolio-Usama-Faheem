@@ -7,19 +7,18 @@ import Link from 'next/link';
 
 const navLinks = [
   { label: 'About', href: '#about', number: '01' },
-  { label: 'Experience', href: '#experience', number: '02' },
-  { label: 'Stack', href: '#stack', number: '03' },
-  { label: 'Projects', href: '#projects', number: '04' },
+  { label: 'Projects', href: '#projects', number: '02' },
+  { label: 'Services', href: '#services', number: '03' },
+  { label: 'Experience', href: '#experience', number: '04' },
   { label: 'Contact', href: '#contact', number: '05' },
 ];
 
 const mobileNavLinks = [
   { label: 'About', href: '#about', number: '01' },
-  { label: 'Services', href: '#services', number: '02' },
-  { label: 'Work', href: '#projects', number: '03' },
-  { label: 'Skills', href: '#stack', number: '04' },
-  { label: 'Journey', href: '#experience', number: '05' },
-  { label: 'Contact', href: '#contact', number: '06' },
+  { label: 'Projects', href: '#projects', number: '02' },
+  { label: 'Services', href: '#services', number: '03' },
+  { label: 'Experience', href: '#experience', number: '04' },
+  { label: 'Contact', href: '#contact', number: '05' },
 ];
 
 export default function Navbar() {
@@ -133,8 +132,8 @@ export default function Navbar() {
             : 'bg-black/25 backdrop-blur-xl border border-white/10 shadow-lg text-white'
         } ${
           scrolled
-            ? 'top-2 sm:top-4 w-[calc(100%-1.25rem)] sm:w-[calc(100%-2rem)] max-w-5xl px-3 sm:px-4 py-1 sm:py-2'
-            : 'top-2.5 sm:top-9 w-[calc(100%-1.5rem)] sm:w-[calc(100%-6rem)] max-w-6xl px-3 sm:px-6 py-1 sm:py-2.5'
+            ? 'top-2 sm:top-4 w-[calc(100%-1.25rem)] sm:w-[calc(100%-2rem)] max-w-5xl px-3 sm:px-5 py-1 sm:py-1.5'
+            : 'top-2.5 sm:top-7 w-[calc(100%-1.5rem)] sm:w-[calc(100%-6rem)] max-w-6xl px-3 sm:px-6 py-1.5 sm:py-2'
         }`}
         style={{
           transition:
@@ -147,14 +146,14 @@ export default function Navbar() {
           className="flex items-center group z-10 pointer-events-auto transition-transform duration-300 hover:scale-105"
         >
           <span
-            className={`text-base sm:text-2xl font-sans tracking-tighter flex items-center transition-colors duration-300 ${
+            className={`text-base sm:text-xl md:text-[21px] font-sans tracking-tight flex items-center transition-colors duration-300 leading-none ${
               isDarkSection
                 ? 'text-slate-950 drop-shadow-none'
                 : 'text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]'
             }`}
           >
             <span
-              className={`font-sans font-bold text-base sm:text-2xl mr-1 transition-colors ${
+              className={`font-sans font-bold text-base sm:text-xl md:text-[21px] mr-1 transition-colors ${
                 isDarkSection ? 'text-[#5f7a12]' : 'text-[#d8ff00] opacity-90'
               }`}
             >
@@ -169,7 +168,7 @@ export default function Navbar() {
               Faheem
             </span>
             <span
-              className={`font-sans font-bold text-base sm:text-2xl ml-1 transition-colors ${
+              className={`font-sans font-bold text-base sm:text-xl md:text-[21px] ml-1 transition-colors ${
                 isDarkSection ? 'text-[#5f7a12]' : 'text-[#d8ff00] opacity-90'
               }`}
             >
@@ -191,11 +190,11 @@ export default function Navbar() {
             duration: 0.6,
             ease: [0.34, 1.3, 0.64, 1],
           }}
-          className="hidden md:flex absolute left-1/2 -translate-x-1/2 items-center gap-2 sm:gap-4 px-2 py-1.5 rounded-full bg-[#1e1e1e]/90 backdrop-blur-xl border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.5)] z-0 pointer-events-auto overflow-hidden font-sans"
+          className="hidden md:flex absolute left-1/2 -translate-x-1/2 items-center gap-1.5 sm:gap-2 px-2 py-1 rounded-full bg-[#1e1e1e]/90 backdrop-blur-xl border border-white/10 shadow-[0_8px_28px_rgba(0,0,0,0.45)] z-0 pointer-events-auto overflow-hidden font-sans"
         >
           <div
             className="absolute inset-0 bg-[#d8ff00] -z-10 pointer-events-none"
-            style={{ clipPath: 'polygon(0 0, 41% 0, 51% 100%, 0 100%)' }}
+            style={{ clipPath: 'polygon(0 0, 38.5% 0, 46.5% 100%, 0 100%)' }}
           />
 
           {navLinks.map((link, i) => {
@@ -205,10 +204,12 @@ export default function Navbar() {
               <Link
                 key={link.label}
                 href={link.href}
-                className={`px-4 sm:px-5 py-1.5 text-sm font-semibold font-sans tracking-tight rounded-full transition-all relative z-10 ${
+                className={`px-3.5 sm:px-4 py-1 text-[13px] sm:text-[13.5px] font-semibold font-sans tracking-tight rounded-full transition-all relative z-10 ${
+                  i === 1 ? 'mr-4 sm:mr-5' : ''
+                } ${
                   isYellowSide
-                    ? 'text-black hover:bg-black hover:text-white hover:shadow-sm'
-                    : 'text-slate-300 hover:bg-white hover:text-black hover:shadow-sm'
+                    ? 'text-black hover:bg-black hover:text-white hover:shadow-xs'
+                    : 'text-slate-200 hover:bg-white hover:text-black hover:shadow-xs'
                 }`}
               >
                 {link.label}
@@ -223,7 +224,7 @@ export default function Navbar() {
             href="/Usama_Faheem_Resume.pdf"
             target="_blank"
             rel="noopener noreferrer"
-            className="hidden md:inline-flex rounded-full bg-[#0052ff] px-6 py-2 font-sans text-sm font-bold uppercase tracking-wider text-white shadow-[0_4px_14px_rgba(0,82,255,0.35)] transition-all hover:bg-[#003fcc] hover:shadow-[0_6px_20px_rgba(0,82,255,0.55)] hover:scale-105"
+            className="hidden md:inline-flex rounded-full bg-[#0052ff] px-5 sm:px-6 py-1.5 sm:py-2 font-sans text-xs sm:text-[13px] font-bold uppercase tracking-wider text-white shadow-[0_4px_14px_rgba(0,82,255,0.35)] transition-all hover:bg-[#003fcc] hover:shadow-[0_6px_20px_rgba(0,82,255,0.55)] hover:scale-105"
           >
             RESUME
           </a>
@@ -338,11 +339,11 @@ export default function Navbar() {
                   onClick={() => setDrawerOpen(false)}
                   className="flex items-center group"
                 >
-                  <span className="text-xl font-sans tracking-tighter text-slate-900 flex items-center">
-                    <span className="font-sans font-bold text-[#d8ff00] drop-shadow-[0_1px_1.5px_rgba(0,0,0,0.3)] text-xl mr-1">&lt;</span>
-                    <span className="font-bold">Usama</span>
-                    <span className="font-extrabold text-[#d8ff00] drop-shadow-[0_1px_1.5px_rgba(0,0,0,0.3)]">Faheem</span>
-                    <span className="font-sans font-bold text-[#d8ff00] drop-shadow-[0_1px_1.5px_rgba(0,0,0,0.3)] text-xl ml-1">/&gt;</span>
+                  <span className="text-xl font-sans tracking-tight text-slate-900 flex items-center">
+                    <span className="font-sans font-bold text-[#0052ff] text-xl mr-0.5">&lt;</span>
+                    <span className="font-bold text-slate-950">Usama</span>
+                    <span className="font-extrabold text-[#0052ff]">Faheem</span>
+                    <span className="font-sans font-bold text-[#0052ff] text-xl ml-0.5">/&gt;</span>
                   </span>
                 </Link>
 
@@ -373,10 +374,10 @@ export default function Navbar() {
                       onClick={() => setDrawerOpen(false)}
                       className="group flex items-center justify-between py-2.5 px-3 rounded-2xl hover:bg-slate-100/80 transition-all"
                     >
-                      <span className="text-2xl sm:text-3xl font-extrabold font-sans tracking-tight text-slate-900 group-hover:text-[#5f7a12] transition-colors">
+                      <span className="text-2xl sm:text-3xl font-extrabold font-sans tracking-tight text-slate-900 group-hover:text-[#0052ff] transition-colors">
                         {link.label}
                       </span>
-                      <div className="flex items-center gap-2 text-slate-400 group-hover:text-slate-900 transition-colors">
+                      <div className="flex items-center gap-2 text-slate-400 group-hover:text-[#0052ff] transition-colors">
                         <span className="text-xs font-mono font-bold">{link.number}</span>
                         <ArrowUpRight className="w-4 h-4 opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />
                       </div>
@@ -390,18 +391,18 @@ export default function Navbar() {
                 {/* Developer Email Button */}
                 <button
                   onClick={handleCopyEmail}
-                  className="w-full py-3 px-4 rounded-full bg-slate-100 hover:bg-slate-200/90 text-slate-900 border border-slate-200 font-sans font-bold text-xs sm:text-[13px] flex items-center justify-between transition-all cursor-pointer group shadow-2xs"
+                  className="w-full py-3 px-4 rounded-full bg-slate-50 hover:bg-slate-100 text-slate-900 border border-slate-200/90 hover:border-slate-300 font-sans font-bold text-xs sm:text-[13px] flex items-center justify-between transition-all cursor-pointer group shadow-2xs hover:shadow-xs active:scale-[0.99]"
                   title="Click to copy email"
                 >
                   <div className="flex items-center gap-2.5 min-w-0">
                     <div className="w-6 h-6 rounded-full bg-[#d8ff00] text-black flex items-center justify-center shrink-0 shadow-xs">
                       <Mail className="w-3.5 h-3.5 stroke-[2.2]" />
                     </div>
-                    <span className="truncate font-mono text-[12px] sm:text-[12.5px] text-slate-800">
+                    <span className="truncate font-mono text-[12px] sm:text-[12.5px] text-slate-900 font-semibold">
                       developer@usamafaheem.com
                     </span>
                   </div>
-                  <div className="flex items-center gap-1 shrink-0 text-slate-500 group-hover:text-slate-900 text-[11px] font-sans font-medium pl-1">
+                  <div className="flex items-center gap-1 shrink-0 text-slate-500 group-hover:text-slate-900 text-[11px] font-sans font-medium pl-1 transition-colors">
                     {copiedEmail ? (
                       <span className="text-emerald-600 font-bold flex items-center gap-1">
                         <Check className="w-3.5 h-3.5" /> Copied!

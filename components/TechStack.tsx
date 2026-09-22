@@ -139,7 +139,7 @@ export default function TechStack() {
   return (
     <section
       id="stack"
-      className="relative bg-[#f8fafc] py-8 sm:py-12 lg:py-14 overflow-hidden font-sans text-[#0f172a] border-t border-b border-slate-200 select-none"
+      className="relative bg-[#f8fafc] py-8 sm:py-12 lg:py-14 overflow-hidden font-sans text-[#0f172a] border-t border-b border-slate-200"
     >
       {/* ── Precision Dotted Grid Background Pattern ── */}
       <div className="absolute inset-0 bg-[radial-gradient(#99a1af_1.2px,transparent_1.2px)] [background-size:24px_24px] opacity-40 pointer-events-none [mask-image:radial-gradient(ellipse_70%_70%_at_50%_50%,#000_60%,transparent_100%)]" />

@@ -47,7 +47,7 @@ export default function NotFound() {
 
   return (
     <main
-      className="w-full h-screen overflow-hidden flex flex-col relative select-none font-sans"
+      className="w-full h-screen overflow-hidden flex flex-col relative font-sans"
       style={{
         backgroundColor: '#e0e0e0', // Portfolio Hero Background Color
       }}

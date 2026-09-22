@@ -103,7 +103,7 @@ export default function Process() {
   return (
     <section
       id="process"
-      className="relative py-6 sm:py-8 lg:py-10 overflow-hidden select-none font-sans bg-[#fbfcfb] text-slate-900 border-y border-slate-200/80"
+      className="relative py-6 sm:py-8 lg:py-10 overflow-hidden font-sans bg-[#fbfcfb] text-slate-900 border-y border-slate-200/80"
     >
       {/* ── Precision Dotted Grid Background Canvas Matching Proven Metrics ── */}
       <div className="absolute inset-0 bg-[radial-gradient(#99a1af_1.2px,transparent_1.2px)] [background-size:24px_24px] opacity-40 pointer-events-none [mask-image:radial-gradient(ellipse_75%_75%_at_50%_50%,#000_60%,transparent_100%)]" />

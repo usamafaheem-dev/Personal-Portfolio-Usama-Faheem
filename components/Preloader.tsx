@@ -3,13 +3,12 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 
-const PILLARS = [0, 1, 2, 3];
+const PILLARS = [0, 1, 2, 3, 4, 5];
 
 export default function Preloader() {
   const [stage, setStage] = useState<'entering' | 'exiting' | 'removed'>('entering');
   const [isClient, setIsClient] = useState(false);
   const [themeMode, setThemeMode] = useState<'light' | 'dark'>('light');
-  const [videoReady, setVideoReady] = useState(false);
 
   const timersRef = useRef<NodeJS.Timeout[]>([]);
 
@@ -27,6 +26,7 @@ export default function Preloader() {
       window.dispatchEvent(new Event('resize'));
     }
 
+    // Allow full 6-tile slide reveal animation to complete before unmounting
     const removeTimer = setTimeout(() => {
       setStage('removed');
       document.body.style.overflow = '';
@@ -35,7 +35,7 @@ export default function Preloader() {
         window.dispatchEvent(new CustomEvent('preloaderComplete'));
         window.dispatchEvent(new Event('resize'));
       }
-    }, 700);
+    }, 850);
 
     timersRef.current.push(removeTimer);
   };
@@ -53,12 +53,15 @@ export default function Preloader() {
       (window as any).__preloaderDone = false;
     }
 
-    // Auto-exit trigger after ~1.5s
+    // Measure time already elapsed since page load to guarantee exact ~3s total on-screen time
+    const elapsed = typeof performance !== 'undefined' ? performance.now() : 0;
+    const remainingTime = Math.max(1000, Math.min(2500, 3000 - elapsed));
+
     const exitTimer = setTimeout(() => {
       triggerExit();
-    }, 1500);
+    }, remainingTime);
 
-    // Hard safety failsafe: always unlock scroll and remove preloader after 2.4s
+    // Hard safety failsafe
     const failsafeTimer = setTimeout(() => {
       setStage('removed');
       document.body.style.overflow = '';
@@ -67,7 +70,7 @@ export default function Preloader() {
         window.dispatchEvent(new CustomEvent('preloaderComplete'));
         window.dispatchEvent(new Event('resize'));
       }
-    }, 2400);
+    }, 4500);
 
     timersRef.current.push(exitTimer, failsafeTimer);
   };
@@ -118,7 +121,7 @@ export default function Preloader() {
           className="fixed inset-0 z-[99999] pointer-events-auto select-none overflow-hidden bg-transparent cursor-pointer transition-colors duration-300"
         >
           
-          {/* ── 4 ARCHITECTURAL PILLARS / TILES (Staggered Split Exit revealing site underneath) ── */}
+          {/* ── 6 ARCHITECTURAL PILLARS / TILES (Staggered Split Exit revealing site underneath) ── */}
           <div className="absolute inset-0 pointer-events-none overflow-hidden z-10">
             {PILLARS.map((col) => {
               const goUp = col % 2 === 0;
@@ -126,14 +129,14 @@ export default function Preloader() {
                 <motion.div
                   key={`pillar-${col}`}
                   initial={{ y: '0%' }}
-                  animate={{ y: isExiting ? (goUp ? '-103%' : '103%') : '0%' }}
+                  animate={{ y: isExiting ? (goUp ? '-105%' : '105%') : '0%' }}
                   transition={{
-                    duration: 0.72,
-                    delay: isExiting ? col * 0.035 : 0,
+                    duration: 0.65,
+                    delay: isExiting ? col * 0.04 : 0,
                     ease: [0.76, 0, 0.24, 1],
                   }}
-                  style={{ left: `${col * 25}vw` }}
-                  className={`absolute top-0 w-[25.25vw] h-full ${pillarBg} border-none shadow-none will-change-transform transform-gpu`}
+                  style={{ left: `${(col * 100) / 6}vw` }}
+                  className={`absolute top-0 w-[17.2vw] h-full ${pillarBg} border-none shadow-none will-change-transform transform-gpu`}
                 />
               );
             })}
@@ -157,7 +160,7 @@ export default function Preloader() {
               scale: isExiting ? 0.98 : 1,
               y: isExiting ? -16 : 0,
             }}
-            transition={{ duration: 0.35, ease: 'easeInOut' }}
+            transition={{ duration: 0.28, ease: 'easeInOut' }}
             className="relative z-20 w-full h-full flex flex-col justify-center items-center px-4 pointer-events-none"
           >
             {/* ── RICH TECH DOT MATRIX & AMBIENT CANVAS ACCENTS ── */}
@@ -206,49 +209,24 @@ export default function Preloader() {
               </defs>
             </svg>
 
-            {/* ── REAL COSMIC GALAXY WAVE VIDEO 
-                * Mobile: Rotated 90deg to run VERTICALLY in portrait mode
-                * Desktop: Horizontal, standard orientation
-                * Plays strictly 6.0s to 8.0s segment (never shows 0s)
-            ── */}
+            {/* ── REAL COSMIC GALAXY WAVE VIDEO (Ultra-lightweight 437KB, starts instantly) ── */}
             <div className="absolute inset-0 w-full h-full pointer-events-none z-0 overflow-hidden flex items-center justify-center">
               <video
                 autoPlay
                 muted
                 loop
                 playsInline
-                preload="metadata"
-                onLoadedMetadata={(e) => {
-                  try {
-                    e.currentTarget.currentTime = 6.0;
-                  } catch {}
-                }}
-                onPlay={() => {
-                  setVideoReady(true);
-                }}
-                onError={() => {
-                  setVideoReady(true);
-                }}
-                onTimeUpdate={(e) => {
-                  try {
-                    const v = e.currentTarget;
-                    if (v.currentTime >= 8.0) {
-                      v.currentTime = 6.0;
-                    }
-                  } catch {}
-                }}
-                className="min-w-[100vh] min-h-[100vw] w-[100vh] h-[100vw] sm:min-w-full sm:min-h-full sm:w-full sm:h-full object-cover rotate-90 sm:rotate-0 transform-gpu transition-all duration-300 scale-110"
+                preload="auto"
+                className="min-w-[100vh] min-h-[100vw] w-[100vh] h-[100vw] sm:min-w-full sm:min-h-full sm:w-full sm:h-full object-cover rotate-90 sm:rotate-0 transform-gpu scale-110"
                 style={{
                   filter: isLight 
                     ? 'url(#cleanBlueWave) drop-shadow(0 0 16px rgba(0,82,255,0.25))' 
                     : 'hue-rotate(0deg) saturate(1.3) contrast(1.2)',
                   mixBlendMode: isLight ? 'normal' : 'screen',
-                  opacity: videoReady ? (isLight ? 0.55 : 0.95) : 0,
-                  transition: 'opacity 0.25s ease',
+                  opacity: isLight ? 0.65 : 0.95,
                 }}
               >
-                <source src="/vesper-bg.mp4#t=6.0,8.0" type="video/mp4" />
-                <source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260818_072341_50851634-bbc3-4c33-9acc-7647d4db44aa.mp4#t=6.0,8.0" type="video/mp4" />
+                <source src="/vesper_preloader_opt.mp4" type="video/mp4" />
               </video>
               
               {/* Atmospheric Diffused Center Aura Glow */}
@@ -265,25 +243,20 @@ export default function Preloader() {
             {/* Main Wordmark Container */}
             <div className="relative z-10 flex flex-col items-center max-w-5xl mx-auto w-full">
               
-              {/* Top Tagline: "WEB DEVELOPER" (Shifted right on mobile to clear avatar completely) */}
-              <motion.div
-                initial={{ opacity: 0, y: -6 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: 0.05 }}
-                className="w-full flex justify-start pl-[34%] xs:pl-[35%] sm:pl-[24%] md:pl-[24%] mb-1 sm:mb-2"
-              >
+              {/* Top Tagline: "WEB DEVELOPER" (Visible immediately from frame 0) */}
+              <div className="w-full flex justify-start pl-[34%] xs:pl-[35%] sm:pl-[24%] md:pl-[24%] mb-1 sm:mb-2 opacity-100">
                 <span className={`text-xs xs:text-sm sm:text-xl md:text-2xl lg:text-3xl font-extrabold tracking-[0.22em] uppercase font-mono ${
                   isLight ? 'text-[#0043d4]' : 'text-white/95'
                 }`}>
                   WEB DEVELOPER
                 </span>
-              </motion.div>
+              </div>
 
               {/* Central Wordmark */}
               <div className={`relative w-full max-w-[850px] flex items-center justify-center px-2 select-none ${glowDrop}`}>
-                {/* ── Tilted Avatar Cutout: Lifted cleanly ABOVE 'P' so it never overlaps or covers letters ── */}
+                {/* ── Tilted Avatar Cutout: Visible immediately and floating gently ── */}
                 <motion.div
-                  initial={{ scale: 0.85, opacity: 0 }}
+                  initial={{ scale: 1, opacity: 1, rotate: -12 }}
                   animate={{
                     scale: 1,
                     rotate: [-12, -6, -12],
@@ -291,8 +264,6 @@ export default function Preloader() {
                     opacity: 1,
                   }}
                   transition={{
-                    scale: { duration: 0.4, ease: 'easeOut' },
-                    opacity: { duration: 0.25 },
                     rotate: { repeat: Infinity, duration: 4.5, ease: 'easeInOut' },
                     y: { repeat: Infinity, duration: 3.5, ease: 'easeInOut' },
                   }}
@@ -301,7 +272,10 @@ export default function Preloader() {
                   <img
                     src="/usaam_emoji.png"
                     alt="Usama Faheem"
-                    className="w-18 xs:w-22 sm:w-32 md:w-38 lg:w-42 h-auto object-contain drop-shadow-[0_12px_28px_rgba(0,0,0,0.2)] select-none"
+                    loading="eager"
+                    fetchPriority="high"
+                    decoding="sync"
+                    className="w-18 xs:w-22 sm:w-32 md:w-38 lg:w-42 h-auto object-contain drop-shadow-[0_12px_28px_rgba(0,0,0,0.2)] select-none opacity-100"
                   />
                 </motion.div>
 
@@ -495,12 +469,9 @@ export default function Preloader() {
                 </svg>
               </div>
 
-              {/* Bottom Right Details: Author Name + 2026 Year Badge */}
-              <motion.div
-                initial={{ opacity: 0, y: 6 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: 0.08 }}
-                className="w-full flex justify-end mt-2 sm:-mt-6 md:-mt-8 lg:-mt-10 pr-[1%] sm:pr-[2%]"
+              {/* Bottom Right Details: Author Name + 2026 Year Badge (Visible immediately from frame 0) */}
+              <div
+                className="w-full flex justify-end mt-2 sm:-mt-6 md:-mt-8 lg:-mt-10 pr-[1%] sm:pr-[2%] opacity-100"
               >
                 <div className="flex flex-row items-center gap-2 sm:gap-4">
                   <span className={`text-xs xs:text-sm sm:text-xl md:text-2xl lg:text-3xl font-extrabold tracking-[0.14em] font-mono uppercase ${
@@ -519,7 +490,7 @@ export default function Preloader() {
                     <span>2026</span>
                   </div>
                 </div>
-              </motion.div>
+              </div>
 
             </div>
           </motion.div>

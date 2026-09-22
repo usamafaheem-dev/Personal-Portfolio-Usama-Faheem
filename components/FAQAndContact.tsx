@@ -14,6 +14,7 @@ import {
   Mail,
   MapPin,
   Sparkles,
+  ArrowRight,
 } from 'lucide-react';
 import RetroPhone from '@/components/RetroPhone';
 
@@ -228,6 +229,31 @@ export default function FAQAndContact() {
     setTimeout(() => setCopiedEmail(false), 2000);
   };
 
+  const [isChatOpen, setIsChatOpen] = useState(false);
+
+  useEffect(() => {
+    const handleOpen = () => setIsChatOpen(true);
+    const handleClose = () => setIsChatOpen(false);
+    window.addEventListener('gemini-chat-open', handleOpen);
+    window.addEventListener('gemini-chat-close', handleClose);
+    return () => {
+      window.removeEventListener('gemini-chat-open', handleOpen);
+      window.removeEventListener('gemini-chat-close', handleClose);
+    };
+  }, []);
+
+  const handleToggleChat = () => {
+    if (typeof window !== 'undefined') {
+      if (isChatOpen) {
+        window.dispatchEvent(new CustomEvent('openGeminiChat', { detail: { forceClose: true } }));
+        setIsChatOpen(false);
+      } else {
+        window.dispatchEvent(new CustomEvent('openGeminiChat', { detail: { forceOpen: true } }));
+        setIsChatOpen(true);
+      }
+    }
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setSubmitted(true);
@@ -237,7 +263,7 @@ export default function FAQAndContact() {
   return (
     <div
       ref={containerRef}
-      className="relative text-slate-900 select-none"
+      className="relative text-slate-900"
     >
 
       {/* ── Sticky Full-Viewport Background Video Layer ── */}
@@ -258,17 +284,67 @@ export default function FAQAndContact() {
 
             {/* ── 1. FAQ ACCORDION SUB-SECTION ── */}
             <section id="faq" ref={faqSectionRef} className="scroll-mt-24">
-              <div className="text-left font-sans mb-10 sm:mb-12 max-w-3xl">
-                <div className="inline-flex items-center gap-2 bg-[#d8ff00] border-2 border-black px-3.5 py-1 rounded-full shadow-sm mb-2">
-                  <Sparkles className="w-3.5 h-3.5 text-black" />
-                  <span style={{ fontFamily: 'var(--font-caveat), cursive' }} className="text-base font-bold text-black">Got A Doubt?</span>
+              <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8 sm:mb-10">
+                <div className="text-left font-sans max-w-2xl">
+                  <div className="inline-flex items-center gap-2 bg-[#d8ff00] border-2 border-black px-3.5 py-1 rounded-full shadow-sm mb-2">
+                    <Sparkles className="w-3.5 h-3.5 text-black" />
+                    <span style={{ fontFamily: 'var(--font-caveat), cursive' }} className="text-base font-bold text-black">Got A Doubt?</span>
+                  </div>
+                  <h2 className="text-3xl xs:text-4xl sm:text-5xl lg:text-[48px] font-extrabold font-sans tracking-tight uppercase leading-none text-slate-950">
+                    FREQUENTLY ASKED QUESTIONS
+                  </h2>
+                  <p className="text-xs sm:text-sm lg:text-base font-sans font-medium mt-3 leading-relaxed text-slate-600">
+                    Everything you need to know about partnering together, development timelines, architecture, and post-launch support.
+                  </p>
                 </div>
-                <h2 className="text-3xl xs:text-4xl sm:text-5xl lg:text-[50px] font-extrabold font-sans tracking-tight uppercase leading-none text-slate-950">
-                  FREQUENTLY ASKED QUESTIONS
-                </h2>
-                <p className="text-xs sm:text-sm lg:text-base font-sans font-medium mt-3 leading-relaxed text-slate-600">
-                  Everything you need to know about partnering together, development timelines, architecture, and post-launch support.
-                </p>
+
+                {/* ── Exact "Ask" AI Button matching user's design (Toggle Chatbot) ── */}
+                <button
+                  type="button"
+                  onClick={handleToggleChat}
+                  aria-label={isChatOpen ? 'Close AI Assistant' : 'Ask AI Assistant a question'}
+                  title={isChatOpen ? 'Close AI Chat' : 'Ask Usama AI any question'}
+                  className={`inline-flex items-center gap-2 self-start sm:self-auto px-4 py-2 rounded-2xl border transition-all duration-200 active:scale-95 cursor-pointer shrink-0 group shadow-xs hover:shadow-md ${
+                    isChatOpen
+                      ? 'bg-slate-950 text-white border-slate-900 ring-2 ring-blue-500/50'
+                      : 'bg-white hover:bg-slate-50 text-slate-950 border-slate-300/90 hover:border-blue-500/60'
+                  }`}
+                >
+                  <div className="relative flex items-center justify-center">
+                    <svg
+                      width="18"
+                      height="18"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="shrink-0 transition-transform duration-200 group-hover:scale-105"
+                    >
+                      {/* Chat bubble body with rounded corners & tail pointing down-left */}
+                      <path
+                        d="M20 15C20 16.1046 19.1046 17 18 17H7.5L3.5 20.5V6C3.5 4.89543 4.39543 4 5.5 4H14"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        className={isChatOpen ? 'text-white' : 'text-slate-900 group-hover:text-[#0052ff] transition-colors'}
+                      />
+                      {/* 4-point Sparkle / Plus on top-right corner */}
+                      <path
+                        d="M19.5 2V7M17 4.5H22"
+                        stroke={isChatOpen ? '#38bdf8' : '#0052ff'}
+                        strokeWidth="2.2"
+                        strokeLinecap="round"
+                      />
+                    </svg>
+                  </div>
+                  <span
+                    className={`font-sans font-bold text-[14px] transition-colors ${
+                      isChatOpen ? 'text-white' : 'text-slate-950 group-hover:text-[#0052ff]'
+                    }`}
+                  >
+                    {isChatOpen ? 'Close' : 'Ask'}
+                  </span>
+                </button>
               </div>
 
               {/* FAQ Accordion Tiles */}
@@ -287,7 +363,7 @@ export default function FAQAndContact() {
                       <button
                         onClick={() => toggleQuestion(index)}
                         aria-expanded={isOpen}
-                        className="w-full text-left p-5 sm:p-6 sm:py-5 flex items-center justify-between gap-4 cursor-pointer select-none transition-colors"
+                        className="w-full text-left p-5 sm:p-6 sm:py-5 flex items-center justify-between gap-4 cursor-pointer transition-colors"
                       >
                         <div className="flex items-center gap-2.5 sm:gap-4 min-w-0">
                           <span
@@ -344,6 +420,31 @@ export default function FAQAndContact() {
                     </div>
                   );
                 })}
+              </div>
+
+              {/* ── Bottom Fallback: "Got a question not covered above?" ── */}
+              <div className="mt-6 p-4 sm:p-5 rounded-none border-y border-slate-300/80 border-l-[3.5px] border-r-[3.5px] border-l-[#0052ff] border-r-[#0052ff] bg-white/60 shadow-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3.5 backdrop-blur-md">
+                <div className="flex items-center gap-3 min-w-0">
+                  <div className="w-8 h-8 rounded-full bg-slate-900 text-[#d8ff00] flex items-center justify-center shrink-0 shadow-xs">
+                    <Sparkles className="w-4 h-4" />
+                  </div>
+                  <div className="min-w-0">
+                    <h4 className="text-xs sm:text-[13.5px] font-bold text-slate-950 font-sans">
+                      Got a question that isn&apos;t covered above?
+                    </h4>
+                    <p className="text-[11px] sm:text-xs text-slate-500 font-sans">
+                      Ask Usama AI Assistant directly for instant answers about projects, pricing, or tech stack.
+                    </p>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  onClick={handleToggleChat}
+                  className="inline-flex items-center gap-2 px-3.5 py-2 bg-slate-950 hover:bg-[#0052ff] text-white text-xs font-bold font-sans transition-all active:scale-95 shadow-xs cursor-pointer shrink-0"
+                >
+                  <span>{isChatOpen ? 'Close Assistant' : 'Ask Usama AI'}</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </button>
               </div>
             </section>
 
@@ -529,7 +630,7 @@ export default function FAQAndContact() {
               RIGHT COLUMN: STICKY RAIL (PERSISTS ACROSS FAQ + CONTACT FORM UNTIL FORM ENDS!)
               Cleanly anchored in its dedicated column with zero overlap on FAQ tiles
               ════════════════════════════════════════════════════════════════════════ */}
-          <div className="hidden lg:flex flex-col w-72 shrink-0 select-none sticky top-32 z-20 self-start mt-8 lg:mt-12 pointer-events-auto">
+          <div className="hidden lg:flex flex-col w-72 shrink-0 sticky top-32 z-20 self-start mt-8 lg:mt-12 pointer-events-auto">
             <motion.div
               style={{ x: rightRailX }}
               className="flex flex-col gap-5 w-full"

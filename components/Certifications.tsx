@@ -209,7 +209,7 @@ export default function Certifications() {
     <section
       ref={containerRef}
       id="certifications"
-      className="relative h-[450vh] sm:h-[550vh] lg:h-[620vh] bg-[#f8fafc] text-slate-900 select-none"
+      className="relative h-[450vh] sm:h-[550vh] lg:h-[620vh] bg-[#f8fafc] text-slate-900"
     >
       {/* Sticky Viewport Container with Parallax Exit */}
       <motion.div 
@@ -596,7 +596,7 @@ export default function Certifications() {
               ref={ctaRef}
               className="shrink-0 ml-4 sm:ml-8 lg:ml-14 pr-8 sm:pr-16 lg:pr-24 flex flex-col items-start justify-center"
             >
-              <h3 className="text-3xl xs:text-4xl sm:text-6xl md:text-7xl lg:text-[96px] font-extrabold font-sans tracking-tight leading-[0.9] uppercase select-none whitespace-nowrap">
+              <h3 className="text-3xl xs:text-4xl sm:text-6xl md:text-7xl lg:text-[96px] font-extrabold font-sans tracking-tight leading-[0.9] uppercase whitespace-nowrap">
                 <span className="text-slate-950 block">GOT A</span>
                 <span className="text-[#0052ff] block">PROJECT?</span>
               </h3>

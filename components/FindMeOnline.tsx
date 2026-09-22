@@ -353,7 +353,7 @@ export default function FindMeOnline() {
     <section
       ref={containerRef}
       id="find-me-online"
-      className="relative h-[220vh] xs:h-[240vh] sm:h-[270vh] lg:h-[300vh] bg-[#ededf0] text-slate-900 select-none border-t border-b border-slate-200/80"
+      className="relative h-[220vh] xs:h-[240vh] sm:h-[270vh] lg:h-[300vh] bg-[#ededf0] text-slate-900 border-t border-b border-slate-200/80"
     >
       {/* Sticky Full-Viewport Showcase Container */}
       <div className="sticky top-0 h-screen w-full flex flex-col justify-between pt-24 xs:pt-28 sm:pt-24 lg:pt-28 pb-8 sm:pb-14 lg:pb-16 overflow-hidden bg-[#ededf0] z-10">

@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
-import { Mic, X } from 'lucide-react';
+import { PhoneCall, PhoneOff, X } from 'lucide-react';
 
 // Pool of ElevenLabs Agent IDs with active credits verified
 const DEFAULT_AGENT_IDS = [
@@ -237,38 +237,20 @@ export default function ElevenLabsVoice() {
     return DEFAULT_AGENT_IDS;
   }, []);
 
-  // 1. Initialize active agent: verify cache or fetch healthy agent from API
+  // 1. Initialize active agent: Always use the configured primary agent
   useEffect(() => {
-    let isMounted = true;
-
+    const primary = agentList[0] || DEFAULT_AGENT_IDS[0];
     try {
       const saved = localStorage.getItem(STORAGE_KEY);
       if (saved && !KNOWN_EXHAUSTED.has(saved) && agentList.includes(saved)) {
         setActiveAgentId(saved);
       } else {
-        localStorage.removeItem(STORAGE_KEY);
-        localStorage.removeItem('elevenlabs_active_agent_index');
+        setActiveAgentId(primary);
+        localStorage.setItem(STORAGE_KEY, primary);
       }
-    } catch {}
-
-    fetch('/api/voice-agent')
-      .then((res) => (res.ok ? res.json() : null))
-      .then((data) => {
-        if (!isMounted || !data?.agentId) return;
-        // Never replace or remount agent if user already opened the card!
-        if (isOpenRef.current) return;
-        if (data.agentId !== activeAgentId && !KNOWN_EXHAUSTED.has(data.agentId)) {
-          setActiveAgentId(data.agentId);
-          try {
-            localStorage.setItem(STORAGE_KEY, data.agentId);
-          } catch {}
-        }
-      })
-      .catch(() => {});
-
-    return () => {
-      isMounted = false;
-    };
+    } catch {
+      setActiveAgentId(primary);
+    }
   }, [agentList]);
 
   // 2. Silent background failover to next agent if quota limit is reached
@@ -379,7 +361,7 @@ export default function ElevenLabsVoice() {
     };
   }, [activeAgentId, switchToNextAgent]);
 
-  // 4. While open, keep styles active safely and auto-close when call completes
+  // 4. While open, keep styles active safely
   useEffect(() => {
     if (!isOpen) return;
 
@@ -389,11 +371,6 @@ export default function ElevenLabsVoice() {
       const sr = widget.shadowRoot as ShadowRoot;
       injectStyleSafely(sr);
       setupShadowListeners(widget, () => setIsOpen(false));
-
-      // When call finishes and feedback component appears, close cleanly
-      if (sr.querySelector('[class*="inlineFeedback"]')) {
-        setIsOpen(false);
-      }
     }, 250);
 
     return () => clearInterval(interval);
@@ -459,24 +436,24 @@ export default function ElevenLabsVoice() {
           id="voice-trigger-btn"
           type="button"
           onClick={handleToggle}
-          aria-label={isOpen ? 'Close Voice Assistant' : 'Talk to Usama AI Voice'}
-          title={isOpen ? 'Close Voice' : 'Talk with Usama AI Voice'}
-          className={`group relative flex items-center justify-center w-12 h-12 rounded-full transition-colors duration-150 cursor-pointer shadow-[0_8px_24px_rgba(0,0,0,0.35)] active:scale-95 ${
+          aria-label={isOpen ? 'End Voice Call' : 'Call Usama AI Voice Assistant'}
+          title={isOpen ? 'End Call' : 'Voice Call with Usama AI'}
+          className={`group relative flex items-center justify-center w-12 h-12 rounded-full transition-all duration-200 cursor-pointer shadow-[0_8px_24px_rgba(0,0,0,0.35)] active:scale-95 ${
             isOpen
-              ? 'bg-rose-600 hover:bg-rose-700 text-white border border-rose-400/40 shadow-rose-600/30'
-              : 'bg-[#0f172a] hover:bg-[#1e293b] text-white border border-[#334155] hover:border-blue-500/60'
+              ? 'bg-gradient-to-tr from-rose-600 via-rose-500 to-red-600 hover:from-rose-700 hover:to-red-700 text-white border-2 border-rose-300/60 shadow-rose-600/40'
+              : 'bg-gradient-to-tr from-[#090d16] via-[#111c38] to-[#1e293b] hover:from-[#0d1527] hover:to-[#243452] text-white border-2 border-slate-700/80 hover:border-emerald-400/80 shadow-[0_8px_25px_rgba(0,0,0,0.4)] hover:shadow-[0_10px_28px_rgba(16,185,129,0.35)]'
           }`}
         >
           {isOpen ? (
-            /* Crisp white X Close icon */
-            <X className="w-5 h-5 text-white" />
+            /* Crisp PhoneOff / End Call icon */
+            <PhoneOff className="w-5 h-5 text-white drop-shadow-sm" />
           ) : (
-            /* Crisp white Microphone icon */
+            /* Crisp Call / Phone icon with live indicator */
             <>
-              <span className="absolute -inset-1 rounded-full bg-blue-500/20 animate-ping [animation-duration:3s] pointer-events-none" />
-              <span className="absolute top-0 right-0 w-2.5 h-2.5 rounded-full bg-blue-500 shadow-[0_0_8px_#3b82f6] border border-[#0f172a]" />
+              <span className="absolute -inset-1 rounded-full bg-emerald-500/25 animate-ping [animation-duration:2.5s] pointer-events-none" />
+              <span className="absolute top-0 right-0 w-2.5 h-2.5 rounded-full bg-emerald-400 shadow-[0_0_8px_#34d399] border-2 border-[#090d16]" />
               <div className="flex items-center justify-center">
-                <Mic className="w-5 h-5 text-white drop-shadow-sm" />
+                <PhoneCall className="w-5 h-5 text-white drop-shadow-sm group-hover:scale-110 transition-transform duration-200" />
               </div>
             </>
           )}

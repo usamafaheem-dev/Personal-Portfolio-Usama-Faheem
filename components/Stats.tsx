@@ -172,7 +172,7 @@ export default function Stats() {
                       }}
                       viewport={{ once: true, margin: "-40px" }}
                       transition={transitionConfig}
-                      className={`${sphereSizeClasses} rounded-full relative flex flex-col items-center justify-center text-center p-1 sm:p-4 hover:scale-105 transition-transform duration-300 select-none cursor-pointer font-sans`}
+                      className={`${sphereSizeClasses} rounded-full relative flex flex-col items-center justify-center text-center p-1 sm:p-4 hover:scale-105 transition-transform duration-300 cursor-pointer font-sans`}
                       style={{
                         background: isCenter
                           ? 'radial-gradient(circle at 48% 24%, #60a5fa 0%, #2563eb 45%, #0052ff 75%, #081120 100%)'

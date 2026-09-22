@@ -84,7 +84,7 @@ export default function Footer() {
   return (
     <footer
       ref={containerRef}
-      className="relative bg-[#eae9e5] text-slate-900 pt-8 sm:pt-12 overflow-hidden select-none"
+      className="relative bg-[#eae9e5] text-slate-900 pt-8 sm:pt-12 overflow-hidden"
     >
       {/* ── Ambient Background Dot Grid ── */}
       <div className="absolute inset-0 bg-[radial-gradient(#99a1af_1.2px,transparent_1.2px)] [background-size:24px_24px] opacity-35 pointer-events-none" />

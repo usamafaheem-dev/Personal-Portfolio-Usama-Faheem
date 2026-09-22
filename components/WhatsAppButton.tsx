@@ -148,10 +148,10 @@ export default function WhatsAppButton() {
             <button
               onClick={() => setIsOpen(!isOpen)}
               aria-label={isOpen ? 'Close menu' : 'Open Connect & AI menu'}
-              className={`group relative flex items-center justify-center w-[42px] h-[42px] sm:w-[54px] sm:h-[54px] rounded-full text-white shadow-[0_6px_20px_rgba(0,0,0,0.28)] hover:scale-108 active:scale-95 transition-all duration-200 cursor-pointer border-2 ${
+              className={`group relative flex items-center justify-center w-[44px] h-[44px] sm:w-[54px] sm:h-[54px] rounded-full text-white shadow-[0_8px_25px_rgba(0,0,0,0.3)] hover:scale-108 active:scale-95 transition-all duration-200 cursor-pointer border-2 ${
                 isOpen
                   ? 'bg-gradient-to-tr from-rose-600 via-rose-500 to-red-600 border-rose-300 shadow-[0_8px_25px_rgba(225,29,72,0.4)]'
-                  : 'bg-gradient-to-tr from-[#090d16] via-[#1e293b] to-[#0f172a] border-white/25 hover:border-emerald-400/50'
+                  : 'bg-gradient-to-tr from-[#0b0f19] via-[#111c38] to-[#1e3a8a] border-cyan-400/35 hover:border-cyan-400 shadow-[0_8px_28px_rgba(30,58,138,0.4)] hover:shadow-[0_10px_32px_rgba(6,182,212,0.45)]'
               }`}
             >
               <AnimatePresence mode="wait">
@@ -184,21 +184,30 @@ export default function WhatsAppButton() {
                     transition={{ duration: 0.15 }}
                     className="relative flex items-center justify-center"
                   >
+                    {/* Modern Communication & AI Hub Icon */}
                     <svg
                       className="w-5 h-5 sm:w-6 sm:h-6 text-white group-hover:scale-110 transition-transform duration-200"
                       viewBox="0 0 24 24"
                       fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
+                      xmlns="http://www.w3.org/2000/svg"
                     >
-                      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-                      <path d="M12 7v6" stroke="#38bdf8" strokeWidth="2.2" />
-                      <path d="M9 10h6" stroke="#38bdf8" strokeWidth="2.2" />
+                      <path
+                        d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"
+                        fill="rgba(56, 189, 248, 0.18)"
+                        stroke="#38bdf8"
+                        strokeWidth="1.8"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                      <circle cx="9" cy="11.5" r="1.2" fill="#ffffff" />
+                      <circle cx="13" cy="11.5" r="1.2" fill="#ffffff" />
+                      <circle cx="17" cy="11.5" r="1.2" fill="#ffffff" />
                     </svg>
 
-                    <span className="absolute -top-0.5 -right-0.5 w-2 h-2 sm:w-2.5 sm:h-2.5 bg-emerald-400 border border-slate-900 rounded-full" />
+                    <span className="absolute -top-1 -right-1 flex h-2.5 w-2.5">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+                      <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-400 border border-slate-900 shadow-[0_0_6px_#34d399]" />
+                    </span>
                   </motion.div>
                 )}
               </AnimatePresence>
@@ -271,7 +280,7 @@ export default function WhatsAppButton() {
                   </a>
                 </motion.div>
 
-                {/* ── 2. GEMINI AI ASSISTANT (Middle) ── */}
+                {/* ── 2. USAMA AI BOT ASSISTANT (Middle) ── */}
                 <motion.div
                   variants={{
                     hidden: { opacity: 0, y: 14, scale: 0.6 },
@@ -289,10 +298,10 @@ export default function WhatsAppButton() {
                         animate={{ opacity: 1, x: 0, scale: 1 }}
                         exit={{ opacity: 0, x: -8, scale: 0.95 }}
                         transition={{ duration: 0.15, ease: 'easeOut' }}
-                        className="hidden sm:flex absolute left-full ml-3 top-1/2 -translate-y-1/2 whitespace-nowrap px-3.5 py-1.5 rounded-full bg-slate-900/95 text-white text-[12px] font-medium backdrop-blur-md border border-indigo-500/40 shadow-xl pointer-events-none items-center gap-2 z-50"
+                        className="hidden sm:flex absolute left-full ml-3 top-1/2 -translate-y-1/2 whitespace-nowrap px-3.5 py-1.5 rounded-full bg-slate-900/95 text-white text-[12px] font-medium backdrop-blur-md border border-cyan-500/40 shadow-xl pointer-events-none items-center gap-2 z-50"
                       >
-                        <span className="w-2 h-2 rounded-full bg-indigo-400 animate-pulse" />
-                        <span>Chat with Usama AI (Gemini)</span>
+                        <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
+                        <span>Chat with Usama AI</span>
                       </motion.div>
                     )}
                   </AnimatePresence>
@@ -302,29 +311,44 @@ export default function WhatsAppButton() {
                       openGeminiChat();
                       setIsOpen(false);
                     }}
-                    aria-label="Open Usama Gemini AI Chatbot"
-                    className="group relative flex items-center justify-center w-[38px] h-[38px] sm:w-[48px] sm:h-[48px] rounded-full bg-gradient-to-tr from-[#090d16] via-[#1e1b4b] to-[#3b82f6] text-white shadow-[0_4px_14px_rgba(59,130,246,0.32)] hover:shadow-[0_8px_24px_rgba(99,102,241,0.48)] border-2 border-indigo-400/40 hover:scale-110 active:scale-95 transition-all duration-200 cursor-pointer"
+                    aria-label="Open Usama AI Chatbot"
+                    className="group relative flex items-center justify-center w-[38px] h-[38px] sm:w-[48px] sm:h-[48px] rounded-full bg-gradient-to-tr from-[#080d1a] via-[#101e4a] to-[#0052ff] text-white shadow-[0_4px_18px_rgba(0,82,255,0.42)] hover:shadow-[0_8px_28px_rgba(56,189,248,0.6)] border-2 border-cyan-400/50 hover:border-cyan-300 hover:scale-110 active:scale-95 transition-all duration-200 cursor-pointer"
                   >
+                    {/* Futuristic Robot / Bot Face Icon */}
                     <svg
-                      className="w-4.5 h-4.5 sm:w-5 sm:h-5 drop-shadow-md group-hover:rotate-12 transition-transform duration-300"
+                      className="w-4.5 h-4.5 sm:w-5 sm:h-5 text-white drop-shadow-md group-hover:scale-110 transition-transform duration-300"
                       viewBox="0 0 24 24"
                       fill="none"
                       xmlns="http://www.w3.org/2000/svg"
                     >
-                      <defs>
-                        <linearGradient id="gemini-star-grad-popup2" x1="0%" y1="0%" x2="100%" y2="100%">
-                          <stop offset="0%" stopColor="#38bdf8" />
-                          <stop offset="45%" stopColor="#818cf8" />
-                          <stop offset="100%" stopColor="#e879f9" />
-                        </linearGradient>
-                      </defs>
-                      <path
-                        d="M12 2.5C12.4 7.2 16.8 11.6 21.5 12C16.8 12.4 12.4 16.8 12 21.5C11.6 16.8 7.2 12.4 2.5 12C7.2 11.6 11.6 7.2 12 2.5Z"
-                        fill="url(#gemini-star-grad-popup2)"
+                      {/* Antenna with beacon */}
+                      <path d="M12 2v3" stroke="#38bdf8" strokeWidth="2" strokeLinecap="round" />
+                      <circle cx="12" cy="2" r="1.5" fill="#38bdf8" />
+                      {/* Robot Head Frame */}
+                      <rect
+                        x="3.5"
+                        y="5.5"
+                        width="17"
+                        height="13.5"
+                        rx="4.5"
+                        fill="rgba(56, 189, 248, 0.2)"
+                        stroke="#38bdf8"
+                        strokeWidth="1.8"
                       />
+                      {/* Ears / Sound Receptors */}
+                      <rect x="1" y="9.5" width="2.5" height="5.5" rx="1" fill="#38bdf8" />
+                      <rect x="20.5" y="9.5" width="2.5" height="5.5" rx="1" fill="#38bdf8" />
+                      {/* Expressive Smart Eyes */}
+                      <circle cx="8" cy="11.5" r="1.8" fill="#ffffff" />
+                      <circle cx="8" cy="11.5" r="0.9" fill="#0052ff" />
+                      <circle cx="16" cy="11.5" r="1.8" fill="#ffffff" />
+                      <circle cx="16" cy="11.5" r="0.9" fill="#0052ff" />
+                      {/* Cute Smile */}
                       <path
-                        d="M18.8 3.5C19 5 20.5 6.5 22 6.7C20.5 6.9 19 8.4 18.8 9.9C18.6 8.4 17.1 6.9 15.6 6.7C17.1 6.5 18.6 5 18.8 3.5Z"
-                        fill="#facc15"
+                        d="M8.5 15.5c1 .9 6 .9 7 0"
+                        stroke="#38bdf8"
+                        strokeWidth="1.8"
+                        strokeLinecap="round"
                       />
                     </svg>
                   </button>

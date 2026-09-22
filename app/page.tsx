@@ -18,6 +18,8 @@ const FindMeOnline = dynamic(() => import("@/components/FindMeOnline"));
 const FAQAndContact = dynamic(() => import("@/components/FAQAndContact"));
 const Footer = dynamic(() => import("@/components/Footer"));
 const AIChatbot = dynamic(() => import("@/components/AIChatbot"));
+const WhatsAppButton = dynamic(() => import("@/components/WhatsAppButton"));
+const ElevenLabsVoice = dynamic(() => import("@/components/ElevenLabsVoice"));
 
 export default function Home() {
   return (
@@ -47,6 +49,8 @@ export default function Home() {
           </main>
         </MainWrapper>
         <AIChatbot />
+        <WhatsAppButton />
+        <ElevenLabsVoice />
       </div>
     </div>
   );

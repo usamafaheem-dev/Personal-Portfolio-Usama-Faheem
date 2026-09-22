@@ -377,19 +377,18 @@ export default function VoiceAssistantModal({
   const fmt = (s: number) =>
     `${Math.floor(s / 60).toString().padStart(2, '0')}:${(s % 60).toString().padStart(2, '0')}`;
 
-  if (!isOpen) return null;
-
   return (
     <AnimatePresence>
-      <motion.div
-        data-lenis-prevent="true"
-        initial={{ opacity: 0, scale: 0.94, y: 25 }}
-        animate={{ opacity: 1, scale: 1, y: 0 }}
-        exit={{ opacity: 0, scale: 0.94, y: 20 }}
-        transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
-        className="fixed z-50 bottom-4 right-3 sm:bottom-6 sm:right-6 w-[calc(100vw-24px)] sm:w-[400px] h-[550px] max-h-[90vh] flex flex-col rounded-3xl bg-[#090d16] text-white border border-slate-700/60 shadow-[0_25px_60px_-15px_rgba(0,0,0,0.85)] overflow-hidden font-sans select-none"
-      >
-        <audio ref={audioRef} playsInline preload="auto" className="hidden" />
+      {isOpen && (
+        <motion.div
+          data-lenis-prevent="true"
+          initial={{ opacity: 0, scale: 0.94, y: 25 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          exit={{ opacity: 0, scale: 0.94, y: 20 }}
+          transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
+          className="fixed z-50 bottom-4 right-3 sm:bottom-6 sm:right-6 w-[calc(100vw-24px)] sm:w-[400px] h-[550px] max-h-[90vh] flex flex-col rounded-3xl bg-[#090d16] text-white border border-slate-700/60 shadow-[0_25px_60px_-15px_rgba(0,0,0,0.85)] overflow-hidden font-sans select-none"
+        >
+          <audio ref={audioRef} playsInline preload="auto" className="hidden" />
 
         {/* Ambient Glow */}
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
@@ -551,6 +550,7 @@ export default function VoiceAssistantModal({
           </button>
         </div>
       </motion.div>
-    </AnimatePresence>
-  );
+    )}
+  </AnimatePresence>
+);
 }

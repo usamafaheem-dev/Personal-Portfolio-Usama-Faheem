@@ -22,7 +22,9 @@ export default function Preloader() {
     setStage((prev) => (prev === 'removed' ? 'removed' : 'exiting'));
     
     if (typeof window !== 'undefined') {
+      (window as any).__preloaderDone = true;
       window.dispatchEvent(new CustomEvent('preloaderExiting'));
+      window.dispatchEvent(new Event('resize'));
     }
 
     const removeTimer = setTimeout(() => {
@@ -31,8 +33,9 @@ export default function Preloader() {
       if (typeof window !== 'undefined') {
         (window as any).__preloaderDone = true;
         window.dispatchEvent(new CustomEvent('preloaderComplete'));
+        window.dispatchEvent(new Event('resize'));
       }
-    }, 850);
+    }, 700);
 
     timersRef.current.push(removeTimer);
   };
@@ -50,20 +53,21 @@ export default function Preloader() {
       (window as any).__preloaderDone = false;
     }
 
-    // Auto-exit trigger after ~2.1s (smooth, snappy 2-second intro)
+    // Auto-exit trigger after ~1.5s
     const exitTimer = setTimeout(() => {
       triggerExit();
-    }, 2100);
+    }, 1500);
 
-    // Hard safety failsafe: always unlock scroll after 2.9s
+    // Hard safety failsafe: always unlock scroll and remove preloader after 2.4s
     const failsafeTimer = setTimeout(() => {
       setStage('removed');
       document.body.style.overflow = '';
       if (typeof window !== 'undefined') {
         (window as any).__preloaderDone = true;
         window.dispatchEvent(new CustomEvent('preloaderComplete'));
+        window.dispatchEvent(new Event('resize'));
       }
-    }, 2900);
+    }, 2400);
 
     timersRef.current.push(exitTimer, failsafeTimer);
   };
@@ -209,34 +213,29 @@ export default function Preloader() {
             ── */}
             <div className="absolute inset-0 w-full h-full pointer-events-none z-0 overflow-hidden flex items-center justify-center">
               <video
-                ref={(el) => {
-                  if (el) {
-                    if (el.currentTime < 5.9 || el.currentTime >= 8.0) {
-                      el.currentTime = 6.0;
-                    }
-                  }
-                }}
                 autoPlay
                 muted
                 loop
                 playsInline
                 preload="metadata"
                 onLoadedMetadata={(e) => {
-                  e.currentTarget.currentTime = 6.0;
-                }}
-                onCanPlay={(e) => {
-                  if (e.currentTarget.currentTime < 5.9) {
+                  try {
                     e.currentTarget.currentTime = 6.0;
-                  }
+                  } catch {}
+                }}
+                onPlay={() => {
+                  setVideoReady(true);
+                }}
+                onError={() => {
+                  setVideoReady(true);
                 }}
                 onTimeUpdate={(e) => {
-                  const v = e.currentTarget;
-                  if (v.currentTime >= 5.9 && !videoReady) {
-                    setVideoReady(true);
-                  }
-                  if (v.currentTime >= 8.0 || v.currentTime < 6.0) {
-                    v.currentTime = 6.0;
-                  }
+                  try {
+                    const v = e.currentTarget;
+                    if (v.currentTime >= 8.0) {
+                      v.currentTime = 6.0;
+                    }
+                  } catch {}
                 }}
                 className="min-w-[100vh] min-h-[100vw] w-[100vh] h-[100vw] sm:min-w-full sm:min-h-full sm:w-full sm:h-full object-cover rotate-90 sm:rotate-0 transform-gpu transition-all duration-300 scale-110"
                 style={{

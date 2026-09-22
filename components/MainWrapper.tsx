@@ -20,7 +20,13 @@ export default function MainWrapper({ children }: { children: React.ReactNode })
     window.addEventListener('preloaderExiting', handleExiting);
     window.addEventListener('preloaderComplete', handleExiting);
 
+    // Guaranteed fallback: never keep site hidden longer than 2.0s
+    const fallbackTimer = setTimeout(() => {
+      setIsRevealed(true);
+    }, 2000);
+
     return () => {
+      clearTimeout(fallbackTimer);
       window.removeEventListener('preloaderExiting', handleExiting);
       window.removeEventListener('preloaderComplete', handleExiting);
     };

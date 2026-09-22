@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import { Inter, Poppins, JetBrains_Mono, Caveat } from "next/font/google";
 import "./globals.css";
 
@@ -80,6 +81,11 @@ export default function RootLayout({
         <SmoothScrollProvider>
           {children}
         </SmoothScrollProvider>
+        <Script
+          src="https://elevenlabs.io/convai-widget/index.js"
+          strategy="afterInteractive"
+          async
+        />
       </body>
     </html>
   );

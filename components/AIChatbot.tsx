@@ -11,14 +11,9 @@ import {
   Sparkles,
   User,
   ArrowUpRight,
-  Mic,
-  Volume2,
-  VolumeX,
 } from 'lucide-react';
-import { FaLinkedinIn, FaInstagram, FaWhatsapp } from 'react-icons/fa';
-import ElevenLabsVoice from './ElevenLabsVoice';
 
-interface ChatMessage  {
+interface ChatMessage {
   id: string;
   role: 'user' | 'assistant';
   content: string;
@@ -85,7 +80,7 @@ const ChatInput = memo(function ChatInput({
         type="submit"
         disabled={!value.trim() || disabled}
         aria-label="Send message"
-        className="w-10 h-10 rounded-xl bg-slate-900 hover:bg-[#0052ff] disabled:opacity-40 disabled:hover:bg-slate-900 text-white flex items-center justify-center transition-all active:scale-95 shadow-sm shrink-0 cursor-pointer"
+        className="w-10 h-10 rounded-xl bg-gradient-to-tr from-[#0052ff] to-[#2563eb] hover:from-[#0045d8] hover:to-[#1d4ed8] disabled:opacity-40 disabled:from-blue-400 disabled:to-blue-500 text-white flex items-center justify-center transition-all active:scale-95 shadow-md shadow-blue-500/25 shrink-0 cursor-pointer"
       >
         <Send className="w-4 h-4" />
       </button>
@@ -101,21 +96,39 @@ export default function AIChatbot() {
   const [isLoading, setIsLoading] = useState(false);
   const [messages, setMessages] = useState<ChatMessage[]>([INITIAL_WELCOME]);
   const [inputText, setInputText] = useState('');
-  const [speakingMessageId, setSpeakingMessageId] = useState<string | null>(null);
 
   // Sync state with ElevenLabs dialog opening/closing
   useEffect(() => {
     const handleVoiceOpen = () => setIsVoiceOpen(true);
     const handleVoiceClose = () => setIsVoiceOpen(false);
 
+    const handleToggleGemini = () => {
+      setIsChatOpen((prev) => !prev);
+      setIsMinimized(false);
+      setIsMenuOpen(false);
+    };
+
     window.addEventListener('elevenlabs-voice-open', handleVoiceOpen);
     window.addEventListener('elevenlabs-voice-close', handleVoiceClose);
+    window.addEventListener('openGeminiChat', handleToggleGemini);
 
     return () => {
       window.removeEventListener('elevenlabs-voice-open', handleVoiceOpen);
       window.removeEventListener('elevenlabs-voice-close', handleVoiceClose);
+      window.removeEventListener('openGeminiChat', handleToggleGemini);
     };
   }, []);
+
+  // Dispatch global events when chat window opens or closes
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      if (isChatOpen) {
+        window.dispatchEvent(new Event('gemini-chat-open'));
+      } else {
+        window.dispatchEvent(new Event('gemini-chat-close'));
+      }
+    }
+  }, [isChatOpen]);
 
   const messagesContainerRef = useRef<HTMLDivElement>(null);
   const lastMessageRef = useRef<HTMLDivElement>(null);
@@ -199,7 +212,6 @@ export default function AIChatbot() {
       // Stop any active speech if playing
       if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
         window.speechSynthesis.cancel();
-        setSpeakingMessageId(null);
       }
 
       const userMessage: ChatMessage = {
@@ -266,85 +278,13 @@ export default function AIChatbot() {
 
 
 
-  const audioPlayerRef = useRef<HTMLAudioElement | null>(null);
-  const audioUrlRef = useRef<string | null>(null);
-
-  // ── Text-to-Speech (Neural Voice Reading via /api/tts) ──
-  const toggleSpeech = useCallback(
-    async (msgId: string, content: string) => {
-      if (audioPlayerRef.current) {
-        try {
-          audioPlayerRef.current.pause();
-          audioPlayerRef.current.removeAttribute('src');
-        } catch {}
-        audioPlayerRef.current = null;
-      }
-      if (audioUrlRef.current) {
-        try {
-          URL.revokeObjectURL(audioUrlRef.current);
-        } catch {}
-        audioUrlRef.current = null;
-      }
-
-      if (speakingMessageId === msgId) {
-        setSpeakingMessageId(null);
-        return;
-      }
-
-      setSpeakingMessageId(msgId);
-
-      try {
-        const cleanText = content
-          .replace(/[*_#•]/g, '')
-          .replace(/https?:\/\/\S+/g, '')
-          .replace(/\[(.*?)\]\(.*?\)/g, '$1')
-          .trim();
-
-        const res = await fetch('/api/tts', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            text: cleanText,
-            voice: 'nPczCjzI2devNBz1zQrb',
-          }),
-        });
-
-        if (!res.ok) throw new Error('TTS failed');
-
-        const blob = await res.blob();
-        const url = URL.createObjectURL(blob);
-        audioUrlRef.current = url;
-
-        const audio = new Audio(url);
-        audioPlayerRef.current = audio;
-
-        audio.onended = () => {
-          setSpeakingMessageId(null);
-        };
-        audio.onerror = () => {
-          setSpeakingMessageId(null);
-        };
-
-        await audio.play();
-      } catch (err) {
-        console.error('Neural TTS playback error:', err);
-        setSpeakingMessageId(null);
-      }
-    },
-    [speakingMessageId]
-  );
-
   // ── 4. Reset Button: Clears chat from state and localStorage ──
   const clearChat = () => {
     try {
       localStorage.removeItem(CHAT_STORAGE_KEY);
-      if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
-        window.speechSynthesis.cancel();
-      }
     } catch (err) {
       console.error('Error clearing localStorage:', err);
     }
-    setSpeakingMessageId(null);
     setInputText('');
     setMessages([INITIAL_WELCOME]);
   };
@@ -481,184 +421,8 @@ export default function AIChatbot() {
     });
   };
 
-  const speedDialItems = [
-    {
-      id: 'ai-chat',
-      label: "Usama's AI Assistant",
-      subtitle: 'Ask questions & explore work',
-      icon: (
-        <div className="relative w-6 h-6 rounded-full overflow-hidden bg-slate-900 border border-white/40 shadow-xs flex items-center justify-center">
-          <Image
-            src="/usaam_emoji.png"
-            alt="Usama AI"
-            width={24}
-            height={24}
-            className="w-full h-full object-contain scale-110 translate-y-0.5"
-          />
-        </div>
-      ),
-      bg: 'bg-gradient-to-r from-[#0f172a] via-[#1e293b] to-[#0052ff]',
-      onClick: () => {
-        setIsMenuOpen(false);
-        setIsChatOpen(true);
-        setIsMinimized(false);
-      },
-    },
-    {
-      id: 'ai-voice',
-      label: 'Voice Assistant',
-      subtitle: 'Live Voice Call with AI',
-      icon: <Mic className="w-4 h-4 text-white" />,
-      bg: 'bg-gradient-to-r from-[#6d28d9] via-[#7c3aed] to-[#9333ea]',
-      onClick: () => {
-        setIsMenuOpen(false);
-        setIsChatOpen(false);
-        setIsVoiceOpen(true);
-      },
-    },
-    {
-      id: 'whatsapp',
-      label: 'WhatsApp Chat',
-      subtitle: '+92 314 3416588',
-      icon: <FaWhatsapp className="w-4 h-4 text-white" />,
-      bg: 'bg-gradient-to-r from-emerald-600 to-green-500',
-      onClick: () => {
-        window.open('https://wa.me/923143416588', '_blank', 'noopener,noreferrer');
-        setIsMenuOpen(false);
-      },
-    },
-    {
-      id: 'linkedin',
-      label: 'LinkedIn Profile',
-      subtitle: 'Professional network',
-      icon: <FaLinkedinIn className="w-4 h-4 text-white" />,
-      bg: 'bg-gradient-to-r from-[#0077b5] to-[#0a84ff]',
-      onClick: () => {
-        window.open('https://www.linkedin.com/in/usama-faheem/', '_blank', 'noopener,noreferrer');
-        setIsMenuOpen(false);
-      },
-    },
-    {
-      id: 'instagram',
-      label: 'Instagram',
-      subtitle: '@usamafaheem',
-      icon: <FaInstagram className="w-4 h-4 text-white" />,
-      bg: 'bg-gradient-to-r from-[#f58529] via-[#dd2a7b] to-[#8134af]',
-      onClick: () => {
-        window.open('https://instagram.com/usamafaheem', '_blank', 'noopener,noreferrer');
-        setIsMenuOpen(false);
-      },
-    },
-  ];
-
   return (
     <>
-      {/* ── 1. SPEED DIAL LAUNCHER (VERTICAL STACK) ── */}
-      {/* Temporarily commented out to prevent overlap with ElevenLabs widget */}
-      {/*
-      <div
-        ref={menuContainerRef}
-        className="fixed bottom-5 right-5 sm:bottom-6 sm:right-6 z-50 flex flex-col items-end pointer-events-auto"
-      >
-        <AnimatePresence>
-          {isMenuOpen && !isChatOpen && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 15 }}
-              transition={{ duration: 0.2 }}
-              className="mb-3 flex flex-col items-end gap-2.5"
-            >
-              {speedDialItems.map((item, idx) => (
-                <motion.button
-                  key={item.id}
-                  onClick={item.onClick}
-                  initial={{ opacity: 0, x: 20, scale: 0.85 }}
-                  animate={{ opacity: 1, x: 0, scale: 1 }}
-                  exit={{ opacity: 0, x: 15, scale: 0.85 }}
-                  transition={{ delay: (speedDialItems.length - 1 - idx) * 0.05, type: 'spring', damping: 20, stiffness: 300 }}
-                  whileHover={{ scale: 1.04, x: -3 }}
-                  whileTap={{ scale: 0.96 }}
-                  className="group flex items-center gap-3 p-1.5 pl-3.5 pr-2 rounded-2xl bg-white hover:bg-slate-50 shadow-[0_8px_30px_rgba(0,0,0,0.12)] border border-slate-200 cursor-pointer text-left transition-shadow"
-                >
-                  <div className="flex flex-col items-end">
-                    <span className="text-[13px] font-bold text-slate-800 group-hover:text-blue-600 transition-colors font-poppins">
-                      {item.label}
-                    </span>
-                    <span className="text-[10.5px] text-slate-500 font-sans">
-                      {item.subtitle}
-                    </span>
-                  </div>
-
-                  <div
-                    className={`w-9 h-9 rounded-xl ${item.bg} flex items-center justify-center shadow-md shrink-0`}
-                  >
-                    {item.icon}
-                  </div>
-                </motion.button>
-              ))}
-            </motion.div>
-          )}
-        </AnimatePresence>
-
-        {!isChatOpen && !isVoiceOpen && (
-          <motion.button
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-            aria-label="Open Contact & AI Assistant"
-            whileHover={{ scale: 1.06 }}
-            whileTap={{ scale: 0.94 }}
-            className="group relative flex items-center justify-center w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-gradient-to-tr from-[#5b21b6] via-[#7c3aed] to-[#9333ea] text-white shadow-[0_12px_32px_rgba(124,58,237,0.45)] border-2 border-white/30 focus:outline-none focus:ring-4 focus:ring-purple-500/40 cursor-pointer"
-          >
-            <span className="absolute -inset-1 rounded-full bg-gradient-to-r from-[#7c3aed] to-[#ec4899] opacity-45 blur-md group-hover:opacity-75 transition-opacity duration-300 animate-pulse pointer-events-none" />
-
-            <AnimatePresence mode="wait">
-              {isMenuOpen ? (
-                <motion.div
-                  key="close-icon"
-                  initial={{ rotate: -90, opacity: 0 }}
-                  animate={{ rotate: 0, opacity: 1 }}
-                  exit={{ rotate: 90, opacity: 0 }}
-                  transition={{ duration: 0.15 }}
-                  className="flex items-center justify-center"
-                >
-                  <X className="w-6 h-6 text-white" />
-                </motion.div>
-              ) : (
-                <motion.div
-                  key="robot-icon"
-                  initial={{ scale: 0.8, opacity: 0 }}
-                  animate={{ scale: 1, opacity: 1 }}
-                  exit={{ scale: 0.8, opacity: 0 }}
-                  className="relative w-10 h-10 sm:w-11 sm:h-11 flex items-center justify-center"
-                >
-                  <Image
-                    src="/ai_robot_icon.png"
-                    alt="Usama AI Assistant"
-                    width={48}
-                    height={48}
-                    className="w-full h-full object-contain drop-shadow-md transition-transform group-hover:scale-110"
-                    priority
-                  />
-                </motion.div>
-              )}
-            </AnimatePresence>
-
-            {!isMenuOpen && (
-              <span className="absolute top-0.5 right-0.5 w-3.5 h-3.5 bg-emerald-400 border-2 border-[#5b21b6] rounded-full shadow-xs">
-                <span className="absolute inset-0 rounded-full bg-emerald-300 animate-ping opacity-75" />
-              </span>
-            )}
-
-            {!isMenuOpen && (
-              <span className="hidden sm:block absolute right-full mr-3.5 px-3 py-1.5 rounded-xl bg-slate-900 text-white text-[12px] font-medium tracking-wide whitespace-nowrap opacity-0 group-hover:opacity-100 transition-all duration-200 pointer-events-none shadow-lg border border-slate-700/50">
-                ✨ Chat with Usama AI
-              </span>
-            )}
-          </motion.button>
-        )}
-      </div>
-      */}
-
       {/* ── 2. CHAT MODAL WINDOW (GPU ISOLATED TO ELIMINATE REPAINT LAG) ── */}
       <AnimatePresence>
         {isChatOpen && (
@@ -673,9 +437,9 @@ export default function AIChatbot() {
             exit={{ opacity: 0, y: 20, scale: 0.96 }}
             transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
             style={{ transform: 'translateZ(0)' }}
-            className={`fixed z-50 bottom-4 right-3 sm:bottom-6 sm:right-6 w-[calc(100vw-24px)] sm:w-[410px] ${
-              isMinimized ? 'h-auto' : 'h-[580px] max-h-[88vh]'
-            } flex flex-col rounded-3xl bg-white border border-slate-200 shadow-[0_25px_60px_-15px_rgba(0,0,0,0.3)] overflow-hidden font-sans transform-gpu will-change-transform`}
+            className={`fixed z-[99999] bottom-3 left-3 right-3 sm:right-auto sm:bottom-6 sm:left-[84px] w-auto sm:w-[375px] ${
+              isMinimized ? 'h-auto' : 'h-[calc(100dvh-6rem)] max-h-[550px] sm:h-[520px] sm:max-h-[82vh]'
+            } flex flex-col rounded-3xl bg-white border border-slate-200/90 shadow-[0_25px_60px_-15px_rgba(0,0,0,0.35)] overflow-hidden font-sans transform-gpu will-change-transform`}
           >
             {/* ── Header (Uses Usama's Picture) ── */}
             <div className="relative px-4 py-3.5 bg-gradient-to-r from-[#0f172a] via-[#1e293b] to-[#0f172a] text-white flex items-center justify-between border-b border-slate-800 select-none">
@@ -707,17 +471,6 @@ export default function AIChatbot() {
 
               {/* Action Buttons */}
               <div className="flex items-center gap-1 text-slate-300">
-                <button
-                  onClick={() => {
-                    setIsChatOpen(false);
-                    setIsVoiceOpen(true);
-                  }}
-                  title="Switch to Live Voice Call"
-                  className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-white/10 hover:bg-white/20 text-purple-200 hover:text-white transition-colors cursor-pointer text-[11px] font-medium"
-                >
-                  <Mic className="w-3.5 h-3.5 text-purple-300" />
-                  <span className="hidden sm:inline">Voice Call</span>
-                </button>
                 <button
                   onClick={clearChat}
                   title="Reset Chat"
@@ -758,7 +511,6 @@ export default function AIChatbot() {
                   {messages.map((msg, idx) => {
                     const isLast = idx === messages.length - 1;
                     const isBot = msg.role === 'assistant';
-                    const isSpeakingThis = speakingMessageId === msg.id;
 
                     return (
                       <div
@@ -780,11 +532,10 @@ export default function AIChatbot() {
                         )}
 
                         <div
-                          className={`group relative max-w-[84%] sm:max-w-[80%] rounded-2xl px-3.5 py-2.5 shadow-xs ${
-                            isBot
-                              ? 'bg-white border border-slate-200 text-slate-800 rounded-tl-sm'
-                              : 'bg-gradient-to-r from-[#0052ff] to-[#1e40af] text-white rounded-br-sm shadow-md'
-                          }`}
+                          className={`group relative max-w-[84%] sm:max-w-[80%] rounded-2xl px-3.5 py-2.5 shadow-xs ${isBot
+                            ? 'bg-white border border-slate-200 text-slate-800 rounded-tl-sm'
+                            : 'bg-gradient-to-r from-[#0052ff] to-[#1e40af] text-white rounded-br-sm shadow-md'
+                            }`}
                         >
                           {!isBot ? (
                             <p className="text-white font-medium text-[13px] sm:text-[13.5px] leading-relaxed break-words whitespace-pre-wrap selection:bg-white/20">
@@ -796,36 +547,10 @@ export default function AIChatbot() {
                             </div>
                           )}
 
-                          <div className="flex items-center justify-between gap-2 mt-1.5 pt-0.5 border-t border-slate-100/50">
-                            {/* Text-to-Speech button for Bot answers */}
-                            {isBot && (
-                              <button
-                                onClick={() => toggleSpeech(msg.id, msg.content)}
-                                title={isSpeakingThis ? 'Stop speaking' : 'Read aloud'}
-                                className={`inline-flex items-center gap-1 text-[10.5px] font-medium transition-colors cursor-pointer ${
-                                  isSpeakingThis
-                                    ? 'text-blue-600 animate-pulse font-semibold'
-                                    : 'text-slate-400 hover:text-blue-600'
-                                }`}
-                              >
-                                {isSpeakingThis ? (
-                                  <>
-                                    <VolumeX className="w-3 h-3" />
-                                    <span>Speaking...</span>
-                                  </>
-                                ) : (
-                                  <>
-                                    <Volume2 className="w-3 h-3" />
-                                    <span>Listen</span>
-                                  </>
-                                )}
-                              </button>
-                            )}
-
+                          <div className="flex items-center justify-end mt-1 pt-0.5">
                             <span
-                              className={`block text-[10px] font-mono ml-auto ${
-                                isBot ? 'text-slate-400' : 'text-blue-100/90'
-                              }`}
+                              className={`block text-[10px] font-mono ${isBot ? 'text-slate-400' : 'text-blue-100/90'
+                                }`}
                             >
                               {msg.timestamp}
                             </span>
@@ -867,10 +592,10 @@ export default function AIChatbot() {
 
                 {/* ── Compact 2x2 Suggested Questions (Only shown before user starts chatting) ── */}
                 {messages.length <= 1 && (
-                  <div className="px-3 pt-2 pb-2.5 bg-slate-50 border-t border-slate-200">
+                  <div className="px-3 pt-2 pb-2.5 bg-gradient-to-b from-blue-50/40 to-blue-50/80 border-t border-blue-100">
                     <div className="flex items-center gap-1.5 mb-1.5 px-0.5">
                       <Sparkles className="w-3.5 h-3.5 text-blue-600" />
-                      <span className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider font-mono">
+                      <span className="text-[11px] font-semibold text-blue-700/90 uppercase tracking-wider font-mono">
                         Suggested questions
                       </span>
                     </div>
@@ -880,10 +605,10 @@ export default function AIChatbot() {
                           key={idx}
                           onClick={() => handleSendMessage(item.prompt)}
                           disabled={isLoading}
-                          className="text-left text-[12px] px-2.5 py-2 rounded-xl bg-white hover:bg-blue-50 text-slate-800 hover:text-blue-700 border border-slate-200 hover:border-blue-300 transition-all shadow-2xs font-medium cursor-pointer flex items-center justify-between group"
+                          className="text-left text-[11.5px] px-2.5 py-2 rounded-xl bg-white hover:bg-blue-100/60 text-slate-800 hover:text-blue-900 border border-blue-200/80 hover:border-blue-400/80 transition-all shadow-xs font-medium cursor-pointer flex items-center justify-between group"
                         >
                           <span className="truncate">{item.label}</span>
-                          <ArrowUpRight className="w-3 h-3 text-slate-400 group-hover:text-blue-600 shrink-0 transition-colors ml-1" />
+                          <ArrowUpRight className="w-3 h-3 text-blue-400 group-hover:text-blue-600 shrink-0 transition-colors ml-1" />
                         </button>
                       ))}
                     </div>
@@ -910,8 +635,14 @@ export default function AIChatbot() {
         )}
       </AnimatePresence>
 
-      {/* ── 3. ELEVENLABS CONVERSATIONAL AI VOICE WIDGET ── */}
-      <ElevenLabsVoice />
     </>
   );
 }
+
+export function openGeminiChat() {
+  if (typeof window !== 'undefined') {
+    window.dispatchEvent(new Event('openGeminiChat'));
+  }
+}
+
+

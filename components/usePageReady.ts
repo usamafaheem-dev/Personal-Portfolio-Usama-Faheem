@@ -28,7 +28,14 @@ export function usePageReady(): boolean {
 
     window.addEventListener('preloaderExiting', handleReady);
     window.addEventListener('preloaderComplete', handleReady);
+
+    // Hard fallback safety: Always activate readiness within 2.2s
+    const fallbackTimer = setTimeout(() => {
+      setIsReady(true);
+    }, 2200);
+
     return () => {
+      clearTimeout(fallbackTimer);
       window.removeEventListener('preloaderExiting', handleReady);
       window.removeEventListener('preloaderComplete', handleReady);
     };

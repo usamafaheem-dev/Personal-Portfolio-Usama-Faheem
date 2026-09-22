@@ -5,6 +5,7 @@ import { Mic, X } from 'lucide-react';
 
 // Pool of ElevenLabs Agent IDs with active credits verified
 const DEFAULT_AGENT_IDS = [
+  'agent_3901m344jcyjfq4bjqbp0635z595',
   'agent_7601m2zv2rayfxnr3q0mj1s3xwq1',
   'agent_5701m2zvfkwpf6tbcwxd2gbr3d56',
   'agent_9401m2zt1218fee9vf15j6ykam2y',
@@ -18,7 +19,7 @@ const KNOWN_EXHAUSTED = new Set([
   'agent_3601m2w6eyzjeyybxv6a6yva3mk0',
 ]);
 
-const STORAGE_KEY = 'elevenlabs_active_agent_id_v2';
+const STORAGE_KEY = 'elevenlabs_active_agent_id_v3';
 
 export function triggerElevenLabsCall() {
   if (typeof document === 'undefined') return;
@@ -346,15 +347,25 @@ export default function ElevenLabsVoice() {
 
     const setup = () => {
       const widget = document.querySelector('elevenlabs-convai') as any;
-      if (widget && widget.shadowRoot) {
-        injectStyleSafely(widget.shadowRoot);
-        autoAcceptTermsSafely(widget.shadowRoot);
-        setupShadowListeners(widget, () => setIsOpen(false));
+      if (widget) {
+        // Native ElevenLabs widget lifecycle event listeners
+        if (!widget.__hasConvaiEvents) {
+          widget.__hasConvaiEvents = true;
+          widget.addEventListener('conversationEnded', () => {
+            setIsOpen(false);
+          });
+        }
 
-        // Check for quota exhaustion banner
-        const text = (widget.shadowRoot.textContent || '').toLowerCase();
-        if (text.includes('quota limit') || text.includes('quota_exceeded') || text.includes('credit limit')) {
-          switchToNextAgent(activeAgentId);
+        if (widget.shadowRoot) {
+          injectStyleSafely(widget.shadowRoot);
+          autoAcceptTermsSafely(widget.shadowRoot);
+          setupShadowListeners(widget, () => setIsOpen(false));
+
+          // Check for quota exhaustion banner
+          const text = (widget.shadowRoot.textContent || '').toLowerCase();
+          if (text.includes('quota limit') || text.includes('quota_exceeded') || text.includes('credit limit')) {
+            switchToNextAgent(activeAgentId);
+          }
         }
       }
     };
@@ -396,10 +407,18 @@ export default function ElevenLabsVoice() {
       setIsOpen(true);
       window.dispatchEvent(new Event('elevenlabs-voice-open'));
 
-      if (widget?.shadowRoot) {
-        injectStyleSafely(widget.shadowRoot);
-        autoAcceptTermsSafely(widget.shadowRoot);
-        setupShadowListeners(widget, () => setIsOpen(false));
+      if (widget) {
+        if (!widget.__hasConvaiEvents) {
+          widget.__hasConvaiEvents = true;
+          widget.addEventListener('conversationEnded', () => {
+            setIsOpen(false);
+          });
+        }
+        if (widget.shadowRoot) {
+          injectStyleSafely(widget.shadowRoot);
+          autoAcceptTermsSafely(widget.shadowRoot);
+          setupShadowListeners(widget, () => setIsOpen(false));
+        }
       }
     } else {
       handleClose();

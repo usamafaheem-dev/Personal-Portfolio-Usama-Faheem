@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useRef, useState, useEffect } from 'react';
+import Image from 'next/image';
 import { motion, useScroll, useTransform, useSpring, AnimatePresence } from 'framer-motion';
 import { 
   X,
@@ -31,7 +32,7 @@ const certifications: Certification[] = [
     issuerBadge: 'NEXTSKILL — MERN STACK',
     date: 'Issued 2023 • Verified',
     credentialId: 'NS-MERN-8941',
-    image: '/certificatoin/image copy.png',
+    image: '/certificatoin/nextskill_mern.png',
     description: 'Intensive professional MERN Stack engineering bootcamp at Arfa Software Technology Park, Lahore. Full-stack mastery in MongoDB, Express.js, React, Node.js, and RESTful architectures.',
     skills: ['MongoDB', 'Express.js', 'React.js', 'Node.js', 'REST APIs', 'Full Stack'],
     highlights: ['Production MERN Application Architecture', 'Scalable Backend REST APIs', 'Complex State Management & UI Design'],
@@ -43,7 +44,7 @@ const certifications: Certification[] = [
     issuerBadge: 'GOOGLE — DEVFEST',
     date: 'Issued 2023 • Verified',
     credentialId: 'GDG-DEVFEST-2023',
-    image: '/certificatoin/ChatGPT Image Sep 7, 2026, 07_31_24 AM.png',
+    image: '/certificatoin/google_devfest.png',
     description: 'Accreditation for Google DevFest developer conference, exploring modern web frameworks, progressive web apps, edge computing, and Google Cloud developer ecosystem.',
     skills: ['Modern Web', 'Google Cloud', 'PWA', 'Performance', 'Developer Ecosystem'],
     highlights: ['Modern Web Architectures', 'Cloud-Native Solutions', 'Interactive Tech Workshops'],
@@ -55,7 +56,7 @@ const certifications: Certification[] = [
     issuerBadge: 'DIGISKILL — MERN STACK',
     date: 'Issued Dec 2025 - Mar 2026 • Verified',
     credentialId: 'DSTP2.0-BATCH-02-MERN',
-    image: '/certificatoin/ChatGPT Image Sep 7, 2026, 07_54_30 AM.png',
+    image: '/certificatoin/digiskills_mern.png',
     description: 'Government-accredited MERN stack specialization by Ministry of IT & Ignite. Full-stack development with React, Node.js, Express, and MongoDB architectures.',
     skills: ['MERN Stack', 'React', 'Node.js', 'MongoDB', 'REST APIs'],
     highlights: ['Full-Stack MERN Architecture', 'Database Schema Modeling', 'RESTful API Integration'],
@@ -67,7 +68,7 @@ const certifications: Certification[] = [
     issuerBadge: 'DIGISKILL — FREELANCING',
     date: 'Issued Dec 2025 - Mar 2026 • Verified',
     credentialId: 'DSTP2.0-BATCH-02-FREE',
-    image: '/certificatoin/ChatGPT Image Sep 7, 2026, 07_48_55 AM.png',
+    image: '/certificatoin/digiskills_freelancing.png',
     description: 'Government-accredited professional program by Ministry of IT, Ignite & Virtual University. Certified mastery in international client delivery, project management, and freelance tech consulting.',
     skills: ['Freelancing', 'Client Relations', 'Proposal Writing', 'Project Scoping', 'Delivery'],
     highlights: ['International Client Management', 'Technical Requirement Scoping', 'Professional Project Execution'],
@@ -79,7 +80,7 @@ const certifications: Certification[] = [
     issuerBadge: 'CISCO — NETWORKING',
     date: 'Issued 2023 • Verified',
     credentialId: 'CISCO-NET-882',
-    image: '/certificatoin/ChatGPT Image Sep 7, 2026, 07_29_35 AM.png',
+    image: '/certificatoin/cisco_networking.png',
     description: 'Fundamental networking concepts and enterprise protocols. Certified expertise in network architecture, routing, switching, IP subnetting, and network security.',
     skills: ['Networking', 'Routing & Switching', 'Subnetting', 'Network Security', 'Protocols'],
     highlights: ['Enterprise Network Topologies', 'IPv4/IPv6 Addressing & Subnetting', 'Network Device Configuration'],
@@ -91,7 +92,7 @@ const certifications: Certification[] = [
     issuerBadge: 'CISCO — AI & NETWORKS',
     date: 'Issued 2024 • Verified',
     credentialId: 'CISCO-AI-NET-104',
-    image: '/certificatoin/image.png',
+    image: '/certificatoin/cisco_ai.png',
     description: 'Accreditation by Cisco Networking Academy validating core principles of Artificial Intelligence, neural networks, automation, and modern networked computational systems.',
     skills: ['Artificial Intelligence', 'Network Automation', 'Machine Learning Basics', 'Systems Architecture'],
     highlights: ['AI Foundational Models', 'Automated Network Protocols', 'Intelligent System Infrastructure'],
@@ -397,12 +398,8 @@ export default function Certifications() {
                     </span>
                     <span className="w-2.5 h-2.5 rounded-full bg-slate-300 group-hover:bg-[#d8ff00] transition-colors shadow-xs shrink-0" />
                   </div>
-                  <div className="relative w-full h-[175px] xs:h-[195px] sm:h-[225px] lg:h-[235px] rounded-xl sm:rounded-2xl bg-[#f8fafc] border border-slate-100/90 overflow-hidden flex items-center justify-center p-2 group-hover:border-slate-200 transition-colors">
-                    <img
-                      src={certifications[0].image}
-                      alt={certifications[0].title}
-                      className="w-full h-full object-contain rounded-lg sm:rounded-xl transition-transform duration-500 group-hover:scale-105"
-                    />
+                  <div className="relative w-full h-[175px] xs:h-[195px] sm:h-[225px] lg:h-[235px] rounded-xl sm:rounded-2xl bg-[#f8fafc] border border-slate-100/90 overflow-hidden group-hover:border-slate-200 transition-colors">
+                    <Image src={certifications[0].image} alt={certifications[0].title} fill loading="lazy" sizes="(max-width:640px) 260px, (max-width:1024px) 340px, 380px" className="object-contain rounded-lg sm:rounded-xl transition-transform duration-500 group-hover:scale-105" />
                   </div>
                 </div>
               </motion.div>
@@ -432,12 +429,8 @@ export default function Certifications() {
                     </span>
                     <span className="w-2.5 h-2.5 rounded-full bg-gradient-to-r from-[#d8ff00] to-[#ccf23a] shadow-[0_0_8px_rgba(216,255,0,0.6)] shrink-0" />
                   </div>
-                  <div className="relative w-full h-[175px] xs:h-[195px] sm:h-[225px] lg:h-[235px] rounded-xl sm:rounded-2xl bg-white/95 border border-[#f2ffc2]/80 overflow-hidden flex items-center justify-center p-2 group-hover:border-[#ccf23a] transition-colors">
-                    <img
-                      src={certifications[1].image}
-                      alt={certifications[1].title}
-                      className="w-full h-full object-contain rounded-lg sm:rounded-xl transition-transform duration-500 group-hover:scale-105"
-                    />
+                  <div className="relative w-full h-[175px] xs:h-[195px] sm:h-[225px] lg:h-[235px] rounded-xl sm:rounded-2xl bg-white/95 border border-[#f2ffc2]/80 overflow-hidden group-hover:border-[#ccf23a] transition-colors">
+                    <Image src={certifications[1].image} alt={certifications[1].title} fill loading="lazy" sizes="(max-width:640px) 260px, (max-width:1024px) 340px, 380px" className="object-contain rounded-lg sm:rounded-xl transition-transform duration-500 group-hover:scale-105" />
                   </div>
                 </div>
               </motion.div>
@@ -477,12 +470,8 @@ export default function Certifications() {
                     </span>
                     <span className="w-2.5 h-2.5 rounded-full bg-slate-300 group-hover:bg-[#d8ff00] transition-colors shadow-xs shrink-0" />
                   </div>
-                  <div className="relative w-full h-[175px] xs:h-[195px] sm:h-[225px] lg:h-[235px] rounded-xl sm:rounded-2xl bg-[#f8fafc] border border-slate-100/90 overflow-hidden flex items-center justify-center p-2 group-hover:border-slate-200 transition-colors">
-                    <img
-                      src={certifications[2].image}
-                      alt={certifications[2].title}
-                      className="w-full h-full object-contain rounded-lg sm:rounded-xl transition-transform duration-500 group-hover:scale-105"
-                    />
+                  <div className="relative w-full h-[175px] xs:h-[195px] sm:h-[225px] lg:h-[235px] rounded-xl sm:rounded-2xl bg-[#f8fafc] border border-slate-100/90 overflow-hidden group-hover:border-slate-200 transition-colors">
+                    <Image src={certifications[2].image} alt={certifications[2].title} fill loading="lazy" sizes="(max-width:640px) 260px, (max-width:1024px) 340px, 380px" className="object-contain rounded-lg sm:rounded-xl transition-transform duration-500 group-hover:scale-105" />
                   </div>
                 </div>
               </motion.div>
@@ -512,12 +501,8 @@ export default function Certifications() {
                     </span>
                     <span className="w-2.5 h-2.5 rounded-full bg-gradient-to-r from-[#d8ff00] to-[#ccf23a] shadow-[0_0_8px_rgba(216,255,0,0.6)] shrink-0" />
                   </div>
-                  <div className="relative w-full h-[175px] xs:h-[195px] sm:h-[225px] lg:h-[235px] rounded-xl sm:rounded-2xl bg-white/95 border border-[#f2ffc2]/80 overflow-hidden flex items-center justify-center p-2 group-hover:border-[#ccf23a] transition-colors">
-                    <img
-                      src={certifications[3].image}
-                      alt={certifications[3].title}
-                      className="w-full h-full object-contain rounded-lg sm:rounded-xl transition-transform duration-500 group-hover:scale-105"
-                    />
+                  <div className="relative w-full h-[175px] xs:h-[195px] sm:h-[225px] lg:h-[235px] rounded-xl sm:rounded-2xl bg-white/95 border border-[#f2ffc2]/80 overflow-hidden group-hover:border-[#ccf23a] transition-colors">
+                    <Image src={certifications[3].image} alt={certifications[3].title} fill loading="lazy" sizes="(max-width:640px) 260px, (max-width:1024px) 340px, 380px" className="object-contain rounded-lg sm:rounded-xl transition-transform duration-500 group-hover:scale-105" />
                   </div>
                 </div>
               </motion.div>
@@ -547,12 +532,8 @@ export default function Certifications() {
                     </span>
                     <span className="w-2.5 h-2.5 rounded-full bg-slate-300 group-hover:bg-[#d8ff00] transition-colors shadow-xs shrink-0" />
                   </div>
-                  <div className="relative w-full h-[175px] xs:h-[195px] sm:h-[225px] lg:h-[235px] rounded-xl sm:rounded-2xl bg-[#f8fafc] border border-slate-100/90 overflow-hidden flex items-center justify-center p-2 group-hover:border-slate-200 transition-colors">
-                    <img
-                      src={certifications[4].image}
-                      alt={certifications[4].title}
-                      className="w-full h-full object-contain rounded-lg sm:rounded-xl transition-transform duration-500 group-hover:scale-105"
-                    />
+                  <div className="relative w-full h-[175px] xs:h-[195px] sm:h-[225px] lg:h-[235px] rounded-xl sm:rounded-2xl bg-[#f8fafc] border border-slate-100/90 overflow-hidden group-hover:border-slate-200 transition-colors">
+                    <Image src={certifications[4].image} alt={certifications[4].title} fill loading="lazy" sizes="(max-width:640px) 260px, (max-width:1024px) 340px, 380px" className="object-contain rounded-lg sm:rounded-xl transition-transform duration-500 group-hover:scale-105" />
                   </div>
                 </div>
               </motion.div>
@@ -582,12 +563,8 @@ export default function Certifications() {
                     </span>
                     <span className="w-2.5 h-2.5 rounded-full bg-gradient-to-r from-[#d8ff00] to-[#ccf23a] shadow-[0_0_8px_rgba(216,255,0,0.6)] shrink-0" />
                   </div>
-                  <div className="relative w-full h-[175px] xs:h-[195px] sm:h-[225px] lg:h-[235px] rounded-xl sm:rounded-2xl bg-white/95 border border-[#f2ffc2]/80 overflow-hidden flex items-center justify-center p-2 group-hover:border-[#ccf23a] transition-colors">
-                    <img
-                      src={certifications[5].image}
-                      alt={certifications[5].title}
-                      className="w-full h-full object-contain rounded-lg sm:rounded-xl transition-transform duration-500 group-hover:scale-105"
-                    />
+                  <div className="relative w-full h-[175px] xs:h-[195px] sm:h-[225px] lg:h-[235px] rounded-xl sm:rounded-2xl bg-white/95 border border-[#f2ffc2]/80 overflow-hidden group-hover:border-[#ccf23a] transition-colors">
+                    <Image src={certifications[5].image} alt={certifications[5].title} fill loading="lazy" sizes="(max-width:640px) 260px, (max-width:1024px) 340px, 380px" className="object-contain rounded-lg sm:rounded-xl transition-transform duration-500 group-hover:scale-105" />
                   </div>
                 </div>
               </motion.div>
@@ -662,12 +639,8 @@ export default function Certifications() {
                 </div>
 
                 {/* Certificate Image */}
-                <div className="relative w-full rounded-2xl overflow-hidden bg-slate-50 border border-slate-100 flex items-center justify-center p-1 sm:p-2">
-                  <img
-                    src={selectedCert.image}
-                    alt={selectedCert.title}
-                    className="w-full h-auto max-h-[58vh] sm:max-h-[65vh] object-contain rounded-xl"
-                  />
+                <div className="relative w-full h-[58vh] sm:h-[65vh] rounded-2xl overflow-hidden bg-slate-50 border border-slate-100">
+                  <Image src={selectedCert.image} alt={selectedCert.title} fill loading="lazy" sizes="(max-width:768px) 90vw, 600px" className="object-contain rounded-xl" />
                 </div>
               </div>
             </motion.div>

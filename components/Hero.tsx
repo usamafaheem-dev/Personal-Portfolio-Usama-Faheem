@@ -147,6 +147,7 @@ export default function Hero() {
       <div className="hidden sm:flex absolute left-6 bottom-12 z-[25] xl:left-12 xl:bottom-16">
         <button
           onClick={togglePlay}
+          aria-label={isPlaying ? 'Pause hero video' : 'Play hero video'}
           className="group relative flex h-14 w-14 items-center justify-center rounded-full bg-white/90 backdrop-blur-md border border-black/5 text-black shadow-[0_8px_32px_rgba(0,0,0,0.12)] transition-all duration-300 hover:bg-white hover:scale-110 cursor-pointer"
         >
           {/* Animated Circles */}

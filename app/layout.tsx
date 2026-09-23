@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Script from "next/script";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -79,25 +78,23 @@ export default function RootLayout({
       className={`${inter.variable} ${poppins.variable} ${jetbrainsMono.variable} ${caveat.variable}`}
     >
       <head>
-        {/* ── Preloader background video (shows during 3s preloader) ── */}
+        {/* ── LCP: Hero poster image — highest priority, discovered first ── */}
+        <link rel="preload" href="/man_walking_crossing_arms_poster.jpg" as="image" fetchPriority="high" />
+
+        {/* ── Critical above-fold images ── */}
+        <link rel="preload" href="/usaam_emoji.png" as="image" fetchPriority="high" />
+
+        {/* ── Preloader background video (shows during preloader) ── */}
         <link rel="preload" href="/vesper_preloader_opt.mp4" as="video" type="video/mp4" />
 
         {/* ── Hero video: preload both formats so it's ready when preloader exits ── */}
         <link rel="preload" href="/hero_video_optimized.webm" as="video" type="video/webm" />
         <link rel="preload" href="/hero_video_optimized.mp4" as="video" type="video/mp4" />
-
-        {/* ── Critical above-fold images ── */}
-        <link rel="preload" href="/usaam_emoji.png" as="image" fetchPriority="high" />
       </head>
       <body className="min-h-screen bg-porcelain text-ink font-body antialiased">
         <SmoothScrollProvider>
           {children}
         </SmoothScrollProvider>
-        <Script
-          src="https://elevenlabs.io/convai-widget/index.js"
-          strategy="afterInteractive"
-          async
-        />
       </body>
     </html>
   );

@@ -53,9 +53,9 @@ export default function Preloader() {
       (window as any).__preloaderDone = false;
     }
 
-    // Measure time already elapsed since page load to guarantee exact ~3s total on-screen time
+    // Measure time already elapsed since page load to guarantee exact ~1.5s total on-screen time
     const elapsed = typeof performance !== 'undefined' ? performance.now() : 0;
-    const remainingTime = Math.max(1000, Math.min(2500, 3000 - elapsed));
+    const remainingTime = Math.max(400, Math.min(1200, 1500 - elapsed));
 
     const exitTimer = setTimeout(() => {
       triggerExit();
@@ -70,7 +70,7 @@ export default function Preloader() {
         window.dispatchEvent(new CustomEvent('preloaderComplete'));
         window.dispatchEvent(new Event('resize'));
       }
-    }, 4500);
+    }, 2500);
 
     timersRef.current.push(exitTimer, failsafeTimer);
   };

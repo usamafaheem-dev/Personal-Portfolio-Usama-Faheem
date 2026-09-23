@@ -298,6 +298,23 @@ export default function ElevenLabsVoice() {
     return DEFAULT_AGENT_IDS;
   }, []);
 
+  // 0. Lazy-load ElevenLabs script on first scroll (not during initial page load)
+  useEffect(() => {
+    const loadScript = () => {
+      if (document.querySelector('script[src*="elevenlabs"]')) return;
+      const script = document.createElement('script');
+      script.src = 'https://elevenlabs.io/convai-widget/index.js';
+      script.async = true;
+      document.body.appendChild(script);
+    };
+    const timer = setTimeout(loadScript, 4000);
+    window.addEventListener('scroll', loadScript, { once: true });
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener('scroll', loadScript);
+    };
+  }, []);
+
   // 1. Initialize active agent: Always use the configured primary agent
   useEffect(() => {
     const primary = agentList[0] || DEFAULT_AGENT_IDS[0];

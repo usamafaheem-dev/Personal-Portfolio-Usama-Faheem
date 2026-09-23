@@ -105,15 +105,27 @@ export default function Navbar() {
     };
   }, []);
 
-  // Lock body scroll when either drawer is open
+  // Lock body scroll and notify floating widgets when either drawer is open
   useEffect(() => {
     if (drawerOpen || mobileOpen) {
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = '';
     }
+
+    if (typeof window !== 'undefined') {
+      if (mobileOpen) {
+        window.dispatchEvent(new Event('mobile-menu-open'));
+      } else {
+        window.dispatchEvent(new Event('mobile-menu-close'));
+      }
+    }
+
     return () => {
       document.body.style.overflow = '';
+      if (typeof window !== 'undefined') {
+        window.dispatchEvent(new Event('mobile-menu-close'));
+      }
     };
   }, [drawerOpen, mobileOpen]);
 
@@ -460,23 +472,29 @@ export default function Navbar() {
       <AnimatePresence>
         {mobileOpen && (
           <div className="fixed inset-0 z-[100] flex justify-end md:hidden pointer-events-auto">
-            {/* Backdrop Glass Dimmer */}
+            {/* Backdrop Dimmer - Solid high-performance overlay without costly backdrop-blur */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.22 }}
+              transition={{ duration: 0.18 }}
               onClick={() => setMobileOpen(false)}
-              className="fixed inset-0 bg-black/60 backdrop-blur-[3px] cursor-pointer"
+              className="fixed inset-0 bg-black/65 cursor-pointer"
             />
 
-            {/* Right Slide-in White Card / Sheet */}
+            {/* Right Slide-in White Card / Sheet - GPU Composited */}
             <motion.div
+              data-lenis-prevent="true"
               initial={{ x: '100%' }}
               animate={{ x: '0%' }}
               exit={{ x: '100%' }}
-              transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-              className="relative w-[84vw] max-w-[340px] sm:max-w-[375px] h-[100dvh] bg-white shadow-[-16px_0_45px_rgba(0,0,0,0.25)] flex flex-col justify-between px-6 py-6 sm:px-7 sm:py-7 overflow-y-auto z-[105] transform-gpu"
+              transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+              style={{
+                transform: 'translateZ(0)',
+                willChange: 'transform',
+                touchAction: 'pan-y',
+              }}
+              className="relative w-[84vw] max-w-[340px] sm:max-w-[375px] h-[100dvh] bg-white shadow-[-16px_0_40px_rgba(0,0,0,0.3)] flex flex-col justify-between px-6 py-6 sm:px-7 sm:py-7 overflow-y-auto overscroll-contain z-[105]"
             >
               {/* Drawer Top Header: "MENU" text & Rounded Square Close Button */}
               <div className="flex items-center justify-between pb-3 pt-1">
@@ -485,31 +503,23 @@ export default function Navbar() {
                 </span>
 
                 <button
+                  type="button"
                   onClick={() => setMobileOpen(false)}
                   aria-label="Close Menu"
-                  className="w-10 h-10 sm:w-11 sm:h-11 rounded-2xl border-2 border-slate-900 flex items-center justify-center text-slate-900 hover:bg-slate-100 active:scale-95 transition-all cursor-pointer"
+                  className="w-8 h-8 rounded-xl border border-slate-800 flex items-center justify-center text-slate-800 hover:bg-slate-100 active:scale-95 transition-all cursor-pointer shadow-xs"
                 >
-                  <X className="w-5 h-5 stroke-[2.4]" />
+                  <X className="w-4 h-4 stroke-[2.2]" />
                 </button>
               </div>
 
-              {/* Numbered Navigation Links List with Dividers */}
+              {/* Numbered Navigation Links List with Dividers - Static for zero layout thrashing */}
               <div className="flex flex-col my-auto py-2">
-                {mobileNavLinks.map((link, i) => (
-                  <motion.div
-                    key={link.label}
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{
-                      delay: 0.05 + i * 0.035,
-                      duration: 0.22,
-                      ease: 'easeOut',
-                    }}
-                  >
+                {mobileNavLinks.map((link) => (
+                  <div key={link.label}>
                     <Link
                       href={link.href}
                       onClick={() => setMobileOpen(false)}
-                      className="flex items-center gap-4 py-3 sm:py-3.5 border-b border-slate-100 group transition-all"
+                      className="flex items-center gap-4 py-3 sm:py-3.5 border-b border-slate-100 group transition-all active:opacity-70"
                     >
                       <span className="font-extrabold text-xs sm:text-sm font-sans tracking-wide text-[#7ba000] w-6">
                         {link.number}
@@ -518,7 +528,7 @@ export default function Navbar() {
                         {link.label}
                       </span>
                     </Link>
-                  </motion.div>
+                  </div>
                 ))}
               </div>
 
@@ -527,8 +537,7 @@ export default function Navbar() {
                 {/* Available For Work Live Indicator */}
                 <div className="flex items-center gap-2 mb-4">
                   <span className="relative flex h-2 w-2">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-                    <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
+                    <span className="inline-flex rounded-full h-2 w-2 bg-emerald-500 shadow-[0_0_8px_#10b981]" />
                   </span>
                   <span className="text-[11px] font-bold font-sans tracking-[0.14em] text-neutral-400 uppercase">
                     AVAILABLE FOR WORK

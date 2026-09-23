@@ -6,7 +6,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
   Send,
   X,
-  Minus,
   RotateCcw,
   Sparkles,
   User,
@@ -94,7 +93,6 @@ export default function AIChatbot() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [isVoiceOpen, setIsVoiceOpen] = useState(false);
-  const [isMinimized, setIsMinimized] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [messages, setMessages] = useState<ChatMessage[]>([INITIAL_WELCOME]);
   const [inputText, setInputText] = useState('');
@@ -116,12 +114,10 @@ export default function AIChatbot() {
     const handleToggleGemini = (e?: any) => {
       if (e?.detail?.forceOpen) {
         setIsChatOpen(true);
-        setIsMinimized(false);
       } else if (e?.detail?.forceClose) {
         setIsChatOpen(false);
       } else {
         setIsChatOpen((prev) => !prev);
-        setIsMinimized(false);
       }
       setIsMenuOpen(false);
     };
@@ -181,7 +177,7 @@ export default function AIChatbot() {
 
   // ── 3. Smart Scroll: Align TOP of new answer with question so user never scrolls back up ──
   useEffect(() => {
-    if (!isChatOpen || isMinimized) return;
+    if (!isChatOpen) return;
 
     if (messages.length > 1) {
       const lastMsg = messages[messages.length - 1];
@@ -203,7 +199,7 @@ export default function AIChatbot() {
         }, 40);
       }
     }
-  }, [messages, isChatOpen, isMinimized]);
+  }, [messages, isChatOpen]);
 
   const messagesRef = useRef(messages);
   messagesRef.current = messages;
@@ -307,41 +303,68 @@ export default function AIChatbot() {
     setMessages([INITIAL_WELCOME]);
   };
 
-  // ── 5. Formatted Text Renderer with Bold Poppins Category Headers ──
+  // ── 5. Formatted Text Renderer with Bold Poppins Category Headers & Clickable Links ──
   const parseInlineContent = (str: string) => {
-    const linkParts = str.split(/(\[.*?\]\(.*?\))/g);
+    // Clean up any broken protocol spacing like [https: //url] or https: //url
+    const cleaned = str
+      .replace(/\[https?:\s*\/\//gi, (m) => (m.toLowerCase().startsWith('[https') ? '[https://' : '[http://'))
+      .replace(/https?:\s*\/\//gi, (m) => (m.toLowerCase().startsWith('https') ? 'https://' : 'http://'));
+
+    // Split on markdown links [label](url)
+    const linkParts = cleaned.split(/(\[[^\]]+\]\([^)]+\))/g);
 
     return linkParts.map((part, pIdx) => {
-      const linkMatch = part.match(/\[(.*?)\]\((.*?)\)/);
+      const linkMatch = part.match(/^\[([^\]]+)\]\(([^)]+)\)$/);
       if (linkMatch) {
+        const label = linkMatch[1].replace(/\*/g, '').trim();
+        const url = linkMatch[2].trim();
         return (
           <a
             key={pIdx}
-            href={linkMatch[2]}
+            href={url}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-0.5 text-[#0052ff] hover:text-blue-700 underline font-bold"
+            className="inline-flex items-center gap-0.5 text-[#0052ff] hover:text-blue-700 underline font-semibold break-all"
           >
-            {linkMatch[1].replace(/\*/g, '')}
-            <ArrowUpRight className="w-3 h-3 inline" />
+            {label}
+            <ArrowUpRight className="w-3 h-3 inline shrink-0" />
           </a>
         );
       }
 
-      const boldParts = part.split(/(\*\*.*?\*\*)/g);
-      return boldParts.map((bPart, bIdx) => {
-        if (bPart.startsWith('**') && bPart.endsWith('**')) {
-          const inner = bPart.slice(2, -2).replace(/\*/g, '').trim();
+      // Check for standalone raw URLs
+      const rawUrlParts = part.split(/(https?:\/\/[^\s<>"']+)/gi);
+      return rawUrlParts.map((uPart, uIdx) => {
+        if (/^https?:\/\//i.test(uPart)) {
           return (
-            <strong
-              key={bIdx}
-              className="font-poppins font-extrabold text-[#0f172a] text-[13.5px] tracking-wide"
+            <a
+              key={`${pIdx}-${uIdx}`}
+              href={uPart}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-0.5 text-[#0052ff] hover:text-blue-700 underline font-semibold break-all"
             >
-              {inner}
-            </strong>
+              {uPart.replace(/^https?:\/\//i, '')}
+              <ArrowUpRight className="w-3 h-3 inline shrink-0" />
+            </a>
           );
         }
-        return <span key={bIdx}>{bPart.replace(/\*+/g, '')}</span>;
+
+        const boldParts = uPart.split(/(\*\*.*?\*\*)/g);
+        return boldParts.map((bPart, bIdx) => {
+          if (bPart.startsWith('**') && bPart.endsWith('**')) {
+            const inner = bPart.slice(2, -2).replace(/\*/g, '').trim();
+            return (
+              <strong
+                key={bIdx}
+                className="font-poppins font-extrabold text-[#0f172a] text-[13.5px] tracking-wide"
+              >
+                {inner}
+              </strong>
+            );
+          }
+          return <span key={bIdx}>{bPart.replace(/\*+/g, '')}</span>;
+        });
       });
     });
   };
@@ -370,7 +393,8 @@ export default function AIChatbot() {
       const isStandaloneHeader =
         strippedForHeadingCheck.endsWith(':') &&
         strippedForHeadingCheck.length <= 35 &&
-        !strippedForHeadingCheck.includes('. ');
+        !strippedForHeadingCheck.includes('. ') &&
+        !strippedForHeadingCheck.toLowerCase().startsWith('http');
 
       if (isStandaloneHeader) {
         return (
@@ -384,13 +408,21 @@ export default function AIChatbot() {
       }
 
       // 2. Bullet or line with category colon (e.g. "Frontend: Next.js 16...", "Backend: Node.js...")
+      // IMPORTANT: Do NOT treat URLs or protocol colons (https:) as category labels!
       const colonIdx = cleanLine.indexOf(':');
       if (colonIdx > 0 && colonIdx <= 30) {
         const rawLabel = cleanLine.slice(0, colonIdx + 1);
         const rest = cleanLine.slice(colonIdx + 1).trim();
         const cleanLabel = rawLabel.replace(/\*+/g, '').trim();
 
-        if (rest) {
+        // Check if the colon is part of a URL protocol or markdown link
+        const isUrlProtocolOrLink =
+          /https?:\s*$/i.test(rawLabel) ||
+          cleanLine.startsWith('[') ||
+          rawLabel.includes('//') ||
+          rawLabel.includes('[');
+
+        if (!isUrlProtocolOrLink && rest) {
           return (
             <div
               key={lIdx}
@@ -444,77 +476,87 @@ export default function AIChatbot() {
       {/* ── 2. CHAT MODAL WINDOW (GPU ISOLATED TO ELIMINATE REPAINT LAG) ── */}
       <AnimatePresence>
         {isChatOpen && (
-          <motion.div
-            data-lenis-prevent="true"
-            initial={{ opacity: 0, y: 30, scale: 0.96 }}
-            animate={{
-              opacity: 1,
-              y: 0,
-              scale: 1,
-            }}
-            exit={{ opacity: 0, y: 20, scale: 0.96 }}
-            transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
-            style={{ transform: 'translateZ(0)' }}
-            className={`fixed z-[99999] bottom-3 left-3 right-3 sm:right-auto sm:bottom-6 sm:left-[84px] w-auto sm:w-[375px] ${
-              isMinimized ? 'h-auto' : 'h-[calc(100dvh-6rem)] max-h-[550px] sm:h-[520px] sm:max-h-[82vh]'
-            } flex flex-col rounded-3xl bg-white border border-slate-200/90 shadow-[0_25px_60px_-15px_rgba(0,0,0,0.35)] overflow-hidden font-sans transform-gpu will-change-transform`}
-          >
-            {/* ── Header (Uses Usama's Picture) ── */}
-            <div className="relative px-4 py-3.5 bg-gradient-to-r from-[#0f172a] via-[#1e293b] to-[#0f172a] text-white flex items-center justify-between border-b border-slate-800 select-none">
-              {/* Avatar + Info */}
-              <div className="flex items-center gap-3 min-w-0">
-                <div className="relative w-10 h-10 rounded-full bg-slate-800 border-2 border-white/20 overflow-hidden flex items-center justify-center shrink-0 shadow-md">
-                  <Image
-                    src="/usaam_emoji.png"
-                    alt="Usama AI"
-                    width={40}
-                    height={40}
-                    className="w-full h-full object-contain scale-110 translate-y-0.5"
-                  />
-                  <span className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-emerald-400 border border-slate-900 rounded-full" />
-                </div>
-                <div className="min-w-0">
-                  <div className="flex items-center gap-1.5">
-                    <h3 className="text-sm font-bold tracking-tight truncate font-poppins">
-                      Usama AI Assistant
-                    </h3>
-                    <Sparkles className="w-3.5 h-3.5 text-[#d8ff00] shrink-0" />
+          <>
+            {/* Mobile Backdrop Overlay (Hides page distractions, tap outside to close) */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              onClick={() => setIsChatOpen(false)}
+              className="fixed inset-0 bg-black/45 backdrop-blur-[2px] z-[99995] sm:hidden cursor-pointer"
+            />
+
+            <motion.div
+              data-lenis-prevent="true"
+              initial={{ opacity: 0, y: 35, scale: 0.98 }}
+              animate={{
+                opacity: 1,
+                y: 0,
+                scale: 1,
+              }}
+              exit={{ opacity: 0, y: 30, scale: 0.98 }}
+              transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
+              style={{ transform: 'translateZ(0)' }}
+              className="fixed z-[99999] inset-x-0 bottom-0 w-full sm:inset-x-auto sm:right-auto sm:bottom-6 sm:left-[84px] sm:w-[375px] h-[85vh] max-h-[640px] sm:h-[520px] sm:max-h-[82vh] flex flex-col rounded-t-[28px] sm:rounded-3xl rounded-b-none sm:rounded-b-3xl bg-white border-t sm:border border-slate-200/90 shadow-[0_-12px_40px_rgba(0,0,0,0.22)] sm:shadow-[0_25px_60px_-15px_rgba(0,0,0,0.35)] overflow-hidden font-sans transform-gpu will-change-transform"
+            >
+              {/* ── Mobile Top Pull Handle (Xiaomi Style Top Pill) ── */}
+              <div 
+                className="w-full pt-1.5 pb-0.5 flex justify-center items-center bg-gradient-to-r from-[#0f172a] via-[#1e293b] to-[#0f172a] sm:hidden select-none"
+              >
+                <div className="w-9 h-1 rounded-full bg-white/30" />
+              </div>
+
+              {/* ── Header (Compact & Sleek) ── */}
+              <div className="relative px-3.5 sm:px-4 py-1.5 sm:py-2 bg-gradient-to-r from-[#0f172a] via-[#1e293b] to-[#0f172a] text-white flex items-center justify-between border-b border-slate-800/80 select-none">
+                {/* Avatar + Info */}
+                <div className="flex items-center gap-2.5 min-w-0">
+                  <div className="relative w-8 h-8 rounded-full bg-slate-800 border border-white/20 overflow-hidden flex items-center justify-center shrink-0 shadow-sm">
+                    <Image
+                      src="/usaam_emoji.png"
+                      alt="Usama"
+                      width={32}
+                      height={32}
+                      className="w-full h-full object-contain scale-110 translate-y-0.5"
+                    />
+                    <span className="absolute bottom-0 right-0 w-2 h-2 bg-emerald-400 border border-slate-900 rounded-full" />
                   </div>
-                  <p className="text-[11px] text-slate-300 flex items-center gap-1 font-mono">
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 inline-block animate-pulse" />
-                    Online • Ready to assist
-                  </p>
+                  <div className="min-w-0 flex flex-col justify-center">
+                    <div className="flex items-center gap-1">
+                      <h3 className="text-[13.5px] sm:text-sm font-bold tracking-tight text-white font-poppins">
+                        Usama
+                      </h3>
+                      <Sparkles className="w-3 h-3 text-[#d8ff00] shrink-0" />
+                    </div>
+                    <p className="text-[10px] text-slate-300 flex items-center gap-1 font-mono leading-none mt-0.5">
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 inline-block animate-pulse" />
+                      Online
+                    </p>
+                  </div>
+                </div>
+
+                {/* Action Buttons */}
+                <div className="flex items-center gap-0.5 text-slate-300">
+                  <button
+                    type="button"
+                    onClick={clearChat}
+                    title="Reset Chat"
+                    className="p-1.5 rounded-lg hover:bg-white/10 hover:text-white transition-colors cursor-pointer"
+                  >
+                    <RotateCcw className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setIsChatOpen(false)}
+                    title="Close"
+                    className="p-1.5 rounded-lg hover:bg-white/10 hover:text-white transition-colors cursor-pointer"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
                 </div>
               </div>
 
-              {/* Action Buttons */}
-              <div className="flex items-center gap-1 text-slate-300">
-                <button
-                  onClick={clearChat}
-                  title="Reset Chat"
-                  className="p-1.5 rounded-lg hover:bg-white/10 hover:text-white transition-colors cursor-pointer"
-                >
-                  <RotateCcw className="w-4 h-4" />
-                </button>
-                <button
-                  onClick={() => setIsMinimized(!isMinimized)}
-                  title={isMinimized ? 'Expand' : 'Minimize'}
-                  className="p-1.5 rounded-lg hover:bg-white/10 hover:text-white transition-colors cursor-pointer"
-                >
-                  <Minus className="w-4 h-4" />
-                </button>
-                <button
-                  onClick={() => setIsChatOpen(false)}
-                  title="Close"
-                  className="p-1.5 rounded-lg hover:bg-white/10 hover:text-white transition-colors cursor-pointer"
-                >
-                  <X className="w-4 h-4" />
-                </button>
-              </div>
-            </div>
-
-            {/* ── Content (Only if not minimized) ── */}
-            {!isMinimized && (
+              {/* ── Content ── */}
               <div className="relative flex-1 flex flex-col min-h-0 bg-slate-50/40">
                 {/* ── Messages Stream with Smooth Auto-Scroll & Native Threading ── */}
                 <div
@@ -668,8 +710,8 @@ export default function AIChatbot() {
                   </span>
                 </div>
               </div>
-            )}
           </motion.div>
+          </>
         )}
       </AnimatePresence>
 
@@ -679,7 +721,7 @@ export default function AIChatbot() {
 
 export function openGeminiChat() {
   if (typeof window !== 'undefined') {
-    window.dispatchEvent(new Event('openGeminiChat'));
+    window.dispatchEvent(new CustomEvent('openGeminiChat', { detail: { forceOpen: true } }));
   }
 }
 

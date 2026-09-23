@@ -242,7 +242,7 @@ const CompactMobileCard = React.memo(function CompactMobileCard({ platform }: { 
       href={platform.url}
       target="_blank"
       rel="noopener noreferrer"
-      className={`group relative shrink-0 w-[270px] min-[400px]:w-[310px] min-h-[82px] xs:min-h-[90px] rounded-[18px] xs:rounded-[20px] ${platform.cardBg} p-3 xs:p-3.5 border ${platform.cardBorder} ${platform.cardShadow} transition-all duration-300 flex items-center gap-3 xs:gap-3.5 cursor-pointer transform ${platform.tilt} active:scale-95 [contain:paint]`}
+      className={`group relative shrink-0 w-[270px] min-[400px]:w-[310px] min-h-[82px] xs:min-h-[90px] rounded-[18px] xs:rounded-[20px] ${platform.cardBg} p-3 xs:p-3.5 border ${platform.cardBorder} ${platform.cardShadow} transition-all duration-300 flex items-center gap-3 xs:gap-3.5 cursor-pointer transform ${platform.tilt} active:scale-95 [contain:paint] pointer-events-auto touch-manipulation`}
     >
       {/* 3D Skeuomorphic App Icon Squircle */}
       <div
@@ -257,10 +257,10 @@ const CompactMobileCard = React.memo(function CompactMobileCard({ platform }: { 
         <h3 className={`text-xs xs:text-sm font-extrabold font-sans text-slate-950 uppercase tracking-wide ${platform.titleHover} transition-colors truncate mb-0.5`}>
           {platform.name}
         </h3>
-        <p className="text-[10px] xs:text-[11px] text-slate-600 font-sans font-normal leading-snug line-clamp-1 mb-1">
+        <p className="text-[11px] text-slate-600 font-sans font-normal leading-snug line-clamp-2 mb-1">
           {platform.subtitle}
         </p>
-        <span className={`inline-flex items-center gap-1 text-[9.5px] xs:text-[10.5px] font-bold font-sans ${platform.ctaColor} transition-colors uppercase tracking-wider`}>
+        <span className={`inline-flex items-center gap-1 text-[10px] xs:text-[10.5px] font-bold font-sans ${platform.ctaColor} transition-colors uppercase tracking-wider`}>
           <span>{platform.ctaText}</span>
         </span>
       </div>

@@ -472,36 +472,38 @@ export default function Projects() {
         </div>
         */}
 
-        {/* ── TOP-LEFT: Hand-Drawn Curvy Arrow Doodle (Crisp White, fades with header) ── */}
-        <motion.div
-          style={{ opacity: headerOpacity, display: headerDisplay }}
-          className="absolute top-16 sm:top-20 left-6 sm:left-14 pointer-events-none hidden md:block z-20"
-        >
-          <svg
-            width="130"
-            height="130"
-            viewBox="0 0 120 120"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            className="transform -rotate-12 hover:rotate-0 transition-transform duration-300 drop-shadow-[0_2px_10px_rgba(255,255,255,0.2)]"
+        {/* ── TOP-LEFT: Hand-Drawn Curvy Arrow Doodle (Desktop Only, strictly hidden on mobile) ── */}
+        <div className="hidden md:block pointer-events-none">
+          <motion.div
+            style={{ opacity: headerOpacity, display: headerDisplay }}
+            className="absolute top-16 sm:top-20 left-6 sm:left-14 pointer-events-none z-20"
           >
-            <path
-              d="M10 20 C 50 -10, 100 40, 80 80 C 70 100, 30 110, 50 120 C 60 125, 90 120, 110 100"
-              stroke="#ffffff"
-              strokeWidth="3"
+            <svg
+              width="130"
+              height="130"
+              viewBox="0 0 120 120"
               fill="none"
-              strokeLinecap="round"
-            />
-            <path
-              d="M95 95 L 110 100 L 100 115"
-              stroke="#ffffff"
-              strokeWidth="3"
-              fill="none"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-        </motion.div>
+              xmlns="http://www.w3.org/2000/svg"
+              className="transform -rotate-12 hover:rotate-0 transition-transform duration-300 drop-shadow-[0_2px_10px_rgba(255,255,255,0.2)]"
+            >
+              <path
+                d="M10 20 C 50 -10, 100 40, 80 80 C 70 100, 30 110, 50 120 C 60 125, 90 120, 110 100"
+                stroke="#ffffff"
+                strokeWidth="3"
+                fill="none"
+                strokeLinecap="round"
+              />
+              <path
+                d="M95 95 L 110 100 L 100 115"
+                stroke="#ffffff"
+                strokeWidth="3"
+                fill="none"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </motion.div>
+        </div>
 
         {/* ── BOTTOM-RIGHT: Continuous Infinite Rotating Star Spinner Doodle (Signature Lime #d8ff00) ── */}
         <div

@@ -19,7 +19,7 @@ const KNOWN_EXHAUSTED = new Set([
   'agent_3601m2w6eyzjeyybxv6a6yva3mk0',
 ]);
 
-const STORAGE_KEY = 'elevenlabs_active_agent_id_v3';
+const STORAGE_KEY = 'elevenlabs_active_agent_id_v4';
 
 export function triggerElevenLabsCall() {
   if (typeof document === 'undefined') return;
@@ -57,7 +57,41 @@ const WIDGET_CSS = `
   @media (max-width: 640px) {
     :host {
       right: 14px !important;
-      bottom: 70px !important;
+      left: auto !important;
+      bottom: 78px !important;
+      max-width: calc(100vw - 28px) !important;
+      width: auto !important;
+      transform: scale(0.78) !important;
+      transform-origin: bottom right !important;
+    }
+
+    [class*="wrapper"] {
+      width: 100% !important;
+      max-width: calc(100vw - 28px) !important;
+      align-items: flex-end !important;
+    }
+
+    [class*="box"] {
+      width: 290px !important;
+      max-width: calc(100vw - 28px) !important;
+      box-sizing: border-box !important;
+      overflow: hidden !important;
+      border-radius: 22px !important;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.25) !important;
+    }
+
+    [class*="box"],
+    [class*="box"] * {
+      box-sizing: border-box !important;
+    }
+
+    [class*="box"] button {
+      max-width: 100% !important;
+      box-sizing: border-box !important;
+      border-radius: 9999px !important;
+      overflow: hidden !important;
+      text-overflow: ellipsis !important;
+      white-space: nowrap !important;
     }
   }
 
@@ -73,6 +107,7 @@ const WIDGET_CSS = `
     margin: 0 !important;
     box-shadow: 0 16px 48px rgba(0, 0, 0, 0.28) !important;
     border-radius: 20px !important;
+    overflow: hidden !important;
     opacity: 1 !important;
     visibility: visible !important;
     pointer-events: auto !important;
@@ -223,9 +258,35 @@ export default function ElevenLabsVoice() {
   const isSwitchingRef = useRef(false);
   const isOpenRef = useRef(isOpen);
 
+  const [isChatOpen, setIsChatOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
   useEffect(() => {
     isOpenRef.current = isOpen;
+    if (!isOpen && typeof window !== 'undefined') {
+      window.dispatchEvent(new Event('elevenlabs-voice-close'));
+    }
   }, [isOpen]);
+
+  // Hide voice trigger on mobile when AI Chatbot or Mobile Menu is open so it never overlaps
+  useEffect(() => {
+    const handleChatOpen = () => setIsChatOpen(true);
+    const handleChatClose = () => setIsChatOpen(false);
+    const handleMenuOpen = () => setIsMobileMenuOpen(true);
+    const handleMenuClose = () => setIsMobileMenuOpen(false);
+
+    window.addEventListener('gemini-chat-open', handleChatOpen);
+    window.addEventListener('gemini-chat-close', handleChatClose);
+    window.addEventListener('mobile-menu-open', handleMenuOpen);
+    window.addEventListener('mobile-menu-close', handleMenuClose);
+
+    return () => {
+      window.removeEventListener('gemini-chat-open', handleChatOpen);
+      window.removeEventListener('gemini-chat-close', handleChatClose);
+      window.removeEventListener('mobile-menu-open', handleMenuOpen);
+      window.removeEventListener('mobile-menu-close', handleMenuClose);
+    };
+  }, []);
 
   // Parse agent list from env or fallback
   const agentList = useMemo(() => {
@@ -241,6 +302,11 @@ export default function ElevenLabsVoice() {
   useEffect(() => {
     const primary = agentList[0] || DEFAULT_AGENT_IDS[0];
     try {
+      // Clean up any stale agent records from older sessions
+      ['elevenlabs_active_agent_id_v1', 'elevenlabs_active_agent_id_v2', 'elevenlabs_active_agent_id_v3'].forEach((k) => {
+        try { localStorage.removeItem(k); } catch {}
+      });
+
       const saved = localStorage.getItem(STORAGE_KEY);
       if (saved && !KNOWN_EXHAUSTED.has(saved) && agentList.includes(saved)) {
         setActiveAgentId(saved);
@@ -417,20 +483,25 @@ export default function ElevenLabsVoice() {
         }}
       />
 
-      {/* ── Main Circular Voice Button (Always anchored at bottom: 20px, right: 20px) ── */}
-      <div className="fixed right-5 bottom-5 z-[99999] pointer-events-auto select-none">
+      {/* ── Main Circular Voice Button (Anchored bottom right, responsive compact on mobile) ── */}
+      <div
+        className={`fixed right-3.5 sm:right-5 bottom-3.5 sm:bottom-5 z-[99990] pointer-events-auto select-none transition-all duration-300 ${
+          isChatOpen || isMobileMenuOpen
+            ? 'opacity-0 translate-y-20 pointer-events-none sm:opacity-100 sm:translate-y-0 sm:pointer-events-auto'
+            : 'opacity-100 translate-y-0'
+        }`}
+      >
         {/* Status Toast (e.g. switching agent) */}
         {statusNotice && (
-          <div className="absolute bottom-16 right-0 bg-[#0f172a]/95 text-white text-xs font-medium px-3.5 py-1.5 rounded-xl border border-blue-500/40 shadow-xl backdrop-blur-md animate-fade-in whitespace-nowrap">
+          <div className="absolute bottom-14 sm:bottom-16 right-0 bg-[#0f172a]/95 text-white text-xs font-medium px-3.5 py-1.5 rounded-xl border border-blue-500/40 shadow-xl backdrop-blur-md animate-fade-in whitespace-nowrap">
             {statusNotice}
           </div>
         )}
 
         {/* 
           Main Toggle Button:
-          - Closed: Microphone icon with glowing blue indicator
-          - Open: Red circle with white '✕' Close icon
-          - Card sits at bottom: 74px, red button top is at 68px -> perfect 6px gap!
+          - Mobile: w-10 h-10 (40px)
+          - Desktop: w-12 h-12 (48px)
         */}
         <button
           id="voice-trigger-btn"
@@ -438,7 +509,7 @@ export default function ElevenLabsVoice() {
           onClick={handleToggle}
           aria-label={isOpen ? 'End Voice Call' : 'Call Usama AI Voice Assistant'}
           title={isOpen ? 'End Call' : 'Voice Call with Usama AI'}
-          className={`group relative flex items-center justify-center w-12 h-12 rounded-full transition-all duration-200 cursor-pointer shadow-[0_8px_24px_rgba(0,0,0,0.35)] active:scale-95 ${
+          className={`group relative flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 rounded-full transition-all duration-200 cursor-pointer shadow-[0_8px_24px_rgba(0,0,0,0.35)] active:scale-95 ${
             isOpen
               ? 'bg-gradient-to-tr from-rose-600 via-rose-500 to-red-600 hover:from-rose-700 hover:to-red-700 text-white border-2 border-rose-300/60 shadow-rose-600/40'
               : 'bg-gradient-to-tr from-[#090d16] via-[#111c38] to-[#1e293b] hover:from-[#0d1527] hover:to-[#243452] text-white border-2 border-slate-700/80 hover:border-emerald-400/80 shadow-[0_8px_25px_rgba(0,0,0,0.4)] hover:shadow-[0_10px_28px_rgba(16,185,129,0.35)]'
@@ -446,14 +517,14 @@ export default function ElevenLabsVoice() {
         >
           {isOpen ? (
             /* Crisp PhoneOff / End Call icon */
-            <PhoneOff className="w-5 h-5 text-white drop-shadow-sm" />
+            <PhoneOff className="w-4 h-4 sm:w-5 sm:h-5 text-white drop-shadow-sm" />
           ) : (
             /* Crisp Call / Phone icon with live indicator */
             <>
               <span className="absolute -inset-1 rounded-full bg-emerald-500/25 animate-ping [animation-duration:2.5s] pointer-events-none" />
               <span className="absolute top-0 right-0 w-2.5 h-2.5 rounded-full bg-emerald-400 shadow-[0_0_8px_#34d399] border-2 border-[#090d16]" />
               <div className="flex items-center justify-center">
-                <PhoneCall className="w-5 h-5 text-white drop-shadow-sm group-hover:scale-110 transition-transform duration-200" />
+                <PhoneCall className="w-4 h-4 sm:w-5 sm:h-5 text-white drop-shadow-sm group-hover:scale-110 transition-transform duration-200" />
               </div>
             </>
           )}

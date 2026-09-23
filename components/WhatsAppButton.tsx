@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 function openGeminiChat() {
   if (typeof window !== 'undefined') {
-    window.dispatchEvent(new Event('openGeminiChat'));
+    window.dispatchEvent(new CustomEvent('openGeminiChat', { detail: { forceOpen: true } }));
   }
 }
 
@@ -18,6 +18,12 @@ export default function WhatsAppButton() {
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [hovered, setHovered] = useState<HoveredButton>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+
+  const handleMouseEnter = (btn: HoveredButton) => {
+    if (typeof window !== 'undefined' && window.matchMedia('(hover: hover)').matches) {
+      setHovered(btn);
+    }
+  };
 
   // 1. Scroll-based visibility (hidden during Hero section, appears after scrolling past Hero)
   useEffect(() => {
@@ -44,22 +50,25 @@ export default function WhatsAppButton() {
     };
   }, []);
 
-  // 2. Click outside to collapse the speed-dial
+  // 2. Click outside to collapse the speed-dial cleanly without interfering with mobile taps
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent | TouchEvent) => {
-      if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
-        setIsOpen(false);
-      }
+      const target = e.target as HTMLElement | null;
+      if (!target) return;
+      if (containerRef.current && containerRef.current.contains(target)) return;
+      if (target.closest && target.closest('[data-speed-dial]')) return;
+      setIsOpen(false);
     };
 
     if (isOpen) {
       document.addEventListener('mousedown', handleClickOutside);
-      document.addEventListener('touchstart', handleClickOutside);
+      // Use click event with deferral rather than raw touchstart so mobile taps complete
+      document.addEventListener('click', handleClickOutside);
     }
 
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
-      document.removeEventListener('touchstart', handleClickOutside);
+      document.removeEventListener('click', handleClickOutside);
     };
   }, [isOpen]);
 
@@ -73,16 +82,26 @@ export default function WhatsAppButton() {
     };
     const handleChatClose = () => setIsChatOpen(false);
 
+    const handleMenuOpen = () => {
+      setIsOpen(false);
+      setIsChatOpen(true);
+    };
+    const handleMenuClose = () => setIsChatOpen(false);
+
     window.addEventListener('elevenlabs-voice-open', handleVoiceOpen);
     window.addEventListener('elevenlabs-voice-close', handleVoiceClose);
     window.addEventListener('gemini-chat-open', handleChatOpen);
     window.addEventListener('gemini-chat-close', handleChatClose);
+    window.addEventListener('mobile-menu-open', handleMenuOpen);
+    window.addEventListener('mobile-menu-close', handleMenuClose);
 
     return () => {
       window.removeEventListener('elevenlabs-voice-open', handleVoiceOpen);
       window.removeEventListener('elevenlabs-voice-close', handleVoiceClose);
       window.removeEventListener('gemini-chat-open', handleChatOpen);
       window.removeEventListener('gemini-chat-close', handleChatClose);
+      window.removeEventListener('mobile-menu-open', handleMenuOpen);
+      window.removeEventListener('mobile-menu-close', handleMenuClose);
     };
   }, []);
 
@@ -95,11 +114,10 @@ export default function WhatsAppButton() {
       {isVisible && (
         <motion.div
           ref={containerRef}
+          data-speed-dial="true"
           aria-label="Quick Connect & AI tools"
-          className={`fixed bottom-3.5 left-3.5 sm:bottom-6 sm:left-6 z-[99998] flex flex-col-reverse items-center gap-2 sm:gap-3 transition-all duration-300 ${
+          className={`fixed bottom-3.5 left-3.5 sm:bottom-6 sm:left-6 z-[99998] flex flex-col-reverse items-center gap-2 sm:gap-3 transition-all duration-300 pointer-events-auto ${
             isChatOpen ? 'hidden sm:flex' : ''
-          } ${
-            isVoiceActive ? 'opacity-0 pointer-events-none sm:opacity-100 sm:pointer-events-auto' : 'opacity-100'
           }`}
           initial={{ opacity: 0, x: -24, scale: 0.85 }}
           animate={{ opacity: 1, x: 0, scale: 1 }}
@@ -109,7 +127,7 @@ export default function WhatsAppButton() {
           {/* ═════ 1. MAIN TRIGGER FAB BUTTON (Always at the bottom) ═════ */}
           <div
             className="relative"
-            onMouseEnter={() => setHovered('trigger')}
+            onMouseEnter={() => handleMouseEnter('trigger')}
             onMouseLeave={() => setHovered(null)}
           >
             <AnimatePresence>
@@ -128,14 +146,22 @@ export default function WhatsAppButton() {
             </AnimatePresence>
 
             <button
+              type="button"
               onClick={() => setIsOpen(!isOpen)}
               aria-label={isOpen ? 'Close menu' : 'Open Connect & AI menu'}
-              className={`group relative flex items-center justify-center w-[44px] h-[44px] sm:w-[54px] sm:h-[54px] rounded-full text-white shadow-[0_8px_25px_rgba(0,0,0,0.3)] hover:scale-108 active:scale-95 transition-all duration-200 cursor-pointer border-2 ${
+              className={`group relative flex items-center justify-center w-[44px] h-[44px] sm:w-[54px] sm:h-[54px] rounded-full text-white shadow-[0_8px_25px_rgba(0,0,0,0.3)] hover:scale-108 active:scale-95 transition-all duration-200 cursor-pointer border-2 touch-manipulation select-none pointer-events-auto ${
                 isOpen
                   ? 'bg-gradient-to-tr from-rose-600 via-rose-500 to-red-600 border-rose-300 shadow-[0_8px_25px_rgba(225,29,72,0.4)]'
                   : 'bg-gradient-to-tr from-[#0b0f19] via-[#111c38] to-[#1e3a8a] border-cyan-400/35 hover:border-cyan-400 shadow-[0_8px_28px_rgba(30,58,138,0.4)] hover:shadow-[0_10px_32px_rgba(6,182,212,0.45)]'
               }`}
             >
+              {!isOpen && (
+                <>
+                  <span className="absolute -inset-1 rounded-full bg-emerald-500/20 animate-ping [animation-duration:2.5s] pointer-events-none" />
+                  <span className="absolute top-0 right-0 w-2.5 h-2.5 rounded-full bg-emerald-400 shadow-[0_0_8px_#34d399] border-2 border-[#0b0f19] pointer-events-none z-10" />
+                </>
+              )}
+
               <AnimatePresence mode="wait">
                 {isOpen ? (
                   <motion.div
@@ -185,11 +211,6 @@ export default function WhatsAppButton() {
                       <circle cx="13" cy="11.5" r="1.2" fill="#ffffff" />
                       <circle cx="17" cy="11.5" r="1.2" fill="#ffffff" />
                     </svg>
-
-                    <span className="absolute -top-1 -right-1 flex h-2.5 w-2.5">
-                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-                      <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-400 border border-slate-900 shadow-[0_0_6px_#34d399]" />
-                    </span>
                   </motion.div>
                 )}
               </AnimatePresence>
@@ -216,7 +237,7 @@ export default function WhatsAppButton() {
                     },
                   },
                 }}
-                className="flex flex-col-reverse items-center gap-2 sm:gap-2.5"
+                className="flex flex-col-reverse items-center gap-2 sm:gap-2.5 pointer-events-auto"
               >
                 {/* ── 1. WHATSAPP (Directly above trigger) ── */}
                 <motion.div
@@ -225,8 +246,8 @@ export default function WhatsAppButton() {
                     visible: { opacity: 1, y: 0, scale: 1 },
                   }}
                   transition={{ type: 'spring', stiffness: 350, damping: 22 }}
-                  className="relative"
-                  onMouseEnter={() => setHovered('whatsapp')}
+                  className="relative pointer-events-auto"
+                  onMouseEnter={() => handleMouseEnter('whatsapp')}
                   onMouseLeave={() => setHovered(null)}
                 >
                   <AnimatePresence>
@@ -249,8 +270,10 @@ export default function WhatsAppButton() {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label="Chat with Usama on WhatsApp"
-                    onClick={() => setIsOpen(false)}
-                    className="group relative flex items-center justify-center w-[38px] h-[38px] sm:w-[48px] sm:h-[48px] rounded-full bg-gradient-to-tr from-[#128c7e] via-[#25D366] to-[#2cd86f] text-white shadow-[0_4px_14px_rgba(37,211,102,0.32)] hover:shadow-[0_8px_24px_rgba(37,211,102,0.48)] border-2 border-white/30 hover:scale-110 active:scale-95 transition-all duration-200"
+                    onClick={() => {
+                      setTimeout(() => setIsOpen(false), 250);
+                    }}
+                    className="group relative flex items-center justify-center w-[38px] h-[38px] sm:w-[48px] sm:h-[48px] rounded-full bg-gradient-to-tr from-[#128c7e] via-[#25D366] to-[#2cd86f] text-white shadow-[0_4px_14px_rgba(37,211,102,0.32)] hover:shadow-[0_8px_24px_rgba(37,211,102,0.48)] border-2 border-white/30 hover:scale-110 active:scale-95 transition-all duration-200 cursor-pointer touch-manipulation select-none"
                   >
                     <svg
                       className="w-4.5 h-4.5 sm:w-5 sm:h-5 fill-current drop-shadow-sm group-hover:scale-110 transition-transform duration-200"
@@ -269,8 +292,8 @@ export default function WhatsAppButton() {
                     visible: { opacity: 1, y: 0, scale: 1 },
                   }}
                   transition={{ type: 'spring', stiffness: 350, damping: 22 }}
-                  className="relative"
-                  onMouseEnter={() => setHovered('gemini')}
+                  className="relative pointer-events-auto"
+                  onMouseEnter={() => handleMouseEnter('gemini')}
                   onMouseLeave={() => setHovered(null)}
                 >
                   <AnimatePresence>
@@ -289,16 +312,19 @@ export default function WhatsAppButton() {
                   </AnimatePresence>
 
                   <button
-                    onClick={() => {
+                    type="button"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
                       openGeminiChat();
-                      setIsOpen(false);
+                      setTimeout(() => setIsOpen(false), 120);
                     }}
                     aria-label="Open Usama AI Chatbot"
-                    className="group relative flex items-center justify-center w-[38px] h-[38px] sm:w-[48px] sm:h-[48px] rounded-full bg-gradient-to-tr from-[#080d1a] via-[#101e4a] to-[#0052ff] text-white shadow-[0_4px_18px_rgba(0,82,255,0.42)] hover:shadow-[0_8px_28px_rgba(56,189,248,0.6)] border-2 border-cyan-400/50 hover:border-cyan-300 hover:scale-110 active:scale-95 transition-all duration-200 cursor-pointer"
+                    className="group relative flex items-center justify-center w-[38px] h-[38px] sm:w-[48px] sm:h-[48px] rounded-full bg-gradient-to-tr from-[#080d1a] via-[#101e4a] to-[#0052ff] text-white shadow-[0_4px_18px_rgba(0,82,255,0.42)] hover:shadow-[0_8px_28px_rgba(56,189,248,0.6)] border-2 border-cyan-400/50 hover:border-cyan-300 hover:scale-110 active:scale-95 transition-all duration-200 cursor-pointer touch-manipulation select-none"
                   >
                     {/* Futuristic Robot / Bot Face Icon */}
                     <svg
-                      className="w-4.5 h-4.5 sm:w-5 sm:h-5 text-white drop-shadow-md group-hover:scale-110 transition-transform duration-300"
+                      className="w-4.5 h-4.5 sm:w-5 sm:h-5 text-white drop-shadow-md group-hover:scale-110 transition-transform duration-300 pointer-events-none"
                       viewBox="0 0 24 24"
                       fill="none"
                       xmlns="http://www.w3.org/2000/svg"
@@ -343,8 +369,8 @@ export default function WhatsAppButton() {
                     visible: { opacity: 1, y: 0, scale: 1 },
                   }}
                   transition={{ type: 'spring', stiffness: 350, damping: 22 }}
-                  className="relative"
-                  onMouseEnter={() => setHovered('linkedin')}
+                  className="relative pointer-events-auto"
+                  onMouseEnter={() => handleMouseEnter('linkedin')}
                   onMouseLeave={() => setHovered(null)}
                 >
                   <AnimatePresence>
@@ -367,8 +393,10 @@ export default function WhatsAppButton() {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label="Usama Faheem on LinkedIn"
-                    onClick={() => setIsOpen(false)}
-                    className="group relative flex items-center justify-center w-[38px] h-[38px] sm:w-[48px] sm:h-[48px] rounded-full bg-gradient-to-tr from-[#005582] via-[#0077b5] to-[#0a84ff] text-white shadow-[0_4px_14px_rgba(0,119,181,0.32)] hover:shadow-[0_8px_24px_rgba(0,119,181,0.48)] border-2 border-white/25 hover:scale-110 active:scale-95 transition-all duration-200"
+                    onClick={() => {
+                      setTimeout(() => setIsOpen(false), 250);
+                    }}
+                    className="group relative flex items-center justify-center w-[38px] h-[38px] sm:w-[48px] sm:h-[48px] rounded-full bg-gradient-to-tr from-[#005582] via-[#0077b5] to-[#0a84ff] text-white shadow-[0_4px_14px_rgba(0,119,181,0.32)] hover:shadow-[0_8px_24px_rgba(0,119,181,0.48)] border-2 border-white/25 hover:scale-110 active:scale-95 transition-all duration-200 cursor-pointer touch-manipulation select-none"
                   >
                     <svg
                       className="w-4 h-4 sm:w-4.5 sm:h-4.5 fill-current drop-shadow-sm group-hover:scale-110 transition-transform duration-200"

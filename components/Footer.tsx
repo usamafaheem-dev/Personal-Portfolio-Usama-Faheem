@@ -294,7 +294,7 @@ export default function Footer() {
 
         {/* ── Monster Bottom Body (Electric Blue) ── */}
         <div
-          className="relative w-full bg-black pt-12 sm:pt-16 lg:pt-22 pb-6 sm:pb-8 text-white"
+          className="relative w-full bg-black pt-12 sm:pt-16 lg:pt-22 pb-24 sm:pb-8 text-white"
         >
           <div className="mx-auto max-w-[1440px] w-full px-4 sm:px-10 lg:px-14 relative z-20">
             <div className="grid grid-cols-1 md:grid-cols-12 gap-5 sm:gap-8 items-end">

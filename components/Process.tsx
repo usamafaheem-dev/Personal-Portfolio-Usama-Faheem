@@ -554,8 +554,8 @@ export default function Process() {
                       {step.description}
                     </p>
                     <div className="mt-2 flex items-center gap-1.5 pl-0.5">
-                      <span className={`text-[8.5px] font-semibold px-2 py-0.5 rounded-full border ${step.badge1Class}`}>{step.badges[0]}</span>
-                      <span className={`text-[8.5px] font-semibold px-2 py-0.5 rounded-full border ${step.badge2Class}`}>{step.badges[1]}</span>
+                      <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full border ${step.badge1Class}`}>{step.badges[0]}</span>
+                      <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full border ${step.badge2Class}`}>{step.badges[1]}</span>
                     </div>
                   </div>
                 </motion.div>

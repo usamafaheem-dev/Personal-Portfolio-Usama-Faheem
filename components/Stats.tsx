@@ -135,16 +135,16 @@ export default function Stats() {
 
               // Sizing responsive: Center is big, outer circles are smaller
               const sphereSizeClasses = isCenter
-                ? "w-28 h-28 min-[390px]:w-32 min-[390px]:h-32 sm:w-44 sm:h-44 lg:w-52 lg:h-52 z-20 shadow-[0_12px_35px_rgba(0,82,255,0.45)]"
-                : "w-20 h-20 min-[390px]:w-24 min-[390px]:h-24 sm:w-32 sm:h-32 lg:w-36 lg:h-36 z-10 shadow-[0_8px_20px_rgba(216,255,0,0.35)]";
+                ? "w-[7.5rem] h-[7.5rem] min-[390px]:w-32 min-[390px]:h-32 sm:w-44 sm:h-44 lg:w-52 lg:h-52 z-20 shadow-[0_12px_35px_rgba(0,82,255,0.45)]"
+                : "w-[5.5rem] h-[5.5rem] min-[390px]:w-24 min-[390px]:h-24 sm:w-32 sm:h-32 lg:w-36 lg:h-36 z-10 shadow-[0_8px_20px_rgba(216,255,0,0.35)]";
 
               const numberTextClasses = isCenter
                 ? "text-2xl min-[390px]:text-3xl sm:text-5xl lg:text-6xl font-extrabold font-poppins text-slate-950 tracking-tight"
                 : "text-xl min-[390px]:text-2xl sm:text-3xl lg:text-4xl font-extrabold font-poppins text-slate-950 tracking-tight";
 
               const labelTextClasses = isCenter
-                ? "mt-0.5 sm:mt-2 text-[8px] min-[390px]:text-[9.5px] sm:text-[11px] font-bold font-sans uppercase tracking-wider text-slate-950 leading-tight px-1"
-                : "mt-0.5 sm:mt-2 text-[7px] min-[390px]:text-[8.5px] sm:text-[10px] lg:text-[11px] font-bold font-sans uppercase tracking-wider text-slate-900 leading-tight px-1";
+                ? "mt-0.5 sm:mt-2 text-[9px] min-[390px]:text-[9.5px] sm:text-[11px] font-bold font-sans uppercase tracking-wide text-slate-950 leading-tight px-1"
+                : "mt-0.5 sm:mt-2 text-[8.5px] min-[390px]:text-[9px] sm:text-[10px] lg:text-[11px] font-bold font-sans uppercase tracking-wide text-slate-900 leading-tight px-1";
 
               return (
                 <div key={stat.label} className="flex-1 flex justify-center items-center relative z-10 font-sans px-0.5">

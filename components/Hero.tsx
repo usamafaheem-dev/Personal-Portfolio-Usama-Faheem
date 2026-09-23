@@ -85,6 +85,8 @@ export default function Hero() {
 
   return (
     <section id="hero" className="relative min-h-[calc(100vh-0.5rem)] sm:min-h-[calc(100vh-1.5rem)] w-[calc(100%-0.75rem)] sm:w-[calc(100%-3rem)] mx-auto mt-1.5 sm:mt-6 overflow-hidden bg-[#d0d4dc] rounded-t-[20px] sm:rounded-t-[40px] transform-gpu">
+      {/* Screen-reader-only h1 for heading hierarchy and SEO */}
+      <h1 className="sr-only">Usama Faheem — Frontend &amp; MERN Stack Developer</h1>
       {/* ── Background Video ── */}
       <div className="absolute inset-0 z-0 transform-gpu">
         <video
@@ -215,7 +217,7 @@ export default function Hero() {
               transition={{ repeat: Infinity, duration: 18, ease: 'linear' }}
               className="w-14 h-14 sm:w-24 sm:h-24 rounded-full border border-dashed border-slate-900 flex items-center justify-center p-0.5 sm:p-1 bg-[#0f172a] text-white shadow-[0_8px_24px_rgba(0,0,0,0.35)] transition-transform group-hover:scale-110"
             >
-              <svg viewBox="0 0 100 100" className="w-full h-full">
+              <svg viewBox="0 0 100 100" className="w-full h-full" aria-hidden="true">
                 <path id="curve-hero-stamp" fill="none" d="M 50, 50 m -37, 0 a 37,37 0 1,1 74,0 a 37,37 0 1,1 -74,0" />
                 <text className="text-[9px] sm:text-[10px] font-mono font-extrabold uppercase tracking-[0.2em] fill-white">
                   <textPath href="#curve-hero-stamp">✦ STUDIO 2026 • CREATIVE DEV ✦</textPath>

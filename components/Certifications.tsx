@@ -263,7 +263,7 @@ export default function Certifications() {
             transition={{ duration: 3.5, repeat: Infinity, ease: 'easeInOut' }}
             className="absolute bottom-[16%] sm:bottom-[12%] left-[10%] sm:left-[18%] lg:left-[22%] text-[#0052ff] transform-gpu will-change-transform"
           >
-            <svg className="w-8 sm:w-16 h-3 sm:h-5 stroke-current fill-none stroke-[3] stroke-linecap-round" viewBox="0 0 80 20">
+            <svg aria-hidden="true" className="w-8 sm:w-16 h-3 sm:h-5 stroke-current fill-none stroke-[3] stroke-linecap-round" viewBox="0 0 80 20">
               <path d="M 4 10 Q 14 0, 24 10 T 44 10 T 64 10 T 76 10" />
             </svg>
           </motion.div>
@@ -282,7 +282,7 @@ export default function Certifications() {
             transition={{ duration: 3.2, repeat: Infinity, ease: 'easeInOut' }}
             className="absolute top-[16%] sm:top-[20%] right-[6%] sm:right-[12%] text-[#10121a]/80 transform-gpu will-change-transform"
           >
-            <svg className="w-5 h-5 sm:w-8 sm:h-8 fill-current" viewBox="0 0 24 24">
+            <svg aria-hidden="true" className="w-5 h-5 sm:w-8 sm:h-8 fill-current" viewBox="0 0 24 24">
               <path d="M12 0C12 6.627 6.627 12 0 12C6.627 12 12 17.373 12 24C12 17.373 17.373 12 24 12C17.373 12 12 6.627 12 0Z" />
             </svg>
           </motion.div>

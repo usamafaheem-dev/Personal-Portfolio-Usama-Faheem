@@ -87,9 +87,9 @@ export default function RootLayout({
         {/* ── Preloader background video (shows during preloader) ── */}
         <link rel="preload" href="/vesper_preloader_opt.mp4" as="video" type="video/mp4" />
 
-        {/* ── Hero video: preload both formats so it's ready when preloader exits ── */}
-        <link rel="preload" href="/hero_video_optimized.webm" as="video" type="video/webm" />
-        <link rel="preload" href="/hero_video_optimized.mp4" as="video" type="video/mp4" />
+        {/* ── Hero video: only preload on desktop (mobile defers to video element's own preload) ── */}
+        <link rel="preload" href="/hero_video_optimized.webm" as="video" type="video/webm" media="(min-width: 768px)" />
+        <link rel="preload" href="/hero_video_optimized.mp4" as="video" type="video/mp4" media="(min-width: 768px)" />
       </head>
       <body className="min-h-screen bg-porcelain text-ink font-body antialiased">
         <SmoothScrollProvider>

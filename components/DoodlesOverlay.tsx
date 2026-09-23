@@ -10,7 +10,7 @@ export default function DoodlesOverlay({ visible }: { visible: boolean }) {
       className="hidden sm:block absolute inset-0 pointer-events-none select-none z-0 overflow-hidden font-caveat"
       style={{ fontFamily: 'var(--font-caveat), cursive' }}
     >
-      <svg className="absolute inset-0 w-full h-full pointer-events-none" style={{ zIndex: 1 }}>
+      <svg className="absolute inset-0 w-full h-full pointer-events-none" style={{ zIndex: 1 }} aria-hidden="true">
         <defs>
           <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
             <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#c2410c" />

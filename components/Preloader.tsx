@@ -26,7 +26,7 @@ export default function Preloader() {
       window.dispatchEvent(new Event('resize'));
     }
 
-    // Allow full 6-tile slide reveal animation to complete before unmounting
+    // Allow 6-tile slide reveal animation to complete before unmounting
     const removeTimer = setTimeout(() => {
       setStage('removed');
       document.body.style.overflow = '';
@@ -35,7 +35,7 @@ export default function Preloader() {
         window.dispatchEvent(new CustomEvent('preloaderComplete'));
         window.dispatchEvent(new Event('resize'));
       }
-    }, 850);
+    }, 500);
 
     timersRef.current.push(removeTimer);
   };
@@ -53,9 +53,9 @@ export default function Preloader() {
       (window as any).__preloaderDone = false;
     }
 
-    // Measure time already elapsed since page load to guarantee exact ~1.5s total on-screen time
+    // Measure time already elapsed since page load to guarantee exact ~0.8s total on-screen time
     const elapsed = typeof performance !== 'undefined' ? performance.now() : 0;
-    const remainingTime = Math.max(400, Math.min(1200, 1500 - elapsed));
+    const remainingTime = Math.max(150, Math.min(650, 800 - elapsed));
 
     const exitTimer = setTimeout(() => {
       triggerExit();
@@ -70,7 +70,7 @@ export default function Preloader() {
         window.dispatchEvent(new CustomEvent('preloaderComplete'));
         window.dispatchEvent(new Event('resize'));
       }
-    }, 2500);
+    }, 1600);
 
     timersRef.current.push(exitTimer, failsafeTimer);
   };
@@ -131,8 +131,8 @@ export default function Preloader() {
                   initial={{ y: '0%' }}
                   animate={{ y: isExiting ? (goUp ? '-105%' : '105%') : '0%' }}
                   transition={{
-                    duration: 0.65,
-                    delay: isExiting ? col * 0.04 : 0,
+                    duration: 0.38,
+                    delay: isExiting ? col * 0.025 : 0,
                     ease: [0.76, 0, 0.24, 1],
                   }}
                   style={{ left: `${(col * 100) / 6}vw` }}
@@ -280,6 +280,7 @@ export default function Preloader() {
                 </motion.div>
 
                 <svg
+                  aria-hidden="true"
                   viewBox="0 0 304 100"
                   className="w-full h-auto overflow-visible select-none"
                   style={{ color: primaryColor }}

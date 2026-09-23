@@ -158,6 +158,7 @@ function BackgroundVideoPlayer({ progress }: { progress?: any }) {
       <img
         src={posterSrc}
         alt="Usama Faheem FAQ"
+        loading="lazy"
         style={{ opacity: 0.60 }}
         className={`w-full h-full object-cover object-[center_35%] sm:object-[center_top] pointer-events-none transform-gpu ${
           isDesktop ? 'hidden' : 'block'
@@ -358,6 +359,7 @@ export default function FAQAndContact() {
                 >
                   <div className="relative flex items-center justify-center">
                     <svg
+                      aria-hidden="true"
                       width="18"
                       height="18"
                       viewBox="0 0 24 24"
@@ -731,6 +733,7 @@ export default function FAQAndContact() {
                 {/* 3D Realistic Pushpin / Thumbtack */}
                 <div className="absolute -top-5 left-1/2 -translate-x-1/2 z-10 pointer-events-none -rotate-6">
                   <svg
+                    aria-hidden="true"
                     width="26"
                     height="34"
                     viewBox="0 0 28 36"

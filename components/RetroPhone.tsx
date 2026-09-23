@@ -146,6 +146,7 @@ export function RetroPhoneHandset({
             Width: 162px, Height: 520px (Restored to original large, impressive dimensions)
         */}
         <svg
+          aria-hidden="true"
           width="162"
           height="520"
           viewBox="0 0 128 412"

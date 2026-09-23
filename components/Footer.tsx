@@ -189,6 +189,7 @@ export default function Footer() {
               </span>
               {/* Hand-Drawn Sketchy Circle Stroke (LIME) */}
               <svg
+                aria-hidden="true"
                 className="absolute -inset-2 sm:-inset-3 w-[calc(100%+16px)] sm:w-[calc(100%+24px)] h-[calc(100%+16px)] sm:h-[calc(100%+24px)] pointer-events-none text-[#0052ff]"
                 viewBox="0 0 200 90"
                 fill="none"
@@ -228,6 +229,7 @@ export default function Footer() {
         {/* Continuous SVG Arch Dome Top with Embedded Eyes */}
         <div className="relative w-full leading-none overflow-visible">
           <svg
+            aria-hidden="true"
             viewBox="0 0 1440 140"
             preserveAspectRatio="none"
             className="w-full h-24 sm:h-32 lg:h-44 block -mb-[2px]"

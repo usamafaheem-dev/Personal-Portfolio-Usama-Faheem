@@ -133,6 +133,7 @@ export default function Experience() {
               <img
                 src={item.logoSrc}
                 alt={item.logoAlt}
+                loading="lazy"
                 className="w-full h-full object-contain drop-shadow-xs"
               />
             </div>
@@ -176,6 +177,7 @@ export default function Experience() {
               <img
                 src={item.logoSrc}
                 alt={item.logoAlt}
+                loading="lazy"
                 className="w-full h-full object-contain"
               />
             </div>
@@ -233,6 +235,7 @@ export default function Experience() {
       {/* ── Decorative Corner Lines ── */}
       <div className="absolute bottom-0 right-0 w-60 sm:w-80 h-60 sm:h-80 pointer-events-none opacity-40 overflow-hidden">
         <svg
+          aria-hidden="true"
           viewBox="0 0 300 300"
           className="w-full h-full text-slate-300"
           fill="none"

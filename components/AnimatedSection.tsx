@@ -36,11 +36,12 @@ export default function AnimatedSection({
       initial={{ opacity: 0, x: offset.x, y: offset.y }}
       animate={isInView ? { opacity: 1, x: 0, y: 0 } : {}}
       transition={{
-        duration: 0.7,
+        duration: 0.6,
         delay,
         ease: [0.22, 1, 0.36, 1],
       }}
-      className={className}
+      style={{ willChange: 'transform, opacity' }}
+      className={`transform-gpu ${className}`}
     >
       {children}
     </motion.div>

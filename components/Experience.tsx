@@ -2,6 +2,7 @@
 
 import { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
+import Image from 'next/image';
 import { Sparkles, Download, Award, BadgeCheck } from 'lucide-react';
 import usePageReady from './usePageReady';
 
@@ -443,7 +444,7 @@ export default function Experience() {
                   {/* Top row: logo + company */}
                   <div className="flex items-center gap-3 mb-4">
                     <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-slate-50 border border-slate-100 p-1.5 flex items-center justify-center shrink-0">
-                      <img src={cert.logoSrc} alt={cert.company} className="w-full h-full object-contain" />
+                      <Image src={cert.logoSrc} alt={cert.company} width={44} height={44} loading="lazy" className="w-full h-full object-contain" />
                     </div>
                     <div className="min-w-0">
                       <h4 className="font-extrabold font-poppins text-sm sm:text-[15px] text-slate-900 uppercase tracking-tight truncate">{cert.company}</h4>
@@ -462,7 +463,7 @@ export default function Experience() {
                     </div>
                   ) : cert.imageSrc ? (
                     <div className="relative w-full h-[180px] xs:h-[200px] sm:h-[220px] rounded-xl bg-slate-50 border border-slate-100 overflow-hidden flex items-center justify-center p-2 group-hover:border-slate-200 transition-colors">
-                      <img src={cert.imageSrc} alt={cert.title} className="w-full h-full object-contain rounded-lg transition-transform duration-500 group-hover:scale-105" />
+                      <Image src={cert.imageSrc} alt={cert.title} fill loading="lazy" className="object-contain rounded-lg transition-transform duration-500 group-hover:scale-105" />
                     </div>
                   ) : null}
 

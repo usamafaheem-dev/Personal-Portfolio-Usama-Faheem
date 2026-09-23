@@ -2,6 +2,7 @@
 
 import { useRef, useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import Image from 'next/image';
 import { FaLinkedin } from 'react-icons/fa';
 import { SiGithub, SiMongodb, SiExpress, SiReact, SiNodedotjs } from 'react-icons/si';
 import { Sparkles, Download } from 'lucide-react';
@@ -64,9 +65,12 @@ export default function About() {
               }
             }}
           >
-            <img
+            <Image
               src="/Badge_holder_with_man_photo_202608121707.jpeg"
               alt="Usama Faheem Card"
+              width={400}
+              height={560}
+              priority
               className="w-full h-auto pointer-events-none transform rotate-[7deg] hover:rotate-0 transition-transform duration-500 origin-top mix-blend-multiply"
             />
           </motion.div>
@@ -112,9 +116,12 @@ export default function About() {
                 duration: 0.8
               }}
             >
-              <img
+              <Image
                 src="/Badge_holder_with_man_photo_202608121707.jpeg"
                 alt="Usama Faheem Card Mobile"
+                width={400}
+                height={560}
+                loading="lazy"
                 className="w-full h-auto pointer-events-none transform rotate-[6deg] hover:rotate-0 transition-transform duration-500 origin-center mix-blend-multiply"
               />
             </motion.div>
@@ -317,16 +324,16 @@ export default function About() {
 
                   <div className="flex items-center justify-center lg:justify-start gap-3 flex-nowrap">
                     <div className="w-8 h-8 rounded-lg bg-[#f7ffdd] border border-lime-300/70 flex items-center justify-center p-1.5 shadow-2xs hover:scale-110 transition-transform cursor-pointer overflow-hidden" title="Visual Studio Code">
-                      <img src="/icons/vscode.png" alt="VS Code" className="w-full h-full object-contain mix-blend-multiply" />
+                      <Image src="/icons/vscode.png" alt="VS Code" width={32} height={32} loading="lazy" className="w-full h-full object-contain mix-blend-multiply" />
                     </div>
                     <div className="w-8 h-8 rounded-lg bg-[#f7ffdd] border border-lime-300/70 flex items-center justify-center p-1.5 shadow-2xs hover:scale-110 transition-transform cursor-pointer overflow-hidden" title="Cursor">
-                      <img src="/icons/cursor.png" alt="Cursor" className="w-full h-full object-contain mix-blend-multiply" />
+                      <Image src="/icons/cursor.png" alt="Cursor" width={32} height={32} loading="lazy" className="w-full h-full object-contain mix-blend-multiply" />
                     </div>
                     <div className="w-8 h-8 rounded-lg bg-[#f7ffdd] border border-lime-300/70 flex items-center justify-center p-1.5 shadow-2xs hover:scale-110 transition-transform cursor-pointer overflow-hidden" title="Google Antigravity">
-                      <img src="/icons/antigravity.png" alt="Antigravity" className="w-full h-full object-contain mix-blend-multiply" />
+                      <Image src="/icons/antigravity.png" alt="Antigravity" width={32} height={32} loading="lazy" className="w-full h-full object-contain mix-blend-multiply" />
                     </div>
                     <div className="w-8 h-8 rounded-lg bg-[#f7ffdd] border border-lime-300/70 flex items-center justify-center p-1.5 shadow-2xs hover:scale-110 transition-transform cursor-pointer overflow-hidden" title="Claude AI">
-                      <img src="/icons/claude.png" alt="Claude AI" className="w-full h-full object-contain mix-blend-multiply" />
+                      <Image src="/icons/claude.png" alt="Claude AI" width={32} height={32} loading="lazy" className="w-full h-full object-contain mix-blend-multiply" />
                     </div>
                     <div className="w-8 h-8 rounded-lg bg-[#f7ffdd] border border-lime-300/70 flex items-center justify-center p-1.5 shadow-2xs hover:scale-110 transition-transform cursor-pointer" title="Figma">
                       <svg className="w-[16px] h-[16px] flex-shrink-0" viewBox="0 0 38 57" fill="none">

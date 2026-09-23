@@ -1,7 +1,62 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  // Enable React strict mode for better dev warnings
+  reactStrictMode: true,
+
+  // Compress responses with gzip
+  compress: true,
+
+  // Image optimization
+  images: {
+    formats: ["image/avif", "image/webp"],
+    deviceSizes: [375, 640, 750, 828, 1080, 1200, 1920],
+    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
+    minimumCacheTTL: 31536000, // 1 year
+    dangerouslyAllowSVG: false,
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "**",
+      },
+    ],
+  },
+
+  // HTTP headers for caching static assets
+  async headers() {
+    return [
+      {
+        // Cache images, fonts, media for 1 year
+        source: "/:path*(png|jpg|jpeg|webp|avif|svg|ico|woff|woff2|ttf|mp4|webm|mp3)",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=31536000, immutable",
+          },
+        ],
+      },
+      {
+        // Cache JS/CSS with revalidation
+        source: "/:path*(js|css)",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=31536000, immutable",
+          },
+        ],
+      },
+      {
+        // Security headers for all pages
+        source: "/(.*)",
+        headers: [
+          { key: "X-Content-Type-Options", value: "nosniff" },
+          { key: "X-Frame-Options", value: "SAMEORIGIN" },
+          { key: "X-XSS-Protection", value: "1; mode=block" },
+          { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+        ],
+      },
+    ];
+  },
 };
 
 export default nextConfig;

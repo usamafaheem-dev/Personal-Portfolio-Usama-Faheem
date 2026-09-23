@@ -79,14 +79,15 @@ export default function RootLayout({
       className={`${inter.variable} ${poppins.variable} ${jetbrainsMono.variable} ${caveat.variable}`}
     >
       <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Inter:wght@300..900&family=JetBrains+Mono:wght@400..800&family=Poppins:wght@400;600;700&display=swap"
-          rel="stylesheet"
-        />
-        <link rel="preload" href="/usaam_emoji.png" as="image" />
+        {/* ── Preloader background video (shows during 3s preloader) ── */}
         <link rel="preload" href="/vesper_preloader_opt.mp4" as="video" type="video/mp4" />
+
+        {/* ── Hero video: preload both formats so it's ready when preloader exits ── */}
+        <link rel="preload" href="/hero_video_optimized.webm" as="video" type="video/webm" />
+        <link rel="preload" href="/hero_video_optimized.mp4" as="video" type="video/mp4" />
+
+        {/* ── Critical above-fold images ── */}
+        <link rel="preload" href="/usaam_emoji.png" as="image" fetchPriority="high" />
       </head>
       <body className="min-h-screen bg-porcelain text-ink font-body antialiased">
         <SmoothScrollProvider>

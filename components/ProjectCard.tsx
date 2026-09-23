@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
+import Image from 'next/image';
 import { ArrowUpRight } from 'lucide-react';
 
 export interface ProjectData {
@@ -104,11 +105,14 @@ export default function ProjectCard({
       return (
         <div className="relative w-full h-full overflow-hidden bg-black/5">
           {imageList.map((imgSrc, i) => (
-            <img
+            <Image
               key={imgSrc}
               src={imgSrc}
               alt={`${project.title} - ${i + 1}`}
-              className={`absolute inset-0 w-full h-full ${extraClasses} transition-all duration-700 ${
+              fill
+              loading="lazy"
+              sizes="(max-width: 768px) 100vw, 50vw"
+              className={`object-cover ${extraClasses} transition-all duration-700 ${
                 i === activeImageIdx ? 'opacity-100 z-10 scale-100' : 'opacity-0 z-0 scale-105 pointer-events-none'
               }`}
             />
@@ -132,10 +136,13 @@ export default function ProjectCard({
     }
 
     return (
-      <img
+      <Image
         src={project.image}
         alt={project.title}
-        className={`${extraClasses} group-hover:scale-[1.02] transition-transform duration-700`}
+        fill
+        loading="lazy"
+        sizes="(max-width: 768px) 100vw, 50vw"
+        className={`object-cover ${extraClasses} group-hover:scale-[1.02] transition-transform duration-700`}
       />
     );
   };

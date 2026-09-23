@@ -127,20 +127,26 @@ export default function WhatIDoDifferently() {
                 <div className="hidden md:block pt-2">
                   <div className="inline-flex items-center gap-3.5 bg-black/10 backdrop-blur-xl border border-black/15 px-4.5 py-2.5 rounded-2xl shadow-sm font-sans">
                     <div className="flex -space-x-2.5">
-                      <img 
-                        src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=120&h=120&fit=crop&crop=face" 
-                        alt="Client 1" 
-                        className="w-7.5 h-7.5 sm:w-8.5 sm:h-8.5 rounded-full object-cover border-2 border-lime-400 shadow-sm" 
+                      <Image
+                        src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=120&h=120&fit=crop&crop=face"
+                        alt="Client 1"
+                        width={34} height={34}
+                        loading="lazy"
+                        className="w-7.5 h-7.5 sm:w-8.5 sm:h-8.5 rounded-full object-cover border-2 border-lime-400 shadow-sm"
                       />
-                      <img 
-                        src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=120&h=120&fit=crop&crop=face" 
-                        alt="Client 2" 
-                        className="w-7.5 h-7.5 sm:w-8.5 sm:h-8.5 rounded-full object-cover border-2 border-lime-400 shadow-sm" 
+                      <Image
+                        src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=120&h=120&fit=crop&crop=face"
+                        alt="Client 2"
+                        width={34} height={34}
+                        loading="lazy"
+                        className="w-7.5 h-7.5 sm:w-8.5 sm:h-8.5 rounded-full object-cover border-2 border-lime-400 shadow-sm"
                       />
-                      <img 
-                        src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=120&h=120&fit=crop&crop=face" 
-                        alt="Client 3" 
-                        className="w-7.5 h-7.5 sm:w-8.5 sm:h-8.5 rounded-full object-cover border-2 border-lime-400 shadow-sm" 
+                      <Image
+                        src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=120&h=120&fit=crop&crop=face"
+                        alt="Client 3"
+                        width={34} height={34}
+                        loading="lazy"
+                        className="w-7.5 h-7.5 sm:w-8.5 sm:h-8.5 rounded-full object-cover border-2 border-lime-400 shadow-sm"
                       />
                     </div>
                     <div className="text-left font-sans">
@@ -193,7 +199,7 @@ export default function WhatIDoDifferently() {
                     className="inline-flex md:hidden items-center gap-2 bg-black/10 backdrop-blur-xl border border-black/15 px-3 py-1.5 rounded-2xl shadow-sm hover:bg-black/20 transition-colors font-sans"
                   >
                     <div className="w-4 h-4 rounded-md overflow-hidden bg-white p-0.5 flex-shrink-0">
-                      <img src="/softcr8ors_preview.png" alt="SoftCr8ors" className="w-full h-full object-cover object-top rounded-sm" />
+                      <Image src="/softcr8ors_preview.png" alt="SoftCr8ors" width={16} height={16} loading="lazy" className="w-full h-full object-cover object-top rounded-sm" />
                     </div>
                     <span className="text-[11px] font-bold text-gray-950">Visit SoftCr8ors</span>
                     <ExternalLink size={11} className="text-gray-950" />

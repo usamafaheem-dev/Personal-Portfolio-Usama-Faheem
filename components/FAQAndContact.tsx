@@ -172,7 +172,7 @@ function BackgroundVideoPlayer({ progress }: { progress?: any }) {
           poster={posterSrc}
           playsInline
           muted
-          preload="auto"
+          preload="none"
           style={{ opacity: 0.60 }}
           className="w-full h-full object-cover object-[center_top] pointer-events-none transform-gpu"
         />
@@ -789,7 +789,7 @@ export default function FAQAndContact() {
                 </span>
                 <div className="relative mt-1 flex flex-col items-center">
                   <div className="w-16 h-16 rounded-full border-2 border-slate-900 overflow-hidden bg-gradient-to-b from-[#d8ff00]/20 to-white shadow-md">
-                    <img src="/usaam_emoji.png" alt="Usama Faheem" className="w-full h-full object-contain scale-110 translate-y-1" />
+                    <Image src="/usaam_emoji.png" alt="Usama Faheem" width={64} height={64} loading="lazy" className="w-full h-full object-contain scale-110 translate-y-1" />
                   </div>
                   <div className="mt-2.5 px-3 py-0.5 bg-slate-950 text-white text-[10px] font-mono font-bold tracking-wider shadow-sm">
                     &quot;ASK ME ANYTHING&quot;

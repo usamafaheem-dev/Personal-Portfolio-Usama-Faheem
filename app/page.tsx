@@ -1,11 +1,14 @@
 import dynamic from 'next/dynamic';
 import Preloader from "@/components/Preloader";
 import MainWrapper from "@/components/MainWrapper";
+
+// ── Critical above-fold: eager import (user sees these first) ──
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import TechMarquee from "@/components/TechMarquee";
 import About from "@/components/About";
 
+// ── Below fold: lazy-load (code split, loads when needed) ──
 const Stats = dynamic(() => import("@/components/Stats"));
 const WhatIDoDifferently = dynamic(() => import("@/components/WhatIDoDifferently"));
 const Services = dynamic(() => import("@/components/Services"));
@@ -17,6 +20,8 @@ const Certifications = dynamic(() => import("@/components/Certifications"));
 const FindMeOnline = dynamic(() => import("@/components/FindMeOnline"));
 const FAQAndContact = dynamic(() => import("@/components/FAQAndContact"));
 const Footer = dynamic(() => import("@/components/Footer"));
+
+// ── Floating UI: fully deferred ──
 const AIChatbot = dynamic(() => import("@/components/AIChatbot"));
 const WhatsAppButton = dynamic(() => import("@/components/WhatsAppButton"));
 const ElevenLabsVoice = dynamic(() => import("@/components/ElevenLabsVoice"));

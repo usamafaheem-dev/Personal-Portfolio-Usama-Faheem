@@ -200,7 +200,7 @@ export default function Experience() {
             <motion.div
               animate={{ x: ['0%', '-50%'] }}
               transition={{ repeat: Infinity, duration: 9, ease: 'linear' }}
-              className="inline-flex items-center gap-3 whitespace-nowrap pr-3"
+              className="inline-flex items-center gap-3 whitespace-nowrap pr-3 transform-gpu"
             >
               <span>{item.role}</span>
               <span className="text-white/40 text-[7px]">●</span>
@@ -264,23 +264,23 @@ export default function Experience() {
 
             {/* SLOT 1: VertexAi Tec */}
             <motion.div
-              initial={{ opacity: 0, y: 35, x: 25, rotateZ: 3, scale: 0.96 }}
+              initial={{ opacity: 0, y: 25, x: 20, rotateZ: 2, scale: 0.97 }}
               whileInView={{ opacity: 1, y: 0, x: 0, rotateZ: -1.5, scale: 1 }}
-              viewport={{ once: true, amount: 0.2 }}
-              transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+              viewport={{ once: true, amount: 0.15 }}
+              transition={{ duration: 0.6, delay: 0.05, ease: [0.16, 1, 0.3, 1] }}
               whileHover={{
                 scale: 1.02,
                 rotateZ: 0,
                 y: -3,
                 boxShadow: '0 20px 45px -10px rgba(2,68,173,0.45)',
-                transition: { duration: 0.25, ease: 'easeOut' }
+                transition: { duration: 0.2, ease: 'easeOut' }
               }}
               className={`
                 relative group ${experiences[0].cardGradient} 
                 border ${experiences[0].cardBorder} rounded-[18px] min-[400px]:rounded-[22px] lg:rounded-[28px] 
                 p-3.5 min-[400px]:p-4 lg:p-6 transition-all duration-300 ease-out ${experiences[0].cardShadow}
                 flex flex-col cursor-pointer text-white w-full
-                origin-top-left
+                origin-top-left transform-gpu
               `}
             >
               {renderOriginalGridCard(experiences[0])}
@@ -288,23 +288,23 @@ export default function Experience() {
 
             {/* SLOT 2: SoftCr8ors */}
             <motion.div
-              initial={{ opacity: 0, y: 35, x: -25, rotateZ: -4, scale: 0.96 }}
+              initial={{ opacity: 0, y: 25, x: -20, rotateZ: -3, scale: 0.97 }}
               whileInView={{ opacity: 1, y: 0, x: 0, rotateZ: -0.5, scale: 1 }}
-              viewport={{ once: true, amount: 0.2 }}
-              transition={{ duration: 0.8, delay: 0.25, ease: [0.16, 1, 0.3, 1] }}
+              viewport={{ once: true, amount: 0.15 }}
+              transition={{ duration: 0.6, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
               whileHover={{
                 scale: 1.02,
                 rotateZ: 0,
                 y: -3,
                 boxShadow: '0 20px 45px -10px rgba(139,92,246,0.45)',
-                transition: { duration: 0.25, ease: 'easeOut' }
+                transition: { duration: 0.2, ease: 'easeOut' }
               }}
               className={`
                 relative group ${experiences[1].cardGradient} 
                 border ${experiences[1].cardBorder} rounded-[18px] min-[400px]:rounded-[22px] lg:rounded-[28px] 
                 p-3.5 min-[400px]:p-4 lg:p-6 transition-all duration-300 ease-out ${experiences[1].cardShadow}
                 flex flex-col cursor-pointer text-white w-full
-                origin-center
+                origin-center transform-gpu
               `}
             >
               {renderOriginalGridCard(experiences[1])}
@@ -312,23 +312,23 @@ export default function Experience() {
 
             {/* SLOT 3: Tekrivo */}
             <motion.div
-              initial={{ opacity: 0, y: 35, x: 25, rotateZ: 4, scale: 0.96 }}
+              initial={{ opacity: 0, y: 25, x: 20, rotateZ: 3, scale: 0.97 }}
               whileInView={{ opacity: 1, y: 0, x: 0, rotateZ: 1, scale: 1 }}
-              viewport={{ once: true, amount: 0.2 }}
-              transition={{ duration: 0.8, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
+              viewport={{ once: true, amount: 0.15 }}
+              transition={{ duration: 0.6, delay: 0.25, ease: [0.16, 1, 0.3, 1] }}
               whileHover={{
                 scale: 1.02,
                 rotateZ: 0,
                 y: -3,
                 boxShadow: '0 20px 45px -10px rgba(124,58,237,0.45)',
-                transition: { duration: 0.25, ease: 'easeOut' }
+                transition: { duration: 0.2, ease: 'easeOut' }
               }}
               className={`
                 relative group ${experiences[2].cardGradient} 
                 border ${experiences[2].cardBorder} rounded-[18px] min-[400px]:rounded-[22px] lg:rounded-[28px] 
                 p-3.5 min-[400px]:p-4 lg:p-6 transition-all duration-300 ease-out ${experiences[2].cardShadow}
                 flex flex-col cursor-pointer text-white w-full
-                origin-bottom-right
+                origin-bottom-right transform-gpu
               `}
             >
               {renderOriginalGridCard(experiences[2])}
@@ -348,7 +348,7 @@ export default function Experience() {
             {/* 🌟 Stylish Eyebrow Badge */}
             <div className="inline-flex items-center gap-2 bg-[#d8ff00] border-2 border-black px-3.5 py-1 rounded-full shadow-sm self-center lg:self-start">
               <Sparkles className="w-3.5 h-3.5 text-black" />
-              <span style={{ fontFamily: 'var(--font-caveat), cursive' }} className="text-base font-bold text-black">Experience & Impact</span>
+              <span style={{ fontFamily: 'var(--font-caveat), cursive' }} className="text-base font-bold text-black font-caveat">Experience & Impact</span>
             </div>
 
             {/* Main Dual-Tone Poppins Headline */}
@@ -358,9 +358,9 @@ export default function Experience() {
               <span className="text-[#0052ff]">Next Project?</span>
             </h2>
 
-            {/* Description Bio with Highlighted Key Terms */}
+            {/* Description Bio */}
             <p className="text-[#475569] text-xs min-[380px]:text-sm sm:text-base leading-[1.75] sm:leading-[1.8] font-normal font-sans max-w-[600px] lg:max-w-none">
-              With over <strong className="font-bold text-[#171712] bg-[#d8ff00] px-1.5 py-0.5 rounded font-black">1 year</strong> of production experience across fast-paced AI agencies, <strong className="font-bold text-[#171712] bg-[#d8ff00] px-1.5 py-0.5 rounded font-black">client</strong> projects, <strong className="font-bold text-[#171712] bg-[#d8ff00] px-1.5 py-0.5 rounded font-black">startups</strong>, and <strong className="font-bold text-[#171712] bg-[#d8ff00] px-1.5 py-0.5 rounded font-black">agencies</strong>, I specialize in translating complex <strong className="font-bold text-[#171712] bg-[#d8ff00] px-1.5 py-0.5 rounded font-black">ideas</strong> into high-performance, conversion-driven <strong className="font-bold text-[#171712] bg-[#d8ff00] px-1.5 py-0.5 rounded font-black">web applications</strong>.
+              With over <strong className="font-semibold text-slate-900">1 year</strong> of production experience across fast-paced AI agencies, client projects, startups, and agencies, I specialize in translating complex ideas into high-performance, conversion-driven web applications.
             </p>
 
             {/* Pill Button: Download My CV (primary action = blue) */}
@@ -402,7 +402,7 @@ export default function Experience() {
           >
             <div className="inline-flex items-center gap-2 bg-[#d8ff00] border-2 border-black px-3.5 py-1 rounded-full shadow-sm mb-4">
               <Award className="w-3.5 h-3.5 text-black" />
-              <span style={{ fontFamily: 'var(--font-caveat), cursive' }} className="text-base font-bold text-black">Work Certificates</span>
+              <span style={{ fontFamily: 'var(--font-caveat), cursive' }} className="text-base font-bold text-black font-caveat">Work Certificates</span>
             </div>
             <h3 className="text-xl min-[380px]:text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight font-poppins text-[#0f172a]">
               Experience <span className="text-[#0052ff]">Certificates</span>
@@ -418,10 +418,10 @@ export default function Experience() {
                 rel="noopener noreferrer"
                 initial={{ opacity: 0, y: 30, scale: 0.96 }}
                 whileInView={{ opacity: 1, y: 0, scale: 1 }}
-                viewport={{ once: true, amount: 0.2 }}
-                transition={{ duration: 0.7, delay: i * 0.15, ease: [0.16, 1, 0.3, 1] }}
+                viewport={{ once: true, amount: 0.15 }}
+                transition={{ duration: 0.5, delay: i * 0.08, ease: [0.16, 1, 0.3, 1] }}
                 whileHover={{ y: -6, scale: 1.02, transition: { duration: 0.25 } }}
-                className="relative group rounded-[22px] sm:rounded-[26px] bg-white p-[2.5px] pb-3.5 sm:pb-4 overflow-hidden cursor-pointer transition-shadow duration-300 hover:shadow-[0_8px_30px_rgba(0,0,0,0.12)] block"
+                className="relative group rounded-[22px] sm:rounded-[26px] bg-white p-[2.5px] pb-3.5 sm:pb-4 overflow-hidden cursor-pointer transition-shadow duration-300 hover:shadow-[0_8px_30px_rgba(0,0,0,0.12)] block transform-gpu"
               >
                 {/* Animated border beam & bottom shelf on hover */}
                 <div className="absolute inset-0 rounded-[22px] sm:rounded-[26px] opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none overflow-hidden">
@@ -430,7 +430,7 @@ export default function Experience() {
                     style={{ background: `linear-gradient(to bottom, transparent 35%, ${cert.gradientFrom} 75%, ${cert.gradientTo} 100%)` }}
                   />
                   <div
-                    className="absolute inset-[-150%] animate-[spin_2s_linear_infinite]"
+                    className="absolute inset-[-150%] group-hover:animate-[spin_2s_linear_infinite] transform-gpu"
                     style={{ background: `conic-gradient(from 0deg, transparent 0 170deg, ${cert.gradientFrom} 230deg, ${cert.gradientTo} 310deg, transparent 360deg)` }}
                   />
                 </div>

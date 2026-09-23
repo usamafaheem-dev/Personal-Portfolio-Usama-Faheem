@@ -117,10 +117,10 @@ export default function Certifications() {
   });
 
   const smoothProgress = useSpring(scrollYProgress, {
-    damping: 30,
+    damping: 32,
     stiffness: 90,
-    mass: 0.2,
-    restDelta: 0.0001,
+    mass: 0.18,
+    restDelta: 0.001,
   });
 
   // Calculate exact letter 'C' center for 100% accurate portal zoom & CTA screen center
@@ -218,49 +218,49 @@ export default function Certifications() {
       >
 
         {/* ── AMBIENT BRAND BACKGROUND GLOW (Exact 4 Services Colors: Blue, Dark, Lime, Mint) ── */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
-          <div className="absolute top-[-5%] left-[-5%] w-[45vw] h-[45vw] rounded-full bg-[#0052ff]/09 blur-[110px]" />
-          <div className="absolute bottom-[-5%] left-[5%] w-[42vw] h-[42vw] rounded-full bg-[#10121a]/05 blur-[110px]" />
-          <div className="absolute top-[8%] right-[-5%] w-[48vw] h-[48vw] rounded-full bg-[#d8ff00]/14 blur-[110px]" />
-          <div className="absolute bottom-[-5%] right-[8%] w-[40vw] h-[40vw] rounded-full bg-[#00d5b5]/10 blur-[110px]" />
+        <div className="absolute inset-0 overflow-hidden pointer-events-none z-0 transform-gpu">
+          <div className="absolute top-[-5%] left-[-5%] w-[45vw] h-[45vw] rounded-full bg-[#0052ff]/18 blur-[100px] transform-gpu" />
+          <div className="absolute bottom-[-5%] left-[5%] w-[42vw] h-[42vw] rounded-full bg-[#10121a]/08 blur-[100px] transform-gpu" />
+          <div className="absolute top-[8%] right-[-5%] w-[48vw] h-[48vw] rounded-full bg-[#d8ff00]/26 blur-[100px] transform-gpu" />
+          <div className="absolute bottom-[-5%] right-[8%] w-[40vw] h-[40vw] rounded-full bg-[#00d5b5]/20 blur-[100px] transform-gpu" />
           
           {/* Fine Dotted Grid Overlay */}
-          <div className="absolute inset-0 bg-[radial-gradient(#94a3b8_1.2px,transparent_1.2px)] [background-size:24px_24px] opacity-30" />
+          <div className="absolute inset-0 bg-[radial-gradient(#94a3b8_1.2px,transparent_1.2px)] [background-size:24px_24px] opacity-35" />
         </div>
 
         {/* ── STAGE 1: GRAPHIC BRAND ORGANIC BLOBS & DOODLES (Exact 4 Services Colors: Blue, Dark, Lime, Mint) ── */}
         <motion.div 
           style={{ opacity: shapesOpacity, scale: shapesScale }}
-          className="absolute inset-0 overflow-hidden pointer-events-none z-1"
+          className="absolute inset-0 overflow-hidden pointer-events-none z-1 transform-gpu"
         >
           {/* 1. Top-Left Electric Blue Organic Blob (#0052ff) */}
           <motion.div
             animate={{ y: [0, -8, 0], rotate: [0, 2, 0] }}
             transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut' }}
             style={{ borderRadius: '54% 46% 62% 38% / 44% 56% 44% 56%' }}
-            className="absolute top-[12%] sm:top-[2%] left-[-8%] sm:left-[0%] w-[170px] h-[160px] sm:w-[320px] sm:h-[300px] lg:w-[440px] lg:h-[410px] bg-[#0052ff]/12 border border-[#0052ff]/20 shadow-xs"
+            className="absolute top-[12%] sm:top-[2%] left-[-8%] sm:left-[0%] w-[170px] h-[160px] sm:w-[320px] sm:h-[300px] lg:w-[440px] lg:h-[410px] bg-[#0052ff]/26 border-2 border-[#0052ff]/40 shadow-lg transform-gpu will-change-transform"
           />
           
-          {/* 2. Bottom-Left Sleek Dark Charcoal Organic Blob (#10121a) */}
+          {/* 2. Bottom-Left Sleek Electric Blue Aura Organic Blob (#0052ff) - Crisp & Vibrant */}
           <motion.div
             animate={{ y: [0, 8, 0], rotate: [0, -2, 0] }}
             transition={{ duration: 6.5, repeat: Infinity, ease: 'easeInOut', delay: 0.4 }}
             style={{ borderRadius: '46% 54% 38% 62% / 56% 44% 62% 38%' }}
-            className="absolute bottom-[10%] sm:bottom-[2%] left-[0%] sm:left-[8%] lg:left-[13%] w-[180px] h-[170px] sm:w-[330px] sm:h-[310px] lg:w-[460px] lg:h-[430px] bg-[#10121a]/08 border border-[#10121a]/15 shadow-xs"
+            className="absolute bottom-[10%] sm:bottom-[2%] left-[0%] sm:left-[8%] lg:left-[13%] w-[180px] h-[170px] sm:w-[330px] sm:h-[310px] lg:w-[460px] lg:h-[430px] bg-[#0052ff]/12 border-2 border-[#0052ff]/25 shadow-md transform-gpu will-change-transform"
           />
 
           {/* Tiny Electric Mint Accent Dot (#00d5b5 - Left of Charcoal Blob) */}
           <motion.div 
             animate={{ scale: [1, 1.25, 1] }}
             transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
-            className="absolute bottom-[36%] sm:bottom-[35%] left-[3%] sm:left-[5%] w-2.5 h-2.5 sm:w-3.5 sm:h-3.5 rounded-full bg-[#00d5b5]" 
+            className="absolute bottom-[36%] sm:bottom-[35%] left-[3%] sm:left-[5%] w-2.5 h-2.5 sm:w-3.5 sm:h-3.5 rounded-full bg-[#00d5b5] shadow-[0_0_10px_rgba(0,213,181,0.6)] transform-gpu will-change-transform" 
           />
 
           {/* Brand Blue Wavy Squiggly Line Doodle (#0052ff - Beside SCROLL TO SEE) */}
           <motion.div
             animate={{ x: [-3, 3, -3], rotate: [-2, 2, -2] }}
             transition={{ duration: 3.5, repeat: Infinity, ease: 'easeInOut' }}
-            className="absolute bottom-[16%] sm:bottom-[12%] left-[10%] sm:left-[18%] lg:left-[22%] text-[#0052ff]"
+            className="absolute bottom-[16%] sm:bottom-[12%] left-[10%] sm:left-[18%] lg:left-[22%] text-[#0052ff] transform-gpu will-change-transform"
           >
             <svg className="w-8 sm:w-16 h-3 sm:h-5 stroke-current fill-none stroke-[3] stroke-linecap-round" viewBox="0 0 80 20">
               <path d="M 4 10 Q 14 0, 24 10 T 44 10 T 64 10 T 76 10" />
@@ -272,14 +272,14 @@ export default function Certifications() {
             animate={{ y: [0, -8, 0], rotate: [0, -2.5, 0] }}
             transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut', delay: 0.8 }}
             style={{ borderRadius: '58% 42% 52% 48% / 42% 58% 48% 52%' }}
-            className="absolute top-[12%] sm:top-[3%] right-[-8%] sm:right-[0%] w-[170px] h-[160px] sm:w-[310px] sm:h-[290px] lg:w-[430px] lg:h-[410px] bg-[#d8ff00]/22 border border-[#d8ff00]/30 shadow-xs"
+            className="absolute top-[12%] sm:top-[3%] right-[-8%] sm:right-[0%] w-[170px] h-[160px] sm:w-[310px] sm:h-[290px] lg:w-[430px] lg:h-[410px] bg-[#d8ff00]/45 border-2 border-[#d8ff00]/65 shadow-lg transform-gpu will-change-transform"
           />
 
           {/* 4-Pointed Sparkle Star (Dark Charcoal inside Lime Blob) */}
           <motion.div
             animate={{ scale: [1, 1.25, 1], rotate: [0, 15, 0] }}
             transition={{ duration: 3.2, repeat: Infinity, ease: 'easeInOut' }}
-            className="absolute top-[16%] sm:top-[20%] right-[6%] sm:right-[12%] text-[#10121a]/80"
+            className="absolute top-[16%] sm:top-[20%] right-[6%] sm:right-[12%] text-[#10121a]/80 transform-gpu will-change-transform"
           >
             <svg className="w-5 h-5 sm:w-8 sm:h-8 fill-current" viewBox="0 0 24 24">
               <path d="M12 0C12 6.627 6.627 12 0 12C6.627 12 12 17.373 12 24C12 17.373 17.373 12 24 12C17.373 12 12 6.627 12 0Z" />
@@ -291,7 +291,7 @@ export default function Certifications() {
             animate={{ y: [0, 8, 0], rotate: [0, 2, 0] }}
             transition={{ duration: 7.5, repeat: Infinity, ease: 'easeInOut', delay: 1.2 }}
             style={{ borderRadius: '48% 52% 44% 56% / 54% 46% 56% 44%' }}
-            className="absolute bottom-[10%] sm:bottom-[2%] right-[6%] sm:right-[20%] lg:right-[26%] w-[150px] h-[140px] sm:w-[260px] sm:h-[250px] lg:w-[360px] lg:h-[350px] bg-[#00d5b5]/15 border border-[#00d5b5]/25 shadow-xs"
+            className="absolute bottom-[10%] sm:bottom-[2%] right-[6%] sm:right-[20%] lg:right-[26%] w-[150px] h-[140px] sm:w-[260px] sm:h-[250px] lg:w-[360px] lg:h-[350px] bg-[#00d5b5]/32 border-2 border-[#00d5b5]/50 shadow-lg transform-gpu will-change-transform"
           />
         </motion.div>
 
@@ -318,16 +318,18 @@ export default function Certifications() {
             style={{ x: bottomScrollX, opacity: bottomScrollOpacity }}
             className="pb-24 sm:pb-10 lg:pb-12 pl-4 sm:pl-6 lg:pl-10"
           >
-            <div className="flex items-center gap-2.5 sm:gap-4 text-slate-950 whitespace-nowrap">
-              <h3 className="text-[26px] min-[380px]:text-[30px] sm:text-6xl md:text-7xl lg:text-[100px] font-extrabold font-sans uppercase tracking-tight leading-none transform scale-y-[1.2] origin-bottom">
+            <div className="flex items-center gap-3 sm:gap-5 whitespace-nowrap">
+              <h3 className="text-[26px] min-[380px]:text-[30px] sm:text-6xl md:text-7xl lg:text-[100px] font-extrabold font-sans uppercase tracking-tight leading-none text-slate-950 transform scale-y-[1.2] origin-bottom">
                 SCROLL TO SEE
               </h3>
               <motion.div
                 animate={{ y: [0, 6, 0] }}
                 transition={{ repeat: Infinity, duration: 1.5, ease: 'easeInOut' }}
-                className="text-[#0052ff] shrink-0"
+                className="shrink-0"
               >
-                <ArrowDown className="w-7 h-7 min-[380px]:w-8 min-[380px]:h-8 sm:w-14 sm:h-14 lg:w-22 lg:h-22 stroke-[3] transform scale-y-[1.2]" />
+                <div className="w-8 h-8 min-[380px]:w-10 min-[380px]:h-10 sm:w-16 sm:h-16 lg:w-20 lg:h-20 rounded-full bg-[#d8ff00] border-2 sm:border-[3px] border-black flex items-center justify-center shadow-[2px_2px_0px_#000] sm:shadow-[3px_3px_0px_#000]">
+                  <ArrowDown className="w-4 h-4 min-[380px]:w-5 min-[380px]:h-5 sm:w-8 sm:h-8 lg:w-11 lg:h-11 text-black stroke-[3.5]" />
+                </div>
               </motion.div>
             </div>
           </motion.div>
@@ -344,7 +346,7 @@ export default function Certifications() {
               y: enterShiftY,
               transformOrigin: portalOrigin
             }}
-            className="flex flex-col items-center justify-center will-change-transform"
+            className="flex flex-col items-center justify-center will-change-transform transform-gpu"
           >
             <h2 className="text-3xl min-[360px]:text-4xl sm:text-6xl md:text-8xl lg:text-[110px] font-extrabold font-sans text-slate-950 uppercase tracking-tight leading-none mb-1.5 sm:mb-4 transform scale-y-[1.2] whitespace-nowrap">
               ENTER THE
@@ -372,7 +374,7 @@ export default function Certifications() {
             className="flex items-center gap-6 sm:gap-10 lg:gap-12 pr-16 sm:pr-24 transform-gpu"
           >
             {/* 1. Nextskill Arfa Tower MERN Stack (Upper card - White) */}
-            <div className="shrink-0 w-[260px] xs:w-[285px] sm:w-[340px] lg:w-[380px] -translate-y-8 sm:-translate-y-16 lg:-translate-y-24 py-2 sm:py-3">
+            <div className="shrink-0 w-[260px] xs:w-[285px] sm:w-[340px] lg:w-[380px] -translate-y-8 sm:-translate-y-16 lg:-translate-y-24 py-2 sm:py-3 transform-gpu">
               <motion.div
                 whileHover={{ y: -6, scale: 1.015 }}
                 transition={{ type: 'spring', stiffness: 400, damping: 28 }}
@@ -382,9 +384,9 @@ export default function Certifications() {
                 {/* Default Static Border */}
                 <div className="absolute inset-0 rounded-[24px] sm:rounded-[30px] border border-slate-200/90 pointer-events-none group-hover:opacity-0 transition-opacity duration-300" />
                 
-                {/* Animated Glowing Border Beam on Hover (Confined to border, NO spread) */}
+                {/* Animated Glowing Border Beam on Hover (Confined to border, NO spread, paused when idle) */}
                 <div className="absolute inset-0 rounded-[24px] sm:rounded-[30px] opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none overflow-hidden">
-                  <div className="absolute inset-[-150%] animate-[spin_2.5s_linear_infinite] bg-[conic-gradient(from_0deg,transparent_0_240deg,#d8ff00_290deg,#ccf23a_340deg,transparent_360deg)]" />
+                  <div className="absolute inset-[-150%] [animation-play-state:paused] group-hover:[animation-play-state:running] animate-[spin_2.5s_linear_infinite] bg-[conic-gradient(from_0deg,transparent_0_240deg,#d8ff00_290deg,#ccf23a_340deg,transparent_360deg)] transform-gpu" />
                 </div>
 
                 {/* Inner Card Body */}
@@ -407,7 +409,7 @@ export default function Certifications() {
             </div>
 
             {/* 2. Google DevFest (Lower card - Light Yellow Navbar Theme) */}
-            <div className="shrink-0 w-[260px] xs:w-[285px] sm:w-[340px] lg:w-[380px] translate-y-8 sm:translate-y-16 lg:translate-y-24 py-2 sm:py-3">
+            <div className="shrink-0 w-[260px] xs:w-[285px] sm:w-[340px] lg:w-[380px] translate-y-8 sm:translate-y-16 lg:translate-y-24 py-2 sm:py-3 transform-gpu">
               <motion.div
                 whileHover={{ y: -6, scale: 1.015 }}
                 transition={{ type: 'spring', stiffness: 400, damping: 28 }}
@@ -417,9 +419,9 @@ export default function Certifications() {
                 {/* Default Static Border */}
                 <div className="absolute inset-0 rounded-[24px] sm:rounded-[30px] border border-[#ccf23a]/70 pointer-events-none group-hover:opacity-0 transition-opacity duration-300" />
                 
-                {/* Animated Glowing Border Beam on Hover (Confined to border, NO spread) */}
+                {/* Animated Glowing Border Beam on Hover (Confined to border, NO spread, paused when idle) */}
                 <div className="absolute inset-0 rounded-[24px] sm:rounded-[30px] opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none overflow-hidden">
-                  <div className="absolute inset-[-150%] animate-[spin_2.5s_linear_infinite] bg-[conic-gradient(from_0deg,transparent_0_240deg,#d8ff00_290deg,#ccf23a_340deg,transparent_360deg)]" />
+                  <div className="absolute inset-[-150%] [animation-play-state:paused] group-hover:[animation-play-state:running] animate-[spin_2.5s_linear_infinite] bg-[conic-gradient(from_0deg,transparent_0_240deg,#d8ff00_290deg,#ccf23a_340deg,transparent_360deg)] transform-gpu" />
                 </div>
 
                 {/* Inner Card Body */}
@@ -446,13 +448,13 @@ export default function Certifications() {
               <p className="text-lg xs:text-xl sm:text-2xl lg:text-[32px] font-semibold font-sans text-slate-900 leading-[1.25] tracking-tight">
                 "It doesn't matter <span className="font-bold">what</span> you build, it matters <span className="font-bold">how much fun</span> it is to use."
               </p>
-              <p style={{ fontFamily: 'var(--font-caveat), cursive' }} className="text-[#0052ff] text-3xl sm:text-4xl lg:text-5xl mt-2 sm:mt-3 -rotate-2 font-bold tracking-wider">
+              <p style={{ fontFamily: 'var(--font-caveat), cursive' }} className="text-[#0052ff] text-3xl sm:text-4xl lg:text-5xl mt-2 sm:mt-3 -rotate-2 font-bold tracking-wider font-caveat">
                 Usama Faheem
               </p>
             </div>
 
             {/* 3. DigiSkills Full Stack MERN (Lower card - White) */}
-            <div className="shrink-0 w-[260px] xs:w-[285px] sm:w-[340px] lg:w-[380px] translate-y-8 sm:translate-y-16 lg:translate-y-24 py-2 sm:py-3">
+            <div className="shrink-0 w-[260px] xs:w-[285px] sm:w-[340px] lg:w-[380px] translate-y-8 sm:translate-y-16 lg:translate-y-24 py-2 sm:py-3 transform-gpu">
               <motion.div
                 whileHover={{ y: -6, scale: 1.015 }}
                 transition={{ type: 'spring', stiffness: 400, damping: 28 }}
@@ -462,9 +464,9 @@ export default function Certifications() {
                 {/* Default Static Border */}
                 <div className="absolute inset-0 rounded-[24px] sm:rounded-[30px] border border-slate-200/90 pointer-events-none group-hover:opacity-0 transition-opacity duration-300" />
                 
-                {/* Animated Glowing Border Beam on Hover (Confined to border, NO spread) */}
+                {/* Animated Glowing Border Beam on Hover (Confined to border, NO spread, paused when idle) */}
                 <div className="absolute inset-0 rounded-[24px] sm:rounded-[30px] opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none overflow-hidden">
-                  <div className="absolute inset-[-150%] animate-[spin_2.5s_linear_infinite] bg-[conic-gradient(from_0deg,transparent_0_240deg,#d8ff00_290deg,#ccf23a_340deg,transparent_360deg)]" />
+                  <div className="absolute inset-[-150%] [animation-play-state:paused] group-hover:[animation-play-state:running] animate-[spin_2.5s_linear_infinite] bg-[conic-gradient(from_0deg,transparent_0_240deg,#d8ff00_290deg,#ccf23a_340deg,transparent_360deg)] transform-gpu" />
                 </div>
 
                 {/* Inner Card Body */}
@@ -487,7 +489,7 @@ export default function Certifications() {
             </div>
 
             {/* 4. DigiSkills Freelancing (Upper card - Light Yellow Navbar Theme) */}
-            <div className="shrink-0 w-[260px] xs:w-[285px] sm:w-[340px] lg:w-[380px] -translate-y-8 sm:-translate-y-16 lg:-translate-y-24 py-2 sm:py-3">
+            <div className="shrink-0 w-[260px] xs:w-[285px] sm:w-[340px] lg:w-[380px] -translate-y-8 sm:-translate-y-16 lg:-translate-y-24 py-2 sm:py-3 transform-gpu">
               <motion.div
                 whileHover={{ y: -6, scale: 1.015 }}
                 transition={{ type: 'spring', stiffness: 400, damping: 28 }}
@@ -497,9 +499,9 @@ export default function Certifications() {
                 {/* Default Static Border */}
                 <div className="absolute inset-0 rounded-[24px] sm:rounded-[30px] border border-[#ccf23a]/70 pointer-events-none group-hover:opacity-0 transition-opacity duration-300" />
                 
-                {/* Animated Glowing Border Beam on Hover (Confined to border, NO spread) */}
+                {/* Animated Glowing Border Beam on Hover (Confined to border, NO spread, paused when idle) */}
                 <div className="absolute inset-0 rounded-[24px] sm:rounded-[30px] opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none overflow-hidden">
-                  <div className="absolute inset-[-150%] animate-[spin_2.5s_linear_infinite] bg-[conic-gradient(from_0deg,transparent_0_240deg,#d8ff00_290deg,#ccf23a_340deg,transparent_360deg)]" />
+                  <div className="absolute inset-[-150%] [animation-play-state:paused] group-hover:[animation-play-state:running] animate-[spin_2.5s_linear_infinite] bg-[conic-gradient(from_0deg,transparent_0_240deg,#d8ff00_290deg,#ccf23a_340deg,transparent_360deg)] transform-gpu" />
                 </div>
 
                 {/* Inner Card Body */}
@@ -522,7 +524,7 @@ export default function Certifications() {
             </div>
 
             {/* 5. Cisco Networking Basics (Lower card - White) */}
-            <div className="shrink-0 w-[260px] xs:w-[285px] sm:w-[340px] lg:w-[380px] translate-y-8 sm:translate-y-16 lg:translate-y-24 py-2 sm:py-3">
+            <div className="shrink-0 w-[260px] xs:w-[285px] sm:w-[340px] lg:w-[380px] translate-y-8 sm:translate-y-16 lg:translate-y-24 py-2 sm:py-3 transform-gpu">
               <motion.div
                 whileHover={{ y: -6, scale: 1.015 }}
                 transition={{ type: 'spring', stiffness: 400, damping: 28 }}
@@ -532,9 +534,9 @@ export default function Certifications() {
                 {/* Default Static Border */}
                 <div className="absolute inset-0 rounded-[24px] sm:rounded-[30px] border border-slate-200/90 pointer-events-none group-hover:opacity-0 transition-opacity duration-300" />
                 
-                {/* Animated Glowing Border Beam on Hover (Confined to border, NO spread) */}
+                {/* Animated Glowing Border Beam on Hover (Confined to border, NO spread, paused when idle) */}
                 <div className="absolute inset-0 rounded-[24px] sm:rounded-[30px] opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none overflow-hidden">
-                  <div className="absolute inset-[-150%] animate-[spin_2.5s_linear_infinite] bg-[conic-gradient(from_0deg,transparent_0_240deg,#d8ff00_290deg,#ccf23a_340deg,transparent_360deg)]" />
+                  <div className="absolute inset-[-150%] [animation-play-state:paused] group-hover:[animation-play-state:running] animate-[spin_2.5s_linear_infinite] bg-[conic-gradient(from_0deg,transparent_0_240deg,#d8ff00_290deg,#ccf23a_340deg,transparent_360deg)] transform-gpu" />
                 </div>
 
                 {/* Inner Card Body */}
@@ -557,7 +559,7 @@ export default function Certifications() {
             </div>
 
             {/* 6. Cisco AI & Networks (Upper card - Light Yellow Navbar Theme) */}
-            <div className="shrink-0 w-[260px] xs:w-[285px] sm:w-[340px] lg:w-[380px] -translate-y-8 sm:-translate-y-16 lg:-translate-y-24 py-2 sm:py-3">
+            <div className="shrink-0 w-[260px] xs:w-[285px] sm:w-[340px] lg:w-[380px] -translate-y-8 sm:-translate-y-16 lg:-translate-y-24 py-2 sm:py-3 transform-gpu">
               <motion.div
                 whileHover={{ y: -6, scale: 1.015 }}
                 transition={{ type: 'spring', stiffness: 400, damping: 28 }}
@@ -567,9 +569,9 @@ export default function Certifications() {
                 {/* Default Static Border */}
                 <div className="absolute inset-0 rounded-[24px] sm:rounded-[30px] border border-[#ccf23a]/70 pointer-events-none group-hover:opacity-0 transition-opacity duration-300" />
                 
-                {/* Animated Glowing Border Beam on Hover (Confined to border, NO spread) */}
+                {/* Animated Glowing Border Beam on Hover (Confined to border, NO spread, paused when idle) */}
                 <div className="absolute inset-0 rounded-[24px] sm:rounded-[30px] opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none overflow-hidden">
-                  <div className="absolute inset-[-150%] animate-[spin_2.5s_linear_infinite] bg-[conic-gradient(from_0deg,transparent_0_240deg,#d8ff00_290deg,#ccf23a_340deg,transparent_360deg)]" />
+                  <div className="absolute inset-[-150%] [animation-play-state:paused] group-hover:[animation-play-state:running] animate-[spin_2.5s_linear_infinite] bg-[conic-gradient(from_0deg,transparent_0_240deg,#d8ff00_290deg,#ccf23a_340deg,transparent_360deg)] transform-gpu" />
                 </div>
 
                 {/* Inner Card Body */}

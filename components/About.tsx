@@ -11,18 +11,23 @@ export default function About() {
   const [isCardVisible, setIsCardVisible] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => {
-      if (!sectionRef.current) return;
-      const rect = sectionRef.current.getBoundingClientRect();
-      // Triggers when user scrolls to the middle of the About section (rect.top reaches 65% of viewport height)
-      const visible = rect.top <= window.innerHeight * 0.65 && rect.bottom >= 100;
-      setIsCardVisible(visible);
-    };
+    if (!sectionRef.current) return;
 
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    handleScroll();
+    // Use zero-cost IntersectionObserver instead of unthrottled scroll getBoundingClientRect
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsCardVisible((prev) => (!prev ? true : prev));
+        }
+      },
+      {
+        rootMargin: '0px 0px -25% 0px',
+        threshold: 0.05,
+      }
+    );
 
-    return () => window.removeEventListener('scroll', handleScroll);
+    observer.observe(sectionRef.current);
+    return () => observer.disconnect();
   }, []);
 
   return (
@@ -31,25 +36,26 @@ export default function About() {
       <div className="absolute inset-0 bg-[radial-gradient(#99a1af_1.2px,transparent_1.2px)] [background-size:24px_24px] opacity-40 pointer-events-none [mask-image:radial-gradient(ellipse_75%_75%_at_50%_50%,#000_60%,transparent_100%)]" />
 
       <div className="w-full max-w-[1360px] mx-auto px-4 sm:px-8 lg:px-12 flex flex-col lg:flex-row items-center gap-6 lg:gap-8 xl:gap-10 relative z-10">
-        
+
         {/* ── Left Side: Tilted/Rotated Card Image (DESKTOP ONLY - Top Drop Animation) ── */}
-        <div className="hidden lg:block relative flex-shrink-0 w-full max-w-[350px] xl:max-w-[370px]">
+        <div className="hidden lg:block relative flex-shrink-0 w-full max-w-[350px] xl:max-w-[370px] isolate">
           <motion.div
             initial="hidden"
             animate={isCardVisible ? "visible" : "hidden"}
+            className="transform-gpu"
             variants={{
-              hidden: { 
-                opacity: 0, 
+              hidden: {
+                opacity: 0,
                 y: -350,
-                transition: { 
+                transition: {
                   duration: 0.8,
-                  ease: "easeInOut" 
+                  ease: "easeInOut"
                 }
               },
-              visible: { 
-                opacity: 1, 
+              visible: {
+                opacity: 1,
                 y: 0,
-                transition: { 
+                transition: {
                   type: "spring",
                   bounce: 0.72,
                   duration: 2.6,
@@ -58,9 +64,9 @@ export default function About() {
               }
             }}
           >
-            <img 
-              src="/Badge_holder_with_man_photo_202608121707.jpeg" 
-              alt="Usama Faheem Card" 
+            <img
+              src="/Badge_holder_with_man_photo_202608121707.jpeg"
+              alt="Usama Faheem Card"
               className="w-full h-auto pointer-events-none transform rotate-[7deg] hover:rotate-0 transition-transform duration-500 origin-top mix-blend-multiply"
             />
           </motion.div>
@@ -68,9 +74,9 @@ export default function About() {
 
         {/* ── Right Side: Text & Experience Content ── */}
         <div className="w-full flex-1 flex flex-col pt-1 lg:pt-2 items-center lg:items-start text-center lg:text-left">
-          
+
           {/* Header Title & Typewriter Summary */}
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 35 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.3 }}
@@ -80,7 +86,7 @@ export default function About() {
             {/* 🌟 Stylish About Me Badge */}
             <div className="inline-flex items-center gap-2 bg-[#d8ff00] border-2 border-black px-3.5 py-1 rounded-full shadow-sm mb-4 self-center lg:self-start">
               <Sparkles className="w-3.5 h-3.5 text-black" />
-              <span style={{ fontFamily: 'var(--font-caveat), cursive' }} className="text-base font-bold text-black">About Me</span>
+              <span style={{ fontFamily: 'var(--font-caveat), cursive' }} className="text-base font-bold text-black font-caveat">About Me</span>
             </div>
 
             <h2 className="text-[22px] min-[380px]:text-[26px] sm:text-4xl lg:text-[54px] font-extrabold text-[#0f172a] mb-4 sm:mb-5 tracking-tight font-poppins text-center lg:text-left whitespace-nowrap sm:whitespace-normal">
@@ -88,15 +94,16 @@ export default function About() {
             </h2>
 
             <p className="text-[#6B7280] text-sm sm:text-[16px] leading-[1.75] max-w-[850px] font-normal font-sans mb-6 lg:mb-10 text-center lg:text-left">
-              I am a Frontend-focused MERN Stack Developer with <strong className="font-bold text-[#171712] bg-[#d8ff00] px-1.5 py-0.5 rounded font-black">1 year</strong> of experience building high-converting <strong className="font-bold text-[#171712] bg-[#d8ff00] px-1.5 py-0.5 rounded font-black">web applications</strong> for <strong className="font-bold text-[#171712] bg-[#d8ff00] px-1.5 py-0.5 rounded font-black">clients</strong>, <strong className="font-bold text-[#171712] bg-[#d8ff00] px-1.5 py-0.5 rounded font-black">startups</strong>, and <strong className="font-bold text-[#171712] bg-[#d8ff00] px-1.5 py-0.5 rounded font-black">agencies</strong>. Turning complex <strong className="font-bold text-[#171712] bg-[#d8ff00] px-1.5 py-0.5 rounded font-black">ideas</strong> into clean <strong className="font-bold text-[#171712] bg-[#d8ff00] px-1.5 py-0.5 rounded font-black">development</strong> and effortless user experiences.
+              I am a Frontend-focused MERN Stack Developer with <strong className="font-semibold text-slate-900">1 year</strong> of experience building high-converting web applications for clients, startups, and agencies. Turning complex ideas into clean development and effortless user experiences.
             </p>
           </motion.div>
 
           {/* ── MOBILE ONLY CARD IMAGE (Positioned right after bio paragraph, animates in from LEFT) ── */}
-          <div className="block lg:hidden w-full my-7 max-w-[245px] sm:max-w-[285px] mx-auto relative z-20">
+          <div className="block lg:hidden w-full my-7 max-w-[245px] sm:max-w-[285px] mx-auto relative z-20 isolate">
             <motion.div
               initial={{ opacity: 0, x: -60 }}
               whileInView={{ opacity: 1, x: 0 }}
+              className="transform-gpu"
               viewport={{ once: true, amount: 0.4 }}
               transition={{
                 type: "spring",
@@ -105,29 +112,29 @@ export default function About() {
                 duration: 0.8
               }}
             >
-              <img 
-                src="/Badge_holder_with_man_photo_202608121707.jpeg" 
-                alt="Usama Faheem Card Mobile" 
+              <img
+                src="/Badge_holder_with_man_photo_202608121707.jpeg"
+                alt="Usama Faheem Card Mobile"
                 className="w-full h-auto pointer-events-none transform rotate-[6deg] hover:rotate-0 transition-transform duration-500 origin-center mix-blend-multiply"
               />
             </motion.div>
           </div>
 
           {/* ── 3-Column Grid Spread Out Across Available Width ── */}
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 35 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.25 }}
             transition={{ duration: 0.8, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
             className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10 xl:gap-14 mt-4 lg:mt-0"
           >
-            
+
             {/* Column 1: EXPERIENCE */}
             <div className="flex flex-col items-center lg:items-start text-center lg:text-left lg:pr-8 lg:border-r border-slate-300/80">
               <h3 className="text-[13px] font-extrabold tracking-[0.18em] text-[#5f7a12] mb-6 uppercase font-poppins">
                 EXPERIENCE
               </h3>
-              
+
               <div className="flex flex-col gap-6 w-full">
                 <div>
                   <h4 className="text-[13px] xl:text-[14px] font-bold text-[#1f1f1f] leading-snug font-poppins">
@@ -172,7 +179,7 @@ export default function About() {
               <h3 className="text-[13px] font-extrabold tracking-[0.18em] text-[#5f7a12] mb-6 uppercase font-poppins">
                 EDUCATION
               </h3>
-              
+
               <div className="flex flex-col gap-6 w-full">
                 <div>
                   <h4 className="text-[13px] xl:text-[14px] font-bold text-[#1f1f1f] leading-snug font-poppins">
@@ -214,22 +221,22 @@ export default function About() {
 
             {/* Column 3: CONTACT & SOFTWARES */}
             <div className="flex flex-col items-center lg:items-start text-center lg:text-left justify-between">
-              
+
               {/* Contact Links */}
               <div className="w-full flex flex-col items-center lg:items-start">
                 <h3 className="text-[13px] font-extrabold tracking-[0.18em] text-[#5f7a12] mb-6 uppercase font-poppins">
                   CONTACT
                 </h3>
-                
+
                 <ul className="flex flex-col gap-3.5 items-center lg:items-start">
                   <li className="flex items-center gap-3 group">
                     <div className="w-7 h-7 rounded-md bg-[#ededf0] border border-slate-200 flex items-center justify-center flex-shrink-0 shadow-2xs group-hover:scale-110 transition-transform">
                       <FaLinkedin className="w-5 h-5 text-[#0077b5]" />
                     </div>
-                    <a 
-                      href="https://www.linkedin.com/in/usama-faheem/" 
-                      target="_blank" 
-                      rel="noopener noreferrer" 
+                    <a
+                      href="https://www.linkedin.com/in/usama-faheem/"
+                      target="_blank"
+                      rel="noopener noreferrer"
                       className="text-[12.5px] xl:text-[13px] text-[#6B7280] hover:text-[#0077b5] transition-colors whitespace-nowrap font-normal font-sans"
                     >
                       linkedin.com/in/usama-faheem
@@ -240,10 +247,10 @@ export default function About() {
                     <div className="w-7 h-7 rounded-md bg-[#ededf0] border border-slate-200 flex items-center justify-center flex-shrink-0 shadow-2xs group-hover:scale-110 transition-transform">
                       <SiGithub className="w-[19px] h-[19px] text-[#24292f]" />
                     </div>
-                    <a 
-                      href="https://github.com/usamafaheem-dev" 
-                      target="_blank" 
-                      rel="noopener noreferrer" 
+                    <a
+                      href="https://github.com/usamafaheem-dev"
+                      target="_blank"
+                      rel="noopener noreferrer"
                       className="text-[12.5px] xl:text-[13px] text-[#6B7280] hover:text-[#181717] transition-colors whitespace-nowrap font-normal font-sans"
                     >
                       github.com/usamafaheem-dev
@@ -254,15 +261,15 @@ export default function About() {
                     <div className="w-7 h-7 rounded-md bg-[#ededf0] border border-slate-200 flex items-center justify-center flex-shrink-0 shadow-2xs group-hover:scale-110 transition-transform">
                       {/* Official Google 4-Color Gmail Logo */}
                       <svg className="w-[20px] h-[20px] flex-shrink-0" viewBox="0 0 24 24" fill="none">
-                        <path d="M1.5 6.5C1.5 5.39543 2.39543 4.5 3.5 4.5H5L12 9.75L19 4.5H20.5C21.6046 4.5 22.5 5.39543 22.5 6.5V17.5C22.5 18.6046 21.6046 19.5 20.5 19.5H19V8.5L12 13.75L5 8.5V19.5H3.5C2.39543 19.5 1.5 18.6046 1.5 17.5V6.5Z" fill="#EA4335"/>
-                        <path d="M1.5 6.5V17.5C1.5 18.6046 2.39543 19.5 3.5 19.5H5V8.5L1.5 6.5Z" fill="#4285F4"/>
-                        <path d="M22.5 6.5V17.5C22.5 18.6046 21.6046 19.5 20.5 19.5H19V8.5L22.5 6.5Z" fill="#34A853"/>
-                        <path d="M19 4.5L22.5 6.5L19 8.5V4.5Z" fill="#FBBC04"/>
-                        <path d="M5 4.5L1.5 6.5L5 8.5V4.5Z" fill="#C5221F"/>
+                        <path d="M1.5 6.5C1.5 5.39543 2.39543 4.5 3.5 4.5H5L12 9.75L19 4.5H20.5C21.6046 4.5 22.5 5.39543 22.5 6.5V17.5C22.5 18.6046 21.6046 19.5 20.5 19.5H19V8.5L12 13.75L5 8.5V19.5H3.5C2.39543 19.5 1.5 18.6046 1.5 17.5V6.5Z" fill="#EA4335" />
+                        <path d="M1.5 6.5V17.5C1.5 18.6046 2.39543 19.5 3.5 19.5H5V8.5L1.5 6.5Z" fill="#4285F4" />
+                        <path d="M22.5 6.5V17.5C22.5 18.6046 21.6046 19.5 20.5 19.5H19V8.5L22.5 6.5Z" fill="#34A853" />
+                        <path d="M19 4.5L22.5 6.5L19 8.5V4.5Z" fill="#FBBC04" />
+                        <path d="M5 4.5L1.5 6.5L5 8.5V4.5Z" fill="#C5221F" />
                       </svg>
                     </div>
-                    <a 
-                      href="mailto:developer@usamafaheem.com" 
+                    <a
+                      href="mailto:developer@usamafaheem.com"
                       className="text-[12.5px] xl:text-[13px] text-[#6B7280] hover:text-[#ea4335] transition-colors whitespace-nowrap font-normal font-sans"
                     >
                       developer@usamafaheem.com
@@ -278,7 +285,7 @@ export default function About() {
                   <h3 className="text-[13px] font-extrabold tracking-[0.18em] text-[#5f7a12] mb-3 uppercase font-poppins">
                     MERN STACK
                   </h3>
-                  
+
                   <div className="flex items-center justify-center lg:justify-start gap-3 flex-nowrap">
                     {/* MongoDB */}
                     <div className="w-8 h-8 rounded-lg bg-[#f7ffdd] border border-lime-300/70 flex items-center justify-center p-1.5 shadow-2xs hover:scale-110 transition-transform cursor-pointer" title="MongoDB">
@@ -307,7 +314,7 @@ export default function About() {
                   <h3 className="text-[13px] font-extrabold tracking-[0.18em] text-[#5f7a12] uppercase font-poppins mb-3">
                     SOFTWARES & TOOLS
                   </h3>
-                  
+
                   <div className="flex items-center justify-center lg:justify-start gap-3 flex-nowrap">
                     <div className="w-8 h-8 rounded-lg bg-[#f7ffdd] border border-lime-300/70 flex items-center justify-center p-1.5 shadow-2xs hover:scale-110 transition-transform cursor-pointer overflow-hidden" title="Visual Studio Code">
                       <img src="/icons/vscode.png" alt="VS Code" className="w-full h-full object-contain mix-blend-multiply" />
@@ -323,11 +330,11 @@ export default function About() {
                     </div>
                     <div className="w-8 h-8 rounded-lg bg-[#f7ffdd] border border-lime-300/70 flex items-center justify-center p-1.5 shadow-2xs hover:scale-110 transition-transform cursor-pointer" title="Figma">
                       <svg className="w-[16px] h-[16px] flex-shrink-0" viewBox="0 0 38 57" fill="none">
-                        <path d="M19 28.5C19 23.2533 23.2533 19 28.5 19C33.7467 19 38 23.2533 38 28.5C38 33.7467 33.7467 38 28.5 38C23.2533 38 19 33.7467 19 28.5Z" fill="#1ABCFE"/>
-                        <path d="M0 47.5C0 42.2533 4.25329 38 9.5 38H19V47.5C19 52.7467 14.7467 57 9.5 57C4.25329 57 0 52.7467 0 47.5Z" fill="#0ACF83"/>
-                        <path d="M19 0V19H28.5C33.7467 19 38 14.7467 38 9.5C38 4.25329 33.7467 0 28.5 0H19Z" fill="#FF7262"/>
-                        <path d="M0 9.5C0 14.7467 4.25329 19 9.5 19H19V0H9.5C4.25329 0 0 4.25329 0 9.5Z" fill="#F24E1E"/>
-                        <path d="M0 28.5C0 33.7467 4.25329 38 9.5 38H19V19H9.5C4.25329 19 0 23.2533 0 28.5Z" fill="#A259FF"/>
+                        <path d="M19 28.5C19 23.2533 23.2533 19 28.5 19C33.7467 19 38 23.2533 38 28.5C38 33.7467 33.7467 38 28.5 38C23.2533 38 19 33.7467 19 28.5Z" fill="#1ABCFE" />
+                        <path d="M0 47.5C0 42.2533 4.25329 38 9.5 38H19V47.5C19 52.7467 14.7467 57 9.5 57C4.25329 57 0 52.7467 0 47.5Z" fill="#0ACF83" />
+                        <path d="M19 0V19H28.5C33.7467 19 38 14.7467 38 9.5C38 4.25329 33.7467 0 28.5 0H19Z" fill="#FF7262" />
+                        <path d="M0 9.5C0 14.7467 4.25329 19 9.5 19H19V0H9.5C4.25329 0 0 4.25329 0 9.5Z" fill="#F24E1E" />
+                        <path d="M0 28.5C0 33.7467 4.25329 38 9.5 38H19V19H9.5C4.25329 19 0 23.2533 0 28.5Z" fill="#A259FF" />
                       </svg>
                     </div>
                   </div>

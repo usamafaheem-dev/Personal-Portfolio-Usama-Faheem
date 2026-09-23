@@ -223,12 +223,14 @@ function DiagonalConveyorCard({
   project,
   index,
   total,
+  currentIdx,
   smoothProgress,
   onCardClick,
 }: {
   project: ProjectData;
   index: number;
   total: number;
+  currentIdx: number;
   smoothProgress: MotionValue<number>;
   onCardClick: (index: number) => void;
 }) {
@@ -240,6 +242,8 @@ function DiagonalConveyorCard({
     window.addEventListener('resize', checkMobile);
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
+
+  const isActive = Math.abs(index - currentIdx) <= 1;
 
   // Horizontal Spacing: 640px (desktop) / 360px (mobile) diagonal conveyor track
   const x = useTransform(smoothProgress, (p) => {
@@ -303,6 +307,12 @@ function DiagonalConveyorCard({
     return Math.max(1, Math.round(50 - dist * 10));
   });
 
+  // Pointer events: disables hit-testing for off-screen cards
+  const pointerEvents = useTransform(smoothProgress, (p) => {
+    const activeIndex = getContinuousIndex(p, total);
+    return Math.abs(index - activeIndex) > 2.2 ? 'none' : 'auto';
+  });
+
   return (
     <motion.div
       style={{
@@ -314,14 +324,15 @@ function DiagonalConveyorCard({
         rotateX,
         opacity,
         zIndex,
+        pointerEvents,
         transformOrigin: '50% 85%',
         transformStyle: 'preserve-3d',
         willChange: 'transform, opacity',
       }}
       onClick={() => onCardClick(index)}
-      className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[92vw] max-w-[730px] pointer-events-auto transform-gpu cursor-pointer"
+      className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[92vw] max-w-[730px] transform-gpu cursor-pointer"
     >
-      <ProjectCard project={project} index={index} />
+      <ProjectCard project={project} index={index} isActive={isActive} />
     </motion.div>
   );
 }
@@ -335,12 +346,12 @@ export default function Projects() {
     offset: ['start start', 'end end'],
   });
 
-  // Exact GSAP Scrub 1.4 Viscous Liquid Inertia Physics
+  // Exact GSAP Scrub 1.4 Viscous Liquid Inertia Physics - Optimized for 60fps
   const smoothProgress = useSpring(scrollYProgress, {
-    damping: 45,
-    stiffness: 65,
-    mass: 0.2,
-    restDelta: 0.0001,
+    damping: 42,
+    stiffness: 68,
+    mass: 0.18,
+    restDelta: 0.001,
   });
 
   // ── Dynamic Real-Time Color Morphing Linked to Active Center Card ──
@@ -358,8 +369,8 @@ export default function Projects() {
 
   useEffect(() => {
     const unsubscribe = smoothProgress.on('change', (latest) => {
-      const activeIdx = Math.round(getContinuousIndex(latest, projects.length));
-      setCurrentIdx(Math.max(0, Math.min(projects.length - 1, activeIdx)));
+      const activeIdx = Math.max(0, Math.min(projects.length - 1, Math.round(getContinuousIndex(latest, projects.length))));
+      setCurrentIdx((prev) => (prev !== activeIdx ? activeIdx : prev));
     });
     return () => unsubscribe();
   }, [smoothProgress]);
@@ -493,10 +504,8 @@ export default function Projects() {
         </motion.div>
 
         {/* ── BOTTOM-RIGHT: Continuous Infinite Rotating Star Spinner Doodle (Signature Lime #d8ff00) ── */}
-        <motion.div
-          animate={{ rotate: 360 }}
-          transition={{ duration: 15, repeat: Infinity, ease: 'linear' }}
-          className="absolute bottom-20 sm:bottom-28 right-8 sm:right-24 pointer-events-none hidden md:block z-20 text-[#d8ff00] drop-shadow-[0_0_16px_rgba(216,255,0,0.55)]"
+        <div
+          className="absolute bottom-20 sm:bottom-28 right-8 sm:right-24 pointer-events-none hidden md:block z-20 text-[#d8ff00] drop-shadow-[0_0_16px_rgba(216,255,0,0.55)] animate-[spin_15s_linear_infinite] transform-gpu will-change-transform"
         >
           <svg
             width="85"
@@ -513,7 +522,7 @@ export default function Projects() {
             <line x1="2" y1="12" x2="22" y2="12"></line>
             <line x1="4.93" y1="19.07" x2="19.07" y2="4.93"></line>
           </svg>
-        </motion.div>
+        </div>
 
         {/* ── 1. SECTION HEADER (Cleanly slides -220px up and completely disappears) ── */}
         <motion.div
@@ -521,8 +530,8 @@ export default function Projects() {
           className="absolute top-14 sm:top-18 left-0 right-0 z-30 max-w-4xl mx-auto px-6 text-center pointer-events-none"
         >
           <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#d8ff00] border-2 border-black mb-2 shadow-sm">
-            <Sparkles size={12} className="text-black" />
-            <span style={{ fontFamily: 'var(--font-caveat), cursive' }} className="text-base font-bold text-black">Featured Portfolio & Projects</span>
+            <Sparkles className="w-3.5 h-3.5 text-black" />
+            <span style={{ fontFamily: 'var(--font-caveat), cursive' }} className="text-base font-bold text-black font-caveat">Featured Portfolio & Projects</span>
           </div>
 
           <h2 className="text-2xl sm:text-5xl font-poppins font-extrabold text-white tracking-tight leading-tight mb-1">
@@ -542,6 +551,7 @@ export default function Projects() {
               project={project}
               index={i}
               total={projects.length}
+              currentIdx={currentIdx}
               smoothProgress={smoothProgress}
               onCardClick={scrollToCard}
             />

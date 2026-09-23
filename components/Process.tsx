@@ -129,7 +129,7 @@ export default function Process() {
             className="inline-flex items-center gap-2 bg-[#d8ff00] border-2 border-black px-3.5 py-1 rounded-full shadow-sm mb-3"
           >
             <Sparkles className="w-3.5 h-3.5 text-black" />
-            <span style={{ fontFamily: 'var(--font-caveat), cursive' }} className="text-base font-bold text-black">How We Work</span>
+            <span style={{ fontFamily: 'var(--font-caveat), cursive' }} className="text-base font-bold text-black font-caveat">How We Work</span>
           </motion.div>
 
           {/* Clean Responsive Headline */}
@@ -216,7 +216,7 @@ export default function Process() {
                 initial={{ pathLength: 0, opacity: 1 }}
                 whileInView={{ pathLength: 1, opacity: 0 }}
                 viewport={{ once: true, amount: 0.3 }}
-                transition={{ 
+                transition={{
                   pathLength: { duration: 1.15, ease: "easeInOut" },
                   opacity: { delay: 1.15, duration: 0.25, ease: "easeOut" }
                 }}
@@ -232,9 +232,9 @@ export default function Process() {
                 initial={{ opacity: 0 }}
                 whileInView={{ opacity: 1, strokeDashoffset: [0, -32] }}
                 viewport={{ once: true, amount: 0.3 }}
-                transition={{ 
+                transition={{
                   opacity: { delay: 1.1, duration: 0.3 },
-                  strokeDashoffset: { repeat: Infinity, duration: 2.2, ease: "linear", delay: 1.1 } 
+                  strokeDashoffset: { repeat: Infinity, duration: 2.2, ease: "linear", delay: 1.1 }
                 }}
               />
 

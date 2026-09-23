@@ -17,10 +17,10 @@ html {
 /* ── Design Tokens ─────────────────────────────────────── */
 /* Palette: 2 accents only — Gold (primary) + Lime (secondary) — plus neutrals. */
 :root {
-  --font-inter: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --font-poppins: 'Poppins', sans-serif;
-  --font-jetbrains-mono: 'JetBrains Mono', monospace;
-  --font-caveat: 'Caveat', cursive;
+  --font-inter: var(--font-inter), 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-poppins: var(--font-poppins), 'Poppins', sans-serif;
+  --font-jetbrains-mono: var(--font-jetbrains-mono), 'JetBrains Mono', monospace;
+  --font-caveat: var(--font-caveat), 'Caveat', cursive;
 
   --porcelain: #fbfcfb;
   /* Off-white background */
@@ -56,10 +56,21 @@ html {
   --font-display: var(--font-poppins);
   --font-body: var(--font-inter);
   --font-mono: var(--font-jetbrains-mono);
+  --font-caveat: var(--font-caveat), 'Caveat', cursive;
+  --font-signature: var(--font-caveat), 'Caveat', cursive;
 }
 
 .font-poppins {
   font-family: var(--font-poppins), sans-serif;
+}
+
+.font-caveat,
+.font-signature {
+  font-family: var(--font-caveat), 'Caveat', cursive !important;
+}
+
+[style*="--font-caveat"] {
+  font-family: var(--font-caveat), 'Caveat', cursive !important;
 }
 
 /* ── Guaranteed Global Text Selection & Copying Everywhere ── */

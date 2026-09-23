@@ -46,28 +46,39 @@ export default function Navbar() {
     checkMobile();
     window.addEventListener('resize', checkMobile);
 
+    let ticking = false;
     const onScroll = () => {
-      const scrollY = window.scrollY;
-      setScrolled(scrollY > 40);
-      setIsPastHero(scrollY > 90);
-      if (scrollY > 40) {
-        setShowNavbar(true);
-      }
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const scrollY = window.scrollY;
+          const nextScrolled = scrollY > 40;
+          const nextPastHero = scrollY > 90;
 
-      const projectsEl = document.getElementById('projects');
-      if (projectsEl) {
-        const rect = projectsEl.getBoundingClientRect();
-        const navbarY = 60;
-        if (rect.top <= navbarY && rect.bottom >= navbarY) {
-          setIsDarkSection(true);
-          return;
-        }
+          setScrolled((prev) => (prev !== nextScrolled ? nextScrolled : prev));
+          setIsPastHero((prev) => (prev !== nextPastHero ? nextPastHero : prev));
+          if (nextScrolled) {
+            setShowNavbar((prev) => (!prev ? true : prev));
+          }
+          ticking = false;
+        });
+        ticking = true;
       }
-      setIsDarkSection(false);
     };
 
     window.addEventListener('scroll', onScroll, { passive: true });
     onScroll();
+
+    const projectsEl = document.getElementById('projects');
+    let projectsObserver: IntersectionObserver | null = null;
+    if (projectsEl) {
+      projectsObserver = new IntersectionObserver(
+        ([entry]) => {
+          setIsDarkSection((prev) => (prev !== entry.isIntersecting ? entry.isIntersecting : prev));
+        },
+        { rootMargin: '-60px 0px -70% 0px', threshold: 0 }
+      );
+      projectsObserver.observe(projectsEl);
+    }
 
     let playTimeout: NodeJS.Timeout;
     const handleNavbarShow = () => {
@@ -86,6 +97,7 @@ export default function Navbar() {
     return () => {
       window.removeEventListener('resize', checkMobile);
       window.removeEventListener('scroll', onScroll);
+      if (projectsObserver) projectsObserver.disconnect();
       window.removeEventListener('heroNavbarTrigger', handleNavbarShow);
       window.removeEventListener('heroVideoEnded', handleNavbarShow);
       window.removeEventListener('heroVideoStarted', handleVideoStart);

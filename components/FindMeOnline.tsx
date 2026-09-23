@@ -137,7 +137,7 @@ const socialPlatforms: SocialPlatform[] = [
   },
 ];
 
-function LargeSocialCard({
+const LargeSocialCard = React.memo(function LargeSocialCard({
   platform,
   index,
   total,
@@ -197,42 +197,46 @@ function LargeSocialCard({
         rotate: dynamicRotate,
         opacity: cardOpacity,
       }}
-      className="shrink-0 transform-gpu"
+      className="shrink-0 transform-gpu will-change-transform"
     >
       <a
         href={platform.url}
         target="_blank"
         rel="noopener noreferrer"
-        className={`group relative block w-[460px] lg:w-[520px] min-h-[175px] lg:min-h-[195px] rounded-[28px] sm:rounded-[32px] ${platform.cardBg} px-7 lg:px-9 py-6 lg:py-7 border ${platform.cardBorder} ${platform.cardShadow} transition-all duration-300 flex items-center gap-6 sm:gap-7 cursor-pointer transform ${platform.tilt} ${platform.yOffset} hover:rotate-0 hover:translate-y-[-6px] hover:scale-[1.02] [contain:paint]`}
+        className={`group relative block py-4 ${platform.yOffset} cursor-pointer focus:outline-none`}
       >
-        {/* 3D Skeuomorphic App Icon Squircle */}
         <div
-          className={`relative shrink-0 w-22 h-22 lg:w-24 lg:h-24 rounded-[22px] sm:rounded-[24px] ${platform.iconBg} ${platform.iconShadow} ${platform.iconBorder} flex items-center justify-center transition-transform duration-300 group-hover:scale-105 group-hover:-translate-y-0.5`}
+          className={`relative w-[460px] lg:w-[520px] min-h-[175px] lg:min-h-[195px] rounded-[28px] sm:rounded-[32px] ${platform.cardBg} px-7 lg:px-9 py-6 lg:py-7 border ${platform.cardBorder} ${platform.cardShadow} transition-all duration-300 flex items-center gap-6 sm:gap-7 transform ${platform.tilt} group-hover:rotate-0 group-hover:-translate-y-2 group-hover:scale-[1.02] [contain:paint]`}
         >
-          {/* Soft Glass Highlights */}
-          <div className="absolute inset-0 rounded-[22px] sm:rounded-[24px] bg-gradient-to-t from-transparent via-transparent to-white/25 pointer-events-none" />
-          <div className="relative z-10">{platform.renderIcon()}</div>
-        </div>
+          {/* 3D Skeuomorphic App Icon Squircle */}
+          <div
+            className={`relative shrink-0 w-22 h-22 lg:w-24 lg:h-24 rounded-[22px] sm:rounded-[24px] ${platform.iconBg} ${platform.iconShadow} ${platform.iconBorder} flex items-center justify-center transition-transform duration-300 group-hover:scale-105 group-hover:-translate-y-0.5`}
+          >
+            {/* Soft Glass Highlights */}
+            <div className="absolute inset-0 rounded-[22px] sm:rounded-[24px] bg-gradient-to-t from-transparent via-transparent to-white/25 pointer-events-none" />
+            <div className="relative z-10">{platform.renderIcon()}</div>
+          </div>
 
-        {/* Right Column Content */}
-        <div className="flex-1 min-w-0 flex flex-col justify-center text-left font-sans">
-          <h3 className={`text-xl lg:text-2xl font-extrabold font-sans text-slate-950 uppercase tracking-wide ${platform.titleHover} transition-colors truncate mb-1.5`}>
-            {platform.name}
-          </h3>
-          <p className="text-xs sm:text-[13.5px] lg:text-[14.5px] text-slate-600 font-sans font-normal leading-relaxed line-clamp-2 mb-3 sm:mb-3.5">
-            {platform.subtitle}
-          </p>
-          <span className={`inline-flex items-center gap-1.5 text-xs sm:text-[13px] lg:text-[13.5px] font-bold font-sans ${platform.ctaColor} transition-colors uppercase tracking-wider`}>
-            <span>{platform.ctaText}</span>
-          </span>
+          {/* Right Column Content */}
+          <div className="flex-1 min-w-0 flex flex-col justify-center text-left font-sans">
+            <h3 className={`text-xl lg:text-2xl font-extrabold font-sans text-slate-950 uppercase tracking-wide ${platform.titleHover} transition-colors truncate mb-1.5`}>
+              {platform.name}
+            </h3>
+            <p className="text-xs sm:text-[13.5px] lg:text-[14.5px] text-slate-600 font-sans font-normal leading-relaxed line-clamp-2 mb-3 sm:mb-3.5">
+              {platform.subtitle}
+            </p>
+            <span className={`inline-flex items-center gap-1.5 text-xs sm:text-[13px] lg:text-[13.5px] font-bold font-sans ${platform.ctaColor} transition-colors uppercase tracking-wider`}>
+              <span>{platform.ctaText}</span>
+            </span>
+          </div>
         </div>
       </a>
     </motion.div>
   );
-}
+});
 
 // Compact Mobile Tray Card for 3-card + 2-card mobile layout
-function CompactMobileCard({ platform }: { platform: SocialPlatform }) {
+const CompactMobileCard = React.memo(function CompactMobileCard({ platform }: { platform: SocialPlatform }) {
   return (
     <a
       href={platform.url}
@@ -262,7 +266,7 @@ function CompactMobileCard({ platform }: { platform: SocialPlatform }) {
       </div>
     </a>
   );
-}
+});
 
 export default function FindMeOnline() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -279,7 +283,7 @@ export default function FindMeOnline() {
     damping: 35,
     stiffness: 120,
     mass: 0.15,
-    restDelta: 0.0001,
+    restDelta: 0.001,
   });
 
   // Calculate dynamic startX and endX
@@ -302,7 +306,7 @@ export default function FindMeOnline() {
         const startX = viewportCenter - firstCenter;
         const endX = viewportCenter - lastCenter;
 
-        setXRange([startX, endX]);
+        setXRange((prev) => (prev[0] === startX && prev[1] === endX ? prev : [startX, endX]));
       }
     };
 
@@ -366,7 +370,7 @@ export default function FindMeOnline() {
           <div className="text-left font-sans">
             <div className="inline-flex items-center gap-2 bg-[#d8ff00] border-2 border-black px-3.5 py-1 rounded-full shadow-sm mb-2">
               <Sparkles className="w-3.5 h-3.5 text-black" />
-              <span style={{ fontFamily: 'var(--font-caveat), cursive' }} className="text-base font-bold text-black">Stay In Touch</span>
+              <span style={{ fontFamily: 'var(--font-caveat), cursive' }} className="text-base font-bold text-black font-caveat">Stay In Touch</span>
             </div>
             <h2 className="text-2xl xs:text-3xl sm:text-5xl lg:text-[56px] font-extrabold font-sans tracking-tight text-slate-950 uppercase leading-none">
               FIND ME ONLINE
@@ -385,7 +389,7 @@ export default function FindMeOnline() {
           <motion.div
             ref={desktopTrackRef}
             style={{ x: trackX }}
-            className="flex items-center gap-6 sm:gap-10 w-max transform-gpu"
+            className="flex items-center gap-6 sm:gap-10 w-max transform-gpu will-change-transform"
           >
             {socialPlatforms.map((platform, idx) => (
               <LargeSocialCard
@@ -407,7 +411,7 @@ export default function FindMeOnline() {
           <motion.div
             ref={mobileTrackRef}
             style={{ x: trackX }}
-            className="flex items-center gap-6 xs:gap-8 w-max transform-gpu"
+            className="flex items-center gap-6 xs:gap-8 w-max transform-gpu will-change-transform"
           >
             {/* Tray 1: 3 Stacked Cards (GitHub, YouTube, LinkedIn) */}
             <div className="flex flex-col gap-2 xs:gap-2.5 shrink-0">
@@ -423,7 +427,7 @@ export default function FindMeOnline() {
                 scale: tray2Scale,
                 opacity: tray2Opacity,
               }}
-              className="flex flex-col gap-2 xs:gap-2.5 shrink-0 justify-center transform-gpu"
+              className="flex flex-col gap-2 xs:gap-2.5 shrink-0 justify-center transform-gpu will-change-transform"
             >
               {mobileGroup2.map((platform) => (
                 <CompactMobileCard key={platform.id} platform={platform} />

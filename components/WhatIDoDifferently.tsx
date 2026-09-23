@@ -33,7 +33,7 @@ export default function WhatIDoDifferently() {
           >
             <div className="inline-flex items-center gap-2 bg-[#d8ff00] border-2 border-black px-3.5 py-1 rounded-full shadow-sm">
               <Sparkles className="w-3.5 h-3.5 text-black" />
-              <span style={{ fontFamily: 'var(--font-caveat), cursive' }} className="text-base font-bold text-black">Why Choose Usama</span>
+              <span style={{ fontFamily: 'var(--font-caveat), cursive' }} className="text-base font-bold text-black font-caveat">Why Choose Usama</span>
             </div>
           </motion.div>
 
@@ -86,11 +86,11 @@ export default function WhatIDoDifferently() {
 
               {/* Left Column (Heading, Description, CTA, Social Proof) - 5 cols */}
               <motion.div
-                initial={{ opacity: 0, y: -25 }}
+                initial={{ opacity: 0, y: -20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.35 }}
-                transition={{ duration: 0.8, delay: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                className="md:col-span-5 space-y-3.5 sm:space-y-6 text-center md:text-left flex flex-col items-center md:items-start relative z-20"
+                viewport={{ once: true, amount: 0.2 }}
+                transition={{ duration: 0.6, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+                className="md:col-span-5 space-y-3.5 sm:space-y-6 text-center md:text-left flex flex-col items-center md:items-start relative z-20 transform-gpu"
               >
 
                 {/* Clear Section Purpose Badge (Single Line on Mobile) */}
@@ -161,9 +161,9 @@ export default function WhatIDoDifferently() {
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.35 }}
-                transition={{ duration: 0.8, delay: 0.95, ease: [0.16, 1, 0.3, 1] }}
-                className="md:col-span-5 flex flex-col items-center md:items-end space-y-3 sm:space-y-6 font-sans relative z-20"
+                viewport={{ once: true, amount: 0.2 }}
+                transition={{ duration: 0.6, delay: 0.18, ease: [0.16, 1, 0.3, 1] }}
+                className="md:col-span-5 flex flex-col items-center md:items-end space-y-3 sm:space-y-6 font-sans relative z-20 transform-gpu"
               >
 
                 {/* Feature Badges */}
@@ -248,9 +248,9 @@ export default function WhatIDoDifferently() {
               <motion.div
                 initial={{ opacity: 0, scale: 0.9, y: 30 }}
                 whileInView={{ opacity: 1, scale: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.3 }}
-                transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-                className="relative w-[250px] sm:w-[380px] md:w-[440px] lg:w-[480px] h-[100%] sm:h-[115%] md:h-[120%]"
+                viewport={{ once: true, amount: 0.2 }}
+                transition={{ duration: 0.6, delay: 0.05, ease: [0.16, 1, 0.3, 1] }}
+                className="relative w-[250px] sm:w-[380px] md:w-[440px] lg:w-[480px] h-[100%] sm:h-[115%] md:h-[120%] transform-gpu"
               >
                 <Image
                   src="/man_cutout.png"

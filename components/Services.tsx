@@ -246,7 +246,7 @@ export default function Services() {
             {/* Eyebrow Tag */}
             <div className="inline-flex items-center gap-2 bg-[#d8ff00] border-2 border-black px-3.5 py-1 rounded-full shadow-sm mb-4">
               <Sparkles className="w-3.5 h-3.5 text-black" />
-              <span style={{ fontFamily: 'var(--font-caveat), cursive' }} className="text-base font-bold text-black">Services</span>
+              <span style={{ fontFamily: 'var(--font-caveat), cursive' }} className="text-base font-bold text-black font-caveat">Services</span>
             </div>
 
             {/* Dual-Tone Poppins Heading (Enlarged) */}

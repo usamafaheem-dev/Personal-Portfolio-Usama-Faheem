@@ -7,7 +7,7 @@ export default function DoodlesOverlay({ visible }: { visible: boolean }) {
 
   return (
     <div
-      className="hidden sm:block absolute inset-0 pointer-events-none select-none z-0 overflow-hidden"
+      className="hidden sm:block absolute inset-0 pointer-events-none select-none z-0 overflow-hidden font-caveat"
       style={{ fontFamily: 'var(--font-caveat), cursive' }}
     >
       <svg className="absolute inset-0 w-full h-full pointer-events-none" style={{ zIndex: 1 }}>

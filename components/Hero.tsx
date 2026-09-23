@@ -44,6 +44,23 @@ export default function Hero() {
     }
   }, [isPageReady]);
 
+  // Automatically pause hero video when scrolled past to free CPU/GPU resources
+  useEffect(() => {
+    const heroEl = document.getElementById('hero');
+    if (!heroEl) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting && videoRef.current && !videoRef.current.paused) {
+          videoRef.current.pause();
+          setIsPlaying(false);
+        }
+      },
+      { threshold: 0 }
+    );
+    observer.observe(heroEl);
+    return () => observer.disconnect();
+  }, []);
+
   const togglePlay = () => {
     if (videoRef.current) {
       if (isPlaying) {

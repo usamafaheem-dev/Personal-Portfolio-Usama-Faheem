@@ -71,67 +71,113 @@ const faqList: FAQItem[] = [
   },
 ];
 
-/* ── Full Background Video Scrubber for Smooth Scroll Effect (60% Opacity) ── */
+/* ── Background Video Scrubber on Desktop / Static Image on Mobile (60% Opacity) ── */
 function BackgroundVideoPlayer({ progress }: { progress?: any }) {
   const videoRef = useRef<HTMLVideoElement>(null);
+  const [isDesktop, setIsDesktop] = useState(false);
   const videoSrc = '/man_walking_crossing_arms.mp4';
   const posterSrc = '/man_walking_crossing_arms_poster.jpg';
   const defaultDuration = 9.8;
 
   useEffect(() => {
+    const checkDesktop = () => setIsDesktop(window.innerWidth >= 768);
+    checkDesktop();
+    window.addEventListener('resize', checkDesktop);
+    return () => window.removeEventListener('resize', checkDesktop);
+  }, []);
+
+  useEffect(() => {
+    if (!isDesktop) return;
     const video = videoRef.current;
     if (!video) return;
 
-    let rafId: number | null = null;
+    video.muted = true;
+    video.playsInline = true;
+    if (video.readyState === 0) {
+      video.load();
+    }
 
-    const updateTimeFromProgress = (ratio: number) => {
-      if (rafId) cancelAnimationFrame(rafId);
-      rafId = requestAnimationFrame(() => {
-        const clampedRatio = Math.min(Math.max(ratio, 0), 1);
-        const duration = video.duration || defaultDuration;
-        const targetTime = clampedRatio * Math.max(duration - 0.05, 0.1);
+    let targetTime = 0;
+    let isSeeking = false;
 
-        if (Math.abs(video.currentTime - targetTime) > 0.015) {
+    const applySeek = () => {
+      if (!video || isSeeking || video.readyState < 1) return;
+      if (Math.abs(video.currentTime - targetTime) > 0.04) {
+        isSeeking = true;
+        try {
           if ('fastSeek' in video && typeof (video as any).fastSeek === 'function') {
             (video as any).fastSeek(targetTime);
           } else {
             video.currentTime = targetTime;
           }
+        } catch {
+          video.currentTime = targetTime;
         }
-      });
+      }
     };
 
-    if (progress) {
-      if (video.readyState >= 1) {
-        updateTimeFromProgress(progress.get());
-      } else {
-        const onLoaded = () => updateTimeFromProgress(progress.get());
-        video.addEventListener('loadedmetadata', onLoaded, { once: true });
-      }
+    const onSeeked = () => {
+      isSeeking = false;
+      applySeek();
+    };
 
-      const unsubscribe = progress.on('change', (latest: number) => {
-        updateTimeFromProgress(latest);
-      });
+    video.addEventListener('seeked', onSeeked);
 
-      return () => {
-        if (rafId) cancelAnimationFrame(rafId);
-        unsubscribe();
-      };
+    const onMetadata = () => {
+      const dur = video.duration || defaultDuration;
+      const initialRatio = progress ? progress.get() : 0;
+      targetTime = Math.min(Math.max(initialRatio, 0), 1) * Math.max(dur - 0.05, 0.1);
+      applySeek();
+    };
+
+    if (video.readyState >= 1) {
+      onMetadata();
+    } else {
+      video.addEventListener('loadedmetadata', onMetadata, { once: true });
     }
-  }, [progress]);
+
+    let unsubscribe: (() => void) | undefined;
+    if (progress) {
+      unsubscribe = progress.on('change', (latest: number) => {
+        const dur = video.duration || defaultDuration;
+        const clamped = Math.min(Math.max(latest, 0), 1);
+        targetTime = clamped * Math.max(dur - 0.05, 0.1);
+        applySeek();
+      });
+    }
+
+    return () => {
+      video.removeEventListener('seeked', onSeeked);
+      if (unsubscribe) unsubscribe();
+    };
+  }, [progress, isDesktop]);
 
   return (
-    <div className="relative w-full h-full flex items-center justify-center pointer-events-none">
-      <video
-        ref={videoRef}
-        src={videoSrc}
-        poster={posterSrc}
-        playsInline
-        muted
-        preload="none"
+    <div className="relative w-full h-full flex items-center justify-center pointer-events-none transform-gpu">
+      {/* Mobile: Static Picture (zero video download, ultra fast) */}
+      <img
+        src={posterSrc}
+        alt="Usama Faheem FAQ"
         style={{ opacity: 0.60 }}
-        className="w-full h-full object-cover object-[center_top] pointer-events-none"
+        className={`w-full h-full object-cover object-[center_top] pointer-events-none transform-gpu ${
+          isDesktop ? 'hidden' : 'block'
+        }`}
       />
+
+      {/* Desktop: Smooth Scroll-Scrubbed Video Animation */}
+      {isDesktop && (
+        <video
+          ref={videoRef}
+          src={videoSrc}
+          poster={posterSrc}
+          playsInline
+          muted
+          preload="auto"
+          style={{ opacity: 0.60 }}
+          className="w-full h-full object-cover object-[center_top] pointer-events-none transform-gpu"
+        />
+      )}
+
       {/* Soft cinematic vignette blending cleanly with #eae9e5 background */}
       <div className="absolute inset-0 pointer-events-none bg-gradient-to-b from-[#eae9e5]/20 via-transparent to-[#eae9e5]/30" />
     </div>
@@ -191,9 +237,9 @@ export default function FAQAndContact() {
   // Luxurious buttery-smooth spring physics (absorbs fast scroll wheel jerks with graceful inertia)
   const smoothProgress = useSpring(scrollYProgress, {
     damping: 42,
-    stiffness: 65,
-    mass: 0.5,
-    restDelta: 0.0001,
+    stiffness: 70,
+    mass: 0.25,
+    restDelta: 0.001,
   });
 
   // Continuous journey from start of FAQ (0.0) to end of Contact (1.0)
@@ -288,7 +334,7 @@ export default function FAQAndContact() {
                 <div className="text-left font-sans max-w-2xl">
                   <div className="inline-flex items-center gap-2 bg-[#d8ff00] border-2 border-black px-3.5 py-1 rounded-full shadow-sm mb-2">
                     <Sparkles className="w-3.5 h-3.5 text-black" />
-                    <span style={{ fontFamily: 'var(--font-caveat), cursive' }} className="text-base font-bold text-black">Got A Doubt?</span>
+                    <span style={{ fontFamily: 'var(--font-caveat), cursive' }} className="text-base font-bold text-black font-caveat">Got A Doubt?</span>
                   </div>
                   <h2 className="text-3xl xs:text-4xl sm:text-5xl lg:text-[48px] font-extrabold font-sans tracking-tight uppercase leading-none text-slate-950">
                     FREQUENTLY ASKED QUESTIONS
@@ -630,10 +676,10 @@ export default function FAQAndContact() {
               RIGHT COLUMN: STICKY RAIL (PERSISTS ACROSS FAQ + CONTACT FORM UNTIL FORM ENDS!)
               Cleanly anchored in its dedicated column with zero overlap on FAQ tiles
               ════════════════════════════════════════════════════════════════════════ */}
-          <div className="hidden lg:flex flex-col w-72 shrink-0 sticky top-32 z-20 self-start mt-8 lg:mt-12 pointer-events-auto">
+          <div className="hidden lg:flex flex-col w-[330px] shrink-0 sticky top-32 z-20 self-start mt-8 lg:mt-12 pointer-events-auto">
             <motion.div
               style={{ x: rightRailX }}
-              className="flex flex-col gap-5 w-full"
+              className="flex flex-col gap-5 w-full transform-gpu will-change-transform"
             >
 
               {/* ── 1. HANDCRAFTED TAPED PAPER NOTE (IDEA 5) WITH 3D PUSHPIN ── */}
@@ -684,7 +730,7 @@ export default function FAQAndContact() {
                 <span className="text-[10px] font-mono font-bold tracking-widest uppercase text-slate-400 mb-1">
                   QUICK NOTE
                 </span>
-                <span style={{ fontFamily: 'var(--font-caveat), cursive' }} className="text-2xl text-[#0052ff] font-bold text-center leading-tight">
+                <span style={{ fontFamily: 'var(--font-caveat), cursive' }} className="text-2xl text-[#0052ff] font-bold text-center leading-tight font-caveat">
                   &quot;Still got doubts?&quot;
                 </span>
                 <p className="text-xs font-sans text-slate-600 text-center mt-2 leading-relaxed">
@@ -718,7 +764,7 @@ export default function FAQAndContact() {
                 <div className="text-left mb-2.5">
                   <span
                     style={{ fontFamily: 'var(--font-caveat), cursive' }}
-                    className="text-[#0052ff] text-base font-bold block -rotate-1"
+                    className="text-[#0052ff] text-base font-bold block -rotate-1 font-caveat"
                   >
                     have an idea? →
                   </span>
@@ -731,23 +777,33 @@ export default function FAQAndContact() {
                 {/* Direct Email Chip with Rounded Pill Styling per Audio instructions */}
                 <div
                   onClick={handleCopyEmail}
-                  className="w-full p-2 px-2.5 rounded-xl bg-white/90 hover:bg-white border border-slate-300 flex items-center justify-between gap-1.5 cursor-pointer transition-all shadow-xs group"
+                  className="w-full py-2.5 px-3 rounded-xl bg-white/95 hover:bg-white border border-slate-300 flex items-center justify-between gap-2 cursor-pointer transition-all shadow-xs group select-none active:scale-[0.98]"
                 >
                   <div className="flex items-center gap-2 min-w-0">
-                    <div className="w-6 h-6 rounded-lg bg-slate-950 text-white flex items-center justify-center shrink-0">
-                      <Mail className="w-3.5 h-3.5" />
+                    <div
+                      className={`w-6 h-6 rounded-lg flex items-center justify-center shrink-0 transition-colors duration-200 ${
+                        copiedEmail ? 'bg-emerald-600 text-white' : 'bg-slate-950 text-white'
+                      }`}
+                    >
+                      {copiedEmail ? (
+                        <Check className="w-3.5 h-3.5 text-white stroke-[2.5]" />
+                      ) : (
+                        <Mail className="w-3.5 h-3.5" />
+                      )}
                     </div>
-                    <span className="text-[10px] sm:text-[10.5px] font-mono font-bold text-slate-900 whitespace-nowrap group-hover:text-[#0052ff]">
+                    <span className="text-[11.5px] font-sans font-bold text-slate-900 group-hover:text-[#0052ff] transition-colors tracking-tight whitespace-nowrap">
                       developer@usamafaheem.com
                     </span>
                   </div>
-                  <button
-                    type="button"
-                    aria-label="Copy Email"
-                    className="px-2 py-0.5 text-[8.5px] font-mono font-bold rounded-lg bg-slate-100 group-hover:bg-slate-900 group-hover:text-white transition-colors shrink-0"
+                  <div
+                    className={`px-2.5 py-0.5 text-[9px] font-sans font-extrabold uppercase tracking-wide rounded-md flex items-center justify-center transition-all duration-200 shrink-0 ${
+                      copiedEmail
+                        ? 'bg-emerald-600 text-white shadow-xs'
+                        : 'bg-slate-100 text-slate-600 group-hover:bg-slate-900 group-hover:text-white'
+                    }`}
                   >
                     {copiedEmail ? 'COPIED!' : 'COPY'}
-                  </button>
+                  </div>
                 </div>
 
                 {/* Bottom Row: Status + Circular WhatsApp Button with Official WhatsApp Green */}

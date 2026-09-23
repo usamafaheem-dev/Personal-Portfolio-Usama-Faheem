@@ -11,7 +11,7 @@ const stats = [
   { label: 'Years Experience', value: '1+' },
 ];
 
-function AnimatedCounter({ value, startDelay = 2.2, isBlueSphere = false }: { value: string; startDelay?: number; isBlueSphere?: boolean }) {
+function AnimatedCounter({ value, startDelay = 0.4, isBlueSphere = false }: { value: string; startDelay?: number; isBlueSphere?: boolean }) {
   const isPageReady = usePageReady();
   const ref = useRef<HTMLSpanElement>(null);
   const inView = useInView(ref, { once: true, margin: '-40px' });
@@ -30,7 +30,7 @@ function AnimatedCounter({ value, startDelay = 2.2, isBlueSphere = false }: { va
     let frameId: number;
     const timeoutId = setTimeout(() => {
       setHasStarted(true);
-      const duration = 1400;
+      const duration = 1000;
       const startTime = performance.now();
 
       const updateCounter = (currentTime: number) => {
@@ -93,7 +93,7 @@ export default function Stats() {
             {/* 🌟 Stylish Badge */}
             <div className="inline-flex items-center gap-2 bg-[#d8ff00] border-2 border-black px-3.5 py-1 rounded-full shadow-sm mb-4">
               <Sparkles className="w-3.5 h-3.5 text-black" />
-              <span style={{ fontFamily: 'var(--font-caveat), cursive' }} className="text-base font-bold text-black">Proven Metrics</span>
+              <span style={{ fontFamily: 'var(--font-caveat), cursive' }} className="text-base font-bold text-black font-caveat">Proven Metrics</span>
             </div>
 
             <h2 className="text-4xl sm:text-5xl font-poppins font-extrabold leading-[1.12] tracking-tight mb-6">
@@ -114,8 +114,8 @@ export default function Stats() {
               initial={{ scaleX: 0 }}
               whileInView={{ scaleX: 1 }}
               viewport={{ once: true, margin: "-40px" }}
-              transition={{ duration: 0.7, ease: "easeInOut" }}
-              className="absolute top-1/2 -translate-y-1/2 left-2 right-2 sm:left-0 sm:right-0 h-[3px] bg-gradient-to-r from-[#d8ff00] via-[#0052ff] to-[#d8ff00] shadow-[0_0_12px_rgba(0,82,255,0.4)] -z-10 overflow-hidden rounded-full origin-left"
+              transition={{ duration: 0.35, ease: "easeInOut" }}
+              className="absolute top-1/2 -translate-y-1/2 left-2 right-2 sm:left-0 sm:right-0 h-[3px] bg-gradient-to-r from-[#d8ff00] via-[#0052ff] to-[#d8ff00] shadow-[0_0_12px_rgba(0,82,255,0.4)] -z-10 overflow-hidden rounded-full origin-left transform-gpu"
             />
 
             {stats.map((stat, i) => {
@@ -123,15 +123,15 @@ export default function Stats() {
               const isLeft = i === 0;
               const isRight = i === 2;
 
-              // Step 2: Big Center circle pops in first at center (0.7s)
-              // Step 3: Left & Right circles emerge from INSIDE the big center circle at 1.0s and slide out to their positions
+              // Step 2: Center circle pops in immediately (0.15s)
+              // Step 3: Outer circles emerge quickly (0.28s)
               const initialX = isLeft ? "100%" : isRight ? "-100%" : 0;
               const initialScale = isCenter ? 0 : 0.2;
-              const delay = isCenter ? 0.7 : 1.05;
+              const delay = isCenter ? 0.15 : 0.28;
 
               const transitionConfig = isCenter
                 ? { type: 'spring' as const, damping: 14, stiffness: 140, delay }
-                : { duration: 1.15, ease: [0.16, 1, 0.3, 1] as const, delay };
+                : { duration: 0.6, ease: [0.16, 1, 0.3, 1] as const, delay };
 
               // Sizing responsive: Center is big, outer circles are smaller
               const sphereSizeClasses = isCenter
@@ -151,11 +151,12 @@ export default function Stats() {
                   {/* Floating container after appearing */}
                   <motion.div
                     animate={{ y: [0, -6, 0] }}
+                    className="transform-gpu"
                     transition={{
                       repeat: Infinity,
                       duration: 3 + i * 0.4,
                       ease: "easeInOut",
-                      delay: 2.8 + i * 0.3
+                      delay: 1.0 + i * 0.2
                     }}
                   >
                     {/* 3D Sphere with Content Inside: 1 Blue (Center) & 2 Lime (Sides) */}
@@ -172,7 +173,7 @@ export default function Stats() {
                       }}
                       viewport={{ once: true, margin: "-40px" }}
                       transition={transitionConfig}
-                      className={`${sphereSizeClasses} rounded-full relative flex flex-col items-center justify-center text-center p-1 sm:p-4 hover:scale-105 transition-transform duration-300 cursor-pointer font-sans`}
+                      className={`${sphereSizeClasses} rounded-full relative flex flex-col items-center justify-center text-center p-1 sm:p-4 hover:scale-105 transition-transform duration-300 cursor-pointer font-sans transform-gpu`}
                       style={{
                         background: isCenter
                           ? 'radial-gradient(circle at 48% 24%, #60a5fa 0%, #2563eb 45%, #0052ff 75%, #081120 100%)'
@@ -182,9 +183,9 @@ export default function Stats() {
                           : '0 8px 20px rgba(216,255,0,0.35), inset 0 -6px 14px rgba(0,0,0,0.22)'
                       }}
                     >
-                      {/* STEP 4: Number drops down and counts up once circles finish sliding out (at 2.2s) */}
+                      {/* STEP 4: Number drops down and counts up once circles finish sliding out (snappy start at 0.35s) */}
                       <div className={`${numberTextClasses} leading-none flex items-center justify-center drop-shadow-sm font-sans`}>
-                        <AnimatedCounter value={stat.value} startDelay={2.2 + (isCenter ? 0 : 0.15)} isBlueSphere={isCenter} />
+                        <AnimatedCounter value={stat.value} startDelay={isCenter ? 0.35 : 0.45} isBlueSphere={isCenter} />
                       </div>
                       <div className={labelTextClasses}>
                         {stat.label}

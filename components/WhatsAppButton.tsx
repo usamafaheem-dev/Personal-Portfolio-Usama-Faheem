@@ -21,20 +21,6 @@ export default function WhatsAppButton() {
 
   // 1. Scroll-based visibility (hidden during Hero section, appears after scrolling past Hero)
   useEffect(() => {
-    const checkVisibility = () => {
-      const hero = document.getElementById('hero');
-      if (!hero) {
-        setIsVisible(window.scrollY > 450);
-        return;
-      }
-
-      const rect = hero.getBoundingClientRect();
-      const isPastHero = rect.bottom <= 80;
-      setIsVisible(isPastHero);
-    };
-
-    checkVisibility();
-
     const hero = document.getElementById('hero');
     let observer: IntersectionObserver | null = null;
 
@@ -42,23 +28,19 @@ export default function WhatsAppButton() {
       observer = new IntersectionObserver(
         (entries) => {
           entries.forEach((entry) => {
-            if (entry.isIntersecting && entry.boundingClientRect.bottom > 80) {
-              setIsVisible(false);
-            } else if (entry.boundingClientRect.top < 0) {
-              setIsVisible(true);
-            }
+            const isPastHero = entry.boundingClientRect.bottom <= 80 || (!entry.isIntersecting && entry.boundingClientRect.top < 0);
+            setIsVisible((prev) => (prev !== isPastHero ? isPastHero : prev));
           });
         },
-        { threshold: [0, 0.1, 0.25, 0.5, 0.75, 1] }
+        { threshold: [0, 0.05, 0.1, 0.5, 1.0] }
       );
       observer.observe(hero);
+    } else {
+      setIsVisible(window.scrollY > 450);
     }
-
-    window.addEventListener('scroll', checkVisibility, { passive: true });
 
     return () => {
       if (observer) observer.disconnect();
-      window.removeEventListener('scroll', checkVisibility);
     };
   }, []);
 

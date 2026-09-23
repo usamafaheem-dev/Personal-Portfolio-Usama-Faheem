@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { ArrowUpRight } from 'lucide-react';
 
 export interface ProjectData {
@@ -51,9 +51,11 @@ const THEMES = [
 export default function ProjectCard({
   project,
   index = 0,
+  isActive = true,
 }: {
   project: ProjectData;
   index?: number;
+  isActive?: boolean;
 }) {
   const theme = THEMES[index % THEMES.length];
   const bgClass = project.cardBg || theme.bg;
@@ -63,26 +65,37 @@ export default function ProjectCard({
 
   const imageList = project.images && project.images.length > 0 ? project.images : [project.image];
   const [activeImageIdx, setActiveImageIdx] = useState(0);
+  const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
-    if (imageList.length <= 1) return;
+    if (imageList.length <= 1 || !isActive) return;
     const interval = setInterval(() => {
       setActiveImageIdx((prev) => (prev + 1) % imageList.length);
     }, 2800);
     return () => clearInterval(interval);
-  }, [imageList.length]);
+  }, [imageList.length, isActive]);
+
+  useEffect(() => {
+    if (!isMediaVideo || !videoRef.current) return;
+    if (isActive) {
+      videoRef.current.play().catch(() => {});
+    } else {
+      videoRef.current.pause();
+    }
+  }, [isActive, isMediaVideo]);
 
   // Helper to render single image, multi-image rotating carousel, or video
   const renderMediaViewport = (extraClasses = "w-full h-full object-cover object-top") => {
     if (isMediaVideo) {
       return (
         <video
+          ref={videoRef}
           src={mediaSrc}
-          autoPlay
           loop
           muted
           playsInline
-          className={`w-full h-full object-cover object-top group-hover:scale-[1.02] transition-transform duration-700`}
+          preload="metadata"
+          className={`w-full h-full object-cover object-top group-hover:scale-[1.02] transition-transform duration-700 transform-gpu`}
         />
       );
     }

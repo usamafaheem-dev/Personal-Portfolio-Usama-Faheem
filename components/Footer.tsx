@@ -98,7 +98,7 @@ export default function Footer() {
           <motion.div
             animate={{ y: [0, -4, 0] }}
             transition={{ duration: 3.2, repeat: Infinity, ease: 'easeInOut' }}
-            className="px-5 py-2 rounded-full bg-[#d8ff00] border-2 border-black text-black text-xs lg:text-[13px] font-extrabold uppercase tracking-wider shadow-[0_6px_20px_rgba(216,255,0,0.38)] -rotate-12 cursor-default"
+            className="px-5 py-2 rounded-full bg-[#d8ff00] border-2 border-black text-black text-xs lg:text-[13px] font-extrabold uppercase tracking-wider shadow-[0_6px_20px_rgba(216,255,0,0.38)] -rotate-12 cursor-default transform-gpu will-change-transform"
           >
             AVAILABLE NOW
           </motion.div>
@@ -107,7 +107,7 @@ export default function Footer() {
           <motion.div
             animate={{ y: [0, -5, 0] }}
             transition={{ duration: 3.8, repeat: Infinity, ease: 'easeInOut', delay: 0.3 }}
-            className="ml-14 lg:ml-20 px-5 py-2 rounded-full bg-[#d8ff00] border-2 border-black text-black text-xs lg:text-[13px] font-extrabold uppercase tracking-wider shadow-[0_6px_20px_rgba(216,255,0,0.38)] -rotate-6 cursor-default"
+            className="ml-14 lg:ml-20 px-5 py-2 rounded-full bg-[#d8ff00] border-2 border-black text-black text-xs lg:text-[13px] font-extrabold uppercase tracking-wider shadow-[0_6px_20px_rgba(216,255,0,0.38)] -rotate-6 cursor-default transform-gpu will-change-transform"
           >
             WORLDWIDE REMOTE
           </motion.div>
@@ -116,7 +116,7 @@ export default function Footer() {
           <motion.div
             animate={{ y: [0, -4, 0] }}
             transition={{ duration: 3.5, repeat: Infinity, ease: 'easeInOut', delay: 0.6 }}
-            className="ml-24 lg:ml-34 px-5 py-2 rounded-full bg-[#d8ff00] border-2 border-black text-black text-xs lg:text-[13px] font-extrabold uppercase tracking-wider shadow-[0_6px_20px_rgba(216,255,0,0.38)] rotate-3 cursor-default"
+            className="ml-24 lg:ml-34 px-5 py-2 rounded-full bg-[#d8ff00] border-2 border-black text-black text-xs lg:text-[13px] font-extrabold uppercase tracking-wider shadow-[0_6px_20px_rgba(216,255,0,0.38)] rotate-3 cursor-default transform-gpu will-change-transform"
           >
             OPEN FOR PROJECTS
           </motion.div>
@@ -129,7 +129,7 @@ export default function Footer() {
             href="#contact"
             animate={{ y: [0, -4, 0] }}
             transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
-            className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-[#0052ff] hover:bg-[#003fcc] border-2 border-black text-white text-xs lg:text-sm font-extrabold uppercase tracking-wider shadow-[0_6px_22px_rgba(0,82,255,0.42)] transition-all hover:scale-105 cursor-pointer"
+            className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-[#0052ff] hover:bg-[#003fcc] border-2 border-black text-white text-xs lg:text-sm font-extrabold uppercase tracking-wider shadow-[0_6px_22px_rgba(0,82,255,0.42)] transition-all hover:scale-105 cursor-pointer transform-gpu will-change-transform"
           >
             <span>Book a Call</span>
             <span className="text-base leading-none font-extrabold">+</span>
@@ -140,7 +140,7 @@ export default function Footer() {
             href="#contact"
             animate={{ y: [0, -5, 0] }}
             transition={{ duration: 3.6, repeat: Infinity, ease: 'easeInOut', delay: 0.3 }}
-            className="mr-14 lg:mr-20 px-5 py-2 rounded-full bg-[#d8ff00] border-2 border-black text-black text-xs lg:text-[13px] font-extrabold uppercase tracking-wider shadow-[0_6px_20px_rgba(216,255,0,0.38)] rotate-6 hover:scale-105 transition-transform cursor-pointer"
+            className="mr-14 lg:mr-20 px-5 py-2 rounded-full bg-[#d8ff00] border-2 border-black text-black text-xs lg:text-[13px] font-extrabold uppercase tracking-wider shadow-[0_6px_20px_rgba(216,255,0,0.38)] rotate-6 hover:scale-105 transition-transform cursor-pointer transform-gpu will-change-transform"
           >
             LET&apos;S TALK
           </motion.a>
@@ -150,7 +150,7 @@ export default function Footer() {
             href="#contact"
             animate={{ y: [0, -4, 0] }}
             transition={{ duration: 3.4, repeat: Infinity, ease: 'easeInOut', delay: 0.5 }}
-            className="mr-24 lg:mr-34 px-5 py-2 rounded-full bg-[#d8ff00] border-2 border-black text-black text-xs lg:text-[13px] font-extrabold uppercase tracking-wider shadow-[0_6px_20px_rgba(216,255,0,0.38)] -rotate-3 hover:scale-105 transition-transform cursor-pointer"
+            className="mr-24 lg:mr-34 px-5 py-2 rounded-full bg-[#d8ff00] border-2 border-black text-black text-xs lg:text-[13px] font-extrabold uppercase tracking-wider shadow-[0_6px_20px_rgba(216,255,0,0.38)] -rotate-3 hover:scale-105 transition-transform cursor-pointer transform-gpu will-change-transform"
           >
             SAY HELLO 👋
           </motion.a>

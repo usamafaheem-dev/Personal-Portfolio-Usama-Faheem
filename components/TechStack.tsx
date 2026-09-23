@@ -160,7 +160,7 @@ export default function TechStack() {
             {/* 🌟 Signature Amber Eyebrow Badge */}
             <div className="inline-flex items-center gap-2 bg-[#d8ff00] border-2 border-black px-3.5 py-1 rounded-full shadow-sm mb-4">
               <Sparkles className="w-3.5 h-3.5 text-black" />
-              <span style={{ fontFamily: 'var(--font-caveat), cursive' }} className="text-base font-bold text-black">Tech Stack & Architecture</span>
+              <span style={{ fontFamily: 'var(--font-caveat), cursive' }} className="text-base font-bold text-black font-caveat">Tech Stack & Architecture</span>
             </div>
 
             {/* Title with Yellow Accent on Development */}
@@ -797,11 +797,10 @@ export default function TechStack() {
                   <button
                     key={tab.id}
                     onClick={() => setActiveTab(tab.id)}
-                    className={`snap-start shrink-0 py-2 px-4 rounded-full text-[11px] font-bold tracking-wide transition-all cursor-pointer font-poppins text-center border ${
-                      isActive
+                    className={`snap-start shrink-0 py-2 px-4 rounded-full text-[11px] font-bold tracking-wide transition-all cursor-pointer font-poppins text-center border ${isActive
                         ? 'bg-[#0f172a] text-white shadow-md border-[#0f172a]'
                         : 'bg-white text-slate-600 hover:text-slate-900 border-slate-200 hover:border-slate-300'
-                    }`}
+                      }`}
                   >
                     {tab.label}
                   </button>

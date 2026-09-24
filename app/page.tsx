@@ -2,6 +2,7 @@ import dynamic from 'next/dynamic';
 import Preloader from "@/components/Preloader";
 import MainWrapper from "@/components/MainWrapper";
 import DeferredMount from "@/components/DeferredMount";
+import LazySection from "@/components/LazySection";
 
 // ── Critical above-fold: eager import (user sees these first) ──
 import Navbar from "@/components/Navbar";
@@ -41,17 +42,17 @@ export default function Home() {
             <Hero />
             <TechMarquee />
             <About />
-            <Stats />
-            <WhatIDoDifferently />
-            <Services />
-            <Process />
-            <Experience />
-            <TechStack />
-            <Projects />
-            <Certifications />
-            <FindMeOnline />
-            <FAQAndContact />
-            <Footer />
+            <LazySection name="stats" minHeight="60vh"><Stats /></LazySection>
+            <LazySection name="difference"><WhatIDoDifferently /></LazySection>
+            <LazySection name="services"><Services /></LazySection>
+            <LazySection name="process"><Process /></LazySection>
+            <LazySection name="experience"><Experience /></LazySection>
+            <LazySection name="techstack"><TechStack /></LazySection>
+            <LazySection name="projects"><Projects /></LazySection>
+            <LazySection name="certifications"><Certifications /></LazySection>
+            <LazySection name="findme"><FindMeOnline /></LazySection>
+            <LazySection name="contact"><FAQAndContact /></LazySection>
+            <LazySection name="footer" minHeight="50vh"><Footer /></LazySection>
           </main>
         </MainWrapper>
         <DeferredMount delay={3500}>

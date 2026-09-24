@@ -89,6 +89,17 @@ export default function Hero() {
       <h1 className="sr-only">Usama Faheem — Frontend &amp; MERN Stack Developer</h1>
       {/* ── Background Video ── */}
       <div className="absolute inset-0 z-0 transform-gpu">
+        {/* Desktop-only poster (fast LCP); mobile gets a 1x1 blank so no still-image flash */}
+        <picture aria-hidden="true">
+          <source media="(max-width: 767px)" srcSet="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" />
+          <img
+            src="/man_walking_crossing_arms_poster.jpg"
+            alt=""
+            fetchPriority="high"
+            decoding="async"
+            className="absolute inset-0 w-full h-full object-cover object-[center_top]"
+          />
+        </picture>
         <video
           ref={videoRef}
           muted
@@ -137,10 +148,10 @@ export default function Hero() {
               window.dispatchEvent(new Event('heroVideoEnded'));
             }
           }}
-          className="w-full h-full object-cover object-[center_top]"
+          className="relative w-full h-full object-cover object-[center_top]"
         >
-          <source src="/hero_video_optimized.webm" type="video/webm" />
           <source src="/hero_video_optimized.mp4" type="video/mp4" />
+          <source src="/hero_video_optimized.webm" type="video/webm" />
         </video>
       </div>
 
@@ -211,10 +222,8 @@ export default function Hero() {
             animate={isPageReady ? { opacity: 1, scale: 1, y: 0 } : { opacity: 0, scale: 0.5, y: -20 }}
             transition={{ delay: isPageReady ? 0.8 : 0, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
           >
-            <motion.div
-              animate={{ rotate: 360 }}
-              transition={{ repeat: Infinity, duration: 18, ease: 'linear' }}
-              className="w-14 h-14 sm:w-24 sm:h-24 rounded-full border border-dashed border-slate-900 flex items-center justify-center p-0.5 sm:p-1 bg-[#0f172a] text-white shadow-[0_8px_24px_rgba(0,0,0,0.35)] transition-transform group-hover:scale-110"
+            <div
+              className="animate-[spin_18s_linear_infinite] w-14 h-14 sm:w-24 sm:h-24 rounded-full border border-dashed border-slate-900 flex items-center justify-center p-0.5 sm:p-1 bg-[#0f172a] text-white shadow-[0_8px_24px_rgba(0,0,0,0.35)] transition-transform group-hover:scale-110"
             >
               <svg viewBox="0 0 100 100" className="w-full h-full" aria-hidden="true">
                 <path id="curve-hero-stamp" fill="none" d="M 50, 50 m -37, 0 a 37,37 0 1,1 74,0 a 37,37 0 1,1 -74,0" />
@@ -227,7 +236,7 @@ export default function Hero() {
                   UF
                 </div>
               </div>
-            </motion.div>
+            </div>
           </motion.div>
         </div>
       </div>

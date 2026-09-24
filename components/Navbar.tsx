@@ -68,7 +68,7 @@ export default function Navbar() {
     window.addEventListener('scroll', onScroll, { passive: true });
     onScroll();
 
-    const projectsEl = document.getElementById('projects');
+    const projectsEl = document.querySelector('[data-lazy="projects"]') ?? document.getElementById('projects');
     let projectsObserver: IntersectionObserver | null = null;
     if (projectsEl) {
       projectsObserver = new IntersectionObserver(

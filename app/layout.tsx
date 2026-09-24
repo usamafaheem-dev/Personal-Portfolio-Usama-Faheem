@@ -63,6 +63,10 @@ const personJsonLd = {
         addressCountry: "PK",
       },
       worksFor: { "@type": "Organization", name: "Tekrivo" },
+      alumniOf: [
+        { "@type": "CollegeOrUniversity", name: "Virtual University of Pakistan" },
+        { "@type": "EducationalOrganization", name: "Nexskill Institute" },
+      ],
       knowsAbout: ["React", "Next.js", "Node.js", "Express.js", "MongoDB", "TypeScript", "Tailwind CSS", "Frontend Development", "MERN Stack"],
       sameAs: [
         "https://www.linkedin.com/in/usama-faheem/",

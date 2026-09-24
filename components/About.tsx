@@ -67,7 +67,7 @@ export default function About() {
           >
             <Image
               src="/Badge_holder_with_man_photo_202608121707.jpeg"
-              alt="Usama Faheem Card"
+              alt="Usama Faheem, MERN Stack Developer in Lahore"
               width={400}
               height={560}
               priority
@@ -98,7 +98,7 @@ export default function About() {
             </h2>
 
             <p className="text-[#6B7280] text-sm sm:text-[16px] leading-[1.75] max-w-[850px] font-normal font-sans mb-6 lg:mb-10 text-center lg:text-left">
-              I am a Frontend-focused MERN Stack Developer with <strong className="font-semibold text-slate-900">1 year</strong> of experience building high-converting web applications for clients, startups, and agencies. Turning complex ideas into clean development and effortless user experiences.
+              I am a MERN Stack and Frontend Developer based in <strong className="font-semibold text-slate-900">Lahore, Pakistan</strong>, with <strong className="font-semibold text-slate-900">1 year</strong> of experience. I build fast, modern websites and web apps with React, Next.js, Node.js and MongoDB for clients, startups and agencies, turning ideas into clean code and easy-to-use designs.
             </p>
           </motion.div>
 
@@ -118,7 +118,7 @@ export default function About() {
             >
               <Image
                 src="/Badge_holder_with_man_photo_202608121707.jpeg"
-                alt="Usama Faheem Card Mobile"
+                alt="Usama Faheem, MERN Stack Developer in Lahore"
                 width={400}
                 height={560}
                 loading="lazy"

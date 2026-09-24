@@ -541,7 +541,7 @@ export default function Projects() {
           </h2>
 
           <p className="text-teal-200 text-[11px] sm:text-sm max-w-lg mx-auto font-normal font-sans">
-            A curated collection of production platforms, AI applications, and digital products.
+            Real websites and web apps I built for clients in Pakistan and abroad with React, Next.js and the MERN stack.
           </p>
         </motion.div>
 

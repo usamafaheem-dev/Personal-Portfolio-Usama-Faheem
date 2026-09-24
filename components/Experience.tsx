@@ -28,11 +28,11 @@ const experiences: ExperienceItem[] = [
     id: 'vertex',
     company: 'VERTEXAI TEC',
     role: 'React/Next.js & MERN Developer',
-    description: 'Developed scalable modern web apps, API integrations & responsive UI systems.',
+    description: 'Built React & Next.js apps, MERN APIs and responsive UI.',
     period: 'Dec 2025 – Aug 2026',
     badgeNumber: '01',
     logoSrc: '/company_icon/vertex_mark.png',
-    logoAlt: 'VertexAi Tec Logo',
+    logoAlt: 'VertexAI Tec logo',
     cardGradient: 'bg-gradient-to-r from-[#0244ad] via-[#1d4ed8] to-[#2563eb]',
     cardShadow: 'shadow-[0_20px_45px_rgba(2,68,173,0.35)]',
     cardBorder: 'border-lime-400/50',
@@ -44,7 +44,7 @@ const experiences: ExperienceItem[] = [
     id: 'softcr8ors',
     company: 'SOFTCR8ORS',
     role: 'Frontend Developer Intern',
-    description: 'Crafted pixel-perfect user interfaces, animations, and high-performance components.',
+    description: 'Turned Figma designs into fast, responsive web pages.',
     period: 'April 2026 – July 2026',
     badgeNumber: '02',
     logoSrc: '/company_icon/softcr8ors_mark.png',
@@ -60,7 +60,7 @@ const experiences: ExperienceItem[] = [
     id: 'tekrivo',
     company: 'TEKRIVO',
     role: 'Founder & Full-Stack Engineer',
-    description: 'Building custom client software, high-converting digital products & web systems.',
+    description: 'Websites and web apps for clients in Lahore & worldwide.',
     period: 'Overall 1 Year Experience',
     badgeNumber: '03',
     logoSrc: '/company_icon/tekrivo_mark.png',
@@ -364,7 +364,7 @@ export default function Experience() {
 
             {/* Description Bio */}
             <p className="text-[#475569] text-xs min-[380px]:text-sm sm:text-base leading-[1.75] sm:leading-[1.8] font-normal font-sans max-w-[600px] lg:max-w-none">
-              With over <strong className="font-semibold text-slate-900">1 year</strong> of production experience across fast-paced AI agencies, client projects, startups, and agencies, I specialize in translating complex ideas into high-performance, conversion-driven web applications.
+              I have <strong className="font-semibold text-slate-900">1 year</strong> of real work experience as a MERN Stack and Frontend Developer in Lahore. I have worked with VertexAI Tec and SoftCr8ors, and I run my own studio, Tekrivo. I build fast, clean and mobile-friendly websites that help businesses get more clients.
             </p>
 
             {/* Pill Button: Download My CV (primary action = blue) */}

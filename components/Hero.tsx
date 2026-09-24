@@ -86,7 +86,7 @@ export default function Hero() {
   return (
     <section id="hero" className="relative min-h-[calc(100vh-0.5rem)] sm:min-h-[calc(100vh-1.5rem)] w-[calc(100%-0.75rem)] sm:w-[calc(100%-3rem)] mx-auto mt-1.5 sm:mt-6 overflow-hidden bg-[#d0d4dc] rounded-t-[20px] sm:rounded-t-[40px] transform-gpu">
       {/* Screen-reader-only h1 for heading hierarchy and SEO */}
-      <h1 className="sr-only">Usama Faheem — Frontend &amp; MERN Stack Developer</h1>
+      <h1 className="sr-only">Usama Faheem — MERN Stack &amp; Frontend Developer in Lahore, Pakistan</h1>
       {/* ── Background Video ── */}
       <div className="absolute inset-0 z-0 transform-gpu">
         {/* Desktop-only poster (fast LCP); mobile gets a 1x1 blank so no still-image flash */}

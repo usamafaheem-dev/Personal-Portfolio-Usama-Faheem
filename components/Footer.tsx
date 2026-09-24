@@ -307,7 +307,7 @@ export default function Footer() {
                   USAMA FAHEEM
                 </h4>
                 <p className="text-[11px] sm:text-sm font-semibold max-w-sm mx-auto md:mx-0 leading-relaxed text-white/85">
-                  Creative Full-Stack Web Developer & UI Engineer crafting immersive digital experiences that convert.
+                  MERN Stack & Frontend Developer in Lahore, Pakistan. I build fast, modern websites that bring you more clients.
                 </p>
                 <div className="text-[10px] sm:text-[11px] font-mono font-medium pt-1 text-white/60">
                   © {new Date().getFullYear()} Usama Faheem • All rights reserved.

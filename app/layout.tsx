@@ -80,7 +80,6 @@ export default function RootLayout({
       <head>
 
         {/* ── Desktop-only preloads (mobile saves bandwidth) ── */}
-        <link rel="preload" href="/usaam_emoji.png" as="image" fetchPriority="high" media="(min-width: 768px)" />
         <link rel="preload" href="/vesper_preloader_opt.mp4" as="video" type="video/mp4" media="(min-width: 768px)" />
         <link rel="preload" href="/hero_video_optimized.webm" as="video" type="video/webm" media="(min-width: 768px)" />
         <link rel="preload" href="/hero_video_optimized.mp4" as="video" type="video/mp4" media="(min-width: 768px)" />

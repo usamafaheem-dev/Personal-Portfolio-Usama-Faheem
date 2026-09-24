@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
+import Image from 'next/image';
 
 const PILLARS = [0, 1, 2, 3, 4, 5];
 
@@ -273,12 +274,13 @@ export default function Preloader() {
                   }}
                   className="absolute -top-18 xs:-top-22 sm:-top-22 md:-top-27 lg:-top-29 -left-1 xs:-left-2 sm:-left-16 md:-left-22 lg:-left-25 z-30 pointer-events-none transition-all"
                 >
-                  <img
+                  <Image
                     src="/usaam_emoji.png"
                     alt="Usama Faheem"
-                    loading="eager"
-                    fetchPriority="high"
-                    decoding="sync"
+                    width={168}
+                    height={202}
+                    sizes="(max-width: 640px) 72px, (max-width: 768px) 88px, (max-width: 1024px) 128px, 168px"
+                    priority
                     className="w-18 xs:w-22 sm:w-32 md:w-38 lg:w-42 h-auto object-contain drop-shadow-[0_12px_28px_rgba(0,0,0,0.2)] select-none opacity-100"
                   />
                 </motion.div>

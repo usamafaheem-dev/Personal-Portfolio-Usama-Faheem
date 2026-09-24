@@ -542,8 +542,8 @@ export default function FAQAndContact() {
                       alt="Usama 3D Avatar giving thumbs up"
                       fill
                       sizes="(max-width: 640px) 100vw, 50vw"
+                      loading="lazy"
                       className="object-contain object-bottom select-none"
-                      priority
                     />
                   </motion.div>
                 </div>

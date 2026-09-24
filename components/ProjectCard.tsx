@@ -78,7 +78,7 @@ export default function ProjectCard({
 
   useEffect(() => {
     if (!isMediaVideo || !videoRef.current) return;
-    if (isActive) {
+    if (isActive && typeof window !== 'undefined' && window.innerWidth >= 768) {
       videoRef.current.play().catch(() => {});
     } else {
       videoRef.current.pause();
@@ -95,7 +95,7 @@ export default function ProjectCard({
           loop
           muted
           playsInline
-          preload="metadata"
+          preload="none"
           className={`w-full h-full object-cover object-top group-hover:scale-[1.02] transition-transform duration-700 transform-gpu`}
         />
       );

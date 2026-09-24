@@ -9,6 +9,7 @@ export default function Preloader() {
   const [stage, setStage] = useState<'entering' | 'exiting' | 'removed'>('entering');
   const [isClient, setIsClient] = useState(false);
   const [themeMode, setThemeMode] = useState<'light' | 'dark'>('light');
+  const [isDesktop, setIsDesktop] = useState(false);
 
   const timersRef = useRef<NodeJS.Timeout[]>([]);
 
@@ -77,6 +78,7 @@ export default function Preloader() {
 
   useEffect(() => {
     setIsClient(true);
+    setIsDesktop(window.innerWidth >= 768);
     if (typeof document !== 'undefined') {
       const isDark = document.documentElement.classList.contains('dark');
       setThemeMode(isDark ? 'dark' : 'light');
@@ -209,8 +211,9 @@ export default function Preloader() {
               </defs>
             </svg>
 
-            {/* ── REAL COSMIC GALAXY WAVE VIDEO (Ultra-lightweight 437KB, starts instantly) ── */}
+            {/* ── REAL COSMIC GALAXY WAVE VIDEO (desktop only, skipped on mobile to save 437KB) ── */}
             <div className="absolute inset-0 w-full h-full pointer-events-none z-0 overflow-hidden flex items-center justify-center">
+              {isDesktop && (
               <video
                 autoPlay
                 muted
@@ -219,8 +222,8 @@ export default function Preloader() {
                 preload="auto"
                 className="min-w-[100vh] min-h-[100vw] w-[100vh] h-[100vw] sm:min-w-full sm:min-h-full sm:w-full sm:h-full object-cover rotate-90 sm:rotate-0 transform-gpu scale-110"
                 style={{
-                  filter: isLight 
-                    ? 'url(#cleanBlueWave) drop-shadow(0 0 16px rgba(0,82,255,0.25))' 
+                  filter: isLight
+                    ? 'url(#cleanBlueWave) drop-shadow(0 0 16px rgba(0,82,255,0.25))'
                     : 'hue-rotate(0deg) saturate(1.3) contrast(1.2)',
                   mixBlendMode: isLight ? 'normal' : 'screen',
                   opacity: isLight ? 0.65 : 0.95,
@@ -228,6 +231,7 @@ export default function Preloader() {
               >
                 <source src="/vesper_preloader_opt.mp4" type="video/mp4" />
               </video>
+              )}
               
               {/* Atmospheric Diffused Center Aura Glow */}
               <div 

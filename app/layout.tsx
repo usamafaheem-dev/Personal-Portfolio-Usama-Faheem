@@ -78,8 +78,6 @@ export default function RootLayout({
       className={`${inter.variable} ${poppins.variable} ${jetbrainsMono.variable} ${caveat.variable}`}
     >
       <head>
-        {/* ── LCP: Hero poster — ONLY this on mobile (nothing else competes) ── */}
-        <link rel="preload" href="/man_walking_crossing_arms_poster.jpg" as="image" fetchPriority="high" />
 
         {/* ── Desktop-only preloads (mobile saves bandwidth) ── */}
         <link rel="preload" href="/usaam_emoji.png" as="image" fetchPriority="high" media="(min-width: 768px)" />

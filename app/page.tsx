@@ -57,8 +57,8 @@ export default function Home() {
         <DeferredMount delay={3500}>
           <AIChatbot />
           <WhatsAppButton />
-          <ElevenLabsVoice />
         </DeferredMount>
+        <ElevenLabsVoice />
       </div>
     </div>
   );

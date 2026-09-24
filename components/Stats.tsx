@@ -125,7 +125,7 @@ export default function Stats() {
 
               // Step 2: Center circle pops in immediately (0.15s)
               // Step 3: Outer circles emerge quickly (0.28s)
-              const initialX = isLeft ? "100%" : isRight ? "-100%" : 0;
+              const initialX = isLeft ? "-100%" : isRight ? "100%" : 0;
               const initialScale = isCenter ? 0 : 0.2;
               const delay = isCenter ? 0.15 : 0.28;
 

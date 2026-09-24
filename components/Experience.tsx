@@ -466,7 +466,7 @@ export default function Experience() {
                     </div>
                   ) : cert.imageSrc ? (
                     <div className="relative w-full h-[180px] xs:h-[200px] sm:h-[220px] rounded-xl bg-slate-50 border border-slate-100 overflow-hidden flex items-center justify-center p-2 group-hover:border-slate-200 transition-colors">
-                      <Image src={cert.imageSrc} alt={cert.title} fill loading="lazy" className="object-contain rounded-lg transition-transform duration-500 group-hover:scale-105" />
+                      <Image src={cert.imageSrc} alt={cert.title} fill loading="lazy" sizes="(max-width: 640px) 100vw, 50vw" className="object-contain rounded-lg transition-transform duration-500 group-hover:scale-105" />
                     </div>
                   ) : null}
 

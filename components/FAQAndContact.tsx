@@ -541,6 +541,7 @@ export default function FAQAndContact() {
                       src="/usaam_emoji.png"
                       alt="Usama 3D Avatar giving thumbs up"
                       fill
+                      sizes="(max-width: 640px) 100vw, 50vw"
                       className="object-contain object-bottom select-none"
                       priority
                     />

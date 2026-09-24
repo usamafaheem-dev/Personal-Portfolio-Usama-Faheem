@@ -224,6 +224,7 @@ export default function WhatIDoDifferently() {
                       src="/softcr8ors_preview.png"
                       alt="SoftCr8ors Preview"
                       fill
+                      sizes="(max-width: 768px) 100vw, 50vw"
                       className="object-cover object-top group-hover:scale-105 transition-transform duration-500"
                     />
                   </a>
@@ -263,6 +264,7 @@ export default function WhatIDoDifferently() {
                   alt="Usama - Creative Developer"
                   fill
                   loading="lazy"
+                  sizes="(max-width: 640px) 250px, (max-width: 768px) 380px, (max-width: 1024px) 440px, 480px"
                   className="object-contain object-bottom drop-shadow-[0_20px_40px_rgba(0,0,0,0.35)]"
                 />
               </motion.div>

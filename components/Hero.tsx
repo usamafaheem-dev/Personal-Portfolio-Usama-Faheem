@@ -94,6 +94,7 @@ export default function Hero() {
           muted
           playsInline
           preload="metadata"
+          fetchPriority="high"
           onLoadedData={(e) => {
             if (window.innerWidth < 768) {
               e.currentTarget.currentTime = 3.0;

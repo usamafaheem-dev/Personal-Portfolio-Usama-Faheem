@@ -79,10 +79,12 @@ export default function RootLayout({
     >
       <head>
 
-        {/* ── Desktop-only preloads (mobile saves bandwidth) ── */}
+        {/* ── Hero video: preload on ALL devices — it's the LCP element ── */}
+        {/* Chrome/Android uses webm, Safari/iOS uses mp4 — each browser ignores the format it can't play */}
+        <link rel="preload" href="/hero_video_optimized.webm" as="video" type="video/webm" fetchPriority="high" />
+        <link rel="preload" href="/hero_video_optimized.mp4" as="video" type="video/mp4" fetchPriority="high" />
+        {/* ── Preloader video: desktop only (skipped on mobile via JS) ── */}
         <link rel="preload" href="/vesper_preloader_opt.mp4" as="video" type="video/mp4" media="(min-width: 768px)" />
-        <link rel="preload" href="/hero_video_optimized.webm" as="video" type="video/webm" media="(min-width: 768px)" />
-        <link rel="preload" href="/hero_video_optimized.mp4" as="video" type="video/mp4" media="(min-width: 768px)" />
       </head>
       <body className="min-h-screen bg-porcelain text-ink font-body antialiased">
         <SmoothScrollProvider>

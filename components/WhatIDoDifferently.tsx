@@ -262,8 +262,8 @@ export default function WhatIDoDifferently() {
                   src="/man_cutout.png"
                   alt="Usama - Creative Developer"
                   fill
+                  loading="lazy"
                   className="object-contain object-bottom drop-shadow-[0_20px_40px_rgba(0,0,0,0.35)]"
-                  priority
                 />
               </motion.div>
             </div>

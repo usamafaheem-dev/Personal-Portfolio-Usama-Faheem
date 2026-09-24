@@ -93,7 +93,7 @@ export default function Hero() {
           ref={videoRef}
           muted
           playsInline
-          preload="auto"
+          preload="metadata"
           poster="/man_walking_crossing_arms_poster.jpg"
           onLoadedData={(e) => {
             if (window.innerWidth < 768) {

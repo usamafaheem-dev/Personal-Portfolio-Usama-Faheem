@@ -78,16 +78,12 @@ export default function RootLayout({
       className={`${inter.variable} ${poppins.variable} ${jetbrainsMono.variable} ${caveat.variable}`}
     >
       <head>
-        {/* ── LCP: Hero poster image — highest priority, discovered first ── */}
+        {/* ── LCP: Hero poster — ONLY this on mobile (nothing else competes) ── */}
         <link rel="preload" href="/man_walking_crossing_arms_poster.jpg" as="image" fetchPriority="high" />
 
-        {/* ── Critical above-fold images ── */}
-        <link rel="preload" href="/usaam_emoji.png" as="image" fetchPriority="high" />
-
-        {/* ── Preloader background video (shows during preloader) ── */}
-        <link rel="preload" href="/vesper_preloader_opt.mp4" as="video" type="video/mp4" />
-
-        {/* ── Hero video: only preload on desktop (mobile defers to video element's own preload) ── */}
+        {/* ── Desktop-only preloads (mobile saves bandwidth) ── */}
+        <link rel="preload" href="/usaam_emoji.png" as="image" fetchPriority="high" media="(min-width: 768px)" />
+        <link rel="preload" href="/vesper_preloader_opt.mp4" as="video" type="video/mp4" media="(min-width: 768px)" />
         <link rel="preload" href="/hero_video_optimized.webm" as="video" type="video/webm" media="(min-width: 768px)" />
         <link rel="preload" href="/hero_video_optimized.mp4" as="video" type="video/mp4" media="(min-width: 768px)" />
       </head>

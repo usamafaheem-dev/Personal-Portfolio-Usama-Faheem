@@ -1,14 +1,15 @@
 import dynamic from 'next/dynamic';
 import Preloader from "@/components/Preloader";
 import MainWrapper from "@/components/MainWrapper";
+import DeferredMount from "@/components/DeferredMount";
 
 // ── Critical above-fold: eager import (user sees these first) ──
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
-import TechMarquee from "@/components/TechMarquee";
-import About from "@/components/About";
 
 // ── Below fold: lazy-load (code split, loads when needed) ──
+const TechMarquee = dynamic(() => import("@/components/TechMarquee"));
+const About = dynamic(() => import("@/components/About"));
 const Stats = dynamic(() => import("@/components/Stats"));
 const WhatIDoDifferently = dynamic(() => import("@/components/WhatIDoDifferently"));
 const Services = dynamic(() => import("@/components/Services"));
@@ -53,9 +54,11 @@ export default function Home() {
             <Footer />
           </main>
         </MainWrapper>
-        <AIChatbot />
-        <WhatsAppButton />
-        <ElevenLabsVoice />
+        <DeferredMount delay={3500}>
+          <AIChatbot />
+          <WhatsAppButton />
+          <ElevenLabsVoice />
+        </DeferredMount>
       </div>
     </div>
   );

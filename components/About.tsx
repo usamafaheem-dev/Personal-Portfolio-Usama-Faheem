@@ -252,7 +252,7 @@ export default function About() {
 
                   <li className="flex items-center gap-3 group">
                     <div className="w-7 h-7 rounded-md bg-[#ededf0] border border-slate-200 flex items-center justify-center flex-shrink-0 shadow-2xs group-hover:scale-110 transition-transform">
-                      <SiGithub className="w-[19px] h-[19px] text-[#24292f]" />
+                      <SiGithub aria-hidden="true" className="w-[19px] h-[19px] text-[#24292f]" />
                     </div>
                     <a
                       href="https://github.com/usamafaheem-dev"
@@ -296,22 +296,22 @@ export default function About() {
                   <div className="flex items-center justify-center lg:justify-start gap-3 flex-nowrap">
                     {/* MongoDB */}
                     <div className="w-8 h-8 rounded-lg bg-[#f7ffdd] border border-lime-300/70 flex items-center justify-center p-1.5 shadow-2xs hover:scale-110 transition-transform cursor-pointer" title="MongoDB">
-                      <SiMongodb className="w-5 h-5 text-[#47A248]" />
+                      <SiMongodb aria-label="MongoDB" className="w-5 h-5 text-[#47A248]" />
                     </div>
 
                     {/* Express.js */}
                     <div className="w-8 h-8 rounded-lg bg-[#f7ffdd] border border-lime-300/70 flex items-center justify-center p-1.5 shadow-2xs hover:scale-110 transition-transform cursor-pointer" title="Express.js">
-                      <SiExpress className="w-4.5 h-4.5 text-[#18181b]" />
+                      <SiExpress aria-label="Express.js" className="w-4.5 h-4.5 text-[#18181b]" />
                     </div>
 
                     {/* React.js */}
                     <div className="w-8 h-8 rounded-lg bg-[#f7ffdd] border border-lime-300/70 flex items-center justify-center p-1.5 shadow-2xs hover:scale-110 transition-transform cursor-pointer" title="React.js">
-                      <SiReact className="w-5 h-5 text-[#61DAFB]" />
+                      <SiReact aria-label="React.js" className="w-5 h-5 text-[#61DAFB]" />
                     </div>
 
                     {/* Node.js */}
                     <div className="w-8 h-8 rounded-lg bg-[#f7ffdd] border border-lime-300/70 flex items-center justify-center p-1.5 shadow-2xs hover:scale-110 transition-transform cursor-pointer" title="Node.js">
-                      <SiNodedotjs className="w-5 h-5 text-[#339933]" />
+                      <SiNodedotjs aria-label="Node.js" className="w-5 h-5 text-[#339933]" />
                     </div>
                   </div>
                 </div>

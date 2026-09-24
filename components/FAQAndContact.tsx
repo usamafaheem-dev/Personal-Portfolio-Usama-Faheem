@@ -28,6 +28,27 @@ interface FAQItem {
 
 const faqList: FAQItem[] = [
   {
+    id: 'faq-about-1',
+    question: 'Who is Usama Faheem?',
+    answer:
+      'I am Usama Faheem, a MERN Stack and Frontend Developer from Lahore, Pakistan. I build fast, modern websites and web apps using React, Next.js, Node.js, Express and MongoDB. I have worked with VertexAI Tec and SoftCr8ors, and I am the founder of Tekrivo.',
+    tag: 'About Me',
+  },
+  {
+    id: 'faq-about-2',
+    question: 'Where are you based, and do you work with clients outside Pakistan?',
+    answer:
+      'I am based in Lahore, Pakistan. I work with clients in Lahore, all over Pakistan, and around the world. We can talk on WhatsApp, email or video call, so location is never a problem.',
+    tag: 'Location',
+  },
+  {
+    id: 'faq-about-3',
+    question: 'What kind of work can you do for me?',
+    answer:
+      'I can build your business website, portfolio, online store, landing page or full web app. I also turn Figma designs into working websites, add AI chatbots, and make slow websites fast. You get clean code, a mobile-friendly design and help after launch.',
+    tag: 'Services',
+  },
+  {
     id: 'faq-01',
     question: 'What core technologies and frameworks do you specialize in?',
     answer:

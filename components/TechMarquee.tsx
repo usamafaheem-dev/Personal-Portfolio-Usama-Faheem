@@ -76,7 +76,7 @@ export default function TechMarquee() {
             <div key={blockId} className="flex items-center gap-4 sm:gap-8 md:gap-12 pr-4 sm:pr-8 md:pr-12">
               {techs.map((tech, index) => (
                 <div key={`${blockId}-${index}`} className="flex items-center gap-2 sm:gap-3 md:gap-4 pointer-events-none">
-                  <tech.icon className="w-5 h-5 sm:w-8 sm:h-8 md:w-10 md:h-10" style={{ color: tech.color }} />
+                  <tech.icon aria-hidden="true" className="w-5 h-5 sm:w-8 sm:h-8 md:w-10 md:h-10" style={{ color: tech.color }} />
                   <span className="text-white font-sans font-bold text-sm sm:text-xl md:text-2xl tracking-tight whitespace-nowrap">
                     {tech.name}
                   </span>

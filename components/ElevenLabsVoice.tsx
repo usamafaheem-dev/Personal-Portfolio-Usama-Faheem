@@ -47,42 +47,6 @@ function markAgentExhausted(agentId: string) {
   }
 }
 
-function pingRealInternet(): Promise<boolean> {
-  if (typeof window === 'undefined') return Promise.resolve(true);
-  if (typeof navigator !== 'undefined' && !navigator.onLine) {
-    return Promise.resolve(false);
-  }
-  return new Promise((resolve) => {
-    let resolved = false;
-    const finish = (result: boolean) => {
-      if (!resolved) {
-        resolved = true;
-        resolve(result);
-      }
-    };
-
-    const timer = setTimeout(() => finish(false), 1200);
-
-    try {
-      fetch('https://www.google.com/generate_204?_t=' + Date.now(), {
-        method: 'GET',
-        mode: 'no-cors',
-        cache: 'no-store',
-      })
-        .then(() => {
-          clearTimeout(timer);
-          finish(true);
-        })
-        .catch(() => {
-          clearTimeout(timer);
-          finish(false);
-        });
-    } catch {
-      clearTimeout(timer);
-      finish(false);
-    }
-  });
-}
 
 export function triggerElevenLabsCall() {
   if (typeof document === 'undefined') return;
@@ -414,17 +378,16 @@ export default function ElevenLabsVoice() {
 
   // Terminate call cleanly and revert button to BLACK immediately
   const handleCallTermination = useCallback((isDisconnect = false) => {
+    const wasActiveCall = hasCallStartedRef.current || isOpenRef.current;
     hasCallStartedRef.current = false;
     setIsOpen(false);
     if (typeof window !== 'undefined') {
       window.dispatchEvent(new Event('elevenlabs-voice-close'));
     }
 
-    if (isDisconnect || (typeof navigator !== 'undefined' && !navigator.onLine) || !isOnlineRef.current) {
-      setIsOnline(false);
-      isOnlineRef.current = false;
+    // ONLY notify if a call was ACTUALLY in progress and dropped due to internet loss
+    if (wasActiveCall && isDisconnect) {
       if (typeof window !== 'undefined') {
-        window.dispatchEvent(new CustomEvent('app-network-status', { detail: { isOnline: false } }));
         window.dispatchEvent(
           new CustomEvent('app-action-blocked-offline', {
             detail: {
@@ -462,8 +425,10 @@ export default function ElevenLabsVoice() {
 
   // Drop call immediately on network disconnect and dispatch warning toast
   const handleNetworkDrop = useCallback(() => {
-    const wasCallOpen = isOpenRef.current;
-    handleCallTermination(wasCallOpen);
+    const wasCallOpen = isOpenRef.current || hasCallStartedRef.current;
+    if (wasCallOpen) {
+      handleCallTermination(true);
+    }
   }, [handleCallTermination]);
 
   useEffect(() => {
@@ -472,79 +437,23 @@ export default function ElevenLabsVoice() {
       isOnlineRef.current = false;
     }
 
-    const setOffline = () => {
-      if (isOnlineRef.current) {
-        setIsOnline(false);
-        isOnlineRef.current = false;
-        handleNetworkDrop();
-        if (typeof window !== 'undefined') {
-          window.dispatchEvent(new CustomEvent('app-network-status', { detail: { isOnline: false } }));
-        }
-      }
-    };
-
-    const setOnline = () => {
-      if (!isOnlineRef.current) {
-        setIsOnline(true);
-        isOnlineRef.current = true;
-        if (typeof window !== 'undefined') {
-          window.dispatchEvent(new CustomEvent('app-network-status', { detail: { isOnline: true } }));
-        }
-      }
-    };
-
     const handleBrowserOnline = () => {
-      pingRealInternet().then((ok) => {
-        if (ok) setOnline();
-        else setOffline();
-      });
+      setIsOnline(true);
+      isOnlineRef.current = true;
     };
 
     const handleBrowserOffline = () => {
-      setOffline();
-    };
-
-    const handleAppNetwork = (e: any) => {
-      if (typeof e?.detail?.isOnline === 'boolean') {
-        if (e.detail.isOnline) {
-          setOnline();
-        } else {
-          setOffline();
-        }
-      }
+      setIsOnline(false);
+      isOnlineRef.current = false;
+      handleNetworkDrop();
     };
 
     window.addEventListener('online', handleBrowserOnline);
     window.addEventListener('offline', handleBrowserOffline);
-    window.addEventListener('app-network-status', handleAppNetwork);
-
-    // Active heartbeat: constantly verifies real WAN reachability
-    let isChecking = false;
-    const recoveryInterval = setInterval(async () => {
-      if (isChecking) return;
-      isChecking = true;
-      try {
-        if (typeof navigator !== 'undefined' && !navigator.onLine) {
-          setOffline();
-          return;
-        }
-
-        const realOnline = await pingRealInternet();
-        if (!realOnline) {
-          setOffline();
-        } else {
-          setOnline();
-        }
-      } finally {
-        isChecking = false;
-      }
-    }, 1500);
 
     return () => {
       window.removeEventListener('online', handleBrowserOnline);
       window.removeEventListener('offline', handleBrowserOffline);
-      window.removeEventListener('app-network-status', handleAppNetwork);
-      clearInterval(recoveryInterval);
     };
   }, [handleNetworkDrop]);
 

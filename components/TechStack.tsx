@@ -138,7 +138,8 @@ export default function TechStack() {
 
   return (
     <section
-      id="stack"
+      id="skills"
+      data-section="stack"
       className="relative bg-[#f8fafc] py-8 sm:py-12 lg:py-14 overflow-hidden font-sans text-[#0f172a] border-t border-b border-slate-200"
     >
       {/* ── Precision Dotted Grid Background Pattern ── */}

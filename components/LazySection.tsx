@@ -29,7 +29,15 @@ function attachGlobalListeners() {
     true
   );
   window.addEventListener('hashchange', mountAll);
+  window.addEventListener('app-mount-all-sections', mountAll);
   if (window.location.hash) mountAll();
+}
+
+export function ensureAllSectionsMounted() {
+  if (typeof window !== 'undefined') {
+    attachGlobalListeners();
+    mountAll();
+  }
 }
 
 export default function LazySection({

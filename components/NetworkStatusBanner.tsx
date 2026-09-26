@@ -3,43 +3,6 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { WifiOff, Wifi } from 'lucide-react';
 
-function pingRealInternet(): Promise<boolean> {
-  if (typeof window === 'undefined') return Promise.resolve(true);
-  if (typeof navigator !== 'undefined' && !navigator.onLine) {
-    return Promise.resolve(false);
-  }
-  return new Promise((resolve) => {
-    let resolved = false;
-    const finish = (result: boolean) => {
-      if (!resolved) {
-        resolved = true;
-        resolve(result);
-      }
-    };
-
-    const timer = setTimeout(() => finish(false), 1200);
-
-    try {
-      fetch('https://www.google.com/generate_204?_t=' + Date.now(), {
-        method: 'GET',
-        mode: 'no-cors',
-        cache: 'no-store',
-      })
-        .then(() => {
-          clearTimeout(timer);
-          finish(true);
-        })
-        .catch(() => {
-          clearTimeout(timer);
-          finish(false);
-        });
-    } catch {
-      clearTimeout(timer);
-      finish(false);
-    }
-  });
-}
-
 export default function NetworkStatusBanner() {
   const [isOnline, setIsOnline] = useState<boolean>(() => {
     if (typeof navigator !== 'undefined') return navigator.onLine;
@@ -86,21 +49,18 @@ export default function NetworkStatusBanner() {
   }, []);
 
   useEffect(() => {
-    // Initial sync
+    // Initial sync with true browser online status
     if (typeof navigator !== 'undefined' && !navigator.onLine) {
       lastOnlineState.current = false;
       setIsOnline(false);
     }
 
     const handleBrowserOnline = () => {
-      pingRealInternet().then((ok) => {
-        if (ok) markOnline();
-        else markOffline();
-      });
+      markOnline();
     };
 
     const handleBrowserOffline = () => {
-      markOffline();
+      markOffline('Internet connection lost. You are offline.');
     };
 
     const handleActionBlocked = (e: any) => {
@@ -117,7 +77,7 @@ export default function NetworkStatusBanner() {
         if (e.detail.isOnline) {
           markOnline(false);
         } else {
-          markOffline('Call disconnected: Internet connection was lost.', false);
+          markOffline(e?.detail?.message || 'Internet connection lost. You are offline.', false);
         }
       }
     };
@@ -127,40 +87,11 @@ export default function NetworkStatusBanner() {
     window.addEventListener('app-network-status', handleAppNetwork);
     window.addEventListener('app-action-blocked-offline', handleActionBlocked);
 
-    // Heartbeat check against real WAN reachability
-    let isChecking = false;
-    const interval = setInterval(async () => {
-      if (isChecking) return;
-      isChecking = true;
-      try {
-        if (typeof navigator !== 'undefined' && !navigator.onLine) {
-          if (lastOnlineState.current) {
-            markOffline();
-          }
-          return;
-        }
-
-        const realOnline = await pingRealInternet();
-        if (!realOnline) {
-          if (lastOnlineState.current) {
-            markOffline();
-          }
-        } else {
-          if (!lastOnlineState.current) {
-            markOnline();
-          }
-        }
-      } finally {
-        isChecking = false;
-      }
-    }, 1500);
-
     return () => {
       window.removeEventListener('online', handleBrowserOnline);
       window.removeEventListener('offline', handleBrowserOffline);
       window.removeEventListener('app-network-status', handleAppNetwork);
       window.removeEventListener('app-action-blocked-offline', handleActionBlocked);
-      clearInterval(interval);
       if (noticeTimerRef.current) clearTimeout(noticeTimerRef.current);
       if (reconnectTimerRef.current) clearTimeout(reconnectTimerRef.current);
     };

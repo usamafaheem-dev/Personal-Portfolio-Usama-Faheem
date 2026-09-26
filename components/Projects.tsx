@@ -400,6 +400,36 @@ export default function Projects() {
     return () => unsubscribe();
   }, [smoothProgress]);
 
+  // Listen for AI assistant command to navigate directly to a specific project card
+  useEffect(() => {
+    const handleProjectNav = (e: Event) => {
+      const custom = e as CustomEvent<{ target: string }>;
+      const t = (custom.detail?.target || '').toLowerCase().trim();
+
+      let targetIdx = -1;
+      if (t.includes('shadab') || t.includes('rice')) targetIdx = 3;
+      else if (t.includes('softcr8or')) targetIdx = 0;
+      else if (t.includes('removal') || t.includes('gm')) targetIdx = 1;
+      else if (t.includes('reeba')) targetIdx = 2;
+      else if (t.includes('clean')) targetIdx = 4;
+      else if (t.includes('work') || t.includes('construction')) targetIdx = 5;
+      else if (t.includes('tekrivo')) targetIdx = 6;
+      else if (t.includes('tyre') || t.includes('car')) targetIdx = 7;
+      else if (t.includes('tehreem')) targetIdx = 8;
+
+      if (targetIdx !== -1) {
+        setTimeout(() => {
+          scrollToCard(targetIdx);
+        }, 150);
+      }
+    };
+
+    window.addEventListener('app-navigate-project', handleProjectNav);
+    return () => {
+      window.removeEventListener('app-navigate-project', handleProjectNav);
+    };
+  }, []);
+
   const scrollToCard = (index: number) => {
     if (!containerRef.current) return;
     const container = containerRef.current;
@@ -414,10 +444,31 @@ export default function Projects() {
     const progressForIndex = index === 0 ? 0 : START_PHASE + (CARD_POSITIONS[index] / maxPos) * (END_BUFFER - START_PHASE);
     const targetScroll = containerTop + progressForIndex * scrollableHeight;
 
-    window.scrollTo({
-      top: targetScroll,
-      behavior: 'smooth',
-    });
+    const startY = window.pageYOffset || document.documentElement.scrollTop;
+    const distance = Math.abs(targetScroll - startY);
+    if (distance < 12) {
+      window.scrollTo(0, targetScroll);
+      return;
+    }
+
+    const duration = Math.min(2200, Math.max(1300, Math.round(distance * 0.22)));
+    const startTime = performance.now();
+
+    function step(currentTime: number) {
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      const ease = progress < 0.5
+        ? 8 * progress * progress * progress * progress
+        : 1 - Math.pow(-2 * progress + 2, 4) / 2;
+
+      window.scrollTo(0, startY + (targetScroll - startY) * ease);
+      if (progress < 1) {
+        requestAnimationFrame(step);
+      } else {
+        window.scrollTo(0, targetScroll);
+      }
+    }
+    requestAnimationFrame(step);
   };
 
   const handlePrev = () => {

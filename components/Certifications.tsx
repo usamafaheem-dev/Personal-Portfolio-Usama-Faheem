@@ -172,6 +172,52 @@ export default function Certifications() {
     };
   }, []);
 
+  // Listen for AI assistant command to open a certificate preview modal
+  useEffect(() => {
+    const handleOpenCert = (e: Event) => {
+      const customEvent = e as CustomEvent<{ id?: string; query?: string }>;
+      const { id, query } = customEvent.detail || {};
+
+      let found: Certification | undefined;
+      const targetId = (id || '').toLowerCase().trim();
+      const targetQuery = (query || '').toLowerCase().trim();
+
+      if (targetId) {
+        found = certifications.find((c) => c.id.toLowerCase() === targetId);
+      }
+      if (!found && targetId) {
+        found = certifications.find((c) =>
+          c.id.toLowerCase().includes(targetId) ||
+          c.title.toLowerCase().includes(targetId)
+        );
+      }
+      if (!found && targetQuery) {
+        found = certifications.find((c) =>
+          c.title.toLowerCase().includes(targetQuery) ||
+          c.id.toLowerCase().includes(targetQuery) ||
+          c.skills.some((s) => s.toLowerCase().includes(targetQuery))
+        );
+      }
+      if (!found && (targetId.includes('mern') || targetQuery.includes('mern'))) {
+        found = certifications[0]; // nextskill-mern
+      }
+      if (found) {
+        setSelectedCert(found);
+      }
+    };
+
+    const handleCloseCert = () => {
+      setSelectedCert(null);
+    };
+
+    window.addEventListener('app-open-certificate', handleOpenCert);
+    window.addEventListener('app-close-certificate', handleCloseCert);
+    return () => {
+      window.removeEventListener('app-open-certificate', handleOpenCert);
+      window.removeEventListener('app-close-certificate', handleCloseCert);
+    };
+  }, []);
+
   // ═════════════════════════════════════════════════════════════════
   // MOTION TIMELINE ANIMATIONS (Seamless, NO gaps or blank screen)
   // ═════════════════════════════════════════════════════════════════

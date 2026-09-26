@@ -139,6 +139,7 @@ export default function Navbar() {
              - On desktop, visible at Hero / top, then transforms to floating controls past hero
          ════════════════════════════════════════════════════════════════ */}
       <motion.header
+        id="navbar"
         initial={{ y: -120, opacity: 0 }}
         animate={{
           y: isHeaderVisible ? 0 : -120,

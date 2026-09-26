@@ -12,13 +12,435 @@ import {
   ArrowUpRight,
   Copy,
   Check,
+  Compass,
+  Radio,
 } from 'lucide-react';
+import { ensureAllSectionsMounted } from '@/components/LazySection';
+
+export interface ChatAction {
+  type: 'NAVIGATE' | 'CERTIFICATE' | 'PROJECT' | 'CLOSE';
+  target: string;
+  label: string;
+}
 
 interface ChatMessage {
   id: string;
   role: 'user' | 'assistant';
   content: string;
   timestamp: string;
+  action?: ChatAction;
+}
+
+// ── Cinematic Camera Drone Scroll (Silky-Smooth, Majestic, Never Blitzes) ──
+function smoothScrollTo(targetY: number, customDuration?: number): Promise<void> {
+  return new Promise((resolve) => {
+    if (typeof window === 'undefined') return resolve();
+
+    const startY = window.pageYOffset || document.documentElement.scrollTop;
+    const distance = Math.abs(targetY - startY);
+
+    if (distance < 12) {
+      window.scrollTo(0, targetY);
+      return resolve();
+    }
+
+    // Majestic, luxurious drone glide timing:
+    // Short distance (< 1500px): ~1400ms
+    // Medium distance (1500px - 4500px): ~2000ms
+    // Long distance (4500px - 8500px): ~2500ms
+    // Ultra long distance (> 8500px, e.g. Hero down to Contact): ~2900ms - 3200ms
+    let calculatedDuration = 1400;
+    if (distance > 8500) {
+      calculatedDuration = 3000;
+    } else if (distance > 4500) {
+      calculatedDuration = 2500;
+    } else if (distance > 2000) {
+      calculatedDuration = 2000;
+    } else if (distance > 800) {
+      calculatedDuration = 1600;
+    }
+
+    const duration = customDuration ?? calculatedDuration;
+    const startTime = performance.now();
+
+    function step(currentTime: number) {
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+
+      // easeInOutQuart: Very gentle slow start, steady cinematic cruise, plush cushioned deceleration
+      const ease = progress < 0.5
+        ? 8 * progress * progress * progress * progress
+        : 1 - Math.pow(-2 * progress + 2, 4) / 2;
+
+      window.scrollTo(0, startY + (targetY - startY) * ease);
+
+      if (progress < 1) {
+        requestAnimationFrame(step);
+      } else {
+        window.scrollTo(0, targetY);
+        resolve();
+      }
+    }
+
+    requestAnimationFrame(step);
+  });
+}
+
+function getHumanSectionTitle(target: string): string {
+  const t = target.toLowerCase();
+  if (t.includes('shadab') || t.includes('rice')) return 'Shadab Rice Project';
+  if (t.includes('softcr8or')) return 'SoftCr8ors Project';
+  if (t.includes('removal') || t.includes('gm')) return 'GM MZ Removals';
+  if (t.includes('reeba')) return 'Reeba Yaseen Project';
+  if (t.includes('clean')) return 'MZ Cleaner Project';
+  if (t.includes('work') || t.includes('construction')) return 'MZ Works Construction';
+  if (t.includes('hero') || t.includes('top') || t.includes('navbar') || t.includes('header') || t.includes('home')) return 'Hero Section';
+  if (t.includes('about') || t.includes('bio')) return 'About Usama';
+  if (t.includes('diff')) return 'What I Do Differently';
+  if (t.includes('process') || t.includes('workflow')) return 'Development Process';
+  if (t.includes('exp') || t.includes('job') || t.includes('vertex')) return 'Work Experience';
+  if (t.includes('skill') || t.includes('stack') || t.includes('tech')) return 'Tech Stack & Skills';
+  if (t.includes('project') || t.includes('portfolio')) return 'Projects Showcase';
+  if (t.includes('cert')) return 'Certifications Showcase';
+  if (t.includes('social') || t.includes('online') || t.includes('find')) return 'Social Profiles';
+  if (t.includes('faq')) return 'FAQ Section';
+  if (t.includes('contact') || t.includes('hire') || t.includes('whatsapp')) return 'Contact Usama';
+  if (t.includes('footer') || t.includes('bottom')) return 'Footer';
+  if (t.includes('close')) return 'Closed Preview';
+  if (t.includes('mern')) return 'MERN Certificate';
+  if (t.includes('devfest') || t.includes('google')) return 'Google DevFest Certificate';
+  if (t.includes('freelanc') || t.includes('digiskill')) return 'Freelancing Certificate';
+  if (t.includes('cisco') && t.includes('ai')) return 'Cisco AI Certificate';
+  if (t.includes('cisco')) return 'Cisco Networking Certificate';
+  return target.charAt(0).toUpperCase() + target.slice(1);
+}
+
+// ── Screen Action Executor (Smooth scroll & highlight target section or pop modal) ──
+// ── Screen Action Executor (Quantum Teleport & Instant Seamless Repositioning) ──
+async function executeScreenAction(action: ChatAction) {
+  if (typeof window === 'undefined') return;
+
+  // 1. Immediately ensure all lazy sections are mounted in DOM
+  ensureAllSectionsMounted();
+  window.dispatchEvent(new Event('app-mount-all-sections'));
+
+  // 2. Ensure chat window stays open
+  window.dispatchEvent(new CustomEvent('openGeminiChat', { detail: { forceOpen: true } }));
+
+  const title = getHumanSectionTitle(action.target);
+
+  // Close command (e.g. close certificate modal)
+  if (action.type === 'CLOSE' || action.target.toLowerCase() === 'close') {
+    window.dispatchEvent(new Event('app-close-certificate'));
+    return;
+  }
+
+  // Project Specific Navigation
+  const isProjectSpecific =
+    action.type === 'PROJECT' ||
+    action.target.includes('shadab') ||
+    action.target.includes('rice') ||
+    action.target.includes('softcr8or') ||
+    action.target.includes('removal') ||
+    action.target.includes('reeba') ||
+    action.target.includes('clean') ||
+    action.target.includes('tekrivo') ||
+    action.target.includes('work') ||
+    action.target.includes('construction') ||
+    action.target.includes('tyre') ||
+    action.target.includes('tehreem');
+
+  if (isProjectSpecific) {
+    const projSection = document.getElementById('projects');
+    if (projSection) {
+      const rect = projSection.getBoundingClientRect();
+      const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+      const containerTop = rect.top + currentScroll;
+      const scrollableHeight = Math.max(0, projSection.offsetHeight - window.innerHeight);
+
+      // Targeted Card Position Map (Matches Projects.tsx):
+      const CARD_POSITIONS = [0, 1, 2, 3.18, 4.18, 5.18, 6.18, 7.18, 8.18];
+      const maxPos = 8.18;
+      const START_PHASE = 0.055;
+      const END_BUFFER = 0.93;
+
+      let cardIdx = 0;
+      const t = action.target.toLowerCase();
+      if (t.includes('shadab') || t.includes('rice')) cardIdx = 3;
+      else if (t.includes('softcr8or')) cardIdx = 0;
+      else if (t.includes('removal') || t.includes('gm')) cardIdx = 1;
+      else if (t.includes('reeba')) cardIdx = 2;
+      else if (t.includes('clean')) cardIdx = 4;
+      else if (t.includes('work') || t.includes('construction')) cardIdx = 5;
+      else if (t.includes('tekrivo')) cardIdx = 6;
+      else if (t.includes('tyre') || t.includes('car')) cardIdx = 7;
+      else if (t.includes('tehreem')) cardIdx = 8;
+
+      const progressForIndex = cardIdx === 0 ? 0 : START_PHASE + (CARD_POSITIONS[cardIdx] / maxPos) * (END_BUFFER - START_PHASE);
+      const targetScroll = containerTop + progressForIndex * scrollableHeight;
+
+      // ── IF USER IS ALREADY ON THIS PROJECT CARD: DO NOT RUN LOADER ──
+      const isAlreadyOnCard = Math.abs(currentScroll - targetScroll) < 180;
+      if (isAlreadyOnCard) {
+        window.dispatchEvent(
+          new CustomEvent('app-navigate-project', {
+            detail: { target: action.target },
+          })
+        );
+        projSection.classList.add('ai-highlight-section');
+        setTimeout(() => projSection.classList.remove('ai-highlight-section'), 2500);
+        return;
+      }
+
+      // Not on card: Show Pure Blue Soundwave Loader and Teleport!
+      window.dispatchEvent(
+        new CustomEvent('app-ai-teleport', {
+          detail: { visible: true, title },
+        })
+      );
+      await new Promise((r) => setTimeout(r, 220));
+
+      window.scrollTo(0, targetScroll);
+      projSection.classList.add('ai-highlight-section');
+      setTimeout(() => projSection.classList.remove('ai-highlight-section'), 3500);
+
+      window.dispatchEvent(
+        new CustomEvent('app-navigate-project', {
+          detail: { target: action.target },
+        })
+      );
+
+      await new Promise((r) => setTimeout(r, 1500));
+      window.dispatchEvent(
+        new CustomEvent('app-ai-teleport', {
+          detail: { visible: false, title },
+        })
+      );
+      return;
+    }
+  }
+
+  if (action.type === 'NAVIGATE') {
+    let targetId = action.target.toLowerCase().trim();
+
+    // Top / Hero / Navbar handler
+    if (
+      targetId === 'hero' ||
+      targetId === 'top' ||
+      targetId === 'navbar' ||
+      targetId === 'home' ||
+      targetId === 'header' ||
+      targetId === 'wapis' ||
+      targetId === 'back'
+    ) {
+      const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+      const heroEl = document.getElementById('hero') || document.getElementById('navbar');
+
+      // ── IF ALREADY AT TOP / HERO: DO NOT RUN LOADER ──
+      if (currentScroll < 250) {
+        if (heroEl) {
+          heroEl.classList.add('ai-highlight-section');
+          setTimeout(() => heroEl.classList.remove('ai-highlight-section'), 2500);
+        }
+        if (currentScroll > 0) {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        return;
+      }
+
+      // Not at top: Show Pure Blue Soundwave Loader and Teleport!
+      window.dispatchEvent(
+        new CustomEvent('app-ai-teleport', {
+          detail: { visible: true, title },
+        })
+      );
+      await new Promise((r) => setTimeout(r, 220));
+
+      window.scrollTo(0, 0);
+      if (heroEl) {
+        heroEl.classList.add('ai-highlight-section');
+        setTimeout(() => heroEl.classList.remove('ai-highlight-section'), 3500);
+      }
+
+      await new Promise((r) => setTimeout(r, 1500));
+      window.dispatchEvent(
+        new CustomEvent('app-ai-teleport', {
+          detail: { visible: false, title },
+        })
+      );
+      return;
+    }
+
+    // Aliases
+    if (targetId === 'stack' || targetId === 'techstack' || targetId === 'tech') targetId = 'skills';
+    if (targetId === 'social' || targetId === 'socials' || targetId === 'findme' || targetId === 'links') targetId = 'find-me-online';
+    if (targetId === 'work' || targetId === 'portfolio') targetId = 'projects';
+    if (targetId === 'difference' || targetId === 'different' || targetId === 'differently') targetId = 'difference';
+    if (targetId === 'workflow' || targetId === 'methodology' || targetId === 'steps') targetId = 'process';
+    if (targetId === 'hire' || targetId === 'reach' || targetId === 'email' || targetId === 'whatsapp' || targetId === 'phone') targetId = 'contact';
+
+    const el = document.getElementById(targetId);
+    if (el) {
+      const yOffset = -75;
+      const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+      const targetY = Math.max(0, el.getBoundingClientRect().top + currentScroll + yOffset);
+      const distance = Math.abs(targetY - currentScroll);
+      const rect = el.getBoundingClientRect();
+
+      // ── IF ALREADY ON THIS SECTION: DO NOT RUN LOADER ──
+      const isAlreadyOnSection = distance < 220 || (rect.top <= 200 && rect.bottom >= window.innerHeight * 0.4);
+      if (isAlreadyOnSection) {
+        el.classList.add('ai-highlight-section');
+        setTimeout(() => el.classList.remove('ai-highlight-section'), 2500);
+        if (distance > 25 && distance < 220) {
+          window.scrollTo({ top: targetY, behavior: 'smooth' });
+        }
+        return;
+      }
+
+      // Not on section: Show Pure Blue Soundwave Loader and Teleport!
+      window.dispatchEvent(
+        new CustomEvent('app-ai-teleport', {
+          detail: { visible: true, title },
+        })
+      );
+      await new Promise((r) => setTimeout(r, 220));
+
+      window.scrollTo(0, targetY);
+      el.classList.add('ai-highlight-section');
+      setTimeout(() => el.classList.remove('ai-highlight-section'), 3500);
+
+      await new Promise((r) => setTimeout(r, 1500));
+      window.dispatchEvent(
+        new CustomEvent('app-ai-teleport', {
+          detail: { visible: false, title },
+        })
+      );
+      return;
+    }
+
+  } else if (action.type === 'CERTIFICATE') {
+    const certSection = document.getElementById('certifications');
+    if (certSection) {
+      const yOffset = -40;
+      const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+      const targetY = Math.max(0, certSection.getBoundingClientRect().top + currentScroll + yOffset);
+      const distance = Math.abs(targetY - currentScroll);
+      const rect = certSection.getBoundingClientRect();
+      const isAlreadyAtSection = distance < 220 || (rect.top <= 200 && rect.bottom >= window.innerHeight * 0.4);
+
+      // ── IF ALREADY AT CERTIFICATIONS: OPEN DIRECTLY WITHOUT RUNNING LOADER ──
+      if (isAlreadyAtSection) {
+        window.dispatchEvent(
+          new CustomEvent('app-open-certificate', {
+            detail: { id: action.target, query: action.target },
+          })
+        );
+        certSection.classList.add('ai-highlight-section');
+        setTimeout(() => certSection.classList.remove('ai-highlight-section'), 2500);
+        return;
+      }
+
+      // Not at cert section: Show Pure Blue Soundwave Loader and Teleport!
+      window.dispatchEvent(
+        new CustomEvent('app-ai-teleport', {
+          detail: { visible: true, title },
+        })
+      );
+      await new Promise((r) => setTimeout(r, 220));
+
+      window.scrollTo(0, targetY);
+      certSection.classList.add('ai-highlight-section');
+      setTimeout(() => certSection.classList.remove('ai-highlight-section'), 3500);
+
+      // Open verified certificate modal
+      window.dispatchEvent(
+        new CustomEvent('app-open-certificate', {
+          detail: { id: action.target, query: action.target },
+        })
+      );
+
+      await new Promise((r) => setTimeout(r, 1500));
+      window.dispatchEvent(
+        new CustomEvent('app-ai-teleport', {
+          detail: { visible: false, title },
+        })
+      );
+      return;
+    }
+  }
+}
+
+// ── Parse action tags [[ACTION:TYPE:TARGET]] from AI response text ──
+function parseActionFromText(rawText: string): { cleanText: string; action?: ChatAction } {
+  const match = rawText.match(/\[\[ACTION:(NAVIGATE|CERTIFICATE|PROJECT|CLOSE|OPEN):([a-zA-Z0-9_-]+)\]\]/i);
+  if (!match) {
+    return { cleanText: rawText.trim() };
+  }
+
+  const rawType = match[1].toUpperCase();
+  const type = (rawType === 'OPEN' ? 'NAVIGATE' : rawType) as 'NAVIGATE' | 'CERTIFICATE' | 'PROJECT' | 'CLOSE';
+  const target = match[2].trim();
+  const cleanText = rawText.replace(match[0], '').trim();
+
+  let label = '';
+  if (type === 'NAVIGATE' || type === 'PROJECT') {
+    const t = target.toLowerCase();
+    if (t.includes('shadab') || t.includes('rice')) label = '🍚 Navigated to Shadab Rice Project';
+    else if (t.includes('softcr8or')) label = '⚡ Navigated to SoftCr8ors Project';
+    else if (t.includes('removal') || t.includes('gm')) label = '🚚 Navigated to GM MZ Removals';
+    else if (t.includes('reeba')) label = '💼 Navigated to Reeba Yaseen Project';
+    else if (t.includes('clean')) label = '✨ Navigated to MZ Cleaner';
+    else if (t.includes('work') || t.includes('construction')) label = '🏗️ Navigated to MZ Works Construction';
+    else if (t.includes('hero') || t.includes('top') || t.includes('home') || t.includes('nav') || t.includes('header') || t.includes('wapis') || t.includes('back')) {
+      label = '🚀 Navigated to Hero Section';
+    } else if (t.includes('project') || t.includes('portfolio')) {
+      label = '📁 Navigated to Projects';
+    } else if (t.includes('cert')) {
+      label = '📜 Navigated to Certifications';
+    } else if (t.includes('skill') || t.includes('stack') || t.includes('tech')) {
+      label = '🛠️ Navigated to Tech Stack';
+    } else if (t.includes('diff')) {
+      label = '💡 Navigated to What I Do Differently';
+    } else if (t.includes('process') || t.includes('workflow')) {
+      label = '🔄 Navigated to Process';
+    } else if (t.includes('contact') || t.includes('hire') || t.includes('whatsapp') || t.includes('reach')) {
+      label = '📬 Navigated to Contact Usama';
+    } else if (t.includes('exp') || t.includes('job') || t.includes('career')) {
+      label = '💼 Navigated to Experience';
+    } else if (t.includes('service')) {
+      label = '⚡ Navigated to Services';
+    } else if (t.includes('social') || t.includes('find') || t.includes('online')) {
+      label = '🌐 Navigated to Social Channels';
+    } else if (t.includes('faq') || t.includes('question')) {
+      label = '❓ Navigated to FAQ';
+    } else if (t.includes('footer') || t.includes('bottom')) {
+      label = '⚓ Navigated to Footer';
+    } else if (t.includes('about') || t.includes('bio')) {
+      label = '👤 Navigated to About Usama';
+    } else {
+      label = `📍 Navigated to ${target}`;
+    }
+  } else if (type === 'CERTIFICATE') {
+    const t = target.toLowerCase();
+    if (t.includes('mern')) label = '📜 Opened MERN Stack Certificate Modal';
+    else if (t.includes('devfest') || t.includes('google')) label = '📜 Opened Google DevFest Certificate';
+    else if (t.includes('freelanc') || t.includes('digiskill')) label = '📜 Opened Freelancing Certificate';
+    else if (t.includes('cisco') && t.includes('ai')) label = '📜 Opened Cisco AI Certificate';
+    else if (t.includes('cisco') || t.includes('network')) label = '📜 Opened Cisco Networking Certificate';
+    else label = '📜 Opened Certificate Preview';
+  } else if (type === 'CLOSE') {
+    label = '✕ Closed Preview Modal';
+  }
+
+  return {
+    cleanText,
+    action: {
+      type,
+      target,
+      label,
+    },
+  };
 }
 
 const CHAT_STORAGE_KEY = 'usama_portfolio_chat_v2';
@@ -32,9 +454,9 @@ const INITIAL_WELCOME: ChatMessage = {
 };
 
 const QUICK_PROMPTS = [
-  { label: '🚀 Top Projects', prompt: 'What are your top projects?' },
-  { label: '🛠️ Tech Stack', prompt: 'What is Usama tech stack?' },
-  { label: '💼 Services & Hire', prompt: 'What services do you offer and how can I hire Usama?' },
+  { label: '🚀 Top Projects', prompt: 'Usama ke top projects dikhao' },
+  { label: '📜 MERN Certificate', prompt: 'Usama ki MERN stack certification dikhao' },
+  { label: '🛠️ Tech Stack', prompt: 'Usama ka tech stack kya hai?' },
   { label: '📞 Contact Usama', prompt: 'How can I contact Usama directly?' },
 ];
 
@@ -97,6 +519,27 @@ export default function AIChatbot() {
   const [messages, setMessages] = useState<ChatMessage[]>([INITIAL_WELCOME]);
   const [inputText, setInputText] = useState('');
   const [copiedMessageId, setCopiedMessageId] = useState<string | null>(null);
+  const [teleportOverlay, setTeleportOverlay] = useState<{
+    visible: boolean;
+    title: string;
+  } | null>(null);
+
+  useEffect(() => {
+    const handleTeleport = (e: Event) => {
+      const custom = e as CustomEvent<{ visible: boolean; title: string }>;
+      if (custom.detail) {
+        setTeleportOverlay(custom.detail);
+        if (custom.detail.visible) {
+          setIsChatOpen(true);
+        }
+      }
+    };
+
+    window.addEventListener('app-ai-teleport', handleTeleport);
+    return () => {
+      window.removeEventListener('app-ai-teleport', handleTeleport);
+    };
+  }, []);
 
   const handleCopyMessage = (text: string, id: string) => {
     try {
@@ -264,7 +707,7 @@ export default function AIChatbot() {
 
       try {
         const controller = new AbortController();
-        const clientTimeout = setTimeout(() => controller.abort(), 8500);
+        const clientTimeout = setTimeout(() => controller.abort(), 15000); // 15s resilient timeout
 
         const response = await fetch('/api/chat', {
           method: 'POST',
@@ -285,24 +728,66 @@ export default function AIChatbot() {
         }
 
         const data = await response.json();
+        const rawReply = data.reply || "I didn't receive a response. Please ask again or contact Usama directly!";
+        const { cleanText, action } = parseActionFromText(rawReply);
+
         const botMessage: ChatMessage = {
           id: (Date.now() + 1).toString(),
           role: 'assistant',
-          content: data.reply || "I didn't receive a response. Please ask again or contact Usama directly!",
+          content: cleanText,
           timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+          action,
         };
 
         setMessages((prev) => [...prev, botMessage]);
+
+        // Auto-execute screen navigation or modal preview immediately
+        if (action) {
+          executeScreenAction(action);
+        }
       } catch (err) {
         console.error('Chat error:', err);
+        const q = cleanQuery.toLowerCase();
+        let fallbackReply = "I am having a brief connection delay. Please feel free to reach out to Usama directly on WhatsApp (+92 314 3416588 / +92 348 7700972)!";
+
+        if (q.includes('phone') || q.includes('contact') || q.includes('number') || q.includes('whatsapp') || q.includes('call') || q.includes('email') || q.includes('hire') || q.includes('rabta')) {
+          fallbackReply = "Main aapko Usama ke Contact & WhatsApp section par le kar ja raha hoon.\n\n• **Phone / WhatsApp:** +92 314 3416588 / +92 348 7700972\n• **Email:** developer@usamafaheem.com\n\n[[ACTION:NAVIGATE:contact]]";
+        } else if (q.includes('shadab') || q.includes('rice')) {
+          fallbackReply = "Main aapko Shadab Rice project card par le kar ja raha hoon (https://shadabrice.pk/).\n\n[[ACTION:NAVIGATE:shadab-rice]]";
+        } else if (q.includes('softcr8or')) {
+          fallbackReply = "Main aapko SoftCr8ors project card par le kar ja raha hoon (https://softcr8ors.com/).\n\n[[ACTION:NAVIGATE:softcr8ors]]";
+        } else if (q.includes('clean') || (q.includes('mz') && q.includes('clean'))) {
+          fallbackReply = "Main aapko MZ Cleaners project card par le kar ja raha hoon.\n\n[[ACTION:NAVIGATE:mz-cleaners]]";
+        } else if (q.includes('removal') || (q.includes('mz') && (q.includes('van') || q.includes('gm')))) {
+          fallbackReply = "Main aapko GM MZ Removals project card par le kar ja raha hoon.\n\n[[ACTION:NAVIGATE:gm-mz-removals]]";
+        } else if (q.includes('work') || q.includes('construction')) {
+          fallbackReply = "Main aapko MZ Works Construction project card par le kar ja raha hoon.\n\n[[ACTION:NAVIGATE:mz-works]]";
+        } else if (q.includes('reeba')) {
+          fallbackReply = "Main aapko Reeba Yaseen SaaS showcase par le kar ja raha hoon.\n\n[[ACTION:NAVIGATE:reeba-yaseen]]";
+        } else if (q.includes('mern') || q.includes('cert') || q.includes('sanad')) {
+          fallbackReply = "Main aapko Usama ke verified Certifications showcase par le kar ja raha hoon.\n\n[[ACTION:NAVIGATE:certifications]]";
+        } else if (q.includes('skill') || q.includes('stack') || q.includes('tech')) {
+          fallbackReply = "Main aapko Usama ke Tech Stack & Skills section par le kar ja raha hoon.\n\n[[ACTION:NAVIGATE:skills]]";
+        } else if (q.includes('wapis') || q.includes('upar') || q.includes('top') || q.includes('hero') || q.includes('navbar')) {
+          fallbackReply = "Main aapko website ke main Hero section par le kar ja raha hoon.\n\n[[ACTION:NAVIGATE:hero]]";
+        } else if (q.includes('close') || q.includes('band')) {
+          fallbackReply = "Main ne modal band kar diya hai.\n\n[[ACTION:CLOSE:modal]]";
+        } else if (q.match(/\b(project|projects|preojct|preojcts|porject|projekts|showcase)\b/)) {
+          fallbackReply = "Here are Usama's top projects with live links:\n\n• Shadab Rice: https://shadabrice.pk/\n• SoftCr8ors: https://softcr8ors.com/\n• GM MZ Removals: https://gmmzremovals.co.uk/\n• MZ Works Construction: https://mzworks.co.uk/\n• Reeba Yaseen: https://reeba.softcr8ors.com/\n\n[[ACTION:NAVIGATE:projects]]";
+        }
+
+        const { cleanText, action } = parseActionFromText(fallbackReply);
         const errorMessage: ChatMessage = {
           id: (Date.now() + 1).toString(),
           role: 'assistant',
-          content:
-            "Here are Usama's top projects with live links:\n\n• Shadab Rice (E-Commerce): https://shadabrice.pk/\n• SoftCr8ors (AI Agency): https://softcr8ors.com/\n• GM MZ Removals (UK Logistics): https://gmmzremovals.co.uk/\n• MZ Works Construction: https://mzworks.co.uk/\n• Reeba Yaseen: https://reeba.softcr8ors.com/\n\nYou can also contact Usama directly on WhatsApp (+92 314 3416588)! 🚀",
+          content: cleanText,
           timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+          action,
         };
         setMessages((prev) => [...prev, errorMessage]);
+        if (action) {
+          executeScreenAction(action);
+        }
       } finally {
         setIsLoading(false);
       }
@@ -631,6 +1116,22 @@ export default function AIChatbot() {
                             : 'bg-gradient-to-r from-[#0052ff] to-[#1e40af] text-white rounded-br-sm shadow-md'
                             }`}
                         >
+                          {/* Autonomous Action Pill Badge */}
+                          {isBot && msg.action && (
+                            <div className="mb-2 pb-1.5 border-b border-slate-100 flex items-center justify-between gap-1.5">
+                              <button
+                                type="button"
+                                onClick={() => executeScreenAction(msg.action!)}
+                                title="Click to trigger this screen navigation again"
+                                className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-blue-50/90 hover:bg-blue-100/90 border border-blue-200/80 text-[#0052ff] text-[11px] font-semibold tracking-wide shadow-xs transition-all cursor-pointer group/badge"
+                              >
+                                <span className="w-1.5 h-1.5 rounded-full bg-[#0052ff] animate-ping shrink-0" />
+                                <span className="truncate">{msg.action.label}</span>
+                                <ArrowUpRight className="w-3 h-3 shrink-0 opacity-70 group-hover/badge:opacity-100 group-hover/badge:translate-x-0.5 group-hover/badge:-translate-y-0.5 transition-transform" />
+                              </button>
+                            </div>
+                          )}
+
                           {!isBot ? (
                             <p className="text-white font-medium text-[13px] sm:text-[13.5px] leading-relaxed break-words whitespace-pre-wrap select-text selection:bg-white/30">
                               {msg.content}
@@ -749,6 +1250,49 @@ export default function AIChatbot() {
         )}
       </AnimatePresence>
 
+      {/* ═══ FULLSCREEN SCI-FI 9TH SOUNDWAVE CAPSULE (PURE ELECTRIC BLUE ONLY) ═══ */}
+      <AnimatePresence>
+        {teleportOverlay?.visible && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0, transition: { duration: 0.3 } }}
+            className="fixed inset-0 z-[99990] flex items-center justify-center bg-white/75 backdrop-blur-md pointer-events-none select-none"
+          >
+            {/* Ambient Pure Blue Caustic Glow */}
+            <div className="absolute w-[460px] h-[460px] rounded-full bg-blue-500/20 blur-3xl pointer-events-none" />
+
+            <motion.div
+              initial={{ scale: 0.85, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              transition={{ type: 'spring', damping: 25, stiffness: 280 }}
+              className="relative flex items-center justify-center"
+            >
+              {/* Exact Pill Capsule with Pure Electric Blue Colors */}
+              <div className="relative px-7 py-3.5 rounded-full border-[2px] border-slate-700 bg-white/95 shadow-[0_12px_40px_rgba(0,82,255,0.2)] flex items-center justify-center gap-2 backdrop-blur-md">
+                {[10, 18, 30, 42, 48, 42, 30, 18, 10].map((h, i) => (
+                  <motion.div
+                    key={i}
+                    animate={{
+                      height: [h * 0.35, h, h * 0.35],
+                      opacity: [0.85, 1, 0.85],
+                    }}
+                    transition={{
+                      duration: 0.65,
+                      repeat: Infinity,
+                      delay: i * 0.08,
+                      ease: 'easeInOut',
+                    }}
+                    style={{ height: `${h}px` }}
+                    className="w-2.5 rounded-full bg-gradient-to-t from-[#0052ff] via-[#2563eb] to-[#38bdf8] shadow-[0_0_10px_rgba(0,82,255,0.45)]"
+                  />
+                ))}
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </>
   );
 }

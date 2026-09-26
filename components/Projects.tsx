@@ -23,15 +23,16 @@ const projects: ProjectData[] = [
     cardBg: 'bg-gradient-to-tr from-[#FFD8EC] via-[#E8DBFC] to-[#D5F2FD]',
   },
   {
-    title: 'Tehreem Arif',
-    category: 'TEHREEM ARIF — SQA & AUTOMATION',
-    quote: 'Ensuring zero-bug production releases through automated testing frameworks, API performance audits, and high-coverage CI/CD pipelines.',
-    subtitle: 'Quality assurance engineer specialized in automated test frameworks and performance audits.',
-    tech: ['Selenium', 'Cypress', 'Python Automation', 'CI/CD Pipelines'],
-    link: 'https://tahreem-arif.vercel.app/',
+    title: 'GM MZ Removals',
+    category: 'GM MZ REMOVALS — GREATER MANCHESTER',
+    quote: 'Professional, reliable removals across Greater Manchester handling residential, commercial, and industrial relocations with zero hidden costs.',
+    subtitle: 'Dynamic removal quote calculator, coverage lookup, and Luton van fleet booking system.',
+    tech: ['Next.js', 'Redux', 'Booking Engine', 'Distance API'],
+    link: 'https://gmmzremovals.co.uk/',
     variant: 'quote',
-    image: '/projects_images/tahreem_portflio.png',
-    cardBg: 'bg-[#EDE7FB]',
+    image: '/mx_removal.mp4',
+    video: '/mx_removal.mp4',
+    cardBg: 'bg-[#D6E6F8]',
   },
   {
     title: 'Reeba Yaseen',
@@ -49,17 +50,6 @@ const projects: ProjectData[] = [
     cardBg: 'bg-[#CEEFF9]',
   },
   {
-    title: 'GM MZ Removals',
-    category: 'GM MZ REMOVALS — GREATER MANCHESTER',
-    quote: 'Professional, reliable removals across Greater Manchester handling residential, commercial, and industrial relocations with zero hidden costs.',
-    subtitle: 'Dynamic removal quote calculator, coverage lookup, and Luton van fleet booking system.',
-    tech: ['Next.js', 'Redux', 'Booking Engine', 'Distance API'],
-    link: 'https://gmmzremovals.co.uk/',
-    variant: 'quote',
-    image: '/projects_images/gm_cleaner.png',
-    cardBg: 'bg-[#D6E6F8]',
-  },
-  {
     title: 'Shadab Rice',
     category: 'SHADAB RICE — BASMATI E-COMMERCE',
     quote: 'Premium Basmati rice exporter storefront featuring an instant 1-click WhatsApp order checkout, dynamic product bundle discounts, and real-time inventory.',
@@ -71,11 +61,11 @@ const projects: ProjectData[] = [
       { value: '1-Click', label: 'WhatsApp Order' },
       { value: '1121', label: 'Steam Basmati' },
     ],
-    image: '/projects_images/shahdab_rice_portrait_1.png',
+    image: '/projects_images/shadabrice_1.png',
     images: [
-      '/projects_images/shahdab_rice_portrait_1.png',
-      '/projects_images/shahdab_rice_portrait_2.png',
-      '/projects_images/shahdab_rice_portrait_3.png',
+      '/projects_images/shadabrice_1.png',
+      '/projects_images/shadabrice_2.png',
+      '/projects_images/shadabrice_3.png',
     ],
     cardBg: 'bg-[#D9F2E4]',
   },
@@ -85,7 +75,7 @@ const projects: ProjectData[] = [
     quote: 'Manchester premier commercial cleaning platform with 24/7 automated booking workflows and instant consultation dispatch.',
     subtitle: 'Custom service packages, customer testimonials, and direct booking pipeline.',
     tech: ['Next.js', 'Redux', 'Booking Pipeline', 'Framer Motion'],
-    link: 'https://mz-cleaner.vercel.app/',
+    link: 'https://mzcleaners.co.uk/',
     variant: 'banner',
     stats: [
       { value: '24/7', label: 'Online Booking' },
@@ -93,6 +83,33 @@ const projects: ProjectData[] = [
     ],
     image: '/projects_images/mz-.png',
     cardBg: 'bg-[#D6E6F8]',
+  },
+  {
+    title: 'MZ Works Construction',
+    category: 'MZ WORKS — MULTI-TRADE & PROPERTY CARE',
+    quote: 'Manchester trusted multi-trade specialists delivering certified property care, emergency response, and complete renovations with zero hassle.',
+    subtitle: 'One call. Every service. Zero hassle. Online portal for estate agents and homeowners.',
+    tech: ['Next.js 15', 'Client Portal', 'Emergency Dispatch', 'Tailwind CSS'],
+    link: 'https://mzworks.co.uk/',
+    variant: 'landscape',
+    stats: [
+      { value: '15,000+', label: 'Jobs Completed' },
+      { value: '200+', label: 'Estate Partners' },
+    ],
+    image: '/mx_works.mp4',
+    video: '/mx_works.mp4',
+    cardBg: 'bg-gradient-to-tr from-[#FED7AA] via-[#FEE2E2] to-[#FFEDD5]',
+  },
+  {
+    title: 'Tekrivo Platform',
+    category: 'TEKRIVO — EDTECH & CONSULTANCY',
+    quote: 'Comprehensive Virtual University project consultancy and developer mentorship platform helping 500+ students launch software.',
+    subtitle: 'Final year project consultation, service packages, and student guidance.',
+    tech: ['EdTech', 'Next.js', 'Redux', 'Stripe Integration'],
+    link: 'https://tekrivo.vercel.app/',
+    variant: 'quote',
+    image: '/projects_images/tekrivo.png',
+    cardBg: 'bg-[#EDE7FB]',
   },
   {
     title: 'Northwest Tyres',
@@ -115,91 +132,78 @@ const projects: ProjectData[] = [
     cardBg: 'bg-[#FED7AA]',
   },
   {
-    title: 'Tekrivo Platform',
-    category: 'TEKRIVO — EDTECH & CONSULTANCY',
-    quote: 'Comprehensive Virtual University project consultancy and developer mentorship platform helping 500+ students launch software.',
-    subtitle: 'Final year project consultation, service packages, and student guidance.',
-    tech: ['EdTech', 'Next.js', 'Redux', 'Stripe Integration'],
-    link: 'https://tekrivo.vercel.app/',
+    title: 'Tehreem Arif',
+    category: 'TEHREEM ARIF — SQA & AUTOMATION',
+    quote: 'Ensuring zero-bug production releases through automated testing frameworks, API performance audits, and high-coverage CI/CD pipelines.',
+    subtitle: 'Quality assurance engineer specialized in automated test frameworks and performance audits.',
+    tech: ['Selenium', 'Cypress', 'Python Automation', 'CI/CD Pipelines'],
+    link: 'https://tahreem-arif.vercel.app/',
     variant: 'quote',
-    image: '/projects_images/tekrivo.png',
+    image: '/projects_images/tahreem_portflio.png',
     cardBg: 'bg-[#EDE7FB]',
   },
-  {
-    title: '3D Next',
-    category: '3D NEXT — WEBGL SHOWCASE',
-    quote: 'Cinematic 3D web experience combining Three.js, custom WebGL fragment shaders, and interactive camera staging.',
-    subtitle: 'Immersive interactive graphics and scroll-driven WebGL animations.',
-    tech: ['Three.js', 'WebGL Shaders', 'Spline 3D', 'Next.js'],
-    link: 'https://3dnext.vercel.app/',
-    variant: 'landscape',
-    stats: [
-      { value: '60 FPS', label: 'WebGL Render' },
-      { value: '3D', label: 'Interactive Scene' },
-    ],
-    image: '/projects_images/3d_proeejct.mp4',
-    video: '/projects_images/3d_proeejct.mp4',
-    cardBg: 'bg-gradient-to-tr from-[#BAE6FD] via-[#D5F2FD] to-[#E0F2FE]',
-  },
 ];
+
+// Targeted Card Position Map: Standard 1.0 spacing everywhere, +0.18 targeted separation ONLY between Reeba Yaseen (2) and Shadab Rice (3)
+const CARD_POSITIONS = [0, 1, 2, 3.18, 4.18, 5.18, 6.18, 7.18, 8.18];
 
 // Ultra-Smooth Continuous Card Index Mapping with Start & End Dwell Buffers
 const START_PHASE = 0.055;
 const END_BUFFER = 0.93;
 
 function getContinuousIndex(p: number, total: number): number {
+  const maxPos = CARD_POSITIONS[total - 1] ?? (total - 1);
   if (p <= START_PHASE) return 0;
-  if (p >= END_BUFFER) return total - 1;
+  if (p >= END_BUFFER) return maxPos;
   const progress = (p - START_PHASE) / (END_BUFFER - START_PHASE);
-  return progress * (total - 1);
+  return progress * maxPos;
 }
 
 // ── Progress Points & Card-Matching Background Color Stops ──
-// Begins with the original deep teal green (#042f2e / teal-950) at the top when the header is visible.
-// As soon as the user begins scrolling (first card moves up), smoothly morphs into each card's authentic color!
 const progressPoints = [
   0,           // 1. Initial landing at top of section: Original deep teal green (#042f2e)
   0.025,       // 2. Start scrolling / header beginning to slide: Still original teal green
   START_PHASE, // 3. 0.055: First card (SoftCr8ors) reaches focus -> morphs into card color (#eabed5)
   ...projects.slice(1).map((_, idx) => {
     const i = idx + 1;
-    return START_PHASE + (i / (projects.length - 1)) * (END_BUFFER - START_PHASE);
+    const maxPos = CARD_POSITIONS[projects.length - 1];
+    return START_PHASE + (CARD_POSITIONS[i] / maxPos) * (END_BUFFER - START_PHASE);
   }),
   1,           // 12. Bottom exit: Graceful transition back to original teal green (#042f2e)
 ];
 
 // ── Authentic Card-Matched Background Colors ──
 // 0. SoftCr8ors: [#F2FFC2] & [#F2FFC2] (Pastel Pink/Lilac) -> #eabed5 (Soft Rose Mauve)
-// 1. Tehreem Arif: [#FBFFF0] (Pastel Lilac) -> #d5c3f3 (Soft Royal Lilac)
+// 1. GM MZ Removals: [#F2FFC2] (Pastel Periwinkle) -> #a8ccf4 (Clean Periwinkle Blue)
 // 2. Reeba Yaseen: [#F3F3ED] (Pastel Aqua Cyan) -> #9ee0f5 (Vibrant Sky Aqua Cyan)
-// 3. GM MZ Removals: [#F2FFC2] (Pastel Periwinkle) -> #a8ccf4 (Clean Periwinkle Blue)
-// 4. Shadab Rice: [#FBFFF0] (Pastel Mint Green) -> #aee5c3 (Fresh Sage Mint Green)
-// 5. MZ Cleaner: [#F2FFC2] (Pastel Sky Blue) -> #a8ccf4 (Clean Sky Blue)
-// 6. Northwest Tyres: [#F3F3ED] (Pastel Warm Peach) -> #f9be80 (Vibrant Warm Peach)
-// 7. Tekrivo Platform: [#FBFFF0] (Pastel Lilac) -> #d5c3f3 (Soft Royal Lilac)
-// 8. 3D Next: [#F2FFC2] & [#F2FFC2] (Cosmic Ice/Lavender) -> #b9d8f8 (Cosmic Sky Blue)
+// 3. Shadab Rice: [#FBFFF0] (Pastel Mint Green) -> #aee5c3 (Fresh Sage Mint Green)
+// 4. MZ Cleaner: [#F2FFC2] (Pastel Sky Blue) -> #a8ccf4 (Clean Sky Blue)
+// 5. MZ Works Construction: [#FED7AA] & [#FEE2E2] (Warm Construction Amber/Peach) -> #ea6a28 (Rich Brand Orange)
+// 6. Tekrivo Platform: [#FBFFF0] (Pastel Lilac) -> #d5c3f3 (Soft Royal Lilac)
+// 7. Northwest Tyres: [#F3F3ED] (Pastel Warm Peach) -> #f9be80 (Vibrant Warm Peach)
+// 8. Tehreem Arif: [#FBFFF0] (Pastel Lilac) -> #d5c3f3 (Soft Royal Lilac)
 // ── 100% Exact Card Background Hex Colors (Exact Card Match) ──
 // 0. SoftCr8ors: [#F2FFC2]
-// 1. Tehreem Arif: [#FBFFF0]
+// 1. GM MZ Removals: [#F2FFC2]
 // 2. Reeba Yaseen: [#F3F3ED]
-// 3. GM MZ Removals: [#F2FFC2]
-// 4. Shadab Rice: [#FBFFF0]
-// 5. MZ Cleaner: [#F2FFC2]
-// 6. Northwest Tyres: [#F3F3ED]
-// 7. Tekrivo Platform: [#FBFFF0]
-// 8. 3D Next: [#F2FFC2]
+// 3. Shadab Rice: [#FBFFF0]
+// 4. MZ Cleaner: [#F2FFC2]
+// 5. MZ Works Construction: [#FED7AA]
+// 6. Tekrivo Platform: [#FBFFF0]
+// 7. Northwest Tyres: [#F3F3ED]
+// 8. Tehreem Arif: [#FBFFF0]
 const projectBgColors = [
   '#042f2e', // at p = 0: Original teal green (teal-950)
   '#042f2e', // at p = 0.025: Original teal green (teal-950)
   '#de81b2', // 0: SoftCr8ors (Rich Rose Pink)
-  '#aa8be4', // 1: Tehreem Arif (Rich Royal Lilac)
+  '#71a7e2', // 1: GM MZ Removals (Rich Periwinkle Blue)
   '#54bbe4', // 2: Reeba Yaseen (Rich Vibrant Sky Cyan)
-  '#71a7e2', // 3: GM MZ Removals (Rich Periwinkle Blue)
-  '#63cb8c', // 4: Shadab Rice (Rich Fresh Mint Green)
-  '#6ea5e3', // 5: MZ Cleaner (Rich Crisp Sky Blue)
-  '#ee8931', // 6: Northwest Tyres (Rich Warm Amber Apricot)
-  '#aa8be4', // 7: Tekrivo Platform (Rich Royal Lilac)
-  '#4fa8e2', // 8: 3D Next (Rich Cosmic Sky Blue)
+  '#63cb8c', // 3: Shadab Rice (Rich Fresh Mint Green)
+  '#6ea5e3', // 4: MZ Cleaner (Rich Crisp Sky Blue)
+  '#ea6a28', // 5: MZ Works Construction (Rich Brand Orange)
+  '#aa8be4', // 6: Tekrivo Platform (Rich Royal Lilac)
+  '#ee8931', // 7: Northwest Tyres (Rich Warm Amber Apricot)
+  '#aa8be4', // 8: Tehreem Arif (Rich Royal Lilac)
   '#042f2e', // exit back to original teal green (#042f2e)
 ];
 
@@ -207,14 +211,14 @@ const projectGlowColors = [
   'rgba(20, 184, 166, 0.25)', // at p = 0: teal green aura
   'rgba(20, 184, 166, 0.25)', // at p = 0.025: teal green aura
   'rgba(255, 255, 255, 0.55)', // 0: SoftCr8ors luminous aura
-  'rgba(255, 255, 255, 0.55)', // 1: Tehreem Arif luminous aura
+  'rgba(255, 255, 255, 0.55)', // 1: GM MZ Removals luminous aura
   'rgba(255, 255, 255, 0.55)', // 2: Reeba Yaseen luminous aura
-  'rgba(255, 255, 255, 0.55)', // 3: GM MZ Removals luminous aura
-  'rgba(255, 255, 255, 0.55)', // 4: Shadab Rice luminous aura
-  'rgba(255, 255, 255, 0.55)', // 5: MZ Cleaner luminous aura
-  'rgba(255, 255, 255, 0.55)', // 6: Northwest Tyres luminous aura
-  'rgba(255, 255, 255, 0.55)', // 7: Tekrivo Platform luminous aura
-  'rgba(255, 255, 255, 0.55)', // 8: 3D Next luminous aura
+  'rgba(255, 255, 255, 0.55)', // 3: Shadab Rice luminous aura
+  'rgba(255, 255, 255, 0.55)', // 4: MZ Cleaner luminous aura
+  'rgba(255, 255, 255, 0.55)', // 5: MZ Works Construction luminous aura
+  'rgba(255, 255, 255, 0.55)', // 6: Tekrivo Platform luminous aura
+  'rgba(255, 255, 255, 0.55)', // 7: Northwest Tyres luminous aura
+  'rgba(255, 255, 255, 0.55)', // 8: Tehreem Arif luminous aura
   'rgba(20, 184, 166, 0.25)',  // exit back to teal green aura
 ];
 
@@ -245,56 +249,56 @@ function DiagonalConveyorCard({
 
   const isActive = Math.abs(index - currentIdx) <= 1;
 
-  // Horizontal Spacing: 640px (desktop) / 360px (mobile) diagonal conveyor track
+  // Horizontal Spacing: Original 640px (desktop) / 360px (mobile) diagonal conveyor track
   const x = useTransform(smoothProgress, (p) => {
-    const activeIndex = getContinuousIndex(p, total);
-    const rel = index - activeIndex;
+    const activePos = getContinuousIndex(p, total);
+    const rel = CARD_POSITIONS[index] - activePos;
     const stepX = isMobile ? 360 : 640;
     return -rel * stepX;
   });
 
-  // Vertical Spacing: 270px (desktop) / 150px (mobile) diagonal elevation with header offset
+  // Vertical Spacing: Original 270px (desktop) / 150px (mobile) diagonal elevation with header offset
   const y = useTransform(smoothProgress, (p) => {
-    const activeIndex = getContinuousIndex(p, total);
-    const rel = index - activeIndex;
+    const activePos = getContinuousIndex(p, total);
+    const rel = CARD_POSITIONS[index] - activePos;
     const headerOffset = Math.max(0, 1 - p / 0.05) * 55;
     const stepY = isMobile ? 150 : 270;
     return rel * stepY + headerOffset;
   });
 
-  // Scale: Smoothly scales up to 1.0 at dead center, gracefully scales down to 0.72 off-center
+  // Scale: Original formula (1.0 at center, gracefully scales down to 0.72)
   const scale = useTransform(smoothProgress, (p) => {
-    const activeIndex = getContinuousIndex(p, total);
-    const dist = Math.abs(index - activeIndex);
+    const activePos = getContinuousIndex(p, total);
+    const dist = Math.abs(CARD_POSITIONS[index] - activePos);
     if (dist > 2.5) return 0.72;
     return Math.max(0.72, 1.0 - dist * 0.09);
   });
 
   // Wispr Flow Exact Z-Tilt:
   const rotate = useTransform(smoothProgress, (p) => {
-    const activeIndex = getContinuousIndex(p, total);
-    const rel = index - activeIndex;
+    const activePos = getContinuousIndex(p, total);
+    const rel = CARD_POSITIONS[index] - activePos;
     return rel * -7.5;
   });
 
   // 3D Yaw Rotation (Y-axis perspective tilt)
   const rotateY = useTransform(smoothProgress, (p) => {
-    const activeIndex = getContinuousIndex(p, total);
-    const rel = index - activeIndex;
+    const activePos = getContinuousIndex(p, total);
+    const rel = CARD_POSITIONS[index] - activePos;
     return rel * -4.5;
   });
 
   // 3D Pitch / "Fall-Back" Tilt (X-axis):
   const rotateX = useTransform(smoothProgress, (p) => {
-    const activeIndex = getContinuousIndex(p, total);
-    const dist = Math.abs(index - activeIndex);
+    const activePos = getContinuousIndex(p, total);
+    const dist = Math.abs(CARD_POSITIONS[index] - activePos);
     return (dist / (1 + dist * 0.3)) * 16;
   });
 
-  // Opacity: Fully visible in center stage, smoothly fades out at edges
+  // Opacity: Original formula (fully visible in center, smoothly fades at edges)
   const opacity = useTransform(smoothProgress, (p) => {
-    const activeIndex = getContinuousIndex(p, total);
-    const dist = Math.abs(index - activeIndex);
+    const activePos = getContinuousIndex(p, total);
+    const dist = Math.abs(CARD_POSITIONS[index] - activePos);
     if (dist > 2.4) return 0;
     if (dist > 1.3) return (2.4 - dist) / 1.1;
     return 1;
@@ -302,15 +306,15 @@ function DiagonalConveyorCard({
 
   // Z-Index: Active card always commands topmost stack
   const zIndex = useTransform(smoothProgress, (p) => {
-    const activeIndex = getContinuousIndex(p, total);
-    const dist = Math.abs(index - activeIndex);
+    const activePos = getContinuousIndex(p, total);
+    const dist = Math.abs(CARD_POSITIONS[index] - activePos);
     return Math.max(1, Math.round(50 - dist * 10));
   });
 
   // Pointer events: disables hit-testing for off-screen cards
   const pointerEvents = useTransform(smoothProgress, (p) => {
-    const activeIndex = getContinuousIndex(p, total);
-    return Math.abs(index - activeIndex) > 2.2 ? 'none' : 'auto';
+    const activePos = getContinuousIndex(p, total);
+    return Math.abs(CARD_POSITIONS[index] - activePos) > 2.2 ? 'none' : 'auto';
   });
 
   return (
@@ -329,7 +333,19 @@ function DiagonalConveyorCard({
         transformStyle: 'preserve-3d',
         willChange: 'transform, opacity',
       }}
-      onClick={() => onCardClick(index)}
+      onClick={(e) => {
+        // If clicking on an anchor tag on the active card, let it open the URL directly
+        const target = e.target as HTMLElement;
+        const clickedLink = target.closest('a');
+        if (Math.abs(index - currentIdx) === 0 && clickedLink) {
+          return;
+        }
+        // If clicking a background card, bring it to center stage
+        if (Math.abs(index - currentIdx) > 0) {
+          e.preventDefault();
+          onCardClick(index);
+        }
+      }}
       className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[92vw] max-w-[730px] transform-gpu cursor-pointer"
     >
       <ProjectCard project={project} index={index} isActive={isActive} />
@@ -369,8 +385,17 @@ export default function Projects() {
 
   useEffect(() => {
     const unsubscribe = smoothProgress.on('change', (latest) => {
-      const activeIdx = Math.max(0, Math.min(projects.length - 1, Math.round(getContinuousIndex(latest, projects.length))));
-      setCurrentIdx((prev) => (prev !== activeIdx ? activeIdx : prev));
+      const activePos = getContinuousIndex(latest, projects.length);
+      let closestIdx = 0;
+      let minDiff = 999;
+      CARD_POSITIONS.forEach((pos, idx) => {
+        const diff = Math.abs(pos - activePos);
+        if (diff < minDiff) {
+          minDiff = diff;
+          closestIdx = idx;
+        }
+      });
+      setCurrentIdx((prev) => (prev !== closestIdx ? closestIdx : prev));
     });
     return () => unsubscribe();
   }, [smoothProgress]);
@@ -385,7 +410,8 @@ export default function Projects() {
 
     const START_PHASE = 0.055;
     const END_BUFFER = 0.93;
-    const progressForIndex = index === 0 ? 0 : START_PHASE + (index / (projects.length - 1)) * (END_BUFFER - START_PHASE);
+    const maxPos = CARD_POSITIONS[projects.length - 1];
+    const progressForIndex = index === 0 ? 0 : START_PHASE + (CARD_POSITIONS[index] / maxPos) * (END_BUFFER - START_PHASE);
     const targetScroll = containerTop + progressForIndex * scrollableHeight;
 
     window.scrollTo({

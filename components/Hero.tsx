@@ -20,12 +20,19 @@ export default function Hero() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [replayKey, setReplayKey] = useState(0);
+  const userPausedRef = useRef(false);
+  const isPageReadyRef = useRef(isPageReady);
+
+  useEffect(() => {
+    isPageReadyRef.current = isPageReady;
+  }, [isPageReady]);
 
   // Play video smoothly ONLY ONCE preloader split doors start opening (isPageReady === true)
   useEffect(() => {
     if (isPageReady && videoRef.current) {
       delete videoRef.current.dataset.endedDispatched;
       delete videoRef.current.dataset.navbarDispatched;
+      userPausedRef.current = false;
       
       // On mobile screens, start video at 3.0s
       if (window.innerWidth < 768) {
@@ -44,18 +51,36 @@ export default function Hero() {
     }
   }, [isPageReady]);
 
-  // Automatically pause hero video when scrolled past to free CPU/GPU resources
+  // Automatically pause hero video when scrolled past, and auto-resume when scrolled back into view
   useEffect(() => {
     const heroEl = document.getElementById('hero');
     if (!heroEl) return;
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (!entry.isIntersecting && videoRef.current && !videoRef.current.paused) {
-          videoRef.current.pause();
-          setIsPlaying(false);
+        const video = videoRef.current;
+        if (!video) return;
+
+        if (entry.isIntersecting) {
+          // User scrolled back into Hero section!
+          // Auto-resume from where it paused if it hasn't ended and user didn't manually pause
+          const hasEnded = Boolean(video.dataset.endedDispatched) || video.currentTime >= 7.95;
+          if (isPageReadyRef.current && !hasEnded && !userPausedRef.current && video.paused) {
+            video
+              .play()
+              .then(() => {
+                setIsPlaying(true);
+              })
+              .catch(() => {});
+          }
+        } else {
+          // User scrolled away: pause video to free CPU/GPU resources
+          if (!video.paused) {
+            video.pause();
+            setIsPlaying(false);
+          }
         }
       },
-      { threshold: 0 }
+      { threshold: 0.1 }
     );
     observer.observe(heroEl);
     return () => observer.disconnect();
@@ -64,8 +89,10 @@ export default function Hero() {
   const togglePlay = () => {
     if (videoRef.current) {
       if (isPlaying) {
+        userPausedRef.current = true;
         videoRef.current.pause();
       } else {
+        userPausedRef.current = false;
         const isMobile = window.innerWidth < 768;
         // If the video is at or past 7.8 seconds, restart (from 3.0s on mobile, 0.0s on desktop)
         if (videoRef.current.currentTime >= 7.8) {

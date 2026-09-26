@@ -1,9 +1,9 @@
 'use client';
 
-import { useRef } from 'react';
-import { motion, useInView } from 'framer-motion';
+import { useRef, useState, useEffect } from 'react';
+import { motion, useInView, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
-import { Sparkles, Download, Award, BadgeCheck } from 'lucide-react';
+import { Sparkles, Download, Award, BadgeCheck, X } from 'lucide-react';
 import usePageReady from './usePageReady';
 
 interface ExperienceItem {
@@ -83,6 +83,8 @@ interface ExperienceCert {
   gradientFrom: string;
   gradientTo: string;
   imageSrc?: string;
+  secondaryImageSrc?: string;
+  secondaryTitle?: string;
 }
 
 const experienceCerts: ExperienceCert[] = [
@@ -105,6 +107,8 @@ const experienceCerts: ExperienceCert[] = [
     gradientFrom: '#8b5cf6',
     gradientTo: '#ec4899',
     imageSrc: '/Experience Certificate/certificate.jpeg',
+    secondaryImageSrc: '/Experience Certificate/offer_letter.jpeg',
+    secondaryTitle: 'Internship Offer Letter',
   },
 ];
 
@@ -113,6 +117,35 @@ export default function Experience() {
   const sectionRef = useRef<HTMLElement>(null);
   const inView = useInView(sectionRef, { once: true, amount: 0.2 });
   const isInView = isPageReady && inView;
+
+  const [selectedExpCert, setSelectedExpCert] = useState<ExperienceCert | null>(null);
+  const [activeDocTab, setActiveDocTab] = useState<'primary' | 'secondary'>('primary');
+
+  const openCertModal = (cert: ExperienceCert) => {
+    setActiveDocTab('primary');
+    setSelectedExpCert(cert);
+  };
+
+  const closeCertModal = () => {
+    setSelectedExpCert(null);
+    setActiveDocTab('primary');
+  };
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') closeCertModal();
+    };
+    if (selectedExpCert) {
+      window.addEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = '';
+    };
+  }, [selectedExpCert]);
 
   const handleDownloadCV = () => {
     window.open('/Badge_holder_with_man_photo_202608121707.jpeg', '_blank');
@@ -197,19 +230,10 @@ export default function Experience() {
           </div>
         </div>
 
-        {/* Bottom Bar: Marquee Role Badge */}
+        {/* Bottom Bar: Role Badge */}
         <div className="flex items-center justify-between gap-2 w-full pt-0.5">
-          <div className={`overflow-hidden max-w-[185px] min-[380px]:max-w-[220px] sm:max-w-[320px] text-[10px] sm:text-xs font-bold font-poppins px-2.5 py-0.5 rounded-full border backdrop-blur-md whitespace-nowrap ${item.roleTagBg}`}>
-            <motion.div
-              animate={{ x: ['0%', '-50%'] }}
-              transition={{ repeat: Infinity, duration: 9, ease: 'linear' }}
-              className="inline-flex items-center gap-3 whitespace-nowrap pr-3 transform-gpu"
-            >
-              <span>{item.role}</span>
-              <span className="text-white/40 text-[7px]">●</span>
-              <span>{item.role}</span>
-              <span className="text-white/40 text-[7px]">●</span>
-            </motion.div>
+          <div className={`overflow-hidden max-w-[200px] min-[380px]:max-w-[240px] sm:max-w-[320px] text-[10px] sm:text-xs font-bold font-poppins px-2.5 py-0.5 rounded-full border backdrop-blur-md truncate ${item.roleTagBg}`}>
+            <span>{item.role}</span>
           </div>
           <span className="text-[10px] text-white/80 font-medium font-sans whitespace-nowrap inline-block min-[380px]:hidden">
             {item.period}
@@ -229,8 +253,8 @@ export default function Experience() {
       <div className="absolute inset-0 bg-[radial-gradient(#99a1af_1.2px,transparent_1.2px)] [background-size:24px_24px] opacity-45 pointer-events-none [mask-image:radial-gradient(ellipse_70%_70%_at_50%_50%,#000_60%,transparent_100%)]" />
 
       {/* ── Background Subtle Glow Gradients ── */}
-      <div className="absolute top-1/4 -left-40 w-72 sm:w-96 h-72 sm:h-96 bg-lime-400/10 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-10 right-10 w-72 sm:w-96 h-72 sm:h-96 bg-lime-400/10 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute top-1/4 -left-40 w-72 sm:w-96 h-72 sm:h-96 bg-lime-400/10 rounded-full blur-2xl pointer-events-none transform-gpu" />
+      <div className="absolute bottom-10 right-10 w-72 sm:w-96 h-72 sm:h-96 bg-lime-400/10 rounded-full blur-2xl pointer-events-none transform-gpu" />
 
       {/* ── Decorative Corner Lines ── */}
       <div className="absolute bottom-0 right-0 w-60 sm:w-80 h-60 sm:h-80 pointer-events-none opacity-40 overflow-hidden">
@@ -268,23 +292,21 @@ export default function Experience() {
 
             {/* SLOT 1: VertexAi Tec */}
             <motion.div
-              initial={{ opacity: 0, y: 25, x: 20, rotateZ: 2, scale: 0.97 }}
-              whileInView={{ opacity: 1, y: 0, x: 0, rotateZ: -1.5, scale: 1 }}
+              onClick={() => openCertModal(experienceCerts[0])}
+              role="button"
+              tabIndex={0}
+              aria-label="View VertexAI Tec Experience Certificate"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.15 }}
-              transition={{ duration: 0.6, delay: 0.05, ease: [0.16, 1, 0.3, 1] }}
-              whileHover={{
-                scale: 1.02,
-                rotateZ: 0,
-                y: -3,
-                boxShadow: '0 20px 45px -10px rgba(2,68,173,0.45)',
-                transition: { duration: 0.2, ease: 'easeOut' }
-              }}
+              transition={{ duration: 0.45, delay: 0.05, ease: 'easeOut' }}
+              whileHover={{ y: -3, scale: 1.01, transition: { duration: 0.2 } }}
               className={`
-                relative group ${experiences[0].cardGradient} 
+                relative group ${experiences[0].cardGradient} -rotate-[1deg] hover:rotate-0
                 border ${experiences[0].cardBorder} rounded-[18px] min-[400px]:rounded-[22px] lg:rounded-[28px] 
-                p-3.5 min-[400px]:p-4 lg:p-6 transition-all duration-300 ease-out ${experiences[0].cardShadow}
+                p-3.5 min-[400px]:p-4 lg:p-6 transition-all duration-200 ease-out ${experiences[0].cardShadow} hover:shadow-2xl
                 flex flex-col cursor-pointer text-white w-full
-                origin-top-left transform-gpu
+                origin-top-left transform-gpu will-change-transform
               `}
             >
               {renderOriginalGridCard(experiences[0])}
@@ -292,23 +314,21 @@ export default function Experience() {
 
             {/* SLOT 2: SoftCr8ors */}
             <motion.div
-              initial={{ opacity: 0, y: 25, x: -20, rotateZ: -3, scale: 0.97 }}
-              whileInView={{ opacity: 1, y: 0, x: 0, rotateZ: -0.5, scale: 1 }}
+              onClick={() => openCertModal(experienceCerts[1])}
+              role="button"
+              tabIndex={0}
+              aria-label="View SoftCr8ors Internship Certificate"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.15 }}
-              transition={{ duration: 0.6, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-              whileHover={{
-                scale: 1.02,
-                rotateZ: 0,
-                y: -3,
-                boxShadow: '0 20px 45px -10px rgba(139,92,246,0.45)',
-                transition: { duration: 0.2, ease: 'easeOut' }
-              }}
+              transition={{ duration: 0.45, delay: 0.12, ease: 'easeOut' }}
+              whileHover={{ y: -3, scale: 1.01, transition: { duration: 0.2 } }}
               className={`
-                relative group ${experiences[1].cardGradient} 
+                relative group ${experiences[1].cardGradient} -rotate-[0.5deg] hover:rotate-0
                 border ${experiences[1].cardBorder} rounded-[18px] min-[400px]:rounded-[22px] lg:rounded-[28px] 
-                p-3.5 min-[400px]:p-4 lg:p-6 transition-all duration-300 ease-out ${experiences[1].cardShadow}
+                p-3.5 min-[400px]:p-4 lg:p-6 transition-all duration-200 ease-out ${experiences[1].cardShadow} hover:shadow-2xl
                 flex flex-col cursor-pointer text-white w-full
-                origin-center transform-gpu
+                origin-center transform-gpu will-change-transform
               `}
             >
               {renderOriginalGridCard(experiences[1])}
@@ -316,23 +336,17 @@ export default function Experience() {
 
             {/* SLOT 3: Tekrivo */}
             <motion.div
-              initial={{ opacity: 0, y: 25, x: 20, rotateZ: 3, scale: 0.97 }}
-              whileInView={{ opacity: 1, y: 0, x: 0, rotateZ: 1, scale: 1 }}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.15 }}
-              transition={{ duration: 0.6, delay: 0.25, ease: [0.16, 1, 0.3, 1] }}
-              whileHover={{
-                scale: 1.02,
-                rotateZ: 0,
-                y: -3,
-                boxShadow: '0 20px 45px -10px rgba(124,58,237,0.45)',
-                transition: { duration: 0.2, ease: 'easeOut' }
-              }}
+              transition={{ duration: 0.45, delay: 0.18, ease: 'easeOut' }}
+              whileHover={{ y: -3, scale: 1.01, transition: { duration: 0.2 } }}
               className={`
-                relative group ${experiences[2].cardGradient} 
+                relative group ${experiences[2].cardGradient} rotate-[1deg] hover:rotate-0
                 border ${experiences[2].cardBorder} rounded-[18px] min-[400px]:rounded-[22px] lg:rounded-[28px] 
-                p-3.5 min-[400px]:p-4 lg:p-6 transition-all duration-300 ease-out ${experiences[2].cardShadow}
+                p-3.5 min-[400px]:p-4 lg:p-6 transition-all duration-200 ease-out ${experiences[2].cardShadow} hover:shadow-2xl
                 flex flex-col cursor-pointer text-white w-full
-                origin-bottom-right transform-gpu
+                origin-bottom-right transform-gpu will-change-transform
               `}
             >
               {renderOriginalGridCard(experiences[2])}
@@ -415,17 +429,18 @@ export default function Experience() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 sm:gap-6 lg:gap-8 max-w-3xl mx-auto">
             {experienceCerts.map((cert, i) => (
-              <motion.a
+              <motion.div
                 key={cert.id}
-                href={cert.imageSrc}
-                target="_blank"
-                rel="noopener noreferrer"
+                onClick={() => openCertModal(cert)}
+                role="button"
+                tabIndex={0}
+                aria-label={`View ${cert.company} certificate`}
                 initial={{ opacity: 0, y: 30, scale: 0.96 }}
                 whileInView={{ opacity: 1, y: 0, scale: 1 }}
                 viewport={{ once: true, amount: 0.15 }}
                 transition={{ duration: 0.5, delay: i * 0.08, ease: [0.16, 1, 0.3, 1] }}
-                whileHover={{ y: -6, scale: 1.02, transition: { duration: 0.25 } }}
-                className="relative group rounded-[22px] sm:rounded-[26px] bg-white p-[2.5px] pb-3.5 sm:pb-4 overflow-hidden cursor-pointer transition-shadow duration-300 hover:shadow-[0_8px_30px_rgba(0,0,0,0.12)] block transform-gpu"
+                whileHover={{ y: -4, transition: { duration: 0.2 } }}
+                className="relative group rounded-[22px] sm:rounded-[26px] bg-white p-[2.5px] pb-3.5 sm:pb-4 overflow-hidden cursor-pointer transition-shadow duration-300 hover:shadow-[0_8px_30px_rgba(0,0,0,0.12)] block transform-gpu will-change-transform select-none"
               >
                 {/* Animated border beam & bottom shelf on hover */}
                 <div className="absolute inset-0 rounded-[22px] sm:rounded-[26px] opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none overflow-hidden">
@@ -434,7 +449,7 @@ export default function Experience() {
                     style={{ background: `linear-gradient(to bottom, transparent 35%, ${cert.gradientFrom} 75%, ${cert.gradientTo} 100%)` }}
                   />
                   <div
-                    className="absolute inset-[-150%] group-hover:animate-[spin_2s_linear_infinite] transform-gpu"
+                    className="absolute inset-[-100%] group-hover:animate-[spin_3s_linear_infinite] transform-gpu will-change-transform"
                     style={{ background: `conic-gradient(from 0deg, transparent 0 170deg, ${cert.gradientFrom} 230deg, ${cert.gradientTo} 310deg, transparent 360deg)` }}
                   />
                 </div>
@@ -460,13 +475,42 @@ export default function Experience() {
 
                   {/* Certificate preview */}
                   {cert.imageSrc?.endsWith('.pdf') ? (
-                    <div className="relative w-full h-[180px] xs:h-[200px] sm:h-[220px] rounded-xl bg-slate-50 border border-slate-100 overflow-hidden group-hover:border-slate-200 transition-colors">
-                      <iframe src={`${cert.imageSrc}#toolbar=0&navpanes=0&scrollbar=0&view=FitH`} title={cert.title} className="w-full h-[500px] pointer-events-none select-none origin-top-left scale-[0.45] sm:scale-[0.5]" style={{ width: '220%', height: '500px' }} tabIndex={-1} />
-                      <div className="absolute inset-0 bg-transparent group-hover:bg-black/5 transition-colors" />
+                    <div className="relative w-full h-[180px] xs:h-[200px] sm:h-[220px] rounded-xl bg-gradient-to-b from-white via-slate-50 to-slate-100 border border-slate-200 p-3.5 sm:p-4 flex flex-col justify-between overflow-hidden shadow-inner group-hover:border-blue-400 group-hover:shadow-md transition-all">
+                      {/* Top Bar */}
+                      <div className="flex items-center justify-between border-b border-slate-200/80 pb-2">
+                        <div className="flex items-center gap-2 min-w-0">
+                          <div className="w-6 h-6 rounded-md bg-blue-600 p-1 flex items-center justify-center shrink-0 shadow-xs">
+                            <Image src={cert.logoSrc} alt={cert.company} width={20} height={20} className="w-full h-full object-contain brightness-0 invert" />
+                          </div>
+                          <span className="text-[11px] font-extrabold uppercase tracking-wide text-slate-800 font-poppins truncate">
+                            {cert.company}
+                          </span>
+                        </div>
+                        <span className="px-2 py-0.5 rounded-full bg-blue-50 text-blue-600 text-[9px] font-extrabold border border-blue-200 uppercase shrink-0">
+                          Official PDF
+                        </span>
+                      </div>
+
+                      {/* Middle: Certificate Details */}
+                      <div className="text-center py-2">
+                        <span className="text-[9px] font-bold tracking-widest uppercase text-slate-400 block mb-1">Experience Certificate</span>
+                        <h5 className="text-xs sm:text-sm font-black text-slate-900 font-poppins">Usama Faheem</h5>
+                        <p className="text-[10px] sm:text-[11px] font-semibold text-blue-600 mt-0.5">React/Next.js &amp; MERN Developer</p>
+                        <p className="text-[9px] text-slate-500 mt-1 font-medium">Dec 2025 – Aug 2026 • Verified Experience</p>
+                      </div>
+
+                      {/* Bottom Footer Action */}
+                      <div className="flex items-center justify-between border-t border-slate-200/80 pt-2 text-[10px] text-slate-500 font-medium">
+                        <span className="font-mono text-[9px] text-slate-400">ID: VTX-EXP-2026</span>
+                        <span className="inline-flex items-center gap-1 text-blue-600 font-bold group-hover:translate-x-0.5 transition-transform">
+                          <span>Click to View Full Document</span>
+                          <span>→</span>
+                        </span>
+                      </div>
                     </div>
                   ) : cert.imageSrc ? (
                     <div className="relative w-full h-[180px] xs:h-[200px] sm:h-[220px] rounded-xl bg-slate-50 border border-slate-100 overflow-hidden flex items-center justify-center p-2 group-hover:border-slate-200 transition-colors">
-                      <Image src={cert.imageSrc} alt={cert.title} fill loading="lazy" sizes="(max-width: 640px) 100vw, 50vw" className="object-contain rounded-lg transition-transform duration-500 group-hover:scale-105" />
+                      <Image src={cert.imageSrc} alt={cert.title} fill loading="lazy" sizes="(max-width: 640px) 100vw, 50vw" className="object-contain rounded-lg transition-transform duration-300 group-hover:scale-105" />
                     </div>
                   ) : null}
 
@@ -475,12 +519,132 @@ export default function Experience() {
                     {cert.title}
                   </p>
                 </div>
-              </motion.a>
+              </motion.div>
             ))}
           </div>
         </div>
 
       </div>
+
+      {/* ── CLEAN EXPERIENCE CERTIFICATE PREVIEW MODAL ── */}
+      <AnimatePresence>
+        {selectedExpCert && (() => {
+          const currentDocSrc = (activeDocTab === 'secondary' && selectedExpCert.secondaryImageSrc)
+            ? selectedExpCert.secondaryImageSrc
+            : selectedExpCert.imageSrc;
+          const currentDocTitle = (activeDocTab === 'secondary' && selectedExpCert.secondaryTitle)
+            ? `${selectedExpCert.company} — ${selectedExpCert.secondaryTitle}`
+            : selectedExpCert.title;
+          const isPdf = currentDocSrc?.endsWith('.pdf');
+
+          return (
+            <div className="fixed inset-0 z-[100] flex items-center justify-center p-3.5 sm:p-6 pointer-events-auto">
+              {/* Light Blur Backdrop */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                onClick={closeCertModal}
+                className="absolute inset-0 bg-slate-950/40 backdrop-blur-md cursor-pointer"
+              />
+
+              {/* Modal Card with Animated Border Beam */}
+              <motion.div
+                initial={{ opacity: 0, scale: 0.94, y: 16 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.94, y: 16 }}
+                transition={{ duration: 0.22, ease: 'easeOut' }}
+                className="relative w-full max-w-lg sm:max-w-xl rounded-3xl p-[2px] overflow-hidden shadow-2xl z-10"
+              >
+                {/* Animated Glowing Border Beam on Modal Border */}
+                <div className="absolute inset-0 rounded-3xl pointer-events-none overflow-hidden">
+                  <div className="absolute inset-[-150%] animate-[spin_3s_linear_infinite] bg-[conic-gradient(from_0deg,transparent_0_240deg,#d8ff00_290deg,#ccf23a_340deg,transparent_360deg)]" />
+                </div>
+
+                {/* Inner Modal Content */}
+                <div className="relative w-full h-full rounded-[22px] bg-white p-3.5 sm:p-5 text-slate-900">
+                  {/* Header: Title, Optional Download & Yellow Close Button */}
+                  <div className="flex items-center justify-between gap-2.5 mb-3 px-1">
+                    <div className="flex items-center gap-2 min-w-0">
+                      <span className="w-2.5 h-2.5 rounded-full bg-gradient-to-r from-[#d8ff00] to-[#ccf23a] shrink-0 shadow-[0_0_8px_rgba(216,255,0,0.6)]" />
+                      <h3 className="text-sm sm:text-base font-bold font-sans text-slate-900 leading-snug line-clamp-2">
+                        {currentDocTitle}
+                      </h3>
+                    </div>
+                    <div className="flex items-center gap-2 shrink-0">
+                      {currentDocSrc && (
+                        <a
+                          href={currentDocSrc}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="shrink-0 w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 flex items-center justify-center transition-all hover:scale-105 active:scale-95 cursor-pointer"
+                          aria-label="Open document in new tab"
+                          title="Open original document"
+                        >
+                          <Download className="w-4 h-4" />
+                        </a>
+                      )}
+                      <button
+                        onClick={closeCertModal}
+                        className="shrink-0 w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-gradient-to-r from-[#d8ff00] to-[#ccf23a] text-black shadow-sm flex items-center justify-center transition-transform hover:scale-105 active:scale-95 hover:brightness-105 cursor-pointer"
+                        aria-label="Close modal"
+                      >
+                        <X className="w-4 h-4 sm:w-4.5 sm:h-4.5 stroke-[2.5]" />
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Multi-Document Switcher for SoftCr8ors (Completion Certificate vs Offer Letter) */}
+                  {selectedExpCert.secondaryImageSrc && (
+                    <div className="flex items-center gap-1.5 p-1 mb-3 bg-slate-100 rounded-xl">
+                      <button
+                        onClick={() => setActiveDocTab('primary')}
+                        className={`flex-1 py-1.5 px-3 rounded-lg text-xs font-bold font-poppins transition-all cursor-pointer ${
+                          activeDocTab === 'primary'
+                            ? 'bg-white text-slate-900 shadow-xs'
+                            : 'text-slate-600 hover:text-slate-900'
+                        }`}
+                      >
+                        Completion Certificate
+                      </button>
+                      <button
+                        onClick={() => setActiveDocTab('secondary')}
+                        className={`flex-1 py-1.5 px-3 rounded-lg text-xs font-bold font-poppins transition-all cursor-pointer ${
+                          activeDocTab === 'secondary'
+                            ? 'bg-white text-slate-900 shadow-xs'
+                            : 'text-slate-600 hover:text-slate-900'
+                        }`}
+                      >
+                        Internship Offer Letter
+                      </button>
+                    </div>
+                  )}
+
+                  {/* Certificate Document Container */}
+                  <div className="relative w-full h-[58vh] sm:h-[65vh] rounded-2xl overflow-hidden bg-slate-50 border border-slate-100 flex items-center justify-center">
+                    {isPdf && currentDocSrc ? (
+                      <iframe
+                        src={`${currentDocSrc}#toolbar=0&navpanes=0&view=FitH`}
+                        title={currentDocTitle}
+                        className="w-full h-full rounded-xl border-0 bg-white"
+                      />
+                    ) : currentDocSrc ? (
+                      <Image
+                        src={currentDocSrc}
+                        alt={currentDocTitle}
+                        fill
+                        loading="lazy"
+                        sizes="(max-width:768px) 90vw, 600px"
+                        className="object-contain rounded-xl"
+                      />
+                    ) : null}
+                  </div>
+                </div>
+              </motion.div>
+            </div>
+          );
+        })()}
+      </AnimatePresence>
     </section>
   );
 }

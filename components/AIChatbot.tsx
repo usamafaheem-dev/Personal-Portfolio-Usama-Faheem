@@ -237,8 +237,30 @@ export default function AIChatbot() {
 
       const newMessages = [...messagesRef.current, userMessage];
       setMessages(newMessages);
-      setIsLoading(true);
       setInputText('');
+
+      // Offline instant answer
+      if (typeof navigator !== 'undefined' && !navigator.onLine) {
+        setTimeout(() => {
+          const offlineReply: ChatMessage = {
+            id: (Date.now() + 1).toString(),
+            role: 'assistant',
+            content: "You appear to be offline right now! 🌐\n\nLive AI queries need an internet connection, but you can still view my projects and experience on the page, or connect with me once you're back online! 🚀",
+            timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+          };
+          setMessages((prev) => [...prev, offlineReply]);
+          if (typeof window !== 'undefined') {
+            window.dispatchEvent(
+              new CustomEvent('app-action-blocked-offline', {
+                detail: { message: 'Chat is in offline mode.' },
+              })
+            );
+          }
+        }, 300);
+        return;
+      }
+
+      setIsLoading(true);
 
       try {
         const controller = new AbortController();
@@ -277,7 +299,7 @@ export default function AIChatbot() {
           id: (Date.now() + 1).toString(),
           role: 'assistant',
           content:
-            "Here are Usama's top projects:\n\n• SoftCr8ors: AI & Tech Agency platform with 3D showcases and 60fps motion.\n• GM MZ Removals: UK logistics and booking calculator.\n• Shadab Rice: E-commerce with 1-click WhatsApp checkout.\n• Reeba Yaseen: Full-stack developer portfolio & SaaS.\n\nYou can also contact Usama directly on WhatsApp (+92 314 3416588)! 🚀",
+            "Here are Usama's top projects with live links:\n\n• Shadab Rice (E-Commerce): https://shadabrice.pk/\n• SoftCr8ors (AI Agency): https://softcr8ors.com/\n• GM MZ Removals (UK Logistics): https://gmmzremovals.co.uk/\n• MZ Works Construction: https://mzworks.co.uk/\n• Reeba Yaseen: https://reeba.softcr8ors.com/\n\nYou can also contact Usama directly on WhatsApp (+92 314 3416588)! 🚀",
           timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
         };
         setMessages((prev) => [...prev, errorMessage]);
@@ -317,7 +339,10 @@ export default function AIChatbot() {
       const linkMatch = part.match(/^\[([^\]]+)\]\(([^)]+)\)$/);
       if (linkMatch) {
         const label = linkMatch[1].replace(/\*/g, '').trim();
-        const url = linkMatch[2].trim();
+        let url = linkMatch[2].replace(/[\*.,;:\)\]]+$/, '').trim();
+        if (!/^https?:\/\//i.test(url) && !url.startsWith('#') && !url.startsWith('mailto:') && !url.startsWith('tel:')) {
+          url = `https://${url}`;
+        }
         return (
           <a
             key={pIdx}
@@ -332,21 +357,30 @@ export default function AIChatbot() {
         );
       }
 
-      // Check for standalone raw URLs
-      const rawUrlParts = part.split(/(https?:\/\/[^\s<>"']+)/gi);
+      // Check for standalone raw URLs, stripping trailing markdown punctuation like **, *, ), ., ,
+      const rawUrlParts = part.split(/(https?:\/\/[^\s<>"']+|www\.[^\s<>"']+)/gi);
       return rawUrlParts.map((uPart, uIdx) => {
-        if (/^https?:\/\//i.test(uPart)) {
+        if (/^(https?:\/\/|www\.)/i.test(uPart)) {
+          let cleanUrl = uPart.replace(/[\*.,;:\)\]]+$/, '').trim();
+          const trailingPunct = uPart.slice(cleanUrl.length);
+          if (/^www\./i.test(cleanUrl)) {
+            cleanUrl = `https://${cleanUrl}`;
+          }
+          const displayLabel = cleanUrl.replace(/^https?:\/\/(www\.)?/i, '').replace(/\/$/, '');
+
           return (
-            <a
-              key={`${pIdx}-${uIdx}`}
-              href={uPart}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-0.5 text-[#0052ff] hover:text-blue-700 underline font-semibold break-all"
-            >
-              {uPart.replace(/^https?:\/\//i, '')}
-              <ArrowUpRight className="w-3 h-3 inline shrink-0" />
-            </a>
+            <span key={`${pIdx}-${uIdx}`}>
+              <a
+                href={cleanUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-0.5 text-[#0052ff] hover:text-blue-700 underline font-semibold break-all"
+              >
+                {displayLabel}
+                <ArrowUpRight className="w-3 h-3 inline shrink-0" />
+              </a>
+              {trailingPunct && <span>{trailingPunct.replace(/\*+/g, '')}</span>}
+            </span>
           );
         }
 

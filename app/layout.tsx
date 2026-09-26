@@ -69,8 +69,13 @@ const personJsonLd = {
       ],
       knowsAbout: ["React", "Next.js", "Node.js", "Express.js", "MongoDB", "TypeScript", "Tailwind CSS", "Frontend Development", "MERN Stack"],
       sameAs: [
-        "https://www.linkedin.com/in/usama-faheem/",
         "https://github.com/usamafaheem-dev",
+        "https://www.linkedin.com/in/usama-faheem/",
+        "https://x.com/CreationsUsama",
+        "https://www.instagram.com/usamafaheem02/",
+        "https://web.facebook.com/usamafaheemDev/",
+        "https://www.threads.net/@usamafaheem02",
+        "https://www.youtube.com/@tekrivo-usamafaheem",
       ],
     },
     {
@@ -142,6 +147,8 @@ const caveat = Caveat({
   display: "swap",
 });
 
+import NetworkStatusBanner from "@/components/NetworkStatusBanner";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -161,6 +168,7 @@ export default function RootLayout({
         />
       </head>
       <body className="min-h-screen bg-porcelain text-ink font-body antialiased">
+        <NetworkStatusBanner />
         <SmoothScrollProvider>
           {children}
         </SmoothScrollProvider>

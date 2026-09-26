@@ -17,12 +17,32 @@ Your purpose is to warmly welcome visitors, answer questions about Usama's skill
   - Full-Stack Developer (SoftCr8ors — AI & Tech Agency): Dec 2025 – Aug 2026.
   - Frontend Developer Intern (SoftCr8ors): April 2026 – July 2026.
   - Freelance Full-Stack Developer: 3+ delivered client platforms with 100% satisfaction.
-- **Key Projects**:
-  1. **SoftCr8ors** (AI & Tech Agency): Official digital experience with 3D showcases, 60fps animations, custom Nodemailer pipeline.
-  2. **GM MZ Removals** (Greater Manchester, UK): Dynamic removal quotes, fleet booking system, distance calculation.
-  3. **Shadab Rice** (E-Commerce): Basmati rice exporter platform with 1-click WhatsApp checkout & bundle discounts.
-  4. **Reeba Yaseen Portfolio & SaaS**: High-converting SaaS & software engineer portfolio.
-  5. **Tehreem Arif**: SQA and automation testing engineer portfolio.
+- **Key Projects & Verified Live URLs**:
+  When users ask about projects or request links/demos, ALWAYS share these exact live URLs:
+  1. **Shadab Rice** (E-Commerce Storefront): https://shadabrice.pk/
+     - Description: Premium Basmati rice exporter e-commerce store with dynamic 1-click WhatsApp order checkout & bundle deals.
+  2. **SoftCr8ors** (AI & Tech Agency): https://softcr8ors.com/
+     - Description: Official digital agency platform with 3D models, GSAP 60fps animations, and team showcases.
+  3. **GM MZ Removals** (UK Logistics & Removals): https://gmmzremovals.co.uk/
+     - Description: Greater Manchester relocation portal with removal quote calculator and fleet booking engine.
+  4. **MZ Works Construction** (Property Care): https://mzworks.co.uk/
+     - Description: Manchester multi-trade specialist contractor platform for emergency response and renovations.
+  5. **MZ Cleaners** (Commercial Cleaning): https://mzcleaners.co.uk/
+     - Description: Commercial & residential cleaning service booking platform in Manchester.
+  6. **Reeba Yaseen** (Full-Stack Engineer Portfolio & SaaS): https://reeba.softcr8ors.com/
+     - Description: High-converting SaaS showcase & developer portfolio.
+  7. **Tekrivo Platform** (EdTech Consultancy): https://tekrivo.vercel.app/
+     - Description: Final year project consultancy and developer mentorship platform.
+  8. **Northwest Tyres** (Roadside Mobile Tyre Fitting): https://car-tyre-vertex.vercel.app/
+     - Description: Roadside emergency dispatch and tyre replacement booking.
+  9. **Tehreem Arif** (SQA & Automation Testing): https://tahreem-arif.vercel.app/
+     - Description: Quality assurance engineer portfolio with CI/CD and automation test suites.
+
+- **CRITICAL LINK RULES**:
+  - ONLY provide the EXACT verified URLs listed above.
+  - NEVER invent fake URLs such as "usamafaheem.com/projects/..." because project detail subpages do NOT exist on this website.
+  - NEVER attach trailing asterisks or punctuation to links (e.g. NEVER write "https://shadabrice.pk/**").
+  - Output clean links, either directly as "https://shadabrice.pk/" or formatted as "[Shadab Rice](https://shadabrice.pk/)".
 - **Education**:
   - BS Computer Science (Virtual University of Pakistan, 6th Semester, Ongoing)
   - ADP in Computer Science (Virtual University of Pakistan, 2023–2025)
@@ -55,17 +75,32 @@ Your purpose is to warmly welcome visitors, answer questions about Usama's skill
 
 // Helper to sanitize and polish output text
 function sanitizeAssistantReply(text: string): string {
-  return text
+  let cleaned = text
     // Remove horizontal rule divider lines
     .replace(/^[ \t]*[-*_]{3,}[ \t]*$/gm, '')
     // Replace em-dashes and en-dashes with natural commas
     .replace(/\s*[—–]\s*/g, ', ')
     // Replace double hyphens
     .replace(/\s*--\s*/g, ', ')
+    // Strip trailing asterisks attached to URLs
+    .replace(/(https?:\/\/[^\s*]+)\*+/g, '$1')
+    // Fix hallucinated internal project paths to real live project URLs
+    .replace(/https?:\/\/(?:www\.)?usamafaheem\.com\/projects\/shadab(?:-rice)?\/?/gi, 'https://shadabrice.pk/')
+    .replace(/https?:\/\/(?:www\.)?usamafaheem\.com\/projects\/softcr8ors\/?/gi, 'https://softcr8ors.com/')
+    .replace(/https?:\/\/(?:www\.)?usamafaheem\.com\/projects\/(?:gm-)?mz-removals\/?/gi, 'https://gmmzremovals.co.uk/')
+    .replace(/https?:\/\/(?:www\.)?usamafaheem\.com\/projects\/mz-works(?:-construction)?\/?/gi, 'https://mzworks.co.uk/')
+    .replace(/https?:\/\/(?:www\.)?usamafaheem\.com\/projects\/mz-cleaners?\/?/gi, 'https://mzcleaners.co.uk/')
+    .replace(/https?:\/\/(?:www\.)?usamafaheem\.com\/projects\/reeba(?:-yaseen)?\/?/gi, 'https://reeba.softcr8ors.com/')
+    .replace(/https?:\/\/(?:www\.)?usamafaheem\.com\/projects\/tekrivo\/?/gi, 'https://tekrivo.vercel.app/')
+    .replace(/https?:\/\/(?:www\.)?usamafaheem\.com\/projects\/northwest(?:-tyres)?\/?/gi, 'https://car-tyre-vertex.vercel.app/')
+    .replace(/https?:\/\/(?:www\.)?usamafaheem\.com\/projects\/tehreem(?:-arif)?\/?/gi, 'https://tahreem-arif.vercel.app/')
+    .replace(/https?:\/\/(?:www\.)?usamafaheem\.com\/projects(?:\/[a-zA-Z0-9_-]+)?\/?/gi, 'https://usamafaheem.com/#projects')
     // Clean up duplicate commas or excessive newlines
     .replace(/,\s*,/g, ', ')
     .replace(/\n{3,}/g, '\n\n')
     .trim();
+
+  return cleaned;
 }
 
 // Smart Built-in Fallback Knowledge Engine (Used if no API key is provided or if quota/network error occurs)
@@ -77,14 +112,26 @@ function getFallbackResponse(query: string): string {
     return "Assalam-o-Alaikum! Welcome to Usama Faheem's portfolio. I am his AI Assistant. How can I help you today? You can ask about Usama's projects, technical skills, services, or how to hire him for your next project!";
   }
 
-  // Projects
+  // Specific project queries (e.g. Shadab Rice)
+  if (q.includes('shadab') || (q.includes('rice') && (q.includes('link') || q.includes('url')))) {
+    return "Here is the live link for the Shadab Rice project:\n\n• Shadab Rice: https://shadabrice.pk/\n\nThis is a live Basmati rice exporter e-commerce platform built with Next.js featuring a 1-click WhatsApp order checkout system.";
+  }
+  if (q.includes('softcr8ors') && (q.includes('link') || q.includes('url'))) {
+    return "Here is the live link for SoftCr8ors:\n\n• SoftCr8ors: https://softcr8ors.com/\n\nThis is the official AI & Tech agency digital platform featuring 3D models and 60fps animations.";
+  }
+  if ((q.includes('mz') || q.includes('removal')) && (q.includes('link') || q.includes('url'))) {
+    return "Here are the live links for the MZ platforms:\n\n• GM MZ Removals: https://gmmzremovals.co.uk/\n• MZ Works Construction: https://mzworks.co.uk/\n• MZ Cleaners: https://mzcleaners.co.uk/";
+  }
+
+  // General Projects
   if (q.match(/\b(project|projects|work|portfolio|portfolio website|showcase|kam|kaam|built)\b/)) {
-    return "Here are some of Usama's standout projects:\n\n" +
-      "• SoftCr8ors: Digital platform for an AI & Tech agency featuring interactive 3D elements, GSAP animations, and Next.js.\n" +
-      "• GM MZ Removals: UK-based logistics web platform with an automated quote calculator and booking engine.\n" +
-      "• Shadab Rice: E-commerce storefront with a seamless 1-click WhatsApp checkout system.\n" +
-      "• Reeba Yaseen: Modern SaaS & software engineer portfolio.\n\n" +
-      "Would you like more details on any specific project or tech stack used?";
+    return "Here are Usama's standout projects with live links:\n\n" +
+      "• Shadab Rice (E-Commerce): https://shadabrice.pk/\n" +
+      "• SoftCr8ors (AI Agency): https://softcr8ors.com/\n" +
+      "• GM MZ Removals (UK Logistics): https://gmmzremovals.co.uk/\n" +
+      "• MZ Works Construction (Property Care): https://mzworks.co.uk/\n" +
+      "• Reeba Yaseen (SaaS & Portfolio): https://reeba.softcr8ors.com/\n\n" +
+      "Click any link above to explore the live platforms!";
   }
 
   // Skills / Tech Stack

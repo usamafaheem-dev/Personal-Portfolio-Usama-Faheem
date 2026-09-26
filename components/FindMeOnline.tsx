@@ -3,6 +3,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
 import { Sparkles } from 'lucide-react';
+import { SiFacebook, SiThreads } from 'react-icons/si';
 
 interface SocialPlatform {
   id: string;
@@ -23,14 +24,14 @@ interface SocialPlatform {
   renderIcon: () => React.ReactNode;
 }
 
-// 5 Core Channels with Distinct Icon-Matched Background Themes
+// 7 Core Channels with Distinct Icon-Matched Background Themes (YouTube at last)
 const socialPlatforms: SocialPlatform[] = [
   {
     id: 'github',
     name: 'GITHUB',
     subtitle: 'Production code repositories, MERN architectures & full-stack open source packages.',
     ctaText: 'EXPLORE REPOS →',
-    url: 'https://github.com/UsamaFaheem0',
+    url: 'https://github.com/usamafaheem-dev',
     cardBg: 'bg-gradient-to-b from-[#fbfbf7] via-[#f3f3ed] to-[#e8e8e0]',
     cardBorder: 'border-0',
     cardShadow: 'shadow-[0_4px_22px_rgba(13,13,13,0.06)] hover:shadow-[0_16px_36px_rgba(13,13,13,0.12)]',
@@ -48,28 +49,6 @@ const socialPlatforms: SocialPlatform[] = [
     ),
   },
   {
-    id: 'youtube',
-    name: 'YOUTUBE',
-    subtitle: 'Longer stories, web dev tutorials & behind-the-scenes engineering build vlogs.',
-    ctaText: 'WATCH NOW →',
-    url: 'https://youtube.com/@usamafaheem',
-    cardBg: 'bg-gradient-to-b from-[#fbfbf7] via-[#f3f3ed] to-[#e8e8e0]',
-    cardBorder: 'border-0',
-    cardShadow: 'shadow-[0_4px_22px_rgba(13,13,13,0.06)] hover:shadow-[0_16px_36px_rgba(13,13,13,0.12)]',
-    ctaColor: 'text-[#0052ff] group-hover:text-blue-700',
-    titleHover: 'group-hover:text-[#0052ff]',
-    iconBg: 'bg-gradient-to-br from-[#ff2a2a] via-[#e60000] to-[#b30000]',
-    iconShadow: 'shadow-[0_10px_24px_rgba(230,0,0,0.38)]',
-    iconBorder: 'border-t border-l border-white/45 border-b border-r border-red-950/30',
-    tilt: 'rotate-[1.5deg] sm:rotate-[2.5deg]',
-    yOffset: 'translate-y-1.5 sm:translate-y-3.5',
-    renderIcon: () => (
-      <svg aria-hidden="true" className="w-7 h-7 xs:w-8 xs:h-8 sm:w-10 sm:h-10 lg:w-11 lg:h-11 text-white fill-current" viewBox="0 0 24 24">
-        <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
-      </svg>
-    ),
-  },
-  {
     id: 'linkedin',
     name: 'LINKEDIN',
     subtitle: 'Professional updates, engineering case studies & tech leadership insights.',
@@ -83,8 +62,8 @@ const socialPlatforms: SocialPlatform[] = [
     iconBg: 'bg-gradient-to-br from-[#0a84ff] via-[#0077b5] to-[#004182]',
     iconShadow: 'shadow-[0_10px_24px_rgba(0,119,181,0.38)]',
     iconBorder: 'border-t border-l border-white/45 border-b border-r border-blue-950/30',
-    tilt: '-rotate-[1.5deg] sm:-rotate-[2.5deg]',
-    yOffset: '-translate-y-1.5 sm:-translate-y-3.5',
+    tilt: 'rotate-[1.5deg] sm:rotate-[2.5deg]',
+    yOffset: 'translate-y-1.5 sm:translate-y-3.5',
     renderIcon: () => (
       <svg aria-hidden="true" className="w-7 h-7 xs:w-8 xs:h-8 sm:w-9.5 sm:h-9.5 lg:w-10 lg:h-10 text-white fill-current" viewBox="0 0 24 24">
         <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
@@ -96,7 +75,7 @@ const socialPlatforms: SocialPlatform[] = [
     name: 'X (TWITTER)',
     subtitle: 'Daily web dev insights, interactive UI micro-animations & founder workflow.',
     ctaText: 'FOLLOW ME →',
-    url: 'https://x.com/usamafaheem',
+    url: 'https://x.com/CreationsUsama',
     cardBg: 'bg-gradient-to-b from-[#fbfbf7] via-[#f3f3ed] to-[#e8e8e0]',
     cardBorder: 'border-0',
     cardShadow: 'shadow-[0_4px_22px_rgba(13,13,13,0.06)] hover:shadow-[0_16px_36px_rgba(13,13,13,0.12)]',
@@ -105,8 +84,8 @@ const socialPlatforms: SocialPlatform[] = [
     iconBg: 'bg-gradient-to-br from-[#27272a] via-[#18181b] to-[#09090b]',
     iconShadow: 'shadow-[0_10px_24px_rgba(0,0,0,0.35)]',
     iconBorder: 'border-t border-l border-white/35 border-b border-r border-black/40',
-    tilt: 'rotate-[1.5deg] sm:rotate-[2.5deg]',
-    yOffset: 'translate-y-1.5 sm:translate-y-3.5',
+    tilt: '-rotate-[1.5deg] sm:-rotate-[2.5deg]',
+    yOffset: '-translate-y-1.5 sm:-translate-y-3.5',
     renderIcon: () => (
       <svg aria-hidden="true" className="w-7 h-7 xs:w-8 xs:h-8 sm:w-9.5 sm:h-9.5 lg:w-10 lg:h-10 text-white fill-current" viewBox="0 0 24 24">
         <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
@@ -118,7 +97,7 @@ const socialPlatforms: SocialPlatform[] = [
     name: 'INSTAGRAM',
     subtitle: 'Design experiments, visual UI showcases & behind-the-scenes engineering builds.',
     ctaText: 'FOLLOW ALONG →',
-    url: 'https://instagram.com/usamafaheem',
+    url: 'https://www.instagram.com/usamafaheem02/',
     cardBg: 'bg-gradient-to-b from-[#fbfbf7] via-[#f3f3ed] to-[#e8e8e0]',
     cardBorder: 'border-0',
     cardShadow: 'shadow-[0_4px_22px_rgba(13,13,13,0.06)] hover:shadow-[0_16px_36px_rgba(13,13,13,0.12)]',
@@ -127,11 +106,73 @@ const socialPlatforms: SocialPlatform[] = [
     iconBg: 'bg-gradient-to-tr from-[#f58529] via-[#dd2a7b] to-[#8134af]',
     iconShadow: 'shadow-[0_10px_24px_rgba(221,42,123,0.38)]',
     iconBorder: 'border-t border-l border-white/45 border-b border-r border-purple-950/30',
-    tilt: '-rotate-[1.5deg] sm:-rotate-[2.5deg]',
-    yOffset: '-translate-y-1.5 sm:-translate-y-3.5',
+    tilt: 'rotate-[1.5deg] sm:rotate-[2.5deg]',
+    yOffset: 'translate-y-1.5 sm:translate-y-3.5',
     renderIcon: () => (
       <svg aria-hidden="true" className="w-7 h-7 xs:w-8 xs:h-8 sm:w-9.5 sm:h-9.5 lg:w-10 lg:h-10 text-white fill-current" viewBox="0 0 24 24">
         <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+      </svg>
+    ),
+  },
+  {
+    id: 'facebook',
+    name: 'FACEBOOK',
+    subtitle: 'Tech community updates, project launches & web development discussions.',
+    ctaText: 'CONNECT ON FB →',
+    url: 'https://web.facebook.com/usamafaheemDev/',
+    cardBg: 'bg-gradient-to-b from-[#fbfbf7] via-[#f3f3ed] to-[#e8e8e0]',
+    cardBorder: 'border-0',
+    cardShadow: 'shadow-[0_4px_22px_rgba(13,13,13,0.06)] hover:shadow-[0_16px_36px_rgba(13,13,13,0.12)]',
+    ctaColor: 'text-[#0052ff] group-hover:text-blue-700',
+    titleHover: 'group-hover:text-[#0052ff]',
+    iconBg: 'bg-gradient-to-br from-[#1877f2] via-[#0d65d9] to-[#0a4fa8]',
+    iconShadow: 'shadow-[0_10px_24px_rgba(24,119,242,0.38)]',
+    iconBorder: 'border-t border-l border-white/45 border-b border-r border-blue-950/30',
+    tilt: '-rotate-[1.5deg] sm:-rotate-[2.5deg]',
+    yOffset: '-translate-y-1.5 sm:-translate-y-3.5',
+    renderIcon: () => (
+      <SiFacebook aria-hidden="true" className="w-7 h-7 xs:w-8 xs:h-8 sm:w-9 sm:h-9 lg:w-9.5 lg:h-9.5 text-white" />
+    ),
+  },
+  {
+    id: 'threads',
+    name: 'THREADS',
+    subtitle: 'Quick dev thoughts, live engineering notes & interactive tech conversations.',
+    ctaText: 'FOLLOW ON THREADS →',
+    url: 'https://www.threads.net/@usamafaheem02',
+    cardBg: 'bg-gradient-to-b from-[#fbfbf7] via-[#f3f3ed] to-[#e8e8e0]',
+    cardBorder: 'border-0',
+    cardShadow: 'shadow-[0_4px_22px_rgba(13,13,13,0.06)] hover:shadow-[0_16px_36px_rgba(13,13,13,0.12)]',
+    ctaColor: 'text-[#0052ff] group-hover:text-blue-700',
+    titleHover: 'group-hover:text-[#0052ff]',
+    iconBg: 'bg-gradient-to-br from-[#27272a] via-[#18181b] to-[#09090b]',
+    iconShadow: 'shadow-[0_10px_24px_rgba(0,0,0,0.38)]',
+    iconBorder: 'border-t border-l border-white/35 border-b border-r border-black/40',
+    tilt: 'rotate-[1.5deg] sm:rotate-[2.5deg]',
+    yOffset: 'translate-y-1.5 sm:translate-y-3.5',
+    renderIcon: () => (
+      <SiThreads aria-hidden="true" className="w-7 h-7 xs:w-8 xs:h-8 sm:w-9 sm:h-9 lg:w-9.5 lg:h-9.5 text-white" />
+    ),
+  },
+  {
+    id: 'youtube',
+    name: 'YOUTUBE',
+    subtitle: 'Longer stories, web dev tutorials & behind-the-scenes engineering build vlogs.',
+    ctaText: 'WATCH NOW →',
+    url: 'https://www.youtube.com/@tekrivo-usamafaheem',
+    cardBg: 'bg-gradient-to-b from-[#fbfbf7] via-[#f3f3ed] to-[#e8e8e0]',
+    cardBorder: 'border-0',
+    cardShadow: 'shadow-[0_4px_22px_rgba(13,13,13,0.06)] hover:shadow-[0_16px_36px_rgba(13,13,13,0.12)]',
+    ctaColor: 'text-[#0052ff] group-hover:text-blue-700',
+    titleHover: 'group-hover:text-[#0052ff]',
+    iconBg: 'bg-gradient-to-br from-[#ff2a2a] via-[#e60000] to-[#b30000]',
+    iconShadow: 'shadow-[0_10px_24px_rgba(230,0,0,0.38)]',
+    iconBorder: 'border-t border-l border-white/45 border-b border-r border-red-950/30',
+    tilt: '-rotate-[1.5deg] sm:-rotate-[2.5deg]',
+    yOffset: '-translate-y-1.5 sm:-translate-y-3.5',
+    renderIcon: () => (
+      <svg aria-hidden="true" className="w-7 h-7 xs:w-8 xs:h-8 sm:w-10 sm:h-10 lg:w-11 lg:h-11 text-white fill-current" viewBox="0 0 24 24">
+        <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
       </svg>
     ),
   },
@@ -326,30 +367,55 @@ export default function FindMeOnline() {
   // Smooth scroll translation locked at 0.78 so last card/tray centers and then flows naturally to next section
   const trackX = useTransform(smoothProgress, [0.0, 0.78], xRange, { clamp: true });
 
-  const mobileGroup1 = socialPlatforms.slice(0, 3); // 3 Cards (GitHub, YouTube, LinkedIn)
-  const mobileGroup2 = socialPlatforms.slice(3, 5); // 2 Cards (X, Instagram)
+  const mobileGroup1 = socialPlatforms.slice(0, 3); // 3 Cards (GitHub, LinkedIn, X)
+  const mobileGroup2 = socialPlatforms.slice(3, 5); // 2 Cards (Instagram, Facebook)
+  const mobileGroup3 = socialPlatforms.slice(5, 7); // 2 Cards (Threads, YouTube)
 
-  // Dynamic Y offset for Mobile Tray 2: lifts up from bottom (+80px -> 0px) as it scrolls in from right
+  // Dynamic Y offset for Mobile Tray 2 (Instagram, Facebook) entering around 0.39
   const tray2Y = useTransform(smoothProgress, (p: number) => {
-    const diff = 0.78 - p;
+    const diff = 0.39 - p;
     if (diff <= 0) return 0;
-    const entryProgress = Math.max(0, Math.min(1, 1 - diff / 0.38));
+    const entryProgress = Math.max(0, Math.min(1, 1 - diff / 0.25));
     const lift = 1 - Math.pow(1 - entryProgress, 2.2);
-    return (1 - lift) * 80;
+    return (1 - lift) * 60;
   });
 
   const tray2Scale = useTransform(smoothProgress, (p: number) => {
-    const diff = 0.78 - p;
+    const diff = 0.39 - p;
     if (diff <= 0) return 1;
-    const entryProgress = Math.max(0, Math.min(1, 1 - diff / 0.38));
+    const entryProgress = Math.max(0, Math.min(1, 1 - diff / 0.25));
     const lift = 1 - Math.pow(1 - entryProgress, 2.2);
     return 0.94 + lift * 0.06;
   });
 
   const tray2Opacity = useTransform(smoothProgress, (p: number) => {
+    const diff = 0.39 - p;
+    if (diff <= 0) return 1;
+    const entryProgress = Math.max(0, Math.min(1, 1 - diff / 0.25));
+    return Math.min(1, 0.45 + entryProgress * 1.4);
+  });
+
+  // Dynamic Y offset for Mobile Tray 3 (Threads, YouTube) entering around 0.78
+  const tray3Y = useTransform(smoothProgress, (p: number) => {
+    const diff = 0.78 - p;
+    if (diff <= 0) return 0;
+    const entryProgress = Math.max(0, Math.min(1, 1 - diff / 0.25));
+    const lift = 1 - Math.pow(1 - entryProgress, 2.2);
+    return (1 - lift) * 60;
+  });
+
+  const tray3Scale = useTransform(smoothProgress, (p: number) => {
     const diff = 0.78 - p;
     if (diff <= 0) return 1;
-    const entryProgress = Math.max(0, Math.min(1, 1 - diff / 0.38));
+    const entryProgress = Math.max(0, Math.min(1, 1 - diff / 0.25));
+    const lift = 1 - Math.pow(1 - entryProgress, 2.2);
+    return 0.94 + lift * 0.06;
+  });
+
+  const tray3Opacity = useTransform(smoothProgress, (p: number) => {
+    const diff = 0.78 - p;
+    if (diff <= 0) return 1;
+    const entryProgress = Math.max(0, Math.min(1, 1 - diff / 0.25));
     return Math.min(1, 0.45 + entryProgress * 1.4);
   });
 
@@ -357,7 +423,7 @@ export default function FindMeOnline() {
     <section
       ref={containerRef}
       id="find-me-online"
-      className="relative h-[220vh] xs:h-[240vh] sm:h-[270vh] lg:h-[300vh] bg-[#ededf0] text-slate-900 border-t border-b border-slate-200/80"
+      className="relative h-[250vh] xs:h-[280vh] sm:h-[310vh] lg:h-[350vh] bg-[#ededf0] text-slate-900 border-t border-b border-slate-200/80"
     >
       {/* Sticky Full-Viewport Showcase Container */}
       <div className="sticky top-0 h-screen w-full flex flex-col justify-between pt-24 xs:pt-28 sm:pt-24 lg:pt-28 pb-8 sm:pb-14 lg:pb-16 overflow-hidden bg-[#ededf0] z-10">
@@ -381,7 +447,7 @@ export default function FindMeOnline() {
           </div>
         </div>
 
-        {/* ── DESKTOP SCROLL-DRIVEN HORIZONTAL TRACK (MD & UP: 5 LARGE CARDS) ── */}
+        {/* ── DESKTOP SCROLL-DRIVEN HORIZONTAL TRACK (MD & UP: 7 LARGE CARDS) ── */}
         <div className="hidden md:block relative w-full my-auto overflow-y-visible py-14 lg:py-20">
           <div className="absolute top-0 bottom-0 left-0 w-8 sm:w-20 bg-gradient-to-r from-[#ededf0] to-transparent z-20 pointer-events-none" />
           <div className="absolute top-0 bottom-0 right-0 w-8 sm:w-20 bg-gradient-to-l from-[#ededf0] to-transparent z-20 pointer-events-none" />
@@ -403,7 +469,7 @@ export default function FindMeOnline() {
           </motion.div>
         </div>
 
-        {/* ── MOBILE SCROLL-DRIVEN TRAY TRACK (< MD: 3 CARDS IN TRAY 1 + 2 CARDS IN TRAY 2) ── */}
+        {/* ── MOBILE SCROLL-DRIVEN TRAY TRACK (< MD: 3 TRAYS: 3 + 2 + 2 CARDS) ── */}
         <div className="block md:hidden relative w-full my-auto overflow-y-visible py-8 xs:py-12">
           <div className="absolute top-0 bottom-0 left-0 w-4 bg-gradient-to-r from-[#ededf0] to-transparent z-20 pointer-events-none" />
           <div className="absolute top-0 bottom-0 right-0 w-4 bg-gradient-to-l from-[#ededf0] to-transparent z-20 pointer-events-none" />
@@ -413,14 +479,14 @@ export default function FindMeOnline() {
             style={{ x: trackX }}
             className="flex items-center gap-6 xs:gap-8 w-max transform-gpu will-change-transform"
           >
-            {/* Tray 1: 3 Stacked Cards (GitHub, YouTube, LinkedIn) */}
+            {/* Tray 1: 3 Stacked Cards (GitHub, LinkedIn, X) */}
             <div className="flex flex-col gap-2 xs:gap-2.5 shrink-0">
               {mobileGroup1.map((platform) => (
                 <CompactMobileCard key={platform.id} platform={platform} />
               ))}
             </div>
 
-            {/* Tray 2: 2 Stacked Cards (X, Instagram) — Rises up from bottom when scrolling in */}
+            {/* Tray 2: 2 Stacked Cards (Instagram, Facebook) */}
             <motion.div
               style={{
                 y: tray2Y,
@@ -430,6 +496,20 @@ export default function FindMeOnline() {
               className="flex flex-col gap-2 xs:gap-2.5 shrink-0 justify-center transform-gpu will-change-transform"
             >
               {mobileGroup2.map((platform) => (
+                <CompactMobileCard key={platform.id} platform={platform} />
+              ))}
+            </motion.div>
+
+            {/* Tray 3: 2 Stacked Cards (Threads, YouTube) */}
+            <motion.div
+              style={{
+                y: tray3Y,
+                scale: tray3Scale,
+                opacity: tray3Opacity,
+              }}
+              className="flex flex-col gap-2 xs:gap-2.5 shrink-0 justify-center transform-gpu will-change-transform"
+            >
+              {mobileGroup3.map((platform) => (
                 <CompactMobileCard key={platform.id} platform={platform} />
               ))}
             </motion.div>

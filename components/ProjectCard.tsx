@@ -391,7 +391,7 @@ export default function ProjectCard({
               {project.category}
             </div>
 
-            <p className="font-sans text-sm sm:text-2xl md:text-[25px] font-normal leading-snug sm:leading-[1.22] tracking-tight text-[#0f172a] mb-2 sm:mb-4 line-clamp-2 sm:line-clamp-3">
+            <p className="font-sans text-sm sm:text-xl md:text-[22px] font-normal leading-snug sm:leading-[1.25] tracking-tight text-[#0f172a] mb-2 sm:mb-4 line-clamp-3">
               &ldquo;{project.quote}&rdquo;
             </p>
 
@@ -412,7 +412,13 @@ export default function ProjectCard({
             )}
           </div>
 
-          <div className="inline-flex items-center gap-1.5 sm:gap-2 pl-3.5 sm:pl-4 pr-1.5 sm:pr-1.5 py-1.5 sm:py-1.5 rounded-full bg-[#0f172a] text-white text-xs sm:text-sm font-sans font-bold uppercase tracking-wider shadow-md transition-all duration-300 group-hover:bg-[#0052ff] group-hover:text-white group-hover:scale-105 w-fit">
+          <div
+            onClick={(e) => {
+              e.stopPropagation();
+              window.open(project.link, '_blank');
+            }}
+            className="inline-flex items-center gap-1.5 sm:gap-2 pl-3.5 sm:pl-4 pr-1.5 sm:pr-1.5 py-1.5 sm:py-1.5 rounded-full bg-[#0f172a] text-white text-xs sm:text-sm font-sans font-bold uppercase tracking-wider shadow-md transition-all duration-300 hover:bg-[#0052ff] hover:text-white hover:scale-105 w-fit cursor-pointer"
+          >
             <span>View Project</span>
             <span className="w-4.5 h-4.5 sm:w-5 sm:h-5 rounded-full bg-[#d8ff00] text-black flex items-center justify-center transition-all duration-300 group-hover:bg-white group-hover:text-[#0052ff]">
               <ArrowUpRight size={12} className="sm:w-[13px] sm:h-[13px]" strokeWidth={2.5} />

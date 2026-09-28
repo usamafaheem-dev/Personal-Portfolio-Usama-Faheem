@@ -69,8 +69,6 @@ export default function ProjectCard({
   const [activeImageIdx, setActiveImageIdx] = useState(0);
   const videoRef = useRef<HTMLVideoElement>(null);
 
-  const [shouldAttachVideo, setShouldAttachVideo] = useState(index <= 1 || Boolean(isActive));
-
   useEffect(() => {
     if (imageList.length <= 1 || !isActive) return;
     const interval = setInterval(() => {
@@ -80,18 +78,13 @@ export default function ProjectCard({
   }, [imageList.length, isActive]);
 
   useEffect(() => {
-    if (isActive) {
-      setShouldAttachVideo(true);
-    }
-  }, [isActive]);
+    const video = videoRef.current;
+    if (!isMediaVideo || !video) return;
 
-  useEffect(() => {
-    if (!isMediaVideo || !videoRef.current) return;
     if (isActive) {
-      setShouldAttachVideo(true);
-      videoRef.current.play().catch(() => {});
+      video.play().catch(() => {});
     } else {
-      videoRef.current.pause();
+      video.pause();
     }
   }, [isActive, isMediaVideo]);
 
@@ -100,35 +93,17 @@ export default function ProjectCard({
     const shouldEagerLoad = index <= 2 || isActive;
 
     if (isMediaVideo) {
-      const isAbsolute = extraClasses.includes('absolute');
       return (
-        <div className={`overflow-hidden bg-black/5 ${isAbsolute ? 'absolute inset-0 w-full h-full' : 'relative w-full h-full'}`}>
-          {/* Instant HD Poster Image shown immediately with zero delay */}
-          {project.poster && (
-            <Image
-              src={project.poster}
-              alt={project.title}
-              fill
-              sizes="(max-width: 640px) 92vw, (max-width: 1024px) 700px, 730px"
-              quality={80}
-              priority={index === 0}
-              loading={shouldEagerLoad ? 'eager' : 'lazy'}
-              className="object-cover object-top"
-            />
-          )}
-
-          {/* Smooth streaming video attached on-demand to save bandwidth */}
-          <video
-            ref={videoRef}
-            src={shouldAttachVideo ? mediaSrc : undefined}
-            poster={project.poster}
-            loop
-            muted
-            playsInline
-            preload={isActive ? 'auto' : 'metadata'}
-            className="absolute inset-0 w-full h-full object-cover object-top group-hover:scale-[1.02] transition-transform duration-700 transform-gpu"
-          />
-        </div>
+        <video
+          ref={videoRef}
+          src={mediaSrc}
+          loop
+          muted
+          playsInline
+          autoPlay={isActive}
+          preload="metadata"
+          className={`w-full h-full object-cover object-top group-hover:scale-[1.02] transition-transform duration-700 transform-gpu ${extraClasses}`}
+        />
       );
     }
 

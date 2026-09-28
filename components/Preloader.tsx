@@ -213,7 +213,6 @@ export default function Preloader() {
 
             {/* ── REAL COSMIC GALAXY WAVE VIDEO (desktop only, skipped on mobile to save 437KB) ── */}
             <div className="absolute inset-0 w-full h-full pointer-events-none z-0 overflow-hidden flex items-center justify-center">
-              {isDesktop && (
               <video
                 autoPlay
                 muted
@@ -231,7 +230,6 @@ export default function Preloader() {
               >
                 <source src="/vesper_preloader_opt.mp4" type="video/mp4" />
               </video>
-              )}
               
               {/* Atmospheric Diffused Center Aura Glow */}
               <div 

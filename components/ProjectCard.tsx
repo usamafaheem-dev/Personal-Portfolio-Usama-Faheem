@@ -81,6 +81,9 @@ export default function ProjectCard({
     const video = videoRef.current;
     if (!isMediaVideo || !video) return;
 
+    video.muted = true;
+    video.defaultMuted = true;
+
     if (isActive) {
       video.play().catch(() => {});
     } else {
@@ -95,14 +98,21 @@ export default function ProjectCard({
     if (isMediaVideo) {
       return (
         <video
-          ref={videoRef}
+          ref={(el) => {
+            videoRef.current = el;
+            if (el) {
+              el.muted = true;
+              el.defaultMuted = true;
+            }
+          }}
           src={mediaSrc}
+          poster={project.poster}
           loop
           muted
           playsInline
-          autoPlay={isActive}
-          preload="metadata"
-          className={`w-full h-full object-cover object-top group-hover:scale-[1.02] transition-transform duration-700 transform-gpu ${extraClasses}`}
+          autoPlay
+          preload="auto"
+          className={`absolute inset-0 w-full h-full object-cover object-top group-hover:scale-[1.02] transition-transform duration-700 transform-gpu ${extraClasses}`}
         />
       );
     }

@@ -41,6 +41,10 @@ yarn-error.log*
 next-env.d.ts
 
 # temp recordings
-*.mp4
 *.zip
 .claude/
+# Allow project media assets in public/
+!public/**/*.mp4
+!public/*.mp4
+!public/**/*.webm
+!public/*.webm

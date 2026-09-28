@@ -41,7 +41,7 @@ export default function Home() {
           <main>
             <Hero />
             <TechMarquee />
-            <About />
+            <LazySection name="about" minHeight="70vh"><About /></LazySection>
             <LazySection name="stats" minHeight="60vh"><Stats /></LazySection>
             <LazySection name="difference"><WhatIDoDifferently /></LazySection>
             <LazySection name="services"><Services /></LazySection>

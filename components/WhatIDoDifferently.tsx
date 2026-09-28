@@ -75,8 +75,8 @@ export default function WhatIDoDifferently() {
           {/* Main Card Box (Vibrant Lime to Gold Gradient Container) */}
           <div className="relative mt-4 sm:mt-6 md:mt-10 bg-gradient-to-br from-[#d8ff00] to-[#ccf23a] rounded-[28px] sm:rounded-[32px] md:rounded-[44px] p-5 sm:p-10 lg:p-14 text-slate-950 shadow-[0_25px_60px_rgba(163,230,53,0.35)] border border-lime-300 min-h-[380px] md:min-h-[560px] flex flex-col justify-between">
 
-            {/* Background Decorative Wavy Circles */}
-            <div className="absolute inset-0 rounded-[28px] sm:rounded-[32px] md:rounded-[44px] overflow-hidden opacity-25 pointer-events-none">
+            {/* Background Decorative Wavy Circles (Desktop / Tablet only to eliminate mobile raster lag) */}
+            <div className="hidden sm:block absolute inset-0 rounded-[28px] sm:rounded-[32px] md:rounded-[44px] overflow-hidden opacity-25 pointer-events-none">
               <div className="absolute top-1/2 left-1/3 -translate-x-1/2 -translate-y-1/2 w-[750px] h-[750px] rounded-full border-[60px] border-white/40 blur-xl"></div>
               <div className="absolute top-1/2 right-1/3 translate-x-1/2 -translate-y-1/2 w-[550px] h-[550px] rounded-full border-[50px] border-white/40 blur-xl"></div>
             </div>
@@ -265,7 +265,7 @@ export default function WhatIDoDifferently() {
                   fill
                   loading="lazy"
                   sizes="(max-width: 640px) 250px, (max-width: 768px) 380px, (max-width: 1024px) 440px, 480px"
-                  className="object-contain object-bottom drop-shadow-[0_20px_40px_rgba(0,0,0,0.35)]"
+                  className="object-contain object-bottom sm:drop-shadow-[0_20px_40px_rgba(0,0,0,0.35)]"
                 />
               </motion.div>
             </div>

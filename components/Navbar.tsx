@@ -85,14 +85,26 @@ export default function Navbar() {
       setShowNavbar(true);
     };
     const handleVideoStart = () => {
+      // On mobile, navbar remains visible for immediate navigation
+      if (window.innerWidth < 768) {
+        setShowNavbar(true);
+        return;
+      }
       setShowNavbar(false);
       clearTimeout(playTimeout);
       playTimeout = setTimeout(() => setShowNavbar(true), 6000);
     };
 
+    const handlePreloaderExit = () => {
+      if (window.innerWidth < 768) {
+        setShowNavbar(true);
+      }
+    };
+
     window.addEventListener('heroNavbarTrigger', handleNavbarShow);
     window.addEventListener('heroVideoEnded', handleNavbarShow);
     window.addEventListener('heroVideoStarted', handleVideoStart);
+    window.addEventListener('preloaderExiting', handlePreloaderExit);
 
     return () => {
       window.removeEventListener('resize', checkMobile);
@@ -101,6 +113,7 @@ export default function Navbar() {
       window.removeEventListener('heroNavbarTrigger', handleNavbarShow);
       window.removeEventListener('heroVideoEnded', handleNavbarShow);
       window.removeEventListener('heroVideoStarted', handleVideoStart);
+      window.removeEventListener('preloaderExiting', handlePreloaderExit);
       clearTimeout(playTimeout);
     };
   }, []);
@@ -489,13 +502,11 @@ export default function Navbar() {
               initial={{ x: '100%' }}
               animate={{ x: '0%' }}
               exit={{ x: '100%' }}
-              transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+              transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
               style={{
-                transform: 'translateZ(0)',
-                willChange: 'transform',
                 touchAction: 'pan-y',
               }}
-              className="relative w-[84vw] max-w-[340px] sm:max-w-[375px] h-[100dvh] bg-white shadow-[-16px_0_40px_rgba(0,0,0,0.3)] flex flex-col justify-between px-6 py-6 sm:px-7 sm:py-7 overflow-y-auto overscroll-contain z-[105]"
+              className="relative w-[84vw] max-w-[340px] sm:max-w-[375px] h-[100dvh] bg-white shadow-[-16px_0_40px_rgba(0,0,0,0.3)] flex flex-col justify-between px-6 py-6 sm:px-7 sm:py-7 overflow-y-auto overscroll-contain z-[105] transform-gpu will-change-transform"
             >
               {/* Drawer Top Header: "MENU" text & Rounded Square Close Button */}
               <div className="flex items-center justify-between pb-3 pt-1">

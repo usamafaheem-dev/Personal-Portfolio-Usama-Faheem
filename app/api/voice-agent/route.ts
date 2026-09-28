@@ -1,11 +1,11 @@
 import { NextResponse } from 'next/server';
 
 const AGENT_IDS = [
+  'agent_7201m2zwkz4gf0gb1jefce2ac6wp',
   'agent_7601m2zv2rayfxnr3q0mj1s3xwq1',
   'agent_5701m2zvfkwpf6tbcwxd2gbr3d56',
   'agent_9401m2zt1218fee9vf15j6ykam2y',
   'agent_6101m2zvqra0e6ebkbzennsyak2d',
-  'agent_7201m2zwkz4gf0gb1jefce2ac6wp',
   'agent_9701m2zt455hemjbp84p9yk89dnk',
   'agent_3601m2w6eyzjeyybxv6a6yva3mk0',
   'agent_3901m344jcyjfq4bjqbp0635z595',
@@ -25,52 +25,22 @@ const exhaustedSet = new Set<string>(INITIAL_EXHAUSTED);
 async function verifyAgentHealth(agentId: string): Promise<boolean> {
   if (exhaustedSet.has(agentId)) return false;
 
-  return new Promise((resolve) => {
-    try {
-      const ws = new WebSocket(`wss://api.elevenlabs.io/v1/convai/conversation?agent_id=${agentId}`);
-      let hasResolved = false;
-
-      const timer = setTimeout(() => {
-        if (!hasResolved) {
-          hasResolved = true;
-          try { ws.close(); } catch {}
-          resolve(true); // timed out waiting without quota error -> considered alive
-        }
-      }, 1500);
-
-      ws.onmessage = () => {
-        if (!hasResolved) {
-          hasResolved = true;
-          clearTimeout(timer);
-          try { ws.close(); } catch {}
-          resolve(true);
-        }
-      };
-
-      ws.onclose = (event) => {
-        if (!hasResolved) {
-          hasResolved = true;
-          clearTimeout(timer);
-          if (event.reason && (event.reason.includes('quota') || event.reason.includes('credits'))) {
-            exhaustedSet.add(agentId);
-            resolve(false);
-          } else {
-            resolve(true);
-          }
-        }
-      };
-
-      ws.onerror = () => {
-        if (!hasResolved) {
-          hasResolved = true;
-          clearTimeout(timer);
-          resolve(false);
-        }
-      };
-    } catch {
-      resolve(false);
+  try {
+    const res = await fetch(`https://api.elevenlabs.io/v1/convai/agents/${agentId}/widget`, {
+      headers: { 'Accept': 'application/json' },
+      cache: 'no-store',
+    });
+    if (!res.ok) {
+      if (res.status === 404 || res.status === 401) {
+        exhaustedSet.add(agentId);
+      }
+      return false;
     }
-  });
+    const data = await res.json();
+    return Boolean(data?.agent_id || data?.widget_config);
+  } catch {
+    return false;
+  }
 }
 
 async function getNextHealthyAgent(startAfterId?: string): Promise<string> {

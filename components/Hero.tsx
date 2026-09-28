@@ -116,17 +116,6 @@ export default function Hero() {
       <h1 className="sr-only">Usama Faheem — MERN Stack &amp; Frontend Developer in Lahore, Pakistan</h1>
       {/* ── Background Video ── */}
       <div className="absolute inset-0 z-0 transform-gpu">
-        {/* Desktop-only poster (fast LCP); mobile gets a 1x1 blank so no still-image flash */}
-        <picture aria-hidden="true">
-          <source media="(max-width: 767px)" srcSet="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" />
-          <img
-            src="/man_walking_crossing_arms_poster.jpg"
-            alt=""
-            fetchPriority="high"
-            decoding="async"
-            className="absolute inset-0 w-full h-full object-cover object-[center_top]"
-          />
-        </picture>
         <video
           ref={videoRef}
           muted

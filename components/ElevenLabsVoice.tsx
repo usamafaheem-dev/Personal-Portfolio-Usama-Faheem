@@ -2,14 +2,16 @@
 
 import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { PhoneCall, PhoneOff, X } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { ensureAllSectionsMounted } from '@/components/LazySection';
 
-// Pool of ElevenLabs Agent IDs with active credits verified
+// Pool of ElevenLabs Agent IDs with active credits verified - User configured agent at index 0
 const DEFAULT_AGENT_IDS = [
+  'agent_7201m2zwkz4gf0gb1jefce2ac6wp',
   'agent_7601m2zv2rayfxnr3q0mj1s3xwq1',
   'agent_5701m2zvfkwpf6tbcwxd2gbr3d56',
   'agent_9401m2zt1218fee9vf15j6ykam2y',
   'agent_6101m2zvqra0e6ebkbzennsyak2d',
-  'agent_7201m2zwkz4gf0gb1jefce2ac6wp',
   'agent_9701m2zt455hemjbp84p9yk89dnk',
   'agent_3601m2w6eyzjeyybxv6a6yva3mk0',
   'agent_3901m344jcyjfq4bjqbp0635z595',
@@ -20,8 +22,8 @@ const KNOWN_EXHAUSTED = new Set([
   'agent_3401m2ztp1svfz7r8b4ejrzf823w',
 ]);
 
-const STORAGE_KEY = 'elevenlabs_active_agent_id_v5';
-const EXHAUSTED_STORAGE_KEY = 'elevenlabs_exhausted_agents_v5';
+const STORAGE_KEY = 'elevenlabs_active_agent_id_v8';
+const EXHAUSTED_STORAGE_KEY = 'elevenlabs_exhausted_agents_v8';
 
 function getExhaustedPool(): Set<string> {
   const set = new Set(KNOWN_EXHAUSTED);
@@ -29,7 +31,9 @@ function getExhaustedPool(): Set<string> {
     try {
       const stored = localStorage.getItem(EXHAUSTED_STORAGE_KEY);
       if (stored) {
-        JSON.parse(stored).forEach((id: string) => set.add(id));
+        JSON.parse(stored).forEach((id: string) => {
+          if (id !== DEFAULT_AGENT_IDS[0]) set.add(id);
+        });
       }
     } catch {}
   }
@@ -37,6 +41,7 @@ function getExhaustedPool(): Set<string> {
 }
 
 function markAgentExhausted(agentId: string) {
+  if (agentId === DEFAULT_AGENT_IDS[0]) return; // Never blacklist user's primary agent
   KNOWN_EXHAUSTED.add(agentId);
   if (typeof window !== 'undefined') {
     try {
@@ -47,6 +52,171 @@ function markAgentExhausted(agentId: string) {
   }
 }
 
+function getHumanSectionTitle(target: string): string {
+  const t = target.toLowerCase();
+  if (t.includes('shadab') || t.includes('rice')) return 'Shadab Rice Project';
+  if (t.includes('softcr8or')) return 'SoftCr8ors Project';
+  if (t.includes('removal') || t.includes('gm')) return 'GM MZ Removals';
+  if (t.includes('reeba')) return 'Reeba Yaseen Project';
+  if (t.includes('clean')) return 'MZ Cleaner Project';
+  if (t.includes('work') || t.includes('construction')) return 'MZ Works Construction';
+  if (t.includes('hero') || t.includes('top') || t.includes('navbar') || t.includes('home')) return 'Hero Section';
+  if (t.includes('about')) return 'About Usama';
+  if (t.includes('diff')) return 'What I Do Differently';
+  if (t.includes('process') || t.includes('workflow')) return 'Development Process';
+  if (t.includes('exp') || t.includes('job')) return 'Work Experience';
+  if (t.includes('skill') || t.includes('stack') || t.includes('tech')) return 'Tech Stack & Skills';
+  if (t.includes('project') || t.includes('portfolio')) return 'Projects Showcase';
+  if (t.includes('mern')) return 'MERN Stack Certificate';
+  if (t.includes('google') || t.includes('devfest')) return 'Google DevFest Certificate';
+  if (t.includes('cisco') && t.includes('ai')) return 'Cisco AI & Networks Certificate';
+  if (t.includes('cisco') || t.includes('network')) return 'Cisco Networking Certificate';
+  if (t.includes('free')) return 'DigiSkills Freelancing Certificate';
+  if (t.includes('cert')) return 'Certifications Showcase';
+  if (t.includes('contact') || t.includes('hire') || t.includes('whatsapp')) return 'Contact Usama';
+  return target.charAt(0).toUpperCase() + target.slice(1);
+}
+
+async function waitForElement(id: string, maxWaitMs = 1500): Promise<HTMLElement | null> {
+  const start = Date.now();
+  while (Date.now() - start < maxWaitMs) {
+    const el = document.getElementById(id);
+    if (el) return el;
+    await new Promise((r) => setTimeout(r, 40));
+  }
+  return document.getElementById(id);
+}
+
+async function executePortfolioNavigation(targetRaw: string) {
+  if (typeof window === 'undefined') return;
+  ensureAllSectionsMounted();
+  window.dispatchEvent(new Event('app-mount-all-sections'));
+
+  const t = targetRaw.toLowerCase().trim();
+
+  // ── 1. CERTIFICATE TARGET (MERN, Google DevFest, Cisco, DigiSkills) ──
+  if (
+    t.includes('mern') ||
+    t.includes('devfest') ||
+    t.includes('google') ||
+    t.includes('cisco') ||
+    t.includes('network') ||
+    t.includes('free') ||
+    t.includes('digiskill') ||
+    t.includes('nextskill')
+  ) {
+    const certSection = await waitForElement('certifications', 1500);
+    if (certSection) {
+      const yOffset = -40;
+      const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+      const targetY = Math.max(0, certSection.getBoundingClientRect().top + currentScroll + yOffset);
+      window.scrollTo(0, targetY);
+      certSection.classList.add('ai-highlight-section');
+      setTimeout(() => certSection.classList.remove('ai-highlight-section'), 3500);
+
+      let certId = 'nextskill-mern';
+      if (t.includes('devfest') || t.includes('google')) certId = 'google-devfest';
+      else if (t.includes('digiskill') && t.includes('mern')) certId = 'digiskills-mern';
+      else if (t.includes('digiskill') || t.includes('free')) certId = 'digiskills-freelancing';
+      else if (t.includes('cisco') && t.includes('ai')) certId = 'cisco-ai';
+      else if (t.includes('cisco') || t.includes('network')) certId = 'cisco-networking';
+
+      const dispatchOpen = () => {
+        window.dispatchEvent(
+          new CustomEvent('app-open-certificate', {
+            detail: { id: certId, query: t },
+          })
+        );
+      };
+
+      dispatchOpen();
+      setTimeout(dispatchOpen, 220);
+      setTimeout(dispatchOpen, 500);
+    }
+    return;
+  }
+
+  // ── 2. PROJECT TARGET (Shadab Rice, SoftCr8ors, Removals, etc.) ──
+  if (
+    t.includes('shadab') ||
+    t.includes('rice') ||
+    t.includes('softcr8or') ||
+    t.includes('removal') ||
+    t.includes('gm') ||
+    t.includes('reeba') ||
+    t.includes('clean') ||
+    t.includes('work') ||
+    t.includes('tekrivo')
+  ) {
+    const projSection = await waitForElement('projects', 1500);
+    if (projSection) {
+      const rect = projSection.getBoundingClientRect();
+      const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+      const containerTop = rect.top + currentScroll;
+      const scrollableHeight = Math.max(0, projSection.offsetHeight - window.innerHeight);
+
+      const CARD_POSITIONS = [0, 1, 2, 3.18, 4.18, 5.18, 6.18, 7.18, 8.18];
+      const maxPos = 8.18;
+      const START_PHASE = 0.055;
+      const END_BUFFER = 0.93;
+
+      let cardIdx = 0;
+      if (t.includes('shadab') || t.includes('rice')) cardIdx = 3;
+      else if (t.includes('softcr8or')) cardIdx = 0;
+      else if (t.includes('removal') || t.includes('gm')) cardIdx = 1;
+      else if (t.includes('reeba')) cardIdx = 2;
+      else if (t.includes('clean')) cardIdx = 4;
+      else if (t.includes('work') || t.includes('construction')) cardIdx = 5;
+
+      const progressForIndex = cardIdx === 0 ? 0 : START_PHASE + (CARD_POSITIONS[cardIdx] / maxPos) * (END_BUFFER - START_PHASE);
+      const targetScroll = containerTop + progressForIndex * scrollableHeight;
+
+      window.scrollTo(0, targetScroll);
+      projSection.classList.add('ai-highlight-section');
+      setTimeout(() => projSection.classList.remove('ai-highlight-section'), 3500);
+
+      window.dispatchEvent(
+        new CustomEvent('app-navigate-project', {
+          detail: { target: targetRaw },
+        })
+      );
+    }
+    return;
+  }
+
+  // ── 3. GENERAL STANDARD SECTIONS ──
+  let targetId = 'projects';
+  if (t.includes('hero') || t.includes('top') || t.includes('home') || t.includes('header')) targetId = 'hero';
+  else if (t.includes('skill') || t.includes('tech') || t.includes('stack')) targetId = 'skills';
+  else if (t.includes('cert') || t.includes('degree') || t.includes('diploma')) targetId = 'certifications';
+  else if (t.includes('diff') || t.includes('differently')) targetId = 'difference';
+  else if (t.includes('process') || t.includes('workflow')) targetId = 'process';
+  else if (t.includes('exp') || t.includes('experience') || t.includes('job')) targetId = 'experience';
+  else if (t.includes('contact') || t.includes('hire') || t.includes('whatsapp') || t.includes('email')) targetId = 'contact';
+  else if (t.includes('service')) targetId = 'services';
+  else if (t.includes('stat')) targetId = 'stats';
+  else if (t.includes('social') || t.includes('findme')) targetId = 'find-me-online';
+
+  if (targetId === 'hero') {
+    window.scrollTo(0, 0);
+    const heroEl = document.getElementById('hero') || document.getElementById('navbar');
+    if (heroEl) {
+      heroEl.classList.add('ai-highlight-section');
+      setTimeout(() => heroEl.classList.remove('ai-highlight-section'), 3500);
+    }
+    return;
+  }
+
+  const el = await waitForElement(targetId, 1500);
+  if (el) {
+    const yOffset = -75;
+    const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+    const targetY = Math.max(0, el.getBoundingClientRect().top + currentScroll + yOffset);
+    window.scrollTo(0, targetY);
+    el.classList.add('ai-highlight-section');
+    setTimeout(() => el.classList.remove('ai-highlight-section'), 3500);
+  }
+}
 
 export function triggerElevenLabsCall() {
   if (typeof document === 'undefined') return;
@@ -202,38 +372,11 @@ const WIDGET_CSS = `
   button[title="Yes"],
   button[title="No"],
   button[aria-label*="thumb" i],
-  button[aria-label*="helpful" i],
-  div:has(> button[title="Yes"]),
-  div:has(> button[title="No"]),
-  div:has(> button[aria-label*="thumb" i]),
-  div:has(> button[aria-label*="helpful" i]),
-  div:has(> svg[class*="thumb" i]),
-  /* ═══ SUPPRESS ELEVENLABS QUOTA & ERROR DIALOG MODALS ═══ */
-  [role="alertdialog"],
-  [role="dialog"],
-  [class*="dialog" i],
-  [class*="modal" i],
-  [class*="backdrop" i],
-  [class*="overlay" i],
-  [class*="popup" i],
-  [class*="errorCard" i],
-  [class*="errorDialog" i],
-  [class*="errorModal" i],
-  [class*="errorContainer" i],
-  [class*="errorMessage" i],
-  div:has(> *[class*="quota" i]),
-  div:has(> button[class*="close" i]):not([class*="box"] *) {
+  button[aria-label*="helpful" i] {
     display: none !important;
     opacity: 0 !important;
     visibility: hidden !important;
     pointer-events: none !important;
-    height: 0 !important;
-    width: 0 !important;
-    max-height: 0 !important;
-    max-width: 0 !important;
-    overflow: hidden !important;
-    margin: 0 !important;
-    padding: 0 !important;
   }
 `;
 
@@ -266,37 +409,9 @@ function autoAcceptTermsSafely(sr: ShadowRoot) {
 function setupShadowListeners(widget: any, onEnd: () => void, onQuota?: () => void) {
   if (!widget?.shadowRoot) return;
 
-  const scrubErrorPopups = () => {
-    try {
-      const popups = widget.shadowRoot.querySelectorAll(
-        '[role="dialog"], [role="alertdialog"], [class*="dialog"], [class*="modal"], [class*="error"]'
-      );
-      popups.forEach((el: any) => {
-        const txt = (el.textContent || '').toLowerCase();
-        el.style.display = 'none';
-        el.remove();
-        if (txt.includes('credit') || txt.includes('quota')) {
-          if (onQuota) onQuota();
-        } else if (
-          txt.includes('error') ||
-          txt.includes('conversation') ||
-          txt.includes('connection') ||
-          txt.includes('disconnect') ||
-          txt.includes('failed')
-        ) {
-          // Connection / network termination - close call and revert button to black!
-          if (onEnd) onEnd();
-        }
-      });
-    } catch {}
-  };
-
-  scrubErrorPopups();
-
   if (!(widget.shadowRoot as any).__hasQuotaObserver) {
     (widget.shadowRoot as any).__hasQuotaObserver = true;
     const observer = new MutationObserver(() => {
-      scrubErrorPopups();
       const text = (widget.shadowRoot.textContent || '').toLowerCase();
       if (
         text.includes('quota_exceeded') ||
@@ -332,18 +447,19 @@ function setupShadowListeners(widget: any, onEnd: () => void, onQuota?: () => vo
       const text = (btn.textContent || '').trim().toLowerCase();
       const aria = (btn.getAttribute('aria-label') || '').trim().toLowerCase();
 
-      // If user clicked "Start a call", DO NOT close!
-      if (title.includes('start') || text.includes('start')) {
+      // If user clicked "Start a call" or Urdu "کال شروع کریں", DO NOT close!
+      if (title.includes('start') || text.includes('start') || text.includes('شروع')) {
         return;
       }
 
-      // If user clicked "End call", cleanly close the card
+      // If user clicked "End call" or Urdu "ختم کریں", cleanly close the card
       if (
         title === 'end' ||
         title === 'end call' ||
         aria === 'end call' ||
         text === 'end' ||
-        text === 'end call'
+        text === 'end call' ||
+        text.includes('ختم')
       ) {
         setTimeout(() => {
           onEnd();
@@ -354,10 +470,147 @@ function setupShadowListeners(widget: any, onEnd: () => void, onQuota?: () => vo
   );
 }
 
+function createClientToolsProxy(handler: (args: any) => Promise<any>) {
+  const baseTools: Record<string, any> = {
+    navigate_to_section: handler,
+    navigateToSection: handler,
+    navigate: handler,
+    navigate_section: handler,
+    scroll_to_section: handler,
+    scrollToSection: handler,
+    open_certificate: handler,
+    view_certificate: handler,
+    show_certificate: handler,
+    open_project: handler,
+    show_project: handler,
+    navigate_to_project: handler,
+    navigateToProject: handler,
+    navigate_to_certificate: handler,
+    navigateToCertificate: handler,
+    goto_section: handler,
+    gotoSection: handler,
+    show_section: handler,
+    showSection: handler,
+  };
+
+  return new Proxy(baseTools, {
+    get(target, prop) {
+      if (typeof prop === 'string' && prop in target) {
+        return target[prop];
+      }
+      if (typeof prop === 'string' && prop !== 'then' && prop !== 'toJSON' && typeof (target as any)[prop] !== 'function') {
+        console.log(`⚡ ElevenLabs requested custom tool: "${String(prop)}" -> Forwarding to navigation handler!`);
+        return handler;
+      }
+      return (target as any)[prop];
+    },
+  });
+}
+
 export default function ElevenLabsVoice() {
   const [isOpen, setIsOpen] = useState(false);
   const [activeAgentId, setActiveAgentId] = useState<string>(DEFAULT_AGENT_IDS[0]);
   const [statusNotice, setStatusNotice] = useState<string | null>(null);
+  const [voiceTeleportOverlay, setVoiceTeleportOverlay] = useState<{
+    visible: boolean;
+    title: string;
+  } | null>(null);
+
+  const widgetContainerRef = useRef<HTMLDivElement>(null);
+
+  // Mount ElevenLabs widget stably into the container DOM node so React re-renders NEVER unmount it or abort fetch
+  useEffect(() => {
+    if (!widgetContainerRef.current) return;
+    const container = widgetContainerRef.current;
+    let widget = container.querySelector('elevenlabs-convai') as any;
+    if (!widget) {
+      widget = document.createElement('elevenlabs-convai');
+      widget.setAttribute('agent-id', activeAgentId);
+      widget.setAttribute('variant', 'full');
+      widget.setAttribute('expandable', 'never');
+      container.appendChild(widget);
+    } else if (widget.getAttribute('agent-id') !== activeAgentId) {
+      widget.setAttribute('agent-id', activeAgentId);
+    }
+  }, [activeAgentId]);
+
+  const handleClientToolExecution = useCallback(async (args: any) => {
+    console.log('⚡ ElevenLabs client tool called with args:', args);
+    const targetStr = (() => {
+      if (typeof args === 'string') return args;
+      if (!args || typeof args !== 'object') return 'projects';
+      if (args.certificate || args.cert || args.cert_id) return String(args.certificate || args.cert || args.cert_id);
+      if (args.section || args.section_name || args.target || args.id || args.destination || args.page || args.name || args.project || args.input || args.value) {
+        const sec = String(args.section || args.section_name || args.target || args.id || args.destination || args.page || args.name || args.project || args.input || args.value);
+        if (args.query) return `${sec} ${args.query}`;
+        return sec;
+      }
+      return Object.values(args).map(String).join(' ') || 'projects';
+    })();
+
+    const title = getHumanSectionTitle(String(targetStr));
+
+    // 1. Show visual status toast and 9th pure electric blue soundwave capsule loader
+    setStatusNotice(`⚡ Navigating to ${title}...`);
+    setTimeout(() => setStatusNotice(null), 3500);
+    setVoiceTeleportOverlay({ visible: true, title });
+
+    // 2. Perform smooth navigation asynchronously
+    executePortfolioNavigation(String(targetStr)).catch(console.error);
+
+    // 3. Keep visual capsule overlay for 1.5s
+    setTimeout(() => {
+      setVoiceTeleportOverlay(null);
+    }, 1500);
+
+    // Return response promptly to ElevenLabs so WebSocket never hangs or times out
+    return {
+      success: true,
+      message: `Navigated user to ${title}`,
+      result: `Navigated user to ${title}`,
+    };
+  }, []);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    const onConvaiCall = (event: any) => {
+      console.log('⚡ [elevenlabs-convai:call] event intercepted in ElevenLabsVoice:', event);
+      if (!event.detail) event.detail = {};
+      if (!event.detail.config) event.detail.config = {};
+
+      setStatusNotice('⚡ Voice AI Connected (Tools Ready)');
+      setTimeout(() => setStatusNotice(null), 3500);
+
+      event.detail.config.clientTools = createClientToolsProxy(handleClientToolExecution);
+    };
+
+    // 1. Capture on window and document (intercepts unbubbled events in capture phase)
+    window.addEventListener('elevenlabs-convai:call', onConvaiCall, true);
+    document.addEventListener('elevenlabs-convai:call', onConvaiCall, true);
+
+    // 2. Also attach directly to any elevenlabs-convai elements present or dynamically rendered
+    const attachToWidget = () => {
+      const widgets = document.querySelectorAll('elevenlabs-convai');
+      widgets.forEach((w: any) => {
+        if (!w.__hasNavigateClientTool) {
+          w.__hasNavigateClientTool = true;
+          w.addEventListener('elevenlabs-convai:call', onConvaiCall);
+        }
+      });
+    };
+
+    attachToWidget();
+    const widgetInterval = setInterval(attachToWidget, 500);
+
+    return () => {
+      clearInterval(widgetInterval);
+      window.removeEventListener('elevenlabs-convai:call', onConvaiCall, true);
+      document.removeEventListener('elevenlabs-convai:call', onConvaiCall, true);
+    };
+  }, [handleClientToolExecution]);
+
+
   const [isOnline, setIsOnline] = useState<boolean>(() => {
     if (typeof navigator !== 'undefined') return navigator.onLine;
     return true;
@@ -494,7 +747,7 @@ export default function ElevenLabsVoice() {
     return DEFAULT_AGENT_IDS;
   }, []);
 
-  // 0. Lazy-load ElevenLabs script on first scroll (not during initial page load)
+  // 0. Lazy-load ElevenLabs script strictly on user interaction/scroll (prevents 3rd-party cookie flags on initial load)
   useEffect(() => {
     const loadScript = () => {
       if (document.querySelector('script[src*="elevenlabs"]')) return;
@@ -503,11 +756,11 @@ export default function ElevenLabsVoice() {
       script.async = true;
       document.body.appendChild(script);
     };
-    const timer = setTimeout(loadScript, 4000);
-    window.addEventListener('scroll', loadScript, { once: true });
+    window.addEventListener('scroll', loadScript, { once: true, passive: true });
+    window.addEventListener('pointerdown', loadScript, { once: true, passive: true });
     return () => {
-      clearTimeout(timer);
       window.removeEventListener('scroll', loadScript);
+      window.removeEventListener('pointerdown', loadScript);
     };
   }, []);
 
@@ -537,7 +790,7 @@ export default function ElevenLabsVoice() {
       .then((res) => (res.ok ? res.json() : null))
       .then((data) => {
         if (data?.agentId && !exhausted.has(data.agentId)) {
-          setActiveAgentId(data.agentId);
+          setActiveAgentId((prev) => (prev !== data.agentId ? data.agentId : prev));
           try {
             localStorage.setItem(STORAGE_KEY, data.agentId);
           } catch {}
@@ -618,6 +871,16 @@ export default function ElevenLabsVoice() {
           });
         }
 
+        if (!widget.__hasConvaiToolEvents) {
+          widget.__hasConvaiToolEvents = true;
+          widget.addEventListener('elevenlabs-convai:call', (event: any) => {
+            console.log('⚡ [elevenlabs-convai:call] fired on widget in setup!', event);
+            if (!event.detail) event.detail = {};
+            if (!event.detail.config) event.detail.config = {};
+            event.detail.config.clientTools = createClientToolsProxy(handleClientToolExecution);
+          });
+        }
+
         if (widget.shadowRoot) {
           injectStyleSafely(widget.shadowRoot);
           autoAcceptTermsSafely(widget.shadowRoot);
@@ -647,73 +910,34 @@ export default function ElevenLabsVoice() {
     };
   }, [activeAgentId, switchToNextAgent, isOnline]);
 
-  // 4. While open, keep styles active safely, auto-detect call closure, and observe quota continuously
+  // 4. While open, keep styles active safely without prematurely killing calls
   useEffect(() => {
     if (!isOpen) return;
 
     const interval = setInterval(() => {
       const widget = document.querySelector('elevenlabs-convai') as any;
-      if (!widget || !widget.shadowRoot) {
-        if (hasCallStartedRef.current || Date.now() - callStartTimeRef.current > 15000) {
-          hasCallStartedRef.current = false;
-          setIsOpen(false);
-        }
-        return;
-      }
+      if (!widget || !widget.shadowRoot) return;
+
       const sr = widget.shadowRoot as ShadowRoot;
       injectStyleSafely(sr);
-      setupShadowListeners(widget, () => setIsOpen(false), () => switchToNextAgent(activeAgentId));
+      setupShadowListeners(widget, () => setIsOpen(false));
 
-      const text = (sr.textContent || '').toLowerCase();
-      if (
-        text.includes('quota_exceeded') ||
-        text.includes('run out of credits') ||
-        text.includes('out of credits') ||
-        text.includes('quota limit')
-      ) {
-        switchToNextAgent(activeAgentId);
-        return;
-      }
-
-      // Check if active call UI is visible
+      // Check if active call UI is visible to update active call flag
       const endBtn =
         sr.querySelector('button[title*="End" i]') ||
         sr.querySelector('button[aria-label*="End" i]') ||
         Array.from(sr.querySelectorAll('button')).find((b) => {
           const t = (b.textContent || '').trim().toLowerCase();
-          return t === 'end' || t === 'end call';
+          return t === 'end' || t === 'end call' || t.includes('ختم');
         });
 
-      const box = sr.querySelector('[class*="box"]') as HTMLElement | null;
-      const isBoxVisible = Boolean(box && window.getComputedStyle(box).display !== 'none' && box.offsetHeight > 0);
-
-      // Once the call UI renders (End button or speech indicators), mark call as started
-      if (endBtn || (box && isBoxVisible && (text.includes('interrupt') || text.includes('speaking') || text.includes('listening')))) {
+      if (endBtn) {
         hasCallStartedRef.current = true;
       }
-
-      // Check for disconnect or network failure text in widget
-      const hasConnectionError =
-        text.includes('error occurred') ||
-        text.includes('connection lost') ||
-        text.includes('disconnected') ||
-        text.includes('unable to connect') ||
-        text.includes('failed to connect');
-
-      if (hasConnectionError) {
-        handleCallTermination(true);
-        return;
-      }
-
-      // ONLY if the call had officially started, and now the call box collapsed or End button is gone:
-      if (hasCallStartedRef.current && (!isBoxVisible || !endBtn)) {
-        handleCallTermination(!navigator.onLine || !isOnline);
-        return;
-      }
-    }, 250);
+    }, 500);
 
     return () => clearInterval(interval);
-  }, [isOpen, activeAgentId, switchToNextAgent, isOnline, handleCallTermination]);
+  }, [isOpen]);
 
   // Toggle Voice: Open or Close widget cleanly
   const handleToggle = () => {
@@ -742,6 +966,13 @@ export default function ElevenLabsVoice() {
         }
       }
 
+      if (!document.querySelector('script[src*="elevenlabs"]')) {
+        const script = document.createElement('script');
+        script.src = 'https://elevenlabs.io/convai-widget/index.js';
+        script.async = true;
+        document.body.appendChild(script);
+      }
+
       hasCallStartedRef.current = false;
       callStartTimeRef.current = Date.now();
       const widget = document.querySelector('elevenlabs-convai') as any;
@@ -753,6 +984,15 @@ export default function ElevenLabsVoice() {
           widget.__hasConvaiEvents = true;
           widget.addEventListener('conversationEnded', () => {
             setIsOpen(false);
+          });
+        }
+        if (!widget.__hasConvaiToolEvents) {
+          widget.__hasConvaiToolEvents = true;
+          widget.addEventListener('elevenlabs-convai:call', (event: any) => {
+            console.log('⚡ [elevenlabs-convai:call] fired on widget in handleToggle!', event);
+            if (!event.detail) event.detail = {};
+            if (!event.detail.config) event.detail.config = {};
+            event.detail.config.clientTools = createClientToolsProxy(handleClientToolExecution);
           });
         }
         if (widget.shadowRoot) {
@@ -768,20 +1008,17 @@ export default function ElevenLabsVoice() {
 
   return (
     <>
-      {/* ── Native ElevenLabs custom element (Only rendered when online to prevent 'Cannot fetch config' errors) ── */}
-      {isOnline && (
-        <div
-          className={`fixed inset-0 pointer-events-none z-[99990] transition-opacity duration-150 ${
-            isOpen ? 'opacity-100' : 'opacity-0'
-          }`}
-          style={{
-            visibility: isOpen ? 'visible' : 'hidden',
-          }}
-          dangerouslySetInnerHTML={{
-            __html: `<elevenlabs-convai agent-id="${activeAgentId}" variant="full" expandable="never"></elevenlabs-convai>`,
-          }}
-        />
-      )}
+      {/* ── Native ElevenLabs custom element (Persistent container prevents unmount and signal abort errors) ── */}
+      <div
+        className={`fixed inset-0 pointer-events-none z-[99990] transition-opacity duration-150 ${
+          isOpen && isOnline ? 'opacity-100' : 'opacity-0'
+        }`}
+        style={{
+          visibility: isOpen && isOnline ? 'visible' : 'hidden',
+        }}
+      >
+        <div ref={widgetContainerRef} />
+      </div>
 
       {/* ── Main Circular Voice Button (Anchored bottom right, responsive compact on mobile) ── */}
       <div
@@ -851,6 +1088,61 @@ export default function ElevenLabsVoice() {
           )}
         </button>
       </div>
+
+      {/* ── 9TH PURE ELECTRIC BLUE SOUNDWAVE CAPSULE TELEPORT OVERLAY (1.5s DURATION) ── */}
+      <AnimatePresence>
+        {voiceTeleportOverlay?.visible && (
+          <motion.div
+            key="elevenlabs-voice-teleport-overlay"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.22, ease: 'easeOut' }}
+            className="fixed inset-0 z-[9999999] flex flex-col items-center justify-center bg-white/80 dark:bg-slate-950/85 backdrop-blur-md pointer-events-none select-none"
+          >
+            {/* Ambient Blue Radial Glow */}
+            <div className="absolute w-[460px] h-[460px] rounded-full bg-blue-500/20 blur-3xl pointer-events-none" />
+
+            {/* Pill Capsule with Dark Border */}
+            <motion.div
+              initial={{ scale: 0.88, y: 14 }}
+              animate={{ scale: 1, y: 0 }}
+              exit={{ scale: 0.92, y: -8 }}
+              transition={{ duration: 0.25, ease: 'easeOut' }}
+              className="relative px-7 py-3.5 rounded-full border-[2px] border-slate-700 bg-white/95 dark:bg-slate-900/95 shadow-[0_12px_40px_rgba(0,82,255,0.25)] flex items-center justify-center gap-2 backdrop-blur-md"
+            >
+              {/* 9 Pure Electric Blue Wave Bars */}
+              {[10, 18, 30, 42, 48, 42, 30, 18, 10].map((baseHeight, i) => (
+                <motion.span
+                  key={i}
+                  animate={{
+                    height: [baseHeight * 0.45, baseHeight, baseHeight * 0.3, baseHeight * 0.9, baseHeight * 0.45],
+                  }}
+                  transition={{
+                    repeat: Infinity,
+                    duration: 0.75 + (i % 3) * 0.15,
+                    ease: 'easeInOut',
+                    delay: (i * 0.07) % 0.4,
+                  }}
+                  className="w-2.5 rounded-full bg-gradient-to-t from-[#0052ff] via-[#2563eb] to-[#38bdf8] shadow-[0_0_10px_rgba(0,82,255,0.45)]"
+                  style={{ height: `${baseHeight}px` }}
+                />
+              ))}
+            </motion.div>
+
+            {/* Destination label */}
+            <motion.div
+              initial={{ opacity: 0, y: 6 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1 }}
+              className="mt-4 px-4 py-1.5 rounded-full bg-slate-900/80 border border-blue-500/30 text-xs font-mono font-semibold text-blue-400 flex items-center gap-2 shadow-lg"
+            >
+              <span className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-ping" />
+              <span>Teleporting to {voiceTeleportOverlay.title}...</span>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </>
   );
 }

@@ -266,10 +266,10 @@ export default function Certifications() {
 
         {/* ── AMBIENT BRAND BACKGROUND GLOW (Exact 4 Services Colors: Blue, Dark, Lime, Mint) ── */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none z-0 transform-gpu">
-          <div className="absolute top-[-5%] left-[-5%] w-[45vw] h-[45vw] rounded-full bg-[#0052ff]/18 blur-[100px] transform-gpu" />
-          <div className="absolute bottom-[-5%] left-[5%] w-[42vw] h-[42vw] rounded-full bg-[#10121a]/08 blur-[100px] transform-gpu" />
-          <div className="absolute top-[8%] right-[-5%] w-[48vw] h-[48vw] rounded-full bg-[#d8ff00]/26 blur-[100px] transform-gpu" />
-          <div className="absolute bottom-[-5%] right-[8%] w-[40vw] h-[40vw] rounded-full bg-[#00d5b5]/20 blur-[100px] transform-gpu" />
+          <div className="absolute top-[-5%] left-[-5%] w-[45vw] h-[45vw] rounded-full bg-[#0052ff]/18 blur-[40px] sm:blur-[100px] transform-gpu" />
+          <div className="absolute bottom-[-5%] left-[5%] w-[42vw] h-[42vw] rounded-full bg-[#10121a]/08 blur-[40px] sm:blur-[100px] transform-gpu" />
+          <div className="absolute top-[8%] right-[-5%] w-[48vw] h-[48vw] rounded-full bg-[#d8ff00]/26 blur-[40px] sm:blur-[100px] transform-gpu" />
+          <div className="absolute bottom-[-5%] right-[8%] w-[40vw] h-[40vw] rounded-full bg-[#00d5b5]/20 blur-[40px] sm:blur-[100px] transform-gpu" />
           
           {/* Fine Dotted Grid Overlay */}
           <div className="absolute inset-0 bg-[radial-gradient(#94a3b8_1.2px,transparent_1.2px)] [background-size:24px_24px] opacity-35" />
@@ -282,7 +282,7 @@ export default function Certifications() {
         >
           {/* 1. Top-Left Electric Blue Organic Blob (#0052ff) */}
           <motion.div
-            animate={{ y: [0, -8, 0], rotate: [0, 2, 0] }}
+            animate={isMobile ? undefined : { y: [0, -8, 0], rotate: [0, 2, 0] }}
             transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut' }}
             style={{ borderRadius: '54% 46% 62% 38% / 44% 56% 44% 56%' }}
             className="absolute top-[12%] sm:top-[2%] left-[-8%] sm:left-[0%] w-[170px] h-[160px] sm:w-[320px] sm:h-[300px] lg:w-[440px] lg:h-[410px] bg-[#0052ff]/26 border-2 border-[#0052ff]/40 shadow-lg transform-gpu will-change-transform"
@@ -290,7 +290,7 @@ export default function Certifications() {
           
           {/* 2. Bottom-Left Sleek Electric Blue Aura Organic Blob (#0052ff) - Crisp & Vibrant */}
           <motion.div
-            animate={{ y: [0, 8, 0], rotate: [0, -2, 0] }}
+            animate={isMobile ? undefined : { y: [0, 8, 0], rotate: [0, -2, 0] }}
             transition={{ duration: 6.5, repeat: Infinity, ease: 'easeInOut', delay: 0.4 }}
             style={{ borderRadius: '46% 54% 38% 62% / 56% 44% 62% 38%' }}
             className="absolute bottom-[10%] sm:bottom-[2%] left-[0%] sm:left-[8%] lg:left-[13%] w-[180px] h-[170px] sm:w-[330px] sm:h-[310px] lg:w-[460px] lg:h-[430px] bg-[#0052ff]/12 border-2 border-[#0052ff]/25 shadow-md transform-gpu will-change-transform"
@@ -298,14 +298,14 @@ export default function Certifications() {
 
           {/* Tiny Electric Mint Accent Dot (#00d5b5 - Left of Charcoal Blob) */}
           <motion.div 
-            animate={{ scale: [1, 1.25, 1] }}
+            animate={isMobile ? undefined : { scale: [1, 1.25, 1] }}
             transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
             className="absolute bottom-[36%] sm:bottom-[35%] left-[3%] sm:left-[5%] w-2.5 h-2.5 sm:w-3.5 sm:h-3.5 rounded-full bg-[#00d5b5] shadow-[0_0_10px_rgba(0,213,181,0.6)] transform-gpu will-change-transform" 
           />
 
           {/* Brand Blue Wavy Squiggly Line Doodle (#0052ff - Beside SCROLL TO SEE) */}
           <motion.div
-            animate={{ x: [-3, 3, -3], rotate: [-2, 2, -2] }}
+            animate={isMobile ? undefined : { x: [-3, 3, -3], rotate: [-2, 2, -2] }}
             transition={{ duration: 3.5, repeat: Infinity, ease: 'easeInOut' }}
             className="absolute bottom-[16%] sm:bottom-[12%] left-[10%] sm:left-[18%] lg:left-[22%] text-[#0052ff] transform-gpu will-change-transform"
           >
@@ -316,7 +316,7 @@ export default function Certifications() {
 
           {/* 3. Top-Right Signature Neon Lime Organic Blob (#d8ff00) */}
           <motion.div
-            animate={{ y: [0, -8, 0], rotate: [0, -2.5, 0] }}
+            animate={isMobile ? undefined : { y: [0, -8, 0], rotate: [0, -2.5, 0] }}
             transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut', delay: 0.8 }}
             style={{ borderRadius: '58% 42% 52% 48% / 42% 58% 48% 52%' }}
             className="absolute top-[12%] sm:top-[3%] right-[-8%] sm:right-[0%] w-[170px] h-[160px] sm:w-[310px] sm:h-[290px] lg:w-[430px] lg:h-[410px] bg-[#d8ff00]/45 border-2 border-[#d8ff00]/65 shadow-lg transform-gpu will-change-transform"
@@ -324,7 +324,7 @@ export default function Certifications() {
 
           {/* 4-Pointed Sparkle Star (Dark Charcoal inside Lime Blob) */}
           <motion.div
-            animate={{ scale: [1, 1.25, 1], rotate: [0, 15, 0] }}
+            animate={isMobile ? undefined : { scale: [1, 1.25, 1], rotate: [0, 15, 0] }}
             transition={{ duration: 3.2, repeat: Infinity, ease: 'easeInOut' }}
             className="absolute top-[16%] sm:top-[20%] right-[6%] sm:right-[12%] text-[#10121a]/80 transform-gpu will-change-transform"
           >
@@ -335,7 +335,7 @@ export default function Certifications() {
 
           {/* 4. Bottom-Right Electric Mint / Teal Organic Blob (#00d5b5) */}
           <motion.div
-            animate={{ y: [0, 8, 0], rotate: [0, 2, 0] }}
+            animate={isMobile ? undefined : { y: [0, 8, 0], rotate: [0, 2, 0] }}
             transition={{ duration: 7.5, repeat: Infinity, ease: 'easeInOut', delay: 1.2 }}
             style={{ borderRadius: '48% 52% 44% 56% / 54% 46% 56% 44%' }}
             className="absolute bottom-[10%] sm:bottom-[2%] right-[6%] sm:right-[20%] lg:right-[26%] w-[150px] h-[140px] sm:w-[260px] sm:h-[250px] lg:w-[360px] lg:h-[350px] bg-[#00d5b5]/32 border-2 border-[#00d5b5]/50 shadow-lg transform-gpu will-change-transform"

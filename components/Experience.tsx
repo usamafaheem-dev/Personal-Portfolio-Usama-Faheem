@@ -163,9 +163,11 @@ export default function Experience() {
         <div className="flex items-center gap-5 flex-1 min-w-0">
           <div className="relative shrink-0">
             <div className="w-16 h-16 rounded-2xl bg-white shadow-[0_8px_20px_rgba(0,0,0,0.25)] p-2.5 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-              <img
+              <Image
                 src={item.logoSrc}
                 alt={item.logoAlt}
+                width={64}
+                height={64}
                 loading="lazy"
                 className="w-full h-full object-contain drop-shadow-xs"
               />
@@ -207,9 +209,11 @@ export default function Experience() {
           {/* Left: Icon + Company */}
           <div className="flex items-center gap-2.5 min-w-0">
             <div className="w-9 h-9 min-[400px]:w-10 min-[400px]:h-10 rounded-xl bg-white shadow-md p-1.5 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform duration-300">
-              <img
+              <Image
                 src={item.logoSrc}
                 alt={item.logoAlt}
+                width={40}
+                height={40}
                 loading="lazy"
                 className="w-full h-full object-contain"
               />
@@ -302,7 +306,7 @@ export default function Experience() {
               transition={{ duration: 0.45, delay: 0.05, ease: 'easeOut' }}
               whileHover={{ y: -3, scale: 1.01, transition: { duration: 0.2 } }}
               className={`
-                relative group ${experiences[0].cardGradient} -rotate-[1deg] hover:rotate-0
+                relative group ${experiences[0].cardGradient} rotate-0 sm:-rotate-[1deg] hover:rotate-0
                 border ${experiences[0].cardBorder} rounded-[18px] min-[400px]:rounded-[22px] lg:rounded-[28px] 
                 p-3.5 min-[400px]:p-4 lg:p-6 transition-all duration-200 ease-out ${experiences[0].cardShadow} hover:shadow-2xl
                 flex flex-col cursor-pointer text-white w-full
@@ -324,7 +328,7 @@ export default function Experience() {
               transition={{ duration: 0.45, delay: 0.12, ease: 'easeOut' }}
               whileHover={{ y: -3, scale: 1.01, transition: { duration: 0.2 } }}
               className={`
-                relative group ${experiences[1].cardGradient} -rotate-[0.5deg] hover:rotate-0
+                relative group ${experiences[1].cardGradient} rotate-0 sm:-rotate-[0.5deg] hover:rotate-0
                 border ${experiences[1].cardBorder} rounded-[18px] min-[400px]:rounded-[22px] lg:rounded-[28px] 
                 p-3.5 min-[400px]:p-4 lg:p-6 transition-all duration-200 ease-out ${experiences[1].cardShadow} hover:shadow-2xl
                 flex flex-col cursor-pointer text-white w-full
@@ -342,7 +346,7 @@ export default function Experience() {
               transition={{ duration: 0.45, delay: 0.18, ease: 'easeOut' }}
               whileHover={{ y: -3, scale: 1.01, transition: { duration: 0.2 } }}
               className={`
-                relative group ${experiences[2].cardGradient} rotate-[1deg] hover:rotate-0
+                relative group ${experiences[2].cardGradient} rotate-0 sm:rotate-[1deg] hover:rotate-0
                 border ${experiences[2].cardBorder} rounded-[18px] min-[400px]:rounded-[22px] lg:rounded-[28px] 
                 p-3.5 min-[400px]:p-4 lg:p-6 transition-all duration-200 ease-out ${experiences[2].cardShadow} hover:shadow-2xl
                 flex flex-col cursor-pointer text-white w-full

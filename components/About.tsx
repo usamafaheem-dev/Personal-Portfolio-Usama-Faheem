@@ -69,8 +69,10 @@ export default function About() {
               src="/Badge_holder_with_man_photo_202608121707.jpeg"
               alt="Usama Faheem, MERN Stack Developer in Lahore"
               width={400}
-              height={560}
-              priority
+              height={717}
+              loading="lazy"
+              quality={80}
+              sizes="(max-width: 640px) 300px, 400px"
               className="w-full h-auto pointer-events-none transform rotate-[7deg] hover:rotate-0 transition-transform duration-500 origin-top mix-blend-multiply"
             />
           </motion.div>

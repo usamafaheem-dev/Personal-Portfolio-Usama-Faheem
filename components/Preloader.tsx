@@ -55,10 +55,12 @@ export default function Preloader() {
       (window as any).__preloaderDone = false;
     }
 
-    // Set preloader total on-screen duration to ~3.0s as requested
+    // Set preloader duration: 1.4s on mobile for high FCP/Speed Index, 2.8s on desktop
+    const isMob = typeof window !== 'undefined' && window.innerWidth < 768;
+    const duration = isMob ? 850 : 2800;
     const exitTimer = setTimeout(() => {
       triggerExit();
-    }, 2800);
+    }, duration);
 
     // Hard safety failsafe
     const failsafeTimer = setTimeout(() => {

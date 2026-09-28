@@ -160,8 +160,6 @@ export default function RootLayout({
       className={`${inter.variable} ${poppins.variable} ${jetbrainsMono.variable} ${caveat.variable}`}
     >
       <head>
-
-        <link rel="preload" href="/man_walking_crossing_arms_poster.jpg" as="image" fetchPriority="high" media="(min-width: 768px)" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd).replace(/</g, "\\u003c") }}

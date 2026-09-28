@@ -100,6 +100,15 @@ const stepsData: ProcessStep[] = [
 ];
 
 export default function Process() {
+  const [isDesktop, setIsDesktop] = useState(false);
+
+  React.useEffect(() => {
+    const check = () => setIsDesktop(window.innerWidth >= 1024);
+    check();
+    window.addEventListener('resize', check);
+    return () => window.removeEventListener('resize', check);
+  }, []);
+
   return (
     <section
       id="process"
@@ -108,8 +117,8 @@ export default function Process() {
       {/* ── Precision Dotted Grid Background Canvas Matching Proven Metrics ── */}
       <div className="absolute inset-0 bg-[radial-gradient(#99a1af_1.2px,transparent_1.2px)] [background-size:24px_24px] opacity-40 pointer-events-none [mask-image:radial-gradient(ellipse_75%_75%_at_50%_50%,#000_60%,transparent_100%)]" />
 
-      {/* ── Ambient Studio Glows in Usama's Brand Accents (Amber & Lime) ── */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">
+      {/* ── Ambient Studio Glows in Usama's Brand Accents (Amber & Lime - Desktop only to save mobile GPU) ── */}
+      <div className="hidden sm:block absolute inset-0 pointer-events-none overflow-hidden z-0">
         <div className="absolute top-[10%] left-[5%] w-[450px] h-[450px] rounded-full bg-[#d8ff00]/08 blur-[140px]" />
         <div className="absolute bottom-[10%] right-[5%] w-[500px] h-[500px] rounded-full bg-[#ccf23a]/06 blur-[150px]" />
         <div className="absolute top-[35%] right-[25%] w-[350px] h-[350px] rounded-full bg-[#ccf23a]/06 blur-[130px]" />
@@ -174,6 +183,7 @@ export default function Process() {
         {/* ═════════════════════════════════════════════════════════════════
             DESKTOP: COMPACT ELEGANT WAVE (FINALIZED CRISP WHITE CARDS)
            ═════════════════════════════════════════════════════════════════ */}
+        {isDesktop && (
         <div className="hidden lg:block relative w-full max-w-[1260px] mx-auto h-[480px] my-2">
 
           {/* Continuous Gentle Sine Wave SVG Track + Embedded Nodes & Stems */}
@@ -505,6 +515,7 @@ export default function Process() {
           </div>
 
         </div>
+        )}
 
         {/* ═════════════════════════════════════════════════════════════════
             MOBILE & TABLET: CLEAN RESPONSIVE TIMELINE

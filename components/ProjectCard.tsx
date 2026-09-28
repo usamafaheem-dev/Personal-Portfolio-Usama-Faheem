@@ -14,6 +14,7 @@ export interface ProjectData {
   image: string;
   images?: string[];
   video?: string;
+  poster?: string;
   stats?: { value: string; label: string }[];
   variant?: 'split' | 'split-reversed' | 'quote' | 'banner' | 'landscape' | 'stacked';
   cardBg?: string;
@@ -68,6 +69,8 @@ export default function ProjectCard({
   const [activeImageIdx, setActiveImageIdx] = useState(0);
   const videoRef = useRef<HTMLVideoElement>(null);
 
+  const [shouldAttachVideo, setShouldAttachVideo] = useState(index <= 1 || Boolean(isActive));
+
   useEffect(() => {
     if (imageList.length <= 1 || !isActive) return;
     const interval = setInterval(() => {
@@ -77,8 +80,15 @@ export default function ProjectCard({
   }, [imageList.length, isActive]);
 
   useEffect(() => {
+    if (isActive) {
+      setShouldAttachVideo(true);
+    }
+  }, [isActive]);
+
+  useEffect(() => {
     if (!isMediaVideo || !videoRef.current) return;
-    if (isActive && typeof window !== 'undefined' && window.innerWidth >= 768) {
+    if (isActive) {
+      setShouldAttachVideo(true);
       videoRef.current.play().catch(() => {});
     } else {
       videoRef.current.pause();
@@ -87,17 +97,38 @@ export default function ProjectCard({
 
   // Helper to render single image, multi-image rotating carousel, or video
   const renderMediaViewport = (extraClasses = "w-full h-full object-cover object-top") => {
+    const shouldEagerLoad = index <= 2 || isActive;
+
     if (isMediaVideo) {
+      const isAbsolute = extraClasses.includes('absolute');
       return (
-        <video
-          ref={videoRef}
-          src={mediaSrc}
-          loop
-          muted
-          playsInline
-          preload="none"
-          className={`w-full h-full object-cover object-top group-hover:scale-[1.02] transition-transform duration-700 transform-gpu`}
-        />
+        <div className={`overflow-hidden bg-black/5 ${isAbsolute ? 'absolute inset-0 w-full h-full' : 'relative w-full h-full'}`}>
+          {/* Instant HD Poster Image shown immediately with zero delay */}
+          {project.poster && (
+            <Image
+              src={project.poster}
+              alt={project.title}
+              fill
+              sizes="(max-width: 640px) 92vw, (max-width: 1024px) 700px, 730px"
+              quality={80}
+              priority={index === 0}
+              loading={shouldEagerLoad ? 'eager' : 'lazy'}
+              className="object-cover object-top"
+            />
+          )}
+
+          {/* Smooth streaming video attached on-demand to save bandwidth */}
+          <video
+            ref={videoRef}
+            src={shouldAttachVideo ? mediaSrc : undefined}
+            poster={project.poster}
+            loop
+            muted
+            playsInline
+            preload={isActive ? 'auto' : 'metadata'}
+            className="absolute inset-0 w-full h-full object-cover object-top group-hover:scale-[1.02] transition-transform duration-700 transform-gpu"
+          />
+        </div>
       );
     }
 
@@ -110,8 +141,10 @@ export default function ProjectCard({
               src={imgSrc}
               alt={`${project.title} - ${i + 1}`}
               fill
-              loading="lazy"
-              sizes="(max-width: 768px) 100vw, 50vw"
+              priority={i === 0 && index === 0}
+              loading={i === 0 && shouldEagerLoad ? 'eager' : 'lazy'}
+              quality={80}
+              sizes="(max-width: 640px) 92vw, (max-width: 1024px) 700px, 730px"
               className={`object-cover ${extraClasses} transition-all duration-700 ${
                 i === activeImageIdx ? 'opacity-100 z-10 scale-100' : 'opacity-0 z-0 scale-105 pointer-events-none'
               }`}
@@ -140,8 +173,10 @@ export default function ProjectCard({
         src={project.image}
         alt={project.title}
         fill
-        loading="lazy"
-        sizes="(max-width: 768px) 100vw, 50vw"
+        priority={index === 0}
+        loading={shouldEagerLoad ? 'eager' : 'lazy'}
+        quality={80}
+        sizes="(max-width: 640px) 92vw, (max-width: 1024px) 700px, 730px"
         className={`object-cover ${extraClasses} group-hover:scale-[1.02] transition-transform duration-700`}
       />
     );

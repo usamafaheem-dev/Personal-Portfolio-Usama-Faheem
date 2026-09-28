@@ -13,15 +13,15 @@ const stats = [
 
 function AnimatedCounter({ value, startDelay = 0.4, isBlueSphere = false }: { value: string; startDelay?: number; isBlueSphere?: boolean }) {
   const isPageReady = usePageReady();
-  const ref = useRef<HTMLSpanElement>(null);
-  const inView = useInView(ref, { once: true, margin: '-40px' });
+  const containerRef = useRef<HTMLSpanElement>(null);
+  const numRef = useRef<HTMLSpanElement>(null);
+  const inView = useInView(containerRef, { once: true, margin: '-40px' });
   const isInView = isPageReady && inView;
 
   const numMatch = value.match(/\d+/);
   const targetNum = numMatch ? parseInt(numMatch[0], 10) : 0;
   const suffix = value.replace(/\d+/, '');
 
-  const [displayValue, setDisplayValue] = useState(0);
   const [hasStarted, setHasStarted] = useState(false);
 
   useEffect(() => {
@@ -41,10 +41,14 @@ function AnimatedCounter({ value, startDelay = 0.4, isBlueSphere = false }: { va
         const ease = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
         const current = Math.round(targetNum * ease);
 
-        setDisplayValue(current);
+        if (numRef.current) {
+          numRef.current.textContent = String(current);
+        }
 
         if (progress < 1) {
           frameId = requestAnimationFrame(updateCounter);
+        } else if (numRef.current) {
+          numRef.current.textContent = String(targetNum);
         }
       };
 
@@ -58,14 +62,14 @@ function AnimatedCounter({ value, startDelay = 0.4, isBlueSphere = false }: { va
   }, [isInView, targetNum, startDelay]);
 
   return (
-    <span ref={ref} className="inline-flex items-center tracking-tight">
+    <span ref={containerRef} className="inline-flex items-center tracking-tight">
       <motion.span
         initial={{ y: -20, opacity: 0 }}
         animate={isInView && hasStarted ? { y: 0, opacity: 1 } : { y: -20, opacity: 0 }}
         transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
         className="inline-flex items-center"
       >
-        <span>{displayValue}</span>
+        <span ref={numRef}>0</span>
         <span className={`${isBlueSphere ? 'text-[#d8ff00]' : 'text-[#0052ff]'} ml-0.5 font-black`}>{suffix}</span>
       </motion.span>
     </span>
@@ -151,7 +155,7 @@ export default function Stats() {
                   {/* Floating container after appearing */}
                   <motion.div
                     animate={{ y: [0, -6, 0] }}
-                    className="transform-gpu"
+                    className="transform-gpu will-change-transform"
                     transition={{
                       repeat: Infinity,
                       duration: 3 + i * 0.4,

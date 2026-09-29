@@ -15,6 +15,8 @@ import {
   MapPin,
   Sparkles,
   ArrowRight,
+  Loader2,
+  AlertCircle,
 } from 'lucide-react';
 import RetroPhone from '@/components/RetroPhone';
 
@@ -221,6 +223,8 @@ export default function FAQAndContact() {
     message: '',
   });
   const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [copiedEmail, setCopiedEmail] = useState(false);
 
   // Dynamic clearance tracker ensuring the coiled phone wire NEVER touches the form card
@@ -322,10 +326,40 @@ export default function FAQAndContact() {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
-    setTimeout(() => setSubmitted(false), 4000);
+    setIsSubmitting(true);
+    setErrorMessage(null);
+
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formState),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.error || 'Failed to send message. Please try again.');
+      }
+
+      setSubmitted(true);
+      setFormState({
+        name: '',
+        email: '',
+        projectType: '',
+        message: '',
+      });
+      setTimeout(() => setSubmitted(false), 6000);
+    } catch (err: unknown) {
+      const error = err as Error;
+      setErrorMessage(error.message || 'Something went wrong. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -645,13 +679,39 @@ export default function FAQAndContact() {
                     />
                   </div>
 
+                  {/* Submission Feedback Alerts */}
+                  {errorMessage && (
+                    <div className="p-3 rounded-xl bg-red-50 border border-red-200 text-red-700 text-xs font-medium flex items-center gap-2">
+                      <AlertCircle className="w-4 h-4 shrink-0 text-red-500" />
+                      <span>{errorMessage}</span>
+                    </div>
+                  )}
+
+                  {submitted && (
+                    <div className="p-3.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-900 text-xs font-medium flex flex-col gap-1.5">
+                      <div className="flex items-center gap-2 font-bold text-[13px] text-emerald-800">
+                        <Check className="w-4 h-4 text-emerald-600" />
+                        <span>Message Dispatched Successfully!</span>
+                      </div>
+                      <p className="text-emerald-700 text-[11.5px]">
+                        Thanks for reaching out! Your inquiry has been delivered to Usama&apos;s inbox. You will get a response within 24 hours.
+                      </p>
+                    </div>
+                  )}
+
                   {/* Submit Button Centered Inline-Block per Audio Instructions */}
                   <div className="flex justify-center pt-2 sm:pt-2.5">
                     <button
                       type="submit"
-                      className="inline-flex items-center justify-center gap-2.5 px-8 py-3.5 rounded-full bg-[#0052ff] hover:bg-[#003fcc] text-white font-extrabold text-xs sm:text-[13px] uppercase tracking-wider shadow-[0_10px_22px_rgba(0,82,255,0.35)] hover:shadow-[0_14px_28px_rgba(0,82,255,0.48)] transition-all duration-300 transform hover:-translate-y-0.5 active:scale-95 cursor-pointer"
+                      disabled={isSubmitting}
+                      className="inline-flex items-center justify-center gap-2.5 px-8 py-3.5 rounded-full bg-[#0052ff] hover:bg-[#003fcc] text-white font-extrabold text-xs sm:text-[13px] uppercase tracking-wider shadow-[0_10px_22px_rgba(0,82,255,0.35)] hover:shadow-[0_14px_28px_rgba(0,82,255,0.48)] transition-all duration-300 transform hover:-translate-y-0.5 active:scale-95 disabled:opacity-75 disabled:cursor-not-allowed cursor-pointer"
                     >
-                      {submitted ? (
+                      {isSubmitting ? (
+                        <>
+                          <Loader2 className="w-4 h-4 text-white animate-spin" />
+                          <span>Sending...</span>
+                        </>
+                      ) : submitted ? (
                         <>
                           <Check className="w-4 h-4 text-white" />
                           <span>Message Dispatched!</span>

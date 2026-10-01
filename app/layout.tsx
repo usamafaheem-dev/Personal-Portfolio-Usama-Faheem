@@ -71,11 +71,10 @@ const personJsonLd = {
       sameAs: [
         "https://github.com/usamafaheem-dev",
         "https://www.linkedin.com/in/usama-faheem/",
-        "https://x.com/CreationsUsama",
-        "https://www.instagram.com/usamafaheem02/",
-        "https://web.facebook.com/usamafaheemDev/",
-        "https://www.threads.net/@usamafaheem02",
-        "https://www.youtube.com/@tekrivo-usamafaheem",
+        "https://x.com/usamafaheemdev",
+        "https://www.instagram.com/usamafaheemdev/",
+        "https://web.facebook.com/usamafaheemDev",
+        "https://www.threads.com/@usamafaheemdev",
       ],
     },
     {

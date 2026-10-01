@@ -24,7 +24,7 @@ interface SocialPlatform {
   renderIcon: () => React.ReactNode;
 }
 
-// 7 Core Channels with Distinct Icon-Matched Background Themes (YouTube at last)
+// 6 Core Channels with Distinct Icon-Matched Background Themes
 const socialPlatforms: SocialPlatform[] = [
   {
     id: 'github',
@@ -75,7 +75,7 @@ const socialPlatforms: SocialPlatform[] = [
     name: 'X (TWITTER)',
     subtitle: 'Daily web dev insights, interactive UI micro-animations & founder workflow.',
     ctaText: 'FOLLOW ME →',
-    url: 'https://x.com/CreationsUsama',
+    url: 'https://x.com/usamafaheemdev',
     cardBg: 'bg-gradient-to-b from-[#fbfbf7] via-[#f3f3ed] to-[#e8e8e0]',
     cardBorder: 'border-0',
     cardShadow: 'shadow-[0_4px_22px_rgba(13,13,13,0.06)] hover:shadow-[0_16px_36px_rgba(13,13,13,0.12)]',
@@ -97,7 +97,7 @@ const socialPlatforms: SocialPlatform[] = [
     name: 'INSTAGRAM',
     subtitle: 'Design experiments, visual UI showcases & behind-the-scenes engineering builds.',
     ctaText: 'FOLLOW ALONG →',
-    url: 'https://www.instagram.com/usamafaheem02/',
+    url: 'https://www.instagram.com/usamafaheemdev/',
     cardBg: 'bg-gradient-to-b from-[#fbfbf7] via-[#f3f3ed] to-[#e8e8e0]',
     cardBorder: 'border-0',
     cardShadow: 'shadow-[0_4px_22px_rgba(13,13,13,0.06)] hover:shadow-[0_16px_36px_rgba(13,13,13,0.12)]',
@@ -119,7 +119,7 @@ const socialPlatforms: SocialPlatform[] = [
     name: 'FACEBOOK',
     subtitle: 'Tech community updates, project launches & web development discussions.',
     ctaText: 'CONNECT ON FB →',
-    url: 'https://web.facebook.com/usamafaheemDev/',
+    url: 'https://web.facebook.com/usamafaheemDev',
     cardBg: 'bg-gradient-to-b from-[#fbfbf7] via-[#f3f3ed] to-[#e8e8e0]',
     cardBorder: 'border-0',
     cardShadow: 'shadow-[0_4px_22px_rgba(13,13,13,0.06)] hover:shadow-[0_16px_36px_rgba(13,13,13,0.12)]',
@@ -139,7 +139,7 @@ const socialPlatforms: SocialPlatform[] = [
     name: 'THREADS',
     subtitle: 'Quick dev thoughts, live engineering notes & interactive tech conversations.',
     ctaText: 'FOLLOW ON THREADS →',
-    url: 'https://www.threads.net/@usamafaheem02',
+    url: 'https://www.threads.com/@usamafaheemdev',
     cardBg: 'bg-gradient-to-b from-[#fbfbf7] via-[#f3f3ed] to-[#e8e8e0]',
     cardBorder: 'border-0',
     cardShadow: 'shadow-[0_4px_22px_rgba(13,13,13,0.06)] hover:shadow-[0_16px_36px_rgba(13,13,13,0.12)]',
@@ -152,28 +152,6 @@ const socialPlatforms: SocialPlatform[] = [
     yOffset: 'translate-y-1.5 sm:translate-y-3.5',
     renderIcon: () => (
       <SiThreads aria-hidden="true" className="w-7 h-7 xs:w-8 xs:h-8 sm:w-9 sm:h-9 lg:w-9.5 lg:h-9.5 text-white" />
-    ),
-  },
-  {
-    id: 'youtube',
-    name: 'YOUTUBE',
-    subtitle: 'Longer stories, web dev tutorials & behind-the-scenes engineering build vlogs.',
-    ctaText: 'WATCH NOW →',
-    url: 'https://www.youtube.com/@tekrivo-usamafaheem',
-    cardBg: 'bg-gradient-to-b from-[#fbfbf7] via-[#f3f3ed] to-[#e8e8e0]',
-    cardBorder: 'border-0',
-    cardShadow: 'shadow-[0_4px_22px_rgba(13,13,13,0.06)] hover:shadow-[0_16px_36px_rgba(13,13,13,0.12)]',
-    ctaColor: 'text-[#0052ff] group-hover:text-blue-700',
-    titleHover: 'group-hover:text-[#0052ff]',
-    iconBg: 'bg-gradient-to-br from-[#ff2a2a] via-[#e60000] to-[#b30000]',
-    iconShadow: 'shadow-[0_10px_24px_rgba(230,0,0,0.38)]',
-    iconBorder: 'border-t border-l border-white/45 border-b border-r border-red-950/30',
-    tilt: '-rotate-[1.5deg] sm:-rotate-[2.5deg]',
-    yOffset: '-translate-y-1.5 sm:-translate-y-3.5',
-    renderIcon: () => (
-      <svg aria-hidden="true" className="w-7 h-7 xs:w-8 xs:h-8 sm:w-10 sm:h-10 lg:w-11 lg:h-11 text-white fill-current" viewBox="0 0 24 24">
-        <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
-      </svg>
     ),
   },
 ];
@@ -367,11 +345,11 @@ export default function FindMeOnline() {
   // Smooth scroll translation locked at 0.78 so last card/tray centers and then flows naturally to next section
   const trackX = useTransform(smoothProgress, [0.0, 0.78], xRange, { clamp: true });
 
-  const mobileGroup1 = socialPlatforms.slice(0, 3); // 3 Cards (GitHub, LinkedIn, X)
-  const mobileGroup2 = socialPlatforms.slice(3, 5); // 2 Cards (Instagram, Facebook)
-  const mobileGroup3 = socialPlatforms.slice(5, 7); // 2 Cards (Threads, YouTube)
+  const mobileGroup1 = socialPlatforms.slice(0, 2); // 2 Cards (GitHub, LinkedIn)
+  const mobileGroup2 = socialPlatforms.slice(2, 4); // 2 Cards (X, Instagram)
+  const mobileGroup3 = socialPlatforms.slice(4, 6); // 2 Cards (Facebook, Threads)
 
-  // Dynamic Y offset for Mobile Tray 2 (Instagram, Facebook) entering around 0.39
+  // Dynamic Y offset for Mobile Tray 2 (X, Instagram) entering around 0.39
   const tray2Y = useTransform(smoothProgress, (p: number) => {
     const diff = 0.39 - p;
     if (diff <= 0) return 0;
@@ -395,7 +373,7 @@ export default function FindMeOnline() {
     return Math.min(1, 0.45 + entryProgress * 1.4);
   });
 
-  // Dynamic Y offset for Mobile Tray 3 (Threads, YouTube) entering around 0.78
+  // Dynamic Y offset for Mobile Tray 3 (Facebook, Threads) entering around 0.78
   const tray3Y = useTransform(smoothProgress, (p: number) => {
     const diff = 0.78 - p;
     if (diff <= 0) return 0;
@@ -447,7 +425,7 @@ export default function FindMeOnline() {
           </div>
         </div>
 
-        {/* ── DESKTOP SCROLL-DRIVEN HORIZONTAL TRACK (MD & UP: 7 LARGE CARDS) ── */}
+        {/* ── DESKTOP SCROLL-DRIVEN HORIZONTAL TRACK (MD & UP: 6 LARGE CARDS) ── */}
         <div className="hidden md:block relative w-full my-auto overflow-y-visible py-14 lg:py-20">
           <div className="absolute top-0 bottom-0 left-0 w-8 sm:w-20 bg-gradient-to-r from-[#ededf0] to-transparent z-20 pointer-events-none" />
           <div className="absolute top-0 bottom-0 right-0 w-8 sm:w-20 bg-gradient-to-l from-[#ededf0] to-transparent z-20 pointer-events-none" />
@@ -469,7 +447,7 @@ export default function FindMeOnline() {
           </motion.div>
         </div>
 
-        {/* ── MOBILE SCROLL-DRIVEN TRAY TRACK (< MD: 3 TRAYS: 3 + 2 + 2 CARDS) ── */}
+        {/* ── MOBILE SCROLL-DRIVEN TRAY TRACK (< MD: 3 TRAYS: 2 + 2 + 2 CARDS) ── */}
         <div className="block md:hidden relative w-full my-auto overflow-y-visible py-8 xs:py-12">
           <div className="absolute top-0 bottom-0 left-0 w-4 bg-gradient-to-r from-[#ededf0] to-transparent z-20 pointer-events-none" />
           <div className="absolute top-0 bottom-0 right-0 w-4 bg-gradient-to-l from-[#ededf0] to-transparent z-20 pointer-events-none" />
@@ -479,14 +457,14 @@ export default function FindMeOnline() {
             style={{ x: trackX }}
             className="flex items-center gap-6 xs:gap-8 w-max transform-gpu will-change-transform"
           >
-            {/* Tray 1: 3 Stacked Cards (GitHub, LinkedIn, X) */}
+            {/* Tray 1: 2 Stacked Cards (GitHub, LinkedIn) */}
             <div className="flex flex-col gap-2 xs:gap-2.5 shrink-0">
               {mobileGroup1.map((platform) => (
                 <CompactMobileCard key={platform.id} platform={platform} />
               ))}
             </div>
 
-            {/* Tray 2: 2 Stacked Cards (Instagram, Facebook) */}
+            {/* Tray 2: 2 Stacked Cards (X, Instagram) */}
             <motion.div
               style={{
                 y: tray2Y,
@@ -500,7 +478,7 @@ export default function FindMeOnline() {
               ))}
             </motion.div>
 
-            {/* Tray 3: 2 Stacked Cards (Threads, YouTube) */}
+            {/* Tray 3: 2 Stacked Cards (Facebook, Threads) */}
             <motion.div
               style={{
                 y: tray3Y,

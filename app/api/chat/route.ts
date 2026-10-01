@@ -310,8 +310,12 @@ function getFallbackResponse(query: string): string {
   // 14. Social Channels / Find Me Online
   if (q.match(/\b(social|socials|linkedin|github|instagram|online|profiles|links|find me)\b/)) {
     const reply = "You can find and connect with Usama across his verified online profiles:\n\n" +
-      "• LinkedIn: https://linkedin.com/in/usama-faheem\n" +
+      "• LinkedIn: https://www.linkedin.com/in/usama-faheem/\n" +
       "• GitHub: https://github.com/usamafaheem-dev\n" +
+      "• X (Twitter): https://x.com/usamafaheemdev\n" +
+      "• Instagram: https://www.instagram.com/usamafaheemdev/\n" +
+      "• Facebook: https://web.facebook.com/usamafaheemDev\n" +
+      "• Threads: https://www.threads.com/@usamafaheemdev\n" +
       "• WhatsApp: https://wa.me/923143416588";
     return isNavRequest ? `${reply}\n\n[[ACTION:NAVIGATE:socials]]` : reply;
   }

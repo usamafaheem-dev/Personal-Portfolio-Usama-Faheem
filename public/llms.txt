@@ -29,11 +29,10 @@ React, Next.js, TypeScript, JavaScript, Node.js, Express.js, MongoDB, Redux Tool
 - WhatsApp: +92 314 3416588
 - GitHub: https://github.com/usamafaheem-dev
 - LinkedIn: https://www.linkedin.com/in/usama-faheem/
-- X (Twitter): https://x.com/CreationsUsama
-- Instagram: https://www.instagram.com/usamafaheem02/
-- Facebook: https://web.facebook.com/usamafaheemDev/
-- Threads: https://www.threads.net/@usamafaheem02
-- YouTube: https://www.youtube.com/@tekrivo-usamafaheem
+- X (Twitter): https://x.com/usamafaheemdev
+- Instagram: https://www.instagram.com/usamafaheemdev/
+- Facebook: https://web.facebook.com/usamafaheemDev
+- Threads: https://www.threads.com/@usamafaheemdev
 
 ## Links
 

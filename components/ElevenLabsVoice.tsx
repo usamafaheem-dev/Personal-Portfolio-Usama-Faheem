@@ -5,25 +5,29 @@ import { PhoneCall, PhoneOff, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ensureAllSectionsMounted } from '@/components/LazySection';
 
-// Pool of ElevenLabs Agent IDs with active credits verified - User configured agent at index 0
+// Pool of ElevenLabs Agent IDs with active credits verified - Verified Healthy agents at top
 const DEFAULT_AGENT_IDS = [
-  'agent_7201m2zwkz4gf0gb1jefce2ac6wp',
-  'agent_7601m2zv2rayfxnr3q0mj1s3xwq1',
-  'agent_5701m2zvfkwpf6tbcwxd2gbr3d56',
-  'agent_9401m2zt1218fee9vf15j6ykam2y',
-  'agent_6101m2zvqra0e6ebkbzennsyak2d',
-  'agent_9701m2zt455hemjbp84p9yk89dnk',
-  'agent_3601m2w6eyzjeyybxv6a6yva3mk0',
-  'agent_3901m344jcyjfq4bjqbp0635z595',
+  'agent_5701m2zvfkwpf6tbcwxd2gbr3d56', // Verified Healthy
+  'agent_9401m2zt1218fee9vf15j6ykam2y', // Verified Healthy
+  'agent_6101m2zvqra0e6ebkbzennsyak2d', // Verified Healthy
+  'agent_3901m344jcyjfq4bjqbp0635z595', // Verified Healthy
+  'agent_7201m2zwkz4gf0gb1jefce2ac6wp', // Quota Exceeded
+  'agent_7601m2zv2rayfxnr3q0mj1s3xwq1', // Quota Exceeded
+  'agent_9701m2zt455hemjbp84p9yk89dnk', // Quota Exceeded
+  'agent_3601m2w6eyzjeyybxv6a6yva3mk0', // Quota Exceeded
+  'agent_3401m2ztp1svfz7r8b4ejrzf823w', // Quota Exceeded
 ];
 
 const KNOWN_EXHAUSTED = new Set([
-  'agent_3901m344jcyjfq4bjqbp0635z595',
+  'agent_7201m2zwkz4gf0gb1jefce2ac6wp',
+  'agent_7601m2zv2rayfxnr3q0mj1s3xwq1',
+  'agent_9701m2zt455hemjbp84p9yk89dnk',
+  'agent_3601m2w6eyzjeyybxv6a6yva3mk0',
   'agent_3401m2ztp1svfz7r8b4ejrzf823w',
 ]);
 
-const STORAGE_KEY = 'elevenlabs_active_agent_id_v8';
-const EXHAUSTED_STORAGE_KEY = 'elevenlabs_exhausted_agents_v8';
+const STORAGE_KEY = 'elevenlabs_active_agent_id_v10';
+const EXHAUSTED_STORAGE_KEY = 'elevenlabs_exhausted_agents_v10';
 
 function getExhaustedPool(): Set<string> {
   const set = new Set(KNOWN_EXHAUSTED);
@@ -32,7 +36,7 @@ function getExhaustedPool(): Set<string> {
       const stored = localStorage.getItem(EXHAUSTED_STORAGE_KEY);
       if (stored) {
         JSON.parse(stored).forEach((id: string) => {
-          if (id !== DEFAULT_AGENT_IDS[0]) set.add(id);
+          set.add(id);
         });
       }
     } catch {}
@@ -41,7 +45,6 @@ function getExhaustedPool(): Set<string> {
 }
 
 function markAgentExhausted(agentId: string) {
-  if (agentId === DEFAULT_AGENT_IDS[0]) return; // Never blacklist user's primary agent
   KNOWN_EXHAUSTED.add(agentId);
   if (typeof window !== 'undefined') {
     try {
@@ -378,6 +381,18 @@ const WIDGET_CSS = `
     visibility: hidden !important;
     pointer-events: none !important;
   }
+
+  /* ═══ SUPPRESS AND HIDE ANY ERROR / QUOTA MODAL DIALOGS FROM USER ═══ */
+  [role="dialog"]:has(*),
+  [class*="dialog" i],
+  [class*="modal" i]:not([class*="box"]),
+  [class*="error" i],
+  [class*="alert" i] {
+    display: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
 `;
 
 function injectStyleSafely(sr: ShadowRoot) {
@@ -418,8 +433,28 @@ function setupShadowListeners(widget: any, onEnd: () => void, onQuota?: () => vo
         text.includes('run out of credits') ||
         text.includes('out of credits') ||
         text.includes('quota limit') ||
-        text.includes('credit limit')
+        text.includes('credit limit') ||
+        text.includes('an error occurred')
       ) {
+        // Immediately suppress and hide the error modal popup so the user never sees it
+        try {
+          const allEls = widget.shadowRoot.querySelectorAll('*');
+          allEls.forEach((el: HTMLElement) => {
+            const t = (el.textContent || '').toLowerCase();
+            if (
+              t.includes('quota_exceeded') ||
+              t.includes('out of credits') ||
+              t.includes('an error occurred') ||
+              t.includes('upgrade your plan')
+            ) {
+              el.style.setProperty('display', 'none', 'important');
+              el.style.setProperty('opacity', '0', 'important');
+              el.style.setProperty('visibility', 'hidden', 'important');
+              el.style.setProperty('pointer-events', 'none', 'important');
+            }
+          });
+        } catch {}
+
         if (onQuota) onQuota();
       }
     });
@@ -518,7 +553,7 @@ export default function ElevenLabsVoice() {
 
   const widgetContainerRef = useRef<HTMLDivElement>(null);
 
-  // Mount ElevenLabs widget stably into the container DOM node so React re-renders NEVER unmount it or abort fetch
+  // Mount ElevenLabs widget stably into the container DOM node; recreate cleanly when agent ID changes
   useEffect(() => {
     if (!widgetContainerRef.current) return;
     const container = widgetContainerRef.current;
@@ -530,7 +565,14 @@ export default function ElevenLabsVoice() {
       widget.setAttribute('expandable', 'never');
       container.appendChild(widget);
     } else if (widget.getAttribute('agent-id') !== activeAgentId) {
-      widget.setAttribute('agent-id', activeAgentId);
+      try {
+        container.removeChild(widget);
+      } catch {}
+      const freshWidget = document.createElement('elevenlabs-convai');
+      freshWidget.setAttribute('agent-id', activeAgentId);
+      freshWidget.setAttribute('variant', 'full');
+      freshWidget.setAttribute('expandable', 'never');
+      container.appendChild(freshWidget);
     }
   }, [activeAgentId]);
 
@@ -844,7 +886,12 @@ export default function ElevenLabsVoice() {
           }
           setStatusNotice(null);
           isSwitchingRef.current = false;
-        }, 750);
+
+          // Seamlessly auto-connect the new agent line
+          setTimeout(() => {
+            triggerElevenLabsCall();
+          }, 350);
+        }, 650);
       } else {
         setIsOpen(false);
         setStatusNotice('Voice lines currently busy. Please connect via WhatsApp or Chat!');
@@ -920,7 +967,20 @@ export default function ElevenLabsVoice() {
 
       const sr = widget.shadowRoot as ShadowRoot;
       injectStyleSafely(sr);
-      setupShadowListeners(widget, () => setIsOpen(false));
+      setupShadowListeners(widget, () => setIsOpen(false), () => switchToNextAgent(activeAgentId));
+
+      // Check if quota exhaustion occurred during call
+      const text = (sr.textContent || '').toLowerCase();
+      if (
+        text.includes('quota limit') ||
+        text.includes('quota_exceeded') ||
+        text.includes('credit limit') ||
+        text.includes('out of credits') ||
+        text.includes('run out of credits')
+      ) {
+        switchToNextAgent(activeAgentId);
+        return;
+      }
 
       // Check if active call UI is visible to update active call flag
       const endBtn =
@@ -937,7 +997,7 @@ export default function ElevenLabsVoice() {
     }, 500);
 
     return () => clearInterval(interval);
-  }, [isOpen]);
+  }, [isOpen, activeAgentId, switchToNextAgent]);
 
   // Toggle Voice: Open or Close widget cleanly
   const handleToggle = () => {

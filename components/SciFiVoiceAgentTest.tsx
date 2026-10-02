@@ -55,7 +55,7 @@ interface SciFiVoiceAgentProps {
 export default function SciFiVoiceAgentTest({
   mode = 'floating',
   defaultOpen = false,
-  agentId = 'agent_7201m2zwkz4gf0gb1jefce2ac6wp',
+  agentId = 'agent_5701m2zvfkwpf6tbcwxd2gbr3d56',
 }: SciFiVoiceAgentProps) {
   const [isOpen, setIsOpen] = useState(defaultOpen);
   const [voiceState, setVoiceState] = useState<VoiceState>('idle');

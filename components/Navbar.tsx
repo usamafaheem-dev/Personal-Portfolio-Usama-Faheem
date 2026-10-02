@@ -259,9 +259,10 @@ export default function Navbar() {
         {/* Right Side: Resume Button & Mobile Menu Toggle */}
         <div className="flex items-center justify-end z-10 pointer-events-auto transition-all duration-300 font-sans">
           <a
-            href="/Usama_Faheem_Resume.pdf"
+            href="/CV_USAMA/Usama_Faheem_CV_Lahore.pdf"
             target="_blank"
             rel="noopener noreferrer"
+            download="Usama_Faheem_CV_Lahore.pdf"
             className="hidden md:inline-flex rounded-full bg-[#0052ff] px-5 sm:px-6 py-1.5 sm:py-2 font-sans text-xs sm:text-[13px] font-bold uppercase tracking-wider text-white shadow-[0_4px_14px_rgba(0,82,255,0.35)] transition-all hover:bg-[#003fcc] hover:shadow-[0_6px_20px_rgba(0,82,255,0.55)] hover:scale-105"
           >
             RESUME
@@ -454,9 +455,10 @@ export default function Navbar() {
                 </button>
 
                 <a
-                  href="/Usama_Faheem_Resume.pdf"
+                  href="/CV_USAMA/Usama_Faheem_CV_Lahore.pdf"
                   target="_blank"
                   rel="noopener noreferrer"
+                  download="Usama_Faheem_CV_Lahore.pdf"
                   onClick={() => setDrawerOpen(false)}
                   className="w-full py-3.5 rounded-full bg-[#0052ff] text-white font-sans font-extrabold text-xs sm:text-sm tracking-wider uppercase flex items-center justify-center gap-2 shadow-[0_8px_22px_rgba(0,82,255,0.35)] hover:bg-[#003fcc] hover:shadow-[0_12px_28px_rgba(0,82,255,0.5)] transition-all text-center cursor-pointer"
                 >
@@ -558,9 +560,10 @@ export default function Navbar() {
 
                 {/* Bright Neon Lime Download CV Button */}
                 <a
-                  href="/Usama_Faheem_Resume.pdf"
+                  href="/CV_USAMA/Usama_Faheem_CV_Lahore.pdf"
                   target="_blank"
                   rel="noopener noreferrer"
+                  download="Usama_Faheem_CV_Lahore.pdf"
                   onClick={() => setMobileOpen(false)}
                   className="w-full py-3.5 rounded-full bg-[#d8ff00] hover:bg-[#cbf200] text-black font-sans font-extrabold text-sm sm:text-base flex items-center justify-center gap-2 shadow-[0_4px_16px_rgba(216,255,0,0.35)] transition-all hover:scale-[1.02] active:scale-95 text-center mb-3 cursor-pointer"
                 >

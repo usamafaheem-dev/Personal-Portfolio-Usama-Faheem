@@ -148,7 +148,7 @@ export default function Experience() {
   }, [selectedExpCert]);
 
   const handleDownloadCV = () => {
-    window.open('/Badge_holder_with_man_photo_202608121707.jpeg', '_blank');
+    window.open('/CV_USAMA/Usama_Faheem_CV_Lahore.pdf', '_blank');
   };
 
   // ── EXPERIENCE CARD RENDERER (Original Desktop + Compact Mobile) ──
@@ -387,8 +387,11 @@ export default function Experience() {
 
             {/* Pill Button: Download My CV (primary action = blue) */}
             <div className="pt-1">
-              <motion.button
-                onClick={handleDownloadCV}
+              <motion.a
+                href="/CV_USAMA/Usama_Faheem_CV_Lahore.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                download="Usama_Faheem_CV_Lahore.pdf"
                 whileHover={{ scale: 1.04 }}
                 whileTap={{ scale: 0.96 }}
                 className="
@@ -404,7 +407,7 @@ export default function Experience() {
                 <div className="w-6 h-6 rounded-full bg-[#d8ff00] flex items-center justify-center transition-all duration-300 group-hover:scale-110">
                   <Download size={13} className="text-[#171712] group-hover:translate-y-0.5 transition-all duration-300 stroke-[2.2]" />
                 </div>
-              </motion.button>
+              </motion.a>
             </div>
 
           </motion.div>

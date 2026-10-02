@@ -770,6 +770,9 @@ export default function AIChatbot() {
           q.includes('tum kia') || q.includes('tum kya') || q.includes('tum kon') || q.includes('aap kon')
         ) {
           fallbackReply = "Main Usama Faheem ka official AI Assistant hoon! 🚀\n\nMain yahan portfolio visitors ki madad ke liye hoon. Aap mujhse Usama ke live projects, technical stack (Next.js 16, React 19, 3D WebGL, GSAP), experience, services, ya pricing ke baare mein pooch sakte hain, ya Usama se direct WhatsApp/email par rabta kar sakte hain!";
+        } else if (q.includes('cv') || q.includes('resume') || q.includes('curriculum vitae') || q.includes('bio data') || q.includes('biodata')) {
+          const cvReply = "Aap Usama Faheem ka official updated CV yahan se direct view ya download kar sakte hain:\n\n📄 **Download / View CV:** [/CV_USAMA/Usama_Faheem_CV_Lahore.pdf](/CV_USAMA/Usama_Faheem_CV_Lahore.pdf)\n\nYeh CV Usama ke 1 year professional experience (VertexAI, SoftCr8ors, Tekrivo), skills (Next.js 16, React 19, MERN), projects, aur education ko cover karta hai.";
+          fallbackReply = isNav ? `Main aapko Experience section par le kar ja raha hoon jahan Download CV button bhi mojood hai.\n\n${cvReply}\n\n[[ACTION:NAVIGATE:experience]]` : cvReply;
         } else if (q.includes('email') && !q.includes('phone') && !q.includes('whatsapp') && !q.includes('number')) {
           fallbackReply = "Usama ki official email address yeh hai:\n\n• **Email:** developer@usamafaheem.com\n\nAap kisi bhi inquiry ya project ke liye direct email bhej sakte hain.";
         } else if (q.includes('contact kr skta') || q.includes('contact kar sakta') || q.includes('can i contact') || q.includes('rabta kr skta')) {

@@ -63,6 +63,10 @@ Your purpose is to warmly welcome visitors, answer questions about Usama's skill
   - Simple Full-Stack Web App: 40,000 to 50,000 PKR
   - AI-Powered Full-Stack Web App: 80,000 to 100,000 PKR (1 Lakh)
   - AI Agents & Voice Agents (Business Voice Agents, Text Chatbots, Automation): 25,000 to 50,000 PKR
+- **Official CV / Resume**:
+  - Direct Download/View Link: `/CV_USAMA/Usama_Faheem_CV_Lahore.pdf`
+  - If the user asks for Usama's CV or resume (e.g. "cv do", "resume chahiye", "download cv", "cv kahan hai", "send me your resume"), provide the direct link: [/CV_USAMA/Usama_Faheem_CV_Lahore.pdf](/CV_USAMA/Usama_Faheem_CV_Lahore.pdf).
+  - Do NOT navigate unless they explicitly ask to be navigated or taken to the CV/Experience section!
 - **STRICT WRITING & FORMATTING RULES**:
   - BE DIRECT, RELEVANT, AND CONCISE. Answer ONLY what the user asked. No unnecessary filler or fluff.
   - If the user asks for email only (e.g. "sirf email batoo", "sirf email", "email address kya hai"), provide ONLY the email address (developer@usamafaheem.com).
@@ -241,6 +245,17 @@ function getFallbackResponse(query: string): string {
     q.includes('tum kia') || q.includes('tum kya') || q.includes('tum kon') || q.includes('aap kon')
   ) {
     return "Main Usama Faheem ka official AI Assistant hoon! 🚀\n\nMain yahan portfolio visitors ki madad ke liye hoon. Aap mujhse Usama ke live projects, technical stack (Next.js 16, React 19, 3D WebGL, GSAP), experience, services, ya pricing ke baare mein pooch sakte hain, ya Usama se direct WhatsApp/email par rabta kar sakte hain!";
+  }
+
+  // 6.5. CV / Resume Requests (e.g. "cv do", "cv chahiye", "resume do", "cv download", "resume download", "usama ka cv dikhao", "resume link")
+  if (
+    q.includes('cv') || q.includes('resume') || q.includes('curriculum vitae') ||
+    q.includes('bio data') || q.includes('biodata')
+  ) {
+    const reply = "Aap Usama Faheem ka official updated CV yahan se direct view ya download kar sakte hain:\n\n" +
+      "📄 **Download / View CV:** [/CV_USAMA/Usama_Faheem_CV_Lahore.pdf](/CV_USAMA/Usama_Faheem_CV_Lahore.pdf)\n\n" +
+      "Yeh CV Usama ke 1 year professional experience (VertexAI, SoftCr8ors, Tekrivo), skills (Next.js 16, React 19, MERN), projects, aur education ko detail me cover karta hai.";
+    return isNavRequest ? `Main aapko Experience section par le kar ja raha hoon jahan Download CV button bhi mojood hai.\n\n${reply}\n\n[[ACTION:NAVIGATE:experience]]` : reply;
   }
 
   // 7. Projects Showcase (HANDLED BEFORE GENERAL USAMA IDENTITY SO "kon kon say projects" IS NOT MISCLASSIFIED!)

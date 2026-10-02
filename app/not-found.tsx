@@ -58,9 +58,10 @@ export default function NotFound() {
         {/* Right Side: Resume Button in Blue */}
         <div className="flex items-center justify-end z-10">
           <a
-            href="/Usama_Faheem_Resume.pdf"
+            href="/CV_USAMA/Usama_Faheem_CV_Lahore.pdf"
             target="_blank"
             rel="noopener noreferrer"
+            download="Usama_Faheem_CV_Lahore.pdf"
             className="inline-flex rounded-full bg-[#0052ff] hover:bg-[#003fcc] px-4 sm:px-6 py-1.5 sm:py-2.5 font-sans text-xs sm:text-sm font-extrabold uppercase tracking-widest text-white shadow-[0_4px_14px_rgba(0,82,255,0.35)] transition-all hover:scale-105 active:scale-95"
           >
             RESUME

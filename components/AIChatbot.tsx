@@ -707,7 +707,7 @@ export default function AIChatbot() {
 
       try {
         const controller = new AbortController();
-        const clientTimeout = setTimeout(() => controller.abort(), 15000); // 15s resilient timeout
+        const clientTimeout = setTimeout(() => controller.abort(), 25000); // 25s resilient timeout
 
         const response = await fetch('/api/chat', {
           method: 'POST',
@@ -747,10 +747,39 @@ export default function AIChatbot() {
         }
       } catch (err) {
         console.error('Chat error:', err);
-        const q = cleanQuery.toLowerCase();
+        let q = cleanQuery.toLowerCase().trim()
+          .replace(/\busma\b/g, 'usama')
+          .replace(/\bemial\b/g, 'email')
+          .replace(/\bwatsap\b|\bwhatapp\b|\bwahtapp\b|\bwtsp\b/g, 'whatsapp');
         let fallbackReply = "I am having a brief connection delay. Please feel free to reach out to Usama directly on WhatsApp (+92 314 3416588 / +92 348 7700972)!";
 
-        if (q.includes('phone') || q.includes('contact') || q.includes('number') || q.includes('whatsapp') || q.includes('call') || q.includes('email') || q.includes('hire') || q.includes('rabta')) {
+        const isInfoOnly =
+          q.includes('kr skta') || q.includes('kar sakta') ||
+          q.includes('sirf') || q.includes('kya hai') || q.includes('kya hein') ||
+          q.includes('kon kon') || q.includes('koun koun') ||
+          /\b(bata|btao|batao|de do|day do|bata day|bata dein|what|how|kaise|kese|ksaiya|chahiye|hai|hein)\b/i.test(q);
+
+        const isNav =
+          (/\b(dikha|dikhao|dikhayein|show|open|kholo|le jao|lay jao|lay jayo|le chalo|lay chalo|navigate|scroll|jump|visit|go to|take me|view)\b/i.test(q) ||
+           /(lay|le|la)\s+(kr|kar)?\s*(jao|jayo|chalo)/i.test(q)) &&
+          !isInfoOnly;
+
+        if (
+          /\b(who are you|tum kon|tum koun|tum kaun|aap kon|aap koun|aap kaun|ap kon|ap koun|ap kaun)\b/i.test(q) ||
+          /\b(tum|aap|ap)\s+(kia|kya)\s*(kr|kar)?\s*(rhay|rahe|karta|karte|ho|hain)/i.test(q) ||
+          q.includes('tum kia') || q.includes('tum kya') || q.includes('tum kon') || q.includes('aap kon')
+        ) {
+          fallbackReply = "Main Usama Faheem ka official AI Assistant hoon! 🚀\n\nMain yahan portfolio visitors ki madad ke liye hoon. Aap mujhse Usama ke live projects, technical stack (Next.js 16, React 19, 3D WebGL, GSAP), experience, services, ya pricing ke baare mein pooch sakte hain, ya Usama se direct WhatsApp/email par rabta kar sakte hain!";
+        } else if (q.includes('email') && !q.includes('phone') && !q.includes('whatsapp') && !q.includes('number')) {
+          fallbackReply = "Usama ki official email address yeh hai:\n\n• **Email:** developer@usamafaheem.com\n\nAap kisi bhi inquiry ya project ke liye direct email bhej sakte hain.";
+        } else if (q.includes('contact kr skta') || q.includes('contact kar sakta') || q.includes('can i contact') || q.includes('rabta kr skta')) {
+          fallbackReply = "Jee bilkul! Aap Usama se official email (**developer@usamafaheem.com**) ya WhatsApp (**+92 314 3416588** — https://wa.me/923143416588) par be-jhijhak contact kar sakte hain. Usama usually bohot jald respond karte hain!";
+        } else if (q.includes('sirf number') || q.includes('sirf whatsapp') || ((q.includes('whatsapp') || q.includes('phone') || q.includes('number')) && isInfoOnly && !q.includes('email'))) {
+          fallbackReply = "Usama ka direct WhatsApp / Phone number yeh hai:\n\n• **WhatsApp / Phone:** +92 314 3416588 / +92 348 7700972\n• **Direct Link:** https://wa.me/923143416588\n\nAap link par click karke direct WhatsApp chat shuru kar sakte hain.";
+        } else if (q.match(/\b(project|projects|preojct|preojcts|porject|projekts|showcase)\b/) || q.includes('kon kon say')) {
+          const projList = "Usama ne kai high-performance web platforms build kiye hain. Kuch standout projects yeh hain:\n\n• **Shadab Rice** (E-Commerce): https://shadabrice.pk/\n• **SoftCr8ors** (AI & Tech Agency): https://softcr8ors.com/\n• **GM MZ Removals** (UK Logistics): https://gmmzremovals.co.uk/\n• **MZ Works Construction** (Property Care): https://mzworks.co.uk/\n• **Reeba Yaseen** (SaaS & Portfolio): https://reeba.softcr8ors.com/";
+          fallbackReply = isNav ? `Main aapko Projects showcase section par le kar ja raha hoon.\n\n${projList}\n\n[[ACTION:NAVIGATE:projects]]` : projList;
+        } else if (isNav && (q.includes('phone') || q.includes('contact') || q.includes('whatsapp') || q.includes('hire') || q.includes('rabta'))) {
           fallbackReply = "Main aapko Usama ke Contact & WhatsApp section par le kar ja raha hoon.\n\n• **Phone / WhatsApp:** +92 314 3416588 / +92 348 7700972\n• **Email:** developer@usamafaheem.com\n\n[[ACTION:NAVIGATE:contact]]";
         } else if (q.includes('shadab') || q.includes('rice')) {
           fallbackReply = "Main aapko Shadab Rice project card par le kar ja raha hoon (https://shadabrice.pk/).\n\n[[ACTION:NAVIGATE:shadab-rice]]";
@@ -772,8 +801,8 @@ export default function AIChatbot() {
           fallbackReply = "Main aapko website ke main Hero section par le kar ja raha hoon.\n\n[[ACTION:NAVIGATE:hero]]";
         } else if (q.includes('close') || q.includes('band')) {
           fallbackReply = "Main ne modal band kar diya hai.\n\n[[ACTION:CLOSE:modal]]";
-        } else if (q.match(/\b(project|projects|preojct|preojcts|porject|projekts|showcase)\b/)) {
-          fallbackReply = "Here are Usama's top projects with live links:\n\n• Shadab Rice: https://shadabrice.pk/\n• SoftCr8ors: https://softcr8ors.com/\n• GM MZ Removals: https://gmmzremovals.co.uk/\n• MZ Works Construction: https://mzworks.co.uk/\n• Reeba Yaseen: https://reeba.softcr8ors.com/\n\n[[ACTION:NAVIGATE:projects]]";
+        } else if (q.includes('phone') || q.includes('contact') || q.includes('number') || q.includes('whatsapp') || q.includes('call') || q.includes('email') || q.includes('hire') || q.includes('rabta')) {
+          fallbackReply = "Aap Usama se seedha WhatsApp ya email par connect kar sakte hain:\n\n• **Phone / WhatsApp:** +92 314 3416588 / +92 348 7700972\n• **Email:** developer@usamafaheem.com\n• **Direct WhatsApp Link:** https://wa.me/923143416588";
         }
 
         const { cleanText, action } = parseActionFromText(fallbackReply);

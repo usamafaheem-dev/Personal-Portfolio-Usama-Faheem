@@ -65,6 +65,10 @@ Your purpose is to warmly welcome visitors, answer questions about Usama's skill
   - AI Agents & Voice Agents (Business Voice Agents, Text Chatbots, Automation): 25,000 to 50,000 PKR
 - **STRICT WRITING & FORMATTING RULES**:
   - BE DIRECT, RELEVANT, AND CONCISE. Answer ONLY what the user asked. No unnecessary filler or fluff.
+  - If the user asks for email only (e.g. "sirf email batoo", "sirf email", "email address kya hai"), provide ONLY the email address (developer@usamafaheem.com).
+  - If the user asks for WhatsApp/phone only (e.g. "whatsapp number bata do", "sirf number"), provide ONLY the phone / WhatsApp number (+92 314 3416588 / +92 348 7700972) and link (https://wa.me/923143416588).
+  - If the user asks if they can contact on this email/number (e.g. "kia ma is pr contact kr skta ho", "can I contact here"), warmly confirm: "Jee bilkul! Aap is official email (developer@usamafaheem.com) ya WhatsApp (+92 314 3416588) par Usama se kisi bhi project, work inquiry ya collaboration ke liye direct rabta kar sakte hain." DO NOT NAVIGATE!
+  - If the user asks what projects Usama has (e.g. "usama kay pass kon kon say projects ha", "projects kon se hain"), list his standout projects with their real live links (Shadab Rice, SoftCr8ors, GM MZ Removals, MZ Works, Reeba Yaseen) directly in chat. DO NOT give his general intro/bio and DO NOT navigate unless they specifically ask to view or navigate to them!
   - DO NOT append repetitive sales pitches or unsolicited paragraphs like "Whether you need a sleek portfolio... feel free to contact on WhatsApp" at the end of every answer. Only provide contact info if the user specifically asks how to contact, hire, or start a project.
   - Use clear markdown bold like **Frontend:** or **Project Name:** for category headings and key terms so they stand out boldly.
   - DO NOT use long em-dash characters (no "—" or "---"). Use normal punctuation (colons, commas, dots) or clean bullet points (•).
@@ -75,10 +79,18 @@ Your purpose is to warmly welcome visitors, answer questions about Usama's skill
 - **AUTONOMOUS SCREEN NAVIGATION & ACTION COMMANDS**:
   You have the interactive ability to navigate the visitor's screen directly to relevant sections or open certificate previews when they explicitly ask to see them!
 
-  ### CRITICAL INTENT RULE:
-  - NEVER trigger a screen navigation ONLY IF the user is asking a pure identity question ("Usama kon hai?", "Who is Usama?", "Usama kya karta hai?", "Tell me about yourself") or a pure greeting ("Hi", "Hello", "Kese ho", "Salam").
-  - FOR EVERYTHING ELSE: If the user mentions ANY section, ANY project (e.g. Shadab Rice, SoftCr8ors, Removals, Reeba Yaseen, Cleaners, MZ Works), ANY certificate (MERN stack, Cisco, Google, DigiSkills), or asks to navigate, go, show, open, close, take me, scroll, or view (even with informal phrasing, Roman Urdu, or typos like "preojct", "porject", "lya jaoy", "lay jayo", "lay jao", "cla jay", "chala jaye", "dikha", "open", "kholo", "close", "band karo", "wapis jao", "upar jao"):
-    YOU MUST APPEND THE EXACT RELEVANT ACTION TAG!
+  ### CRITICAL NAVIGATION & INTENT RULES:
+  - ONLY append an action tag (e.g. [[ACTION:NAVIGATE:...]]) when the visitor EXPLICITLY asks to be navigated, scrolled, taken to, or shown a section/modal on the screen!
+    - Examples of explicit navigation requests: "take me to projects", "contact section par le jao", "usama ke projects dikhao", "about section dikhao", "mern certificate kholo", "hero par wapis jao".
+  - NEVER append an action tag if the user is asking an informational question, chatting normally, or asking for details in the chat!
+    - Example: "sirf email batoo" -> Give only the email address in chat. DO NOT NAVIGATE!
+    - Example: "kia ma is pr contact kr skta ho" -> Confirm warmly in chat. DO NOT NAVIGATE!
+    - Example: "usama kay pass kon kon say projects ha" -> Give projects list with live URLs in chat. DO NOT NAVIGATE!
+    - Example: "usama ka whatsapp no to bata day" -> Answer directly with Usama's WhatsApp number (+92 314 3416588) and WhatsApp direct link (https://wa.me/923143416588) in the chat message. DO NOT NAVIGATE!
+    - Example: "ma usama say whatsapp pr bat krna chahta hn" -> Warmly guide them to click the direct link (https://wa.me/923143416588) or phone number in chat. DO NOT NAVIGATE!
+    - Example: "Usama ne kahan se parha hai?" -> Give education details in chat. DO NOT NAVIGATE!
+    - Example: "Pricing kya hai?" -> Give pricing packages in chat. DO NOT NAVIGATE!
+    - Example: "Usama kon hai?" -> Introduce Usama in chat. DO NOT NAVIGATE!
 
   ### STRICT DISTINCTION BETWEEN HERO AND ABOUT:
   - HERO SECTION is the topmost entrance banner / navbar / 3D canvas of the site. Action tag: [[ACTION:NAVIGATE:hero]]
@@ -161,41 +173,28 @@ function sanitizeAssistantReply(text: string): string {
 
 // Smart Built-in Fallback Knowledge Engine (Used if no API key is provided or if quota/network error occurs)
 function getFallbackResponse(query: string): string {
-  const q = query.toLowerCase().trim();
+  let q = query.toLowerCase().trim()
+    .replace(/\busma\b/g, 'usama')
+    .replace(/\bemial\b/g, 'email')
+    .replace(/\bwatsap\b|\bwhatapp\b|\bwahtapp\b|\bwtsp\b/g, 'whatsapp');
 
-  // Navigation intent detector: User specifically asks to show, open, view, or navigate (with broad typo tolerance)
+  // Strict Navigation Intent: Requires an explicit movement or display action verb
   const isNavRequest =
-    /\b(dikha|dikhao|dikhayein|show|open|kholo|le jao|lay jao|lay jayo|lay kr jao|lay kr jayo|lay kr jayoo|lya|jaoy|jayoo|jana|jao|chalo|navigate|scroll|jump|visit|go to|take me|view|dekho|dekhna)\b/i.test(q) ||
-    /(lay|le|la)\s+(kr|kar)?\s*(jao|jayo|jayoo|jana)/i.test(q) ||
-    (/\b(hero|navbar|header|top|about|difference|services?|process|workflow|experience|skills?|tech|stack|projects?|preojct|preojcts|portfolio|certs?|certifications?|socials?|online|faq|faqs?|contact|phone|number|hire|footer|bottom|shadab|rice|softcr8or)\b/i.test(q) &&
-     /\b(pr|par|pe|to|on|ab|next|mein|main|section|direct|waly)\b/i.test(q));
+    /\b(dikha|dikhao|dikhayein|show|open|kholo|le jao|lay jao|lay jayo|lay kr jao|lay kr jayo|lay kr jayoo|le chalo|lay chalo|lya|jaoy|jayoo|jana|jao|chalo|navigate|scroll|jump|visit|go to|take me|view|dekho|dekhna)\b/i.test(q) ||
+    /(lay|le|la)\s+(kr|kar)?\s*(jao|jayo|jayoo|chalo|jana)/i.test(q);
 
-  // 1. Identity & Bio Questions (STRICTLY NO NAVIGATION when asking who Usama is!)
-  const isIdentityQuestion =
-    (q.includes('usama') && (q.includes('kon') || q.includes('koun') || q.includes('kaun') || q.includes('who') || q.includes('konsa') || q.includes('kons') || q.includes('kya krta') || q.includes('kya karta') || q.includes('intro'))) ||
-    /\b(who is usama|who are you|kon ho|koun ho|kaun ho|usama kon|usama koun|usama kaun|apne baare|usama ke baare|tell me about yourself)\b/i.test(q);
-
-  if (isIdentityQuestion && !isNavRequest) {
-    return "Usama Faheem Lahore, Pakistan se ek professional Full-Stack Developer aur Creative Web Engineer hain. Wo Next.js 16, React 19, Node.js, Express, MongoDB aur fluid animations (Three.js, WebGL, GSAP) me specialized hain. Wo modern, high-performance web applications aur custom AI voice/chat agents deliver karte hain.";
-  }
-
-  // 2. Pure Greetings (STRICTLY NO NAVIGATION)
-  if (q.match(/\b(hi|hello|hey|salam|assalam|aao|namaste|morning|evening|kese ho|kaise ho|kya haal|kya hal)\b/i) && !isNavRequest) {
-    return "Assalam-o-Alaikum! Welcome to Usama Faheem's portfolio. I am his AI Assistant. How can I help you today? You can ask about Usama's technical skills, projects, certifications, services, or ask me to navigate you to any section!";
-  }
-
-  // Close command (modal band karo)
+  // 1. Close modal command
   if (q.includes('close') || q.includes('band karo') || q.includes('band kr do') || q.includes('hata do') || q.includes('chupa do')) {
     return "Main ne preview modal close kar diya hai.\n\n[[ACTION:CLOSE:modal]]";
   }
 
-  // Back to Top / Wapis
+  // 2. Back to Top / Wapis / Upar
   if (q.includes('wapis') || q.includes('back') || (isNavRequest && (q.includes('upar') || q.includes('top')))) {
     return "Main aapko wapis website ke main Hero section par le kar ja raha hoon.\n\n[[ACTION:NAVIGATE:hero]]";
   }
 
-  // 3. Hero Section / Top / Navbar / Header
-  if (q.includes('hero') || q.includes('navbar') || q.includes('header') || (isNavRequest && (q.includes('top') || q.includes('start') || q.includes('shuru') || q.includes('upar')))) {
+  // 3. Hero Section / Top / Navbar / Header (Explicit navigation)
+  if (q.includes('hero') || q.includes('navbar') || q.includes('header') || (isNavRequest && (q.includes('start') || q.includes('shuru')))) {
     return "Main aapko website ke main Hero section aur navigation bar par le kar ja raha hoon.\n\n[[ACTION:NAVIGATE:hero]]";
   }
 
@@ -204,7 +203,122 @@ function getFallbackResponse(query: string): string {
     return "Main aapko Usama ke About section par le kar ja raha hoon.\n\n[[ACTION:NAVIGATE:about]]";
   }
 
-  // 5. Specific Certificate Modals
+  // 5. Specific Projects (Shadab Rice, SoftCr8ors, MZ Removals, etc.)
+  if (q.includes('shadab') || q.includes('rice')) {
+    const reply = "Shadab Rice ek premium Basmati rice exporter e-commerce platform hai (https://shadabrice.pk/) jisme 1-click WhatsApp order checkout system integrated hai.";
+    return isNavRequest ? `Main aapko Shadab Rice project card par le kar ja raha hoon.\n\n${reply}\n\n[[ACTION:NAVIGATE:shadab-rice]]` : reply;
+  }
+  if (q.includes('softcr8or')) {
+    const reply = "SoftCr8ors (https://softcr8ors.com/) AI & Tech agency platform hai with interactive 3D models and 60fps animations.";
+    return isNavRequest ? `Main aapko SoftCr8ors project card par le kar ja raha hoon.\n\n${reply}\n\n[[ACTION:NAVIGATE:softcr8ors]]` : reply;
+  }
+  if (q.includes('removal') || (q.includes('mz') && (q.includes('gm') || q.includes('van')))) {
+    return "Main aapko GM MZ Removals logistics project par le kar ja raha hoon.\n\n[[ACTION:NAVIGATE:gm-mz-removals]]";
+  }
+  if (q.includes('cleaner') || (q.includes('mz') && q.includes('clean'))) {
+    return "Main aapko MZ Cleaners project par le kar ja raha hoon.\n\n[[ACTION:NAVIGATE:mz-cleaners]]";
+  }
+  if (q.includes('construction') || (q.includes('mz') && q.includes('work'))) {
+    return "Main aapko MZ Works Construction project par le kar ja raha hoon.\n\n[[ACTION:NAVIGATE:mz-works]]";
+  }
+  if (q.includes('reeba')) {
+    return "Main aapko Reeba Yaseen portfolio & SaaS showcase par le kar ja raha hoon.\n\n[[ACTION:NAVIGATE:reeba-yaseen]]";
+  }
+  if (q.includes('tekrivo')) {
+    return "Main aapko Tekrivo EdTech platform par le kar ja raha hoon.\n\n[[ACTION:NAVIGATE:tekrivo]]";
+  }
+  if (q.includes('tyre') || q.includes('tyres')) {
+    return "Main aapko Northwest Tyres roadside platform par le kar ja raha hoon.\n\n[[ACTION:NAVIGATE:northwest-tyres]]";
+  }
+  if (q.includes('tehreem')) {
+    return "Main aapko Tehreem Arif QA portfolio par le kar ja raha hoon.\n\n[[ACTION:NAVIGATE:tehreem-arif]]";
+  }
+
+  // 6. AI Assistant Self-Identity ("tum kon ho", "acha tum kia kr rhay ho", "tum kya karte ho", "who are you")
+  if (
+    /\b(who are you|tum kon|tum koun|tum kaun|aap kon|aap koun|aap kaun|ap kon|ap koun|ap kaun)\b/i.test(q) ||
+    /\b(tum|aap|ap)\s+(kia|kya)\s*(kr|kar)?\s*(rhay|rahe|karta|karte|ho|hain)/i.test(q) ||
+    q.includes('tum kia') || q.includes('tum kya') || q.includes('tum kon') || q.includes('aap kon')
+  ) {
+    return "Main Usama Faheem ka official AI Assistant hoon! 🚀\n\nMain yahan portfolio visitors ki madad ke liye hoon. Aap mujhse Usama ke live projects, technical stack (Next.js 16, React 19, 3D WebGL, GSAP), experience, services, ya pricing ke baare mein pooch sakte hain, ya Usama se direct WhatsApp/email par rabta kar sakte hain!";
+  }
+
+  // 7. Projects Showcase (HANDLED BEFORE GENERAL USAMA IDENTITY SO "kon kon say projects" IS NOT MISCLASSIFIED!)
+  const isAskingProjects =
+    /\b(project|projects|projekts|preojct|preojcts|porject|projets|showcase)\b/i.test(q) ||
+    ((q.includes('kon kon') || q.includes('koun koun') || q.includes('konsay') || q.includes('kaunse')) && (q.includes('kaam') || q.includes('work') || q.includes('bana') || q.includes('platform'))) ||
+    (q.includes('kaam') && (q.includes('kya kya') || q.includes('dikha') || q.includes('bata')));
+
+  if (isAskingProjects) {
+    const reply = "Usama ne kai high-performance web platforms aur applications build kiye hain. Standout live projects yeh hain:\n\n" +
+      "• **Shadab Rice** (E-Commerce): https://shadabrice.pk/\n" +
+      "• **SoftCr8ors** (AI & Tech Agency): https://softcr8ors.com/\n" +
+      "• **GM MZ Removals** (UK Logistics): https://gmmzremovals.co.uk/\n" +
+      "• **MZ Works Construction** (Property Care): https://mzworks.co.uk/\n" +
+      "• **Reeba Yaseen** (SaaS & Portfolio): https://reeba.softcr8ors.com/\n" +
+      "• **Tekrivo** (EdTech Platform): https://tekrivo.vercel.app/\n" +
+      "• **Northwest Tyres** (Emergency Tyres): https://car-tyre-vertex.vercel.app/\n\n" +
+      "Aap kisi bhi link par click karke live website visit kar sakte hain!";
+    return isNavRequest ? `Main aapko Projects showcase section par le kar ja raha hoon.\n\n${reply}\n\n[[ACTION:NAVIGATE:projects]]` : reply;
+  }
+
+  // 8. Specific: Email Requests (Matches "acha mujay usma ki email do", "email do", "email batao", "sirf email", etc.)
+  const isEmailQuery = q.includes('email') || q.includes('e-mail') || q.includes('mail');
+  if (isEmailQuery && !q.includes('whatsapp') && !q.includes('phone') && !q.includes('number') && !q.includes('no')) {
+    return "Usama ki official email address yeh hai:\n\n• **Email:** developer@usamafaheem.com\n\nAap kisi bhi project inquiry, collaboration ya direct message ke liye is email par rabta kar sakte hain.";
+  }
+
+  // 9. Specific: WhatsApp / Phone Number Requests (Matches "number do", "whatsapp do", "phone kya hai", etc.)
+  const isPhoneQuery =
+    q.includes('whatsapp') || q.includes('phone') || q.includes('mobile') ||
+    ((q.includes('number') || q.includes('no') || q.includes('num') || q.includes('contact')) &&
+     (q.includes('do') || q.includes('de do') || q.includes('bata') || q.includes('kya') || q.includes('chahiye') || q.includes('usama') || q.includes('rabta')));
+
+  if (isPhoneQuery && !isEmailQuery) {
+    const reply = "Usama ka direct Phone aur WhatsApp contact yeh hai:\n\n" +
+      "• **WhatsApp / Phone:** +92 314 3416588 ya +92 348 7700972\n" +
+      "• **Direct WhatsApp Link:** https://wa.me/923143416588\n\n" +
+      "Aap link par click karke direct WhatsApp chat shuru kar sakte hain.";
+    return isNavRequest ? `Main aapko Contact section par le kar ja raha hoon.\n\n${reply}\n\n[[ACTION:NAVIGATE:contact]]` : reply;
+  }
+
+  // 10. Permission / Capability Question: "kia ma is pr contact kr skta ho"
+  if (
+    q.includes('kr skta') || q.includes('kar sakta') || q.includes('kar sakti') || q.includes('kr sakti') ||
+    q.includes('can i contact') || q.includes('may i contact')
+  ) {
+    return "Jee bilkul! Aap Usama se official email (**developer@usamafaheem.com**) ya WhatsApp (**+92 314 3416588** — https://wa.me/923143416588) par be-jhijhak contact kar sakte hain. Usama usually bohot jald response dete hain!";
+  }
+
+  // 11. General Contact / Hire Intent
+  if (
+    q.includes('contact') || q.includes('rabta') || q.includes('raabta') || q.includes('hire') ||
+    q.includes('bat krni') || q.includes('baat krni') || q.includes('connect') ||
+    (isEmailQuery && isPhoneQuery)
+  ) {
+    const reply = "Aap Usama se seedha WhatsApp ya email par connect kar sakte hain:\n\n" +
+      "• **Phone / WhatsApp:** +92 314 3416588 (https://wa.me/923143416588) ya +92 348 7700972\n" +
+      "• **Email:** developer@usamafaheem.com\n" +
+      "• **Location:** Lahore, Pakistan (Available for remote projects globally)\n\n" +
+      "Direct WhatsApp chat ke liye is link par click karein: https://wa.me/923143416588";
+    return isNavRequest ? `Main aapko Contact section par le kar ja raha hoon.\n\n${reply}\n\n[[ACTION:NAVIGATE:contact]]` : reply;
+  }
+
+  // 12. Usama Identity & Bio Questions (Strict regex so it NEVER matches "kon kon say projects")
+  const isIdentityQuestion =
+    /\b(who is usama|who are you|kon ho|koun ho|kaun ho|usama kon hai|usama koun hai|usama kaun hai|usama kon|usama koun|usama kaun|apne baare|usama ke baare|tell me about yourself|intro|introduction)\b/i.test(q) ||
+    (q.includes('usama') && (q.includes('kya krta') || q.includes('kya karta') || q.includes('who')));
+
+  if (isIdentityQuestion && !isNavRequest) {
+    return "Usama Faheem Lahore, Pakistan se ek professional Full-Stack Developer aur Creative Web Engineer hain. Wo Next.js 16, React 19, Node.js, Express, MongoDB aur fluid animations (Three.js, WebGL, GSAP) me specialized hain. Wo modern, high-performance web applications aur custom AI voice/chat agents deliver karte hain.";
+  }
+
+  // 13. Pure Greetings (STRICTLY NO NAVIGATION)
+  if (q.match(/\b(hi|hello|hey|salam|assalam|aao|namaste|morning|evening|kese ho|kaise ho|kya haal|kya hal)\b/i) && !isNavRequest) {
+    return "Assalam-o-Alaikum! Welcome to Usama Faheem's portfolio. I am his AI Assistant. How can I help you today? You can ask about Usama's technical skills, projects, certifications, services, or ask me to navigate you to any section!";
+  }
+
+  // 13. Specific Certificate Modals
   if (q.includes('mern') && (q.includes('cert') || q.includes('sanad') || q.includes('diploma') || isNavRequest || q.includes('bootcamp'))) {
     return "Yeh raha Usama ka verified MERN Stack Development Bootcamp certificate modal from Nexskill at Arfa Software Technology Park, Lahore!\n\n[[ACTION:CERTIFICATE:nextskill-mern]]";
   }
@@ -221,50 +335,13 @@ function getFallbackResponse(query: string): string {
     return "Yeh raha Usama ka Cisco Networking Basics certificate!\n\n[[ACTION:CERTIFICATE:cisco-networking]]";
   }
 
-  // 6. Certifications Section
+  // 14. Certifications Section
   if (q.match(/\b(cert|certs|certification|certifications|credential|credentials|sanad|certificate)\b/)) {
     const reply = "Yeh raha Usama ka verified certifications showcase including MERN Stack, Google DevFest, DigiSkills, and Cisco credentials.";
     return isNavRequest ? `${reply}\n\n[[ACTION:NAVIGATE:certifications]]` : reply;
   }
 
-  // 7. Specific Project Queries (Shadab Rice, SoftCr8ors, MZ Removals, Reeba Yaseen)
-  if (q.includes('shadab') || q.includes('rice')) {
-    const reply = "Shadab Rice ek live Basmati rice exporter e-commerce platform hai (https://shadabrice.pk/) featuring an instant 1-click WhatsApp checkout system.";
-    return "Main aapko Shadab Rice project card par le kar ja raha hoon.\n\n[[ACTION:NAVIGATE:shadab-rice]]";
-  }
-  if (q.includes('softcr8or')) {
-    const reply = "SoftCr8ors (https://softcr8ors.com/) AI & Tech agency digital platform hai with 3D models and 60fps animations.";
-    return "Main aapko SoftCr8ors project card par le kar ja raha hoon.\n\n[[ACTION:NAVIGATE:softcr8ors]]";
-  }
-  if (q.includes('removal') || (q.includes('mz') && (q.includes('gm') || q.includes('van')))) {
-    return "Main aapko GM MZ Removals logistics project par le kar ja raha hoon.\n\n[[ACTION:NAVIGATE:gm-mz-removals]]";
-  }
-  if (q.includes('cleaner') || (q.includes('mz') && q.includes('clean'))) {
-    return "Main aapko MZ Cleaners project par le kar ja raha hoon.\n\n[[ACTION:NAVIGATE:mz-cleaners]]";
-  }
-  if (q.includes('construction') || (q.includes('mz') && q.includes('work'))) {
-    return "Main aapko MZ Works Construction project par le kar ja raha hoon.\n\n[[ACTION:NAVIGATE:mz-works]]";
-  }
-  if (q.includes('reeba')) {
-    return "Main aapko Reeba Yaseen portfolio & SaaS showcase par le kar ja raha hoon.\n\n[[ACTION:NAVIGATE:reeba-yaseen]]";
-  }
-
-  // 8. General Projects Showcase (With typo tolerance: preojct, preojcts, porject, etc.)
-  if (
-    q.match(/\b(project|projects|projekts|preojct|preojcts|porject|projets|showcase)\b/) ||
-    (isNavRequest && (q.includes('work') || q.includes('portfolio') || q.includes('direct') || q.includes('usaky')))
-  ) {
-    const reply = "Here are Usama's standout projects with live links:\n\n" +
-      "• Shadab Rice (E-Commerce): https://shadabrice.pk/\n" +
-      "• SoftCr8ors (AI Agency): https://softcr8ors.com/\n" +
-      "• GM MZ Removals (UK Logistics): https://gmmzremovals.co.uk/\n" +
-      "• MZ Works Construction (Property Care): https://mzworks.co.uk/\n" +
-      "• Reeba Yaseen (SaaS & Portfolio): https://reeba.softcr8ors.com/\n\n" +
-      "Click any link above to explore the live platforms!";
-    return isNavRequest ? `${reply}\n\n[[ACTION:NAVIGATE:projects]]` : reply;
-  }
-
-  // 9. Tech Stack / Skills
+  // 15. Tech Stack / Skills
   if (q.match(/\b(skill|skills|tech|stack|technology|technologies|tools|languages|framework|react|next|node|mongo)\b/)) {
     const reply = "Usama specializes in modern full-stack development with a focus on performance and fluid motion:\n\n" +
       "• Frontend: Next.js 16, React 19, TypeScript, Tailwind CSS v4, HTML5/CSS3\n" +
@@ -275,19 +352,19 @@ function getFallbackResponse(query: string): string {
     return isNavRequest ? `${reply}\n\n[[ACTION:NAVIGATE:skills]]` : reply;
   }
 
-  // 10. What I Do Differently
+  // 16. What I Do Differently
   if (q.match(/\b(differen|different|why usama|kyun|alag|difference)\b/)) {
     const reply = "Usama focuses on 60fps buttery animations, clean architecture, and ultra-high converting user experiences.";
     return isNavRequest ? `${reply}\n\n[[ACTION:NAVIGATE:difference]]` : reply;
   }
 
-  // 11. Process / Workflow
+  // 17. Process / Workflow
   if (q.match(/\b(process|workflow|steps|how do you work|tariqa|tarika)\b/)) {
     const reply = "Usama follows an agile 5-step development methodology: Strategy, Wireframing, 3D/Design, Full-Stack Architecture, and Launch.";
     return isNavRequest ? `${reply}\n\n[[ACTION:NAVIGATE:process]]` : reply;
   }
 
-  // 12. Services
+  // 18. Services
   if (q.match(/\b(service|services|offer|what do you do|build|help)\b/)) {
     const reply = "Usama provides the following specialized services:\n\n" +
       "1. Frontend Development: High-converting, blazing fast web apps with Next.js & React.\n" +
@@ -298,16 +375,16 @@ function getFallbackResponse(query: string): string {
     return isNavRequest ? `${reply}\n\n[[ACTION:NAVIGATE:services]]` : reply;
   }
 
-  // 13. Experience / Work History
+  // 19. Experience / Work History
   if (q.match(/\b(experience|exp|background|history|career|job)\b/)) {
     const reply = "Usama has a solid background in both production engineering and freelance delivery:\n\n" +
-      "• Full-Stack Developer at VertexAI Tec (Dec 2025 - Aug 2026): Architected client platforms and modern AI web showcases.\n" +
+      "• Full-Stack Developer at SoftCr8ors (Dec 2025 - Aug 2026): Architected client platforms and modern AI web showcases.\n" +
       "• Frontend Developer Intern at SoftCr8ors (Apr 2026 - Jul 2026): Component libraries and UI performance.\n" +
       "• Freelance Full-Stack Developer: Successfully delivered 3+ production client projects across the UK and Pakistan.";
     return isNavRequest ? `${reply}\n\n[[ACTION:NAVIGATE:experience]]` : reply;
   }
 
-  // 14. Social Channels / Find Me Online
+  // 20. Social Channels / Find Me Online
   if (q.match(/\b(social|socials|linkedin|github|instagram|online|profiles|links|find me)\b/)) {
     const reply = "You can find and connect with Usama across his verified online profiles:\n\n" +
       "• LinkedIn: https://www.linkedin.com/in/usama-faheem/\n" +
@@ -320,13 +397,13 @@ function getFallbackResponse(query: string): string {
     return isNavRequest ? `${reply}\n\n[[ACTION:NAVIGATE:socials]]` : reply;
   }
 
-  // 15. FAQ Section
+  // 21. FAQ Section
   if (q.match(/\b(faq|faqs|questions|sawalat|frequently asked)\b/)) {
     const reply = "Here are answers to common questions about Usama's timeline, availability, pricing, and revision guarantee.";
     return isNavRequest ? `${reply}\n\n[[ACTION:NAVIGATE:faq]]` : reply;
   }
 
-  // 16. Education / Degrees
+  // 22. Education / Degrees
   if (q.match(/\b(education|degree|university|study|qualification|vu|nexskill|college)\b/)) {
     const reply = "Usama's educational background:\n\n" +
       "• BS in Computer Science (6th Semester): Virtual University of Pakistan (2025-Present)\n" +
@@ -335,22 +412,12 @@ function getFallbackResponse(query: string): string {
     return isNavRequest ? `${reply}\n\n[[ACTION:NAVIGATE:certifications]]` : reply;
   }
 
-  // 17. Contact / Hire / WhatsApp / Email
-  if (q.match(/\b(contact|hire|email|whatsapp|phone|number|reach|message|talk|call|meeting)\b/)) {
-    const reply = "You can easily connect with Usama directly:\n\n" +
-      "• Phone / WhatsApp: +92 314 3416588 (https://wa.me/923143416588) or +92 348 7700972\n" +
-      "• Email: developer@usamafaheem.com\n" +
-      "• Location: Lahore, Pakistan (Available for remote projects globally)\n\n" +
-      "Feel free to drop a message anytime!";
-    return isNavRequest ? `${reply}\n\n[[ACTION:NAVIGATE:contact]]` : reply;
-  }
-
-  // 18. Footer / Bottom
+  // 23. Footer / Bottom
   if (q.includes('footer') || (isNavRequest && (q.includes('bottom') || q.includes('niche') || q.includes('end')))) {
     return "Main aapko website ke footer section par le kar ja raha hoon.\n\n[[ACTION:NAVIGATE:footer]]";
   }
 
-  // 19. Pricing / Cost / Rates
+  // 24. Pricing / Cost / Rates
   if (q.match(/\b(price|pricing|cost|rate|rates|budget|charges|fee|pkr)\b/)) {
     return "Here are our transparent pricing packages:\n\n" +
       "• Frontend / Portfolio Website: 15,000 – 20,000 PKR\n" +
@@ -365,176 +432,85 @@ function getFallbackResponse(query: string): string {
     "You can ask me to navigate to any section on the site (Hero, About, Difference, Services, Process, Experience, Tech Stack, Projects, Certifications, FAQ, Contact, or Footer), or ask any question about his work!";
 }
 
-// Automatically inject missing action tags if the user was clearly asking to see, open, or navigate to a section/project/modal
+// Automatically inject missing action tags ONLY if the user was explicitly asking to see, open, or navigate to a section/project/modal
 function injectMissingActionTag(text: string, userText: string): string {
   const q = userText.toLowerCase().trim();
-
-  // 1. Specific Projects: If user mentioned a specific project, ensure the action tag targets that specific card rather than generic projects!
-  if (q.includes('shadab') || q.includes('rice')) {
-    if (/\[\[ACTION:[^\]]+\]\]/i.test(text)) {
-      return text.replace(/\[\[ACTION:[^\]]+\]\]/gi, '[[ACTION:NAVIGATE:shadab-rice]]');
-    }
-    return `${text}\n\n[[ACTION:NAVIGATE:shadab-rice]]`;
-  }
-  if (q.includes('softcr8or')) {
-    if (/\[\[ACTION:[^\]]+\]\]/i.test(text)) {
-      return text.replace(/\[\[ACTION:[^\]]+\]\]/gi, '[[ACTION:NAVIGATE:softcr8ors]]');
-    }
-    return `${text}\n\n[[ACTION:NAVIGATE:softcr8ors]]`;
-  }
-  if (q.includes('removal') || q.includes('gmmz') || (q.includes('mz') && (q.includes('van') || q.includes('remov')))) {
-    if (/\[\[ACTION:[^\]]+\]\]/i.test(text)) {
-      return text.replace(/\[\[ACTION:[^\]]+\]\]/gi, '[[ACTION:NAVIGATE:gm-mz-removals]]');
-    }
-    return `${text}\n\n[[ACTION:NAVIGATE:gm-mz-removals]]`;
-  }
-  if (q.includes('reeba')) {
-    if (/\[\[ACTION:[^\]]+\]\]/i.test(text)) {
-      return text.replace(/\[\[ACTION:[^\]]+\]\]/gi, '[[ACTION:NAVIGATE:reeba-yaseen]]');
-    }
-    return `${text}\n\n[[ACTION:NAVIGATE:reeba-yaseen]]`;
-  }
-  if (q.includes('clean') || (q.includes('mz') && q.includes('clean'))) {
-    if (/\[\[ACTION:[^\]]+\]\]/i.test(text)) {
-      return text.replace(/\[\[ACTION:[^\]]+\]\]/gi, '[[ACTION:NAVIGATE:mz-cleaners]]');
-    }
-    return `${text}\n\n[[ACTION:NAVIGATE:mz-cleaners]]`;
-  }
-  if (q.includes('construction') || (q.includes('mz') && q.includes('work'))) {
-    if (/\[\[ACTION:[^\]]+\]\]/i.test(text)) {
-      return text.replace(/\[\[ACTION:[^\]]+\]\]/gi, '[[ACTION:NAVIGATE:mz-works]]');
-    }
-    return `${text}\n\n[[ACTION:NAVIGATE:mz-works]]`;
-  }
-  if (q.includes('tekrivo')) {
-    if (/\[\[ACTION:[^\]]+\]\]/i.test(text)) {
-      return text.replace(/\[\[ACTION:[^\]]+\]\]/gi, '[[ACTION:NAVIGATE:tekrivo]]');
-    }
-    return `${text}\n\n[[ACTION:NAVIGATE:tekrivo]]`;
-  }
-  if (q.includes('tyre') || q.includes('tyres')) {
-    if (/\[\[ACTION:[^\]]+\]\]/i.test(text)) {
-      return text.replace(/\[\[ACTION:[^\]]+\]\]/gi, '[[ACTION:NAVIGATE:northwest-tyres]]');
-    }
-    return `${text}\n\n[[ACTION:NAVIGATE:northwest-tyres]]`;
-  }
-  if (q.includes('tehreem')) {
-    if (/\[\[ACTION:[^\]]+\]\]/i.test(text)) {
-      return text.replace(/\[\[ACTION:[^\]]+\]\]/gi, '[[ACTION:NAVIGATE:tehreem-arif]]');
-    }
-    return `${text}\n\n[[ACTION:NAVIGATE:tehreem-arif]]`;
-  }
-
-  // 2. Close modal command
-  if (q.includes('close') || q.includes('band karo') || q.includes('band kr do') || q.includes('band kar') || q.includes('hata do') || q.includes('chupa do')) {
-    if (/\[\[ACTION:[^\]]+\]\]/i.test(text)) {
-      return text.replace(/\[\[ACTION:[^\]]+\]\]/gi, '[[ACTION:CLOSE:modal]]');
-    }
-    return `${text}\n\n[[ACTION:CLOSE:modal]]`;
-  }
-
-  // 3. Back to Top / Hero / Home / Wapis / Upar
-  if (q.includes('wapis') || q.includes('back') || q.includes('upar') || q.includes('top') || q.includes('hero') || q.includes('navbar') || q.includes('header') || q.includes('home') || q.includes('shuru')) {
-    if (/\[\[ACTION:[^\]]+\]\]/i.test(text)) {
-      return text.replace(/\[\[ACTION:[^\]]+\]\]/gi, '[[ACTION:NAVIGATE:hero]]');
-    }
-    return `${text}\n\n[[ACTION:NAVIGATE:hero]]`;
-  }
-
-  // 4. Specific Certifications
-  if (q.includes('mern') && (q.includes('cert') || q.includes('sanad') || q.includes('bootcamp') || q.includes('diploma') || q.includes('nexskill') || q.includes('kholo') || q.includes('dikha') || q.includes('open') || q.includes('show'))) {
-    if (/\[\[ACTION:[^\]]+\]\]/i.test(text)) {
-      return text.replace(/\[\[ACTION:[^\]]+\]\]/gi, '[[ACTION:CERTIFICATE:nextskill-mern]]');
-    }
-    return `${text}\n\n[[ACTION:CERTIFICATE:nextskill-mern]]`;
-  }
-  if (q.includes('cisco') && q.includes('ai')) {
-    if (/\[\[ACTION:[^\]]+\]\]/i.test(text)) {
-      return text.replace(/\[\[ACTION:[^\]]+\]\]/gi, '[[ACTION:CERTIFICATE:cisco-ai]]');
-    }
-    return `${text}\n\n[[ACTION:CERTIFICATE:cisco-ai]]`;
-  }
-  if (q.includes('cisco')) {
-    if (/\[\[ACTION:[^\]]+\]\]/i.test(text)) {
-      return text.replace(/\[\[ACTION:[^\]]+\]\]/gi, '[[ACTION:CERTIFICATE:cisco-networking]]');
-    }
-    return `${text}\n\n[[ACTION:CERTIFICATE:cisco-networking]]`;
-  }
-  if (q.includes('devfest') || (q.includes('google') && (q.includes('cert') || q.includes('sanad')))) {
-    if (/\[\[ACTION:[^\]]+\]\]/i.test(text)) {
-      return text.replace(/\[\[ACTION:[^\]]+\]\]/gi, '[[ACTION:CERTIFICATE:google-devfest]]');
-    }
-    return `${text}\n\n[[ACTION:CERTIFICATE:google-devfest]]`;
-  }
-  if (q.includes('freelanc') || (q.includes('digiskill') && q.includes('cert'))) {
-    if (/\[\[ACTION:[^\]]+\]\]/i.test(text)) {
-      return text.replace(/\[\[ACTION:[^\]]+\]\]/gi, '[[ACTION:CERTIFICATE:digiskills-freelancing]]');
-    }
-    return `${text}\n\n[[ACTION:CERTIFICATE:digiskills-freelancing]]`;
-  }
-
-  // 5. Contact, Phone Number, WhatsApp & Hire (MUST override any generic action tag)
-  if (q.includes('contact') || q.includes('phone') || q.includes('number') || (q.includes('no') && (q.includes('contact') || q.includes('phone') || q.includes('usama') || q.includes('usma'))) || q.includes('whatsapp') || q.includes('call') || q.includes('email') || q.includes('hire') || q.includes('rabta')) {
-    if (/\[\[ACTION:[^\]]+\]\]/i.test(text)) {
-      return text.replace(/\[\[ACTION:[^\]]+\]\]/gi, '[[ACTION:NAVIGATE:contact]]');
-    }
-    return `${text}\n\n[[ACTION:NAVIGATE:contact]]`;
-  }
 
   // If already contains an action tag, keep it untouched
   if (/\[\[ACTION:[^\]]+\]\]/i.test(text)) {
     return text;
   }
 
-  // 5. Projects Showcase (with broad typo tolerance: preojct, preojcts, porject, projekts, etc.)
-  if (
-    q.match(/\b(project|projects|preojct|preojcts|porject|projekts|projets|showcase)\b/) ||
-    ((q.includes('direct') || q.includes('lay') || q.includes('lya') || q.includes('jao') || q.includes('jaoy') || q.includes('chalo') || q.includes('dikha')) && (q.includes('kaam') || q.includes('work') || q.includes('portfolio') || q.includes('usaky')))
-  ) {
-    return `${text}\n\n[[ACTION:NAVIGATE:projects]]`;
+  // Pure informational intent checks: Never navigate when asking direct questions
+  const isInfoOnly =
+    q.includes('kr skta') || q.includes('kar sakta') ||
+    q.includes('sirf') || q.includes('kya hai') || q.includes('kya hein') ||
+    q.includes('kon kon') || q.includes('koun koun') ||
+    /\b(bata|btao|batao|de do|day do|bata day|bata dein|what|how|kaise|kese|ksaiya|chahiye|hai|hein)\b/i.test(q);
+
+  if (isInfoOnly) {
+    return text;
   }
 
-  // 6. Certifications Section
-  if (q.match(/\b(cert|certs|certification|certifications|credential|credentials|sanad|certificate)\b/)) {
-    return `${text}\n\n[[ACTION:NAVIGATE:certifications]]`;
+  // Strict Navigation Intent: Requires an explicit movement or display action verb
+  const isNavRequest =
+    /\b(dikha|dikhao|dikhayein|show|open|kholo|le jao|lay jao|lay jayo|lay kr jao|lay kr jayo|lay kr jayoo|le chalo|lay chalo|lya|jaoy|jayoo|jana|jao|chalo|navigate|scroll|jump|visit|go to|take me|view|dekho|dekhna)\b/i.test(q) ||
+    /(lay|le|la)\s+(kr|kar)?\s*(jao|jayo|jayoo|chalo|jana)/i.test(q) ||
+    q.includes('close') || q.includes('band karo') || q.includes('wapis') || q.includes('back');
+
+  if (!isNavRequest) {
+    return text;
   }
 
-  // 7. Tech Stack
-  if (q.match(/\b(skill|skills|tech|stack|technology|technologies|tools|languages)\b/)) {
-    return `${text}\n\n[[ACTION:NAVIGATE:skills]]`;
+  // 1. Specific Projects
+  if (q.includes('shadab') || q.includes('rice')) return `${text}\n\n[[ACTION:NAVIGATE:shadab-rice]]`;
+  if (q.includes('softcr8or')) return `${text}\n\n[[ACTION:NAVIGATE:softcr8ors]]`;
+  if (q.includes('removal') || q.includes('gmmz') || (q.includes('mz') && (q.includes('van') || q.includes('remov')))) return `${text}\n\n[[ACTION:NAVIGATE:gm-mz-removals]]`;
+  if (q.includes('reeba')) return `${text}\n\n[[ACTION:NAVIGATE:reeba-yaseen]]`;
+  if (q.includes('clean') || (q.includes('mz') && q.includes('clean'))) return `${text}\n\n[[ACTION:NAVIGATE:mz-cleaners]]`;
+  if (q.includes('construction') || (q.includes('mz') && q.includes('work'))) return `${text}\n\n[[ACTION:NAVIGATE:mz-works]]`;
+  if (q.includes('tekrivo')) return `${text}\n\n[[ACTION:NAVIGATE:tekrivo]]`;
+  if (q.includes('tyre') || q.includes('tyres')) return `${text}\n\n[[ACTION:NAVIGATE:northwest-tyres]]`;
+  if (q.includes('tehreem')) return `${text}\n\n[[ACTION:NAVIGATE:tehreem-arif]]`;
+
+  // 2. Close modal command
+  if (q.includes('close') || q.includes('band karo') || q.includes('band kr do') || q.includes('band kar') || q.includes('hata do') || q.includes('chupa do')) {
+    return `${text}\n\n[[ACTION:CLOSE:modal]]`;
   }
 
-  // 8. Other sections
-  if (q.includes('about') || q.includes('bio')) {
-    return `${text}\n\n[[ACTION:NAVIGATE:about]]`;
+  // 3. Back to Top / Hero / Home / Wapis / Upar
+  if (q.includes('wapis') || q.includes('back') || q.includes('upar') || q.includes('top') || q.includes('hero') || q.includes('navbar') || q.includes('header') || q.includes('home') || q.includes('shuru')) {
+    return `${text}\n\n[[ACTION:NAVIGATE:hero]]`;
   }
-  if (q.match(/\b(differen|different|why usama|kyun|alag|difference)\b/)) {
-    return `${text}\n\n[[ACTION:NAVIGATE:difference]]`;
+
+  // 4. Specific Certifications
+  if (q.includes('mern') && (q.includes('cert') || q.includes('sanad') || q.includes('bootcamp') || q.includes('diploma') || q.includes('nexskill') || q.includes('kholo') || q.includes('dikha') || q.includes('open') || q.includes('show'))) {
+    return `${text}\n\n[[ACTION:CERTIFICATE:nextskill-mern]]`;
   }
-  if (q.match(/\b(process|workflow|steps|how do you work|tariqa|tarika)\b/)) {
-    return `${text}\n\n[[ACTION:NAVIGATE:process]]`;
-  }
-  if (q.match(/\b(service|services|offer|what do you do)\b/)) {
-    return `${text}\n\n[[ACTION:NAVIGATE:services]]`;
-  }
-  if (q.match(/\b(experience|exp|background|history|career|job)\b/)) {
-    return `${text}\n\n[[ACTION:NAVIGATE:experience]]`;
-  }
-  if (q.match(/\b(social|socials|linkedin|github|instagram|find me|online)\b/)) {
-    return `${text}\n\n[[ACTION:NAVIGATE:socials]]`;
-  }
-  if (q.match(/\b(faq|faqs|questions|sawalat)\b/)) {
-    return `${text}\n\n[[ACTION:NAVIGATE:faq]]`;
-  }
-  if (q.match(/\b(contact|hire|email|whatsapp|phone|number|reach|message)\b/)) {
-    return `${text}\n\n[[ACTION:NAVIGATE:contact]]`;
-  }
-  if (q.includes('footer') || q.includes('bottom') || q.includes('niche') || q.includes('end')) {
-    return `${text}\n\n[[ACTION:NAVIGATE:footer]]`;
-  }
+  if (q.includes('cisco') && q.includes('ai')) return `${text}\n\n[[ACTION:CERTIFICATE:cisco-ai]]`;
+  if (q.includes('cisco')) return `${text}\n\n[[ACTION:CERTIFICATE:cisco-networking]]`;
+  if (q.includes('devfest') || (q.includes('google') && (q.includes('cert') || q.includes('sanad')))) return `${text}\n\n[[ACTION:CERTIFICATE:google-devfest]]`;
+  if (q.includes('freelanc') || (q.includes('digiskill') && q.includes('cert'))) return `${text}\n\n[[ACTION:CERTIFICATE:digiskills-freelancing]]`;
+
+  // 5. Section navigation (ONLY when user asked for it!)
+  if (q.match(/\b(project|projects|preojct|preojcts|porject|projekts|projets|showcase)\b/)) return `${text}\n\n[[ACTION:NAVIGATE:projects]]`;
+  if (q.includes('contact') || q.includes('hire') || q.includes('whatsapp') || q.includes('rabta')) return `${text}\n\n[[ACTION:NAVIGATE:contact]]`;
+  if (q.match(/\b(cert|certs|certification|certifications|credential|credentials|sanad|certificate)\b/)) return `${text}\n\n[[ACTION:NAVIGATE:certifications]]`;
+  if (q.match(/\b(skill|skills|tech|stack|technology|technologies|tools|languages)\b/)) return `${text}\n\n[[ACTION:NAVIGATE:skills]]`;
+  if (q.includes('about') || q.includes('bio')) return `${text}\n\n[[ACTION:NAVIGATE:about]]`;
+  if (q.match(/\b(differen|different|why usama|kyun|alag|difference)\b/)) return `${text}\n\n[[ACTION:NAVIGATE:difference]]`;
+  if (q.match(/\b(process|workflow|steps|how do you work|tariqa|tarika)\b/)) return `${text}\n\n[[ACTION:NAVIGATE:process]]`;
+  if (q.match(/\b(service|services|offer|what do you do)\b/)) return `${text}\n\n[[ACTION:NAVIGATE:services]]`;
+  if (q.match(/\b(experience|exp|background|history|career|job)\b/)) return `${text}\n\n[[ACTION:NAVIGATE:experience]]`;
+  if (q.match(/\b(social|socials|linkedin|github|instagram|find me|online)\b/)) return `${text}\n\n[[ACTION:NAVIGATE:socials]]`;
+  if (q.match(/\b(faq|faqs|questions|sawalat)\b/)) return `${text}\n\n[[ACTION:NAVIGATE:faq]]`;
+  if (q.includes('footer') || q.includes('bottom') || q.includes('niche') || q.includes('end')) return `${text}\n\n[[ACTION:NAVIGATE:footer]]`;
 
   return text;
 }
+
+// In-memory cache to deliver instant 1ms local fallback if Google Gemini quota is exhausted
+let quotaExhaustedUntil = 0;
 
 export async function POST(req: Request) {
   try {
@@ -546,7 +522,9 @@ export async function POST(req: Request) {
 
     const isVoiceMode = mode === 'voice';
     const latestUserMessage = messages[messages.length - 1]?.content || '';
-    const apiKey = process.env.GEMINI_API_KEY?.trim();
+    const rawApiKeys = (process.env.GEMINI_API_KEY || '').trim();
+    // Support multiple comma-separated keys if provided for auto-rotation
+    const apiKeys = rawApiKeys.split(',').map((k) => k.trim()).filter(Boolean);
 
     // In voice mode, instruct Gemini to respond warmly, concisely (1-3 sentences), like a natural spoken call
     const effectiveSystemPrompt = isVoiceMode
@@ -585,8 +563,9 @@ export async function POST(req: Request) {
       ((userTextLower.includes('usama') && (userTextLower.includes('kon') || userTextLower.includes('koun') || userTextLower.includes('kaun') || userTextLower.includes('who') || userTextLower.includes('konsa') || userTextLower.includes('kons') || userTextLower.includes('kya krta') || userTextLower.includes('kya karta') || userTextLower.includes('intro'))) ||
        /\b(who is usama|who are you|kon ho|koun ho|kaun ho|usama kon|usama koun|usama kaun|apne baare|usama ke baare|tell me about yourself|hi|hello|hey|salam|assalam|kese ho|kaise ho|kya haal|kya hal)\b/i.test(userTextLower));
 
-    // If no API key is provided, gracefully serve the built-in fallback knowledge base
-    if (!apiKey) {
+    // If no API key or quota currently exhausted, serve the built-in fallback knowledge engine instantly
+    const isQuotaLocked = Date.now() < quotaExhaustedUntil;
+    if (apiKeys.length === 0 || isQuotaLocked) {
       let fallback = sanitizeAssistantReply(getFallbackResponse(latestUserMessage));
       if (isPureInfoOrGreeting) {
         fallback = fallback.replace(/\[\[ACTION:[^\]]+\]\]/gi, '').trim();
@@ -606,66 +585,108 @@ export async function POST(req: Request) {
     }
 
     // Format chat history for Google Gemini API
-    const formattedContents = messages.map((m: Message) => ({
-      role: m.role === 'assistant' ? 'model' : 'user',
-      parts: [{ text: m.content }],
-    }));
+    // 1. Shift off any leading assistant messages (e.g. welcome message) so conversation strictly starts with 'user'
+    let cleanedMessages = [...messages];
+    while (cleanedMessages.length > 0 && cleanedMessages[0].role === 'assistant') {
+      cleanedMessages.shift();
+    }
 
-    // Use official Gemini models: fast gemini-2.0-flash with fallback to gemini-1.5-flash
-    const modelsToTry = ['gemini-2.0-flash', 'gemini-1.5-flash'];
+    if (cleanedMessages.length === 0) {
+      cleanedMessages = [{ role: 'user', content: latestUserMessage }];
+    }
+
+    // 2. Ensure strict alternating roles (user -> model -> user -> model)
+    const formattedContents: Array<{ role: 'user' | 'model'; parts: Array<{ text: string }> }> = [];
+    for (const msg of cleanedMessages) {
+      const role = msg.role === 'assistant' ? 'model' : 'user';
+      const text = msg.content?.trim();
+      if (!text) continue;
+
+      const last = formattedContents[formattedContents.length - 1];
+      if (last && last.role === role) {
+        last.parts[0].text += `\n\n${text}`;
+      } else {
+        formattedContents.push({
+          role,
+          parts: [{ text }],
+        });
+      }
+    }
+
+    // 3. Ensure the last turn is from 'user'
+    if (formattedContents.length === 0 || formattedContents[formattedContents.length - 1].role !== 'user') {
+      formattedContents.push({
+        role: 'user',
+        parts: [{ text: latestUserMessage }],
+      });
+    }
+
+    // Use active verified Gemini models with resilient fallback
+    const modelsToTry = ['gemini-2.5-flash', 'gemini-3.8-flash'];
     let replyText: string | null = null;
     let lastError: any = null;
 
-    for (const model of modelsToTry) {
-      try {
-        const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 4500); // Fast 4.5s timeout for snappy UX
+    // Try keys and models
+    keyLoop: for (const key of apiKeys) {
+      for (const model of modelsToTry) {
+        try {
+          const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${key}`;
+          const controller = new AbortController();
+          const timeoutId = setTimeout(() => controller.abort(), 3500); // 3.5s per model to prevent client timeouts
 
-        const response = await fetch(url, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          signal: controller.signal,
-          body: JSON.stringify({
-            systemInstruction: {
-              parts: [{ text: effectiveSystemPrompt }],
-            },
-            contents: formattedContents,
-            generationConfig: {
-              temperature: isVoiceMode ? 0.4 : 0.6,
-              maxOutputTokens: isVoiceMode ? 250 : 900,
-            },
-          }),
-        });
+          const response = await fetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            signal: controller.signal,
+            body: JSON.stringify({
+              systemInstruction: {
+                parts: [{ text: effectiveSystemPrompt }],
+              },
+              contents: formattedContents,
+              generationConfig: {
+                temperature: isVoiceMode ? 0.4 : 0.6,
+                maxOutputTokens: isVoiceMode ? 250 : 900,
+              },
+            }),
+          });
 
-        clearTimeout(timeoutId);
+          clearTimeout(timeoutId);
 
-        if (response.ok) {
-          const data = await response.json();
-          const candidate = data.candidates?.[0]?.content?.parts?.[0]?.text;
-          if (candidate) {
-            replyText = sanitizeAssistantReply(candidate);
-            if (isVoiceMode) {
-              replyText = replyText
-                .replace(/\[\[ACTION:[^\]]+\]\]/gi, '')
-                .replace(/[*_#•`~]/g, '')
-                .replace(/\n+/g, ' ')
-                .replace(/https?:\/\/\S+/g, '')
-                .trim();
+          if (response.ok) {
+            const data = await response.json();
+            const candidate = data.candidates?.[0]?.content?.parts?.[0]?.text;
+            if (candidate) {
+              replyText = sanitizeAssistantReply(candidate);
+              if (isVoiceMode) {
+                replyText = replyText
+                  .replace(/\[\[ACTION:[^\]]+\]\]/gi, '')
+                  .replace(/[*_#•`~]/g, '')
+                  .replace(/\n+/g, ' ')
+                  .replace(/https?:\/\/\S+/g, '')
+                  .trim();
+              }
+              break keyLoop;
             }
-            break;
+          } else {
+            const errData = await response.text();
+            lastError = errData;
+
+            // If 429 Quota Exceeded, do NOT waste time trying more models on this key!
+            if (response.status === 429 || errData.includes('RESOURCE_EXHAUSTED') || errData.includes('Quota exceeded')) {
+              // Cache quota exhausted state for 10 minutes so subsequent requests respond instantly in 1ms
+              if (key === apiKeys[apiKeys.length - 1]) {
+                quotaExhaustedUntil = Date.now() + 10 * 60 * 1000;
+              }
+              break; // Break model loop, try next key if available
+            }
           }
-        } else {
-          const errData = await response.text();
-          lastError = errData;
-        }
-      } catch (err: any) {
-        lastError = err;
-        // If DNS fails (ENOTFOUND) or connection times out, Google API is unreachable - break immediately to serve fallback
-        const errCode = err?.code || err?.cause?.code;
-        const errSyscall = err?.cause?.syscall;
-        if (errCode === 'ENOTFOUND' || errCode === 'ETIMEDOUT' || errCode === 'ECONNREFUSED' || errSyscall === 'getaddrinfo') {
-          break;
+        } catch (err: any) {
+          lastError = err;
+          const errCode = err?.code || err?.cause?.code;
+          const errSyscall = err?.cause?.syscall;
+          if (errCode === 'ENOTFOUND' || errCode === 'ETIMEDOUT' || errCode === 'ECONNREFUSED' || errSyscall === 'getaddrinfo') {
+            break keyLoop;
+          }
         }
       }
     }
@@ -680,7 +701,6 @@ export async function POST(req: Request) {
     }
 
     // When Gemini is unreachable or rate-limited, smoothly serve built-in intelligent fallback
-    console.log('[AI Chatbot] Using built-in local knowledge fallback (Gemini API offline/slow).');
     let fallback = sanitizeAssistantReply(getFallbackResponse(latestUserMessage));
     if (isPureInfoOrGreeting) {
       fallback = fallback.replace(/\[\[ACTION:[^\]]+\]\]/gi, '').trim();
@@ -701,7 +721,7 @@ export async function POST(req: Request) {
   } catch (error: any) {
     console.error('Chatbot API route error:', error);
     return NextResponse.json(
-      { reply: "I am having a brief connection hiccup. Please reach out to Usama directly via WhatsApp at +92 324 9000000 or developer@usamafaheem.com!" },
+      { reply: "I am having a brief connection hiccup. Please reach out to Usama directly via WhatsApp at +92 314 3416588 or developer@usamafaheem.com!" },
       { status: 200 }
     );
   }

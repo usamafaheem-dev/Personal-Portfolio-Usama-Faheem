@@ -457,19 +457,6 @@ function setupShadowListeners(widget: any, onEnd: () => void, onQuota?: () => vo
 
         if (onQuota) onQuota();
       }
-
-      // Check if call has ended or feedback appears
-      const hasFeedback = widget.shadowRoot.querySelector(
-        '[class*="feedback" i], [class*="inlineFeedback" i], [class*="evaluation" i], [class*="rating" i]'
-      );
-      const isEnded =
-        text.includes('conversation ended') ||
-        text.includes('call ended') ||
-        text.includes('call disconnected');
-
-      if (hasFeedback || isEnded) {
-        onEnd();
-      }
     });
 
     observer.observe(widget.shadowRoot, {
@@ -975,14 +962,28 @@ export default function ElevenLabsVoice() {
     const setup = () => {
       const widget = document.querySelector('elevenlabs-convai') as any;
       if (widget) {
+        // Native ElevenLabs widget lifecycle event listeners
+        if (!widget.__hasConvaiEvents) {
+          widget.__hasConvaiEvents = true;
+          widget.addEventListener('conversationEnded', () => {
+            handleCallTermination(false);
+          });
+        }
+
+        if (!widget.__hasConvaiToolEvents) {
+          widget.__hasConvaiToolEvents = true;
+          widget.addEventListener('elevenlabs-convai:call', (event: any) => {
+            console.log('⚡ [elevenlabs-convai:call] fired on widget in setup!', event);
+            if (!event.detail) event.detail = {};
+            if (!event.detail.config) event.detail.config = {};
+            event.detail.config.clientTools = createClientToolsProxy(handleClientToolExecution);
+          });
+        }
+
         if (widget.shadowRoot) {
           injectStyleSafely(widget.shadowRoot);
           autoAcceptTermsSafely(widget.shadowRoot);
-          setupShadowListeners(
-            widget,
-            () => handleCallTermination(false),
-            () => switchToNextAgent(activeAgentId)
-          );
+          setupShadowListeners(widget, () => handleCallTermination(false), () => switchToNextAgent(activeAgentId));
 
           // Check for quota exhaustion banner
           const text = (widget.shadowRoot.textContent || '').toLowerCase();
@@ -999,8 +1000,8 @@ export default function ElevenLabsVoice() {
       }
     };
 
-    t1 = setTimeout(setup, 300);
-    t2 = setTimeout(setup, 1000);
+    t1 = setTimeout(setup, 400);
+    t2 = setTimeout(setup, 1500);
 
     return () => {
       clearTimeout(t1);
@@ -1008,25 +1009,9 @@ export default function ElevenLabsVoice() {
     };
   }, [activeAgentId, switchToNextAgent, isOnline, handleCallTermination]);
 
-  // 4. While open, keep styles active safely, auto-detect call start and clean call termination
+  // 4. While open, keep styles active safely without prematurely killing calls
   useEffect(() => {
     if (!isOpen) return;
-
-    // Immediate initial styling and setup
-    const runImmediateSetup = () => {
-      const widget = document.querySelector('elevenlabs-convai') as any;
-      if (!widget || !widget.shadowRoot) return;
-      injectStyleSafely(widget.shadowRoot);
-      autoAcceptTermsSafely(widget.shadowRoot);
-      setupShadowListeners(
-        widget,
-        () => handleCallTermination(false),
-        () => switchToNextAgent(activeAgentId)
-      );
-    };
-
-    const immediateTimer1 = setTimeout(runImmediateSetup, 60);
-    const immediateTimer2 = setTimeout(runImmediateSetup, 250);
 
     const interval = setInterval(() => {
       const widget = document.querySelector('elevenlabs-convai') as any;
@@ -1034,12 +1019,7 @@ export default function ElevenLabsVoice() {
 
       const sr = widget.shadowRoot as ShadowRoot;
       injectStyleSafely(sr);
-      autoAcceptTermsSafely(sr);
-      setupShadowListeners(
-        widget,
-        () => handleCallTermination(false),
-        () => switchToNextAgent(activeAgentId)
-      );
+      setupShadowListeners(widget, () => setIsOpen(false), () => switchToNextAgent(activeAgentId));
 
       // Check if quota exhaustion occurred during call
       const text = (sr.textContent || '').toLowerCase();
@@ -1054,7 +1034,7 @@ export default function ElevenLabsVoice() {
         return;
       }
 
-      // Check if active call UI is visible
+      // Check if active call UI is visible to update active call flag
       const endBtn =
         sr.querySelector('button[title*="End" i]') ||
         sr.querySelector('button[aria-label*="End" i]') ||
@@ -1063,28 +1043,13 @@ export default function ElevenLabsVoice() {
           return t === 'end' || t === 'end call' || t.includes('ختم');
         });
 
-      const hasFeedback = sr.querySelector(
-        '[class*="feedback" i], [class*="inlineFeedback" i], [class*="evaluation" i], [class*="rating" i]'
-      );
-      const isEndedText =
-        text.includes('conversation ended') ||
-        text.includes('call ended') ||
-        text.includes('call disconnected');
-
       if (endBtn) {
         hasCallStartedRef.current = true;
-      } else if (hasCallStartedRef.current || hasFeedback || isEndedText) {
-        // Active call finished: clean termination and revert button to black
-        handleCallTermination(false);
       }
-    }, 300);
+    }, 500);
 
-    return () => {
-      clearTimeout(immediateTimer1);
-      clearTimeout(immediateTimer2);
-      clearInterval(interval);
-    };
-  }, [isOpen, activeAgentId, switchToNextAgent, handleCallTermination]);
+    return () => clearInterval(interval);
+  }, [isOpen, activeAgentId, switchToNextAgent]);
 
   // Toggle Voice: Open or Close widget cleanly
   const handleToggle = () => {
@@ -1103,11 +1068,9 @@ export default function ElevenLabsVoice() {
 
       // Pre-flight check: If currently selected agent is in exhausted pool, switch immediately
       const pool = getExhaustedPool();
-      let targetAgentId = activeAgentId;
       if (pool.has(activeAgentId)) {
         const next = agentList.find((id) => !pool.has(id));
         if (next && next !== activeAgentId) {
-          targetAgentId = next;
           setActiveAgentId(next);
           try {
             localStorage.setItem(STORAGE_KEY, next);
@@ -1122,36 +1085,32 @@ export default function ElevenLabsVoice() {
         document.body.appendChild(script);
       }
 
-      // Ensure widget is mounted and fresh (if previously ended or missing)
-      const currentWidget = widgetContainerRef.current?.querySelector('elevenlabs-convai') as any;
-      const sr = currentWidget?.shadowRoot;
-      const isDeadOrEnded =
-        !currentWidget ||
-        (sr &&
-          (sr.querySelector('[class*="feedback" i], [class*="inlineFeedback" i]') ||
-            (sr.textContent || '').toLowerCase().includes('conversation ended') ||
-            (sr.textContent || '').toLowerCase().includes('call ended')));
-
-      if (isDeadOrEnded || hasCallStartedRef.current) {
-        remountWidget(targetAgentId);
-      }
-
       hasCallStartedRef.current = false;
       callStartTimeRef.current = Date.now();
-      isOpenRef.current = true;
+      const widget = document.querySelector('elevenlabs-convai') as any;
       setIsOpen(true);
       window.dispatchEvent(new Event('elevenlabs-voice-open'));
 
-      const widget = document.querySelector('elevenlabs-convai') as any;
       if (widget) {
+        if (!widget.__hasConvaiEvents) {
+          widget.__hasConvaiEvents = true;
+          widget.addEventListener('conversationEnded', () => {
+            setIsOpen(false);
+          });
+        }
+        if (!widget.__hasConvaiToolEvents) {
+          widget.__hasConvaiToolEvents = true;
+          widget.addEventListener('elevenlabs-convai:call', (event: any) => {
+            console.log('⚡ [elevenlabs-convai:call] fired on widget in handleToggle!', event);
+            if (!event.detail) event.detail = {};
+            if (!event.detail.config) event.detail.config = {};
+            event.detail.config.clientTools = createClientToolsProxy(handleClientToolExecution);
+          });
+        }
         if (widget.shadowRoot) {
           injectStyleSafely(widget.shadowRoot);
           autoAcceptTermsSafely(widget.shadowRoot);
-          setupShadowListeners(
-            widget,
-            () => handleCallTermination(false),
-            () => switchToNextAgent(targetAgentId)
-          );
+          setupShadowListeners(widget, () => setIsOpen(false), () => switchToNextAgent(activeAgentId));
         }
       }
     } else {
